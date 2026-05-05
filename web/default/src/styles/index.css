@@ -3,6 +3,8 @@
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/public-sans';
 
+@plugin '@tailwindcss/typography';
+
 @import './theme.css';
 
 /* Shiki dual themes: token colors follow dark theme (pre background stays `bg-background` on the block) */

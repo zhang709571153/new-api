@@ -147,8 +147,16 @@ const API_DEMOS: ApiDemoConfig[] = [
 const CYCLE_INTERVAL = 4500
 const TRANSITION_MS = 220
 
+// RealYu: default-active Claude tab since we are Claude-Code-focused.
+// Auto-cycle still works in order, but first paint shows the most relevant
+// example. Falls back to 0 if 'claude' is ever removed from API_DEMOS.
+const DEFAULT_DEMO_INDEX = Math.max(
+  0,
+  API_DEMOS.findIndex((d) => d.id === 'claude')
+)
+
 export function HeroTerminalDemo() {
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(DEFAULT_DEMO_INDEX)
   const [transitioning, setTransitioning] = useState(false)
   const intervalRef = useRef<ReturnType<typeof setInterval>>(undefined)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)

@@ -16,7 +16,11 @@ function isValidUrl(value: string) {
 }
 
 function isLikelyHtml(value: string) {
-  return /<\/?[a-z][\s\S]*>/i.test(value)
+  // Match a closing tag of a known block-level HTML element. Avoids false
+  // positives on inline placeholders like `<your-token>` inside markdown.
+  return /<\/(html|body|head|div|p|section|article|main|header|footer|nav|aside|table|tbody|thead|tr|td|th|ul|ol|li|h[1-6]|pre|blockquote|figure)>/i.test(
+    value
+  )
 }
 
 function EmptyAboutState() {

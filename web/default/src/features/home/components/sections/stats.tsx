@@ -80,10 +80,11 @@ export function Stats(_props: StatsProps) {
   const { t } = useTranslation()
 
   const stats: StatItem[] = [
-    { end: 50, suffix: '+', label: t('upstream services integrated') },
-    { end: 100, suffix: '+', label: t('model billing support') },
-    { end: 50, suffix: '+', label: t('compatible API routes') },
-    { end: 10, suffix: '+', label: t('scheduling controls') },
+    // RealYu — pinned to truthful values for our deployment.
+    { end: 1, suffix: '', label: t('upstream services integrated') }, // aigocode (V2 will grow)
+    { end: 4, suffix: '', label: t('model billing support') },        // opus-4-6/4-7, sonnet-4-6, haiku-4-5
+    { end: 1, suffix: ' RMB = $1', label: t('compatible API routes') }, // 1 RMB = $1 锁定汇率
+    { end: 10, suffix: '', label: t('scheduling controls') },         // min top-up ¥10
   ]
 
   return (
