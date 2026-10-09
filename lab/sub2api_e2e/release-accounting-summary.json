@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "observed_at_utc": "2026-10-09T16:14:37.988496+00:00",
+  "gateway_sha256": "b008148e28522c052fb3e92172c4a8fc17170eae3726cb10c49c4cd45a091105",
+  "checks": {
+    "token_108_used": true,
+    "token_108_remaining": true,
+    "token_109_used": true,
+    "token_109_remaining": true,
+    "token_111_used": true,
+    "token_111_remaining": true,
+    "payer_67_used": true,
+    "payer_67_wallet": true,
+    "payer_68_used": true,
+    "payer_68_wallet": true,
+    "team_subscription_amount_and_weekly_exact": true,
+    "team_member_personal_wallet_only_own_personal_request": true,
+    "success_log_count_21": true,
+    "unique_request_ids": true,
+    "failed_image_has_no_consume_log": true
+  },
+  "scope": "Read-only settled clone ledger after first real edge run; no customer financial state adjusted",
+  "initial_snapshot_preserved": true,
+  "transient_immediate_snapshot": {
+    "token_used_quota": 4098,
+    "successful_log_quota": 4096,
+    "difference": 2
+  },
+  "settled_snapshot": {
+    "token_used_quota": 4096,
+    "token_remaining_quota": -4096,
+    "successful_log_quota": 4096
+  },
+  "explanation": "BillingSession.Refund schedules funding refund and then token refund asynchronously. The first runner snapshot was between these writes. Subsequent persisted state reconciles exactly; no business-code change or manual ledger correction was made.",
+  "source_boundary": "service/billing_session.go:90-131",
+  "failed_image_request_id": "202610091609443932222008268d9d65FMsvRXh",
+  "successful_personal_a_quota": 4096,
+  "successful_personal_b_quota": 78,
+  "successful_team_quota": 80,
+  "team_subscription": {
+    "id": 10,
+    "user_id": 67,
+    "amount_used": 80,
+    "weekly_used": 80,
+    "workspace_team_id": 11
+  },
+  "model_requests_in_readback": 0,
+  "production_changed": false
+}

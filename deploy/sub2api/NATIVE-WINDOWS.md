@@ -40,7 +40,7 @@ PostgreSQL 的正式服务可由其受支持安装程序注册，数据目录和
 
 `New-NativeCandidate.ps1` 仅校验并写入一个新候选目录，不下载工件、不注册/启动服务、不操作 SCM、不改数据库/DNS/防火墙。输入是私有 JSON；输出 XML 也含秘密，不得上传 Git、贴到对话或输出日志。空白示例不会启动成功。
 
-1. 在 Git 外建立受限私有配置，参考 `native-windows.example.json`。RealYu、Sub2API、预热 CLI 和 WinSW 四个程序路径必须是已审核工件，填写各自 SHA-256。预热 CLI 从同一提交的 `./cmd/sub2api-prewarm` 构建。为本次构建设置唯一 `candidate_version`，与 `/api/status` 和路由 bootstrap 一致。
+1. 在 Git 外建立受限私有配置，参考 `native-windows.example.json`。RealYu、Sub2API、预热 CLI 和 WinSW 四个程序路径必须是已审核工件，填写各自 SHA-256。还必须在 `dependencies.zoneinfo` 和 `dependencies.go_license` 中填写经过核验的 Go `zoneinfo.zip`、对应 Go `LICENSE` 的路径及 SHA-256；它们是显式打包输入，不依赖接手机器的 `GOROOT`。预热 CLI 从同一提交的 `./cmd/sub2api-prewarm` 构建。为本次构建设置唯一 `candidate_version`，与 `/api/status` 和路由 bootstrap 一致。
 2. 准备独立候选 PostgreSQL 数据库和 Redis 端点。数据库名必须包含 `candidate`、`rehearsal` 或 `e2e`；名字检查不是数据库隔离证明，仍须确认真正创建的是独立库和专用账号。远程 PostgreSQL 要求 `verify-full`，远程 Redis 要求 TLS；证书链、ACL 用户及后台账号实际连接仍须验证。不要使用生产 Redis 的同一 DB 来测试租约和调度。
 3. 填写稳定 session/crypto/JWT 密钥；`TOTP_ENCRYPTION_KEY` 必须是 32 字节的 64 位十六进制编码。新合成环境使用新随机值，迁移环境须保留原值，不能为适配模板随意重置。WinSW 会展开 `%NAME%`，生成器因此拒绝含 `%` 或控制字符的值；现有密钥若触发此限制，应调整经过审核的秘密加载方式，不能悄悄更换密钥。
 4. 指定 `redis_supply`：默认免费候选 `community-windows-candidate`，也可选 `external-supported`、`memurai-enterprise-licensed` 或 `isolated-test-only`。该声明只记录选择，并不证明验收、许可或兼容性。
@@ -60,6 +60,8 @@ rehearsal01/
   candidate.json                         脱敏候选标记，不能替代服务实测
   bin/realyu.exe, sub2api.exe             固定候选二进制
   bin/sub2api-prewarm.exe                 预投影任务工具，支持 --watch
+  bin/deps/zoneinfo.zip                   随包固定的 IANA 时区数据
+  bin/deps/GO-LICENSE.txt                 对应 Go 发行包许可证
   services/*-service.exe                 固定 WinSW wrapper
   services/sub2api-service.xml           私有标准模式配置
   services/prewarm-service.xml            私有 --watch 常驻 worker 配置
@@ -76,6 +78,14 @@ rehearsal01/
 根目录禁用 ACL 继承，只向 SYSTEM、Administrators、打包账号和 LocalService 授权。程序和服务 XML 对 LocalService 只读，应用数据、队列、进度和日志可写；映射目录需要写入锁/退避文件，应用代码不改映射 JSON。三个候选服务共用 LocalService，因此不能声称按进程强制实现 Web 对进度只读、worker 对队列只读或秘密文件的写入隔离。正式部署若使用独立虚拟服务账号，须配置并实测 Web 的 queue RW/state RO、worker 的 queue RO/state RW，以及双方 bindings JSON RO、worker 仅锁/退避目录 RW；还须验证网络代理和备份权限。
 
 wrapper 配置为 `Manual`，避免打包后意外自启；配置了失败后 10/30/60 秒重启及 150 秒停止等待，不会重启操作系统。stdout/stderr 每份约 20 MiB、保留 5 份；应用自身文件日志/数据库日志另需保留期和磁盘告警，不能只检查 wrapper 日志。尚未通过真实 SCM 崩溃和排空验收。
+
+### 必须随包携带 Windows 时区依赖
+
+本机真实准备曾遇到官方 Sub2API v0.2.15 Windows 程序无法解析 `Asia/Shanghai` 而退出；该二进制没有内嵌 IANA 时区数据。打包器现在要求显式提供已审核 Go 发行包中的 `lib/time/zoneinfo.zip` 及同一发行包的 `LICENSE`，校验两个文件的 SHA-256、ZIP 中的 `Asia/Shanghai` 条目及 TZif 头，并将其固定复制到上述 `bin/deps` 路径。Sub2API 服务 XML 设置绝对 `ZONEINFO` 路径。文件缺失、无法读取、哈希不符或归档缺少所需时区时，校验失败且不创建候选目录。打包收据记录两个依赖哈希；不得只复制 exe 或在新机器上临时依赖开发者 Go 安装。
+
+合成打包测试仅检验文件、XML 和 ACL；实际启动仍须使用真正的时区归档验证服务能读取 `Asia/Shanghai`。保留 Go 许可证，不将测试用的最小 TZif 载荷当作发行数据。时区工件和二进制一样通过受控工件传输携带，不上传运行配置或数据库。
+
+Sub2API 模板同时显式设置 `DATABASE_MAX_OPEN_CONNS=50`、`DATABASE_MAX_IDLE_CONNS=10`、`REDIS_POOL_SIZE=128`、`REDIS_MIN_IDLE_CONNS=16`。这与本机 PostgreSQL `max_connections=100` 的预算相容，避免 stock 默认数据库池超过实例上限；仍需为管理员连接、其他客户端及多副本网关预留总连接预算。固定池限制不代表负载容量已验收。
 
 ## 候选启动、路由与确认
 

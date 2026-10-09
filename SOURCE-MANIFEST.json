@@ -262,54 +262,6 @@
       "source_path": ".github/SECURITY.md"
     },
     {
-      "path": "deploy/sub2api/workflow-templates/ci.yml",
-      "sha256": "367be8e4085f7549b12d0678b092153917b7d005d3b429bf0ba4f7b5c2ee0e43",
-      "source_sha256": "367be8e4085f7549b12d0678b092153917b7d005d3b429bf0ba4f7b5c2ee0e43",
-      "bytes": 2378,
-      "git_mode": "100644",
-      "source_path": ".github/workflows/ci.yml"
-    },
-    {
-      "path": "deploy/sub2api/workflow-templates/docker-build.yml",
-      "sha256": "27e857171b9ff69211a255dbe53e22f69287b4e4e28d3912bf9c192259a2980b",
-      "source_sha256": "27e857171b9ff69211a255dbe53e22f69287b4e4e28d3912bf9c192259a2980b",
-      "bytes": 4971,
-      "git_mode": "100644",
-      "source_path": ".github/workflows/docker-build.yml"
-    },
-    {
-      "path": "deploy/sub2api/workflow-templates/docker-image-branch.yml",
-      "sha256": "6dbe088fc1f4284779de8fd8ba89a0b20c1b2b1ee9f30fdbf6af26b81c0169cc",
-      "source_sha256": "6dbe088fc1f4284779de8fd8ba89a0b20c1b2b1ee9f30fdbf6af26b81c0169cc",
-      "bytes": 6521,
-      "git_mode": "100644",
-      "source_path": ".github/workflows/docker-image-branch.yml"
-    },
-    {
-      "path": "deploy/sub2api/workflow-templates/electron-build.yml",
-      "sha256": "521453414fedeaf50f75422204f543b29931703218350b7169c0fbe81c213208",
-      "source_sha256": "521453414fedeaf50f75422204f543b29931703218350b7169c0fbe81c213208",
-      "bytes": 4278,
-      "git_mode": "100644",
-      "source_path": ".github/workflows/electron-build.yml"
-    },
-    {
-      "path": "deploy/sub2api/workflow-templates/release.yml",
-      "sha256": "ea2af9d530a16d23668eb73053ed6d3458da40a7b8804fdf004b30e0de5fe158",
-      "source_sha256": "ea2af9d530a16d23668eb73053ed6d3458da40a7b8804fdf004b30e0de5fe158",
-      "bytes": 5478,
-      "git_mode": "100644",
-      "source_path": ".github/workflows/release.yml"
-    },
-    {
-      "path": "deploy/sub2api/workflow-templates/sync-release-to-gitcode.yml",
-      "sha256": "06113152ca4a2ac7202e2a9fa54f18731387b2a9c55012949b397fa784200e0a",
-      "source_sha256": "06113152ca4a2ac7202e2a9fa54f18731387b2a9c55012949b397fa784200e0a",
-      "bytes": 9541,
-      "git_mode": "100644",
-      "source_path": ".github/workflows/sync-release-to-gitcode.yml"
-    },
-    {
       "path": ".gitignore",
       "sha256": "76101f42b3417bc62e8b93bf86a8a3fd16ab295a36777fd3c9e247011932c125",
       "source_sha256": "72532bf893b4d65a4834a41c8dbb74602b9bd234bcb90ce87d39dd7da75ea009",
@@ -351,9 +303,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "3d97482103e31066a1880465b6e2b3db53c5f29ce74da76a4c834197ab6553d5",
-      "source_sha256": "3d97482103e31066a1880465b6e2b3db53c5f29ce74da76a4c834197ab6553d5",
-      "bytes": 3611,
+      "sha256": "82e0668ac13f9fbcf4b8e396d5bc3313c9412bc38751308c7c1dd2e43c644f68",
+      "source_sha256": "82e0668ac13f9fbcf4b8e396d5bc3313c9412bc38751308c7c1dd2e43c644f68",
+      "bytes": 4368,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -364,6 +316,14 @@
       "bytes": 34523,
       "git_mode": "100644",
       "source_path": "LICENSE"
+    },
+    {
+      "path": "LIVE-DEPLOYMENT.md",
+      "sha256": "d6ebf2e6ca2296545d69c10557ecac7325c45c771c180d0ee769ae3a4497b467",
+      "source_sha256": "d6ebf2e6ca2296545d69c10557ecac7325c45c771c180d0ee769ae3a4497b467",
+      "bytes": 10439,
+      "git_mode": "100644",
+      "source_path": "LIVE-DEPLOYMENT.md"
     },
     {
       "path": "NOTICE",
@@ -2446,6 +2406,14 @@
       "source_path": "deploy/sub2api/Dockerfile.realyu"
     },
     {
+      "path": "deploy/sub2api/EDGE-MIGRATION.md",
+      "sha256": "2d482887040059dfc8fb9e9775af27a42bd9eddfd469e37ac03b878428f477f7",
+      "source_sha256": "2d482887040059dfc8fb9e9775af27a42bd9eddfd469e37ac03b878428f477f7",
+      "bytes": 5174,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/EDGE-MIGRATION.md"
+    },
+    {
       "path": "deploy/sub2api/Inspect-WindowsHost.ps1",
       "sha256": "02dc39d7450ad6cdc93b74b6248a742fcc7e02522d5b73ca987e6a2730cb364e",
       "source_sha256": "02dc39d7450ad6cdc93b74b6248a742fcc7e02522d5b73ca987e6a2730cb364e",
@@ -2454,18 +2422,26 @@
       "source_path": "deploy/sub2api/Inspect-WindowsHost.ps1"
     },
     {
+      "path": "deploy/sub2api/Install-HostRelease.ps1",
+      "sha256": "88c524041c1e4e166e83495f2cf56719dcc5c5e2957cdaa49b1176e9b9230367",
+      "source_sha256": "88c524041c1e4e166e83495f2cf56719dcc5c5e2957cdaa49b1176e9b9230367",
+      "bytes": 3507,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/Install-HostRelease.ps1"
+    },
+    {
       "path": "deploy/sub2api/NATIVE-WINDOWS.md",
-      "sha256": "d3be0c39332314dd00389512337561dd8cb6e2c6f0332b5a07deb14d483b0b37",
-      "source_sha256": "589778e99d2306837ce95ad1cb64d28f36894338f13d12a1b79efed4dd818d88",
-      "bytes": 27398,
+      "sha256": "4a38ff5f56c8dd1630ebe2bb867f0ad600e0bfb84f170f4fd89b10e141ec89db",
+      "source_sha256": "4a38ff5f56c8dd1630ebe2bb867f0ad600e0bfb84f170f4fd89b10e141ec89db",
+      "bytes": 29203,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/NATIVE-WINDOWS.md"
     },
     {
       "path": "deploy/sub2api/New-NativeCandidate.ps1",
-      "sha256": "a4a34d38ae1201d301b13d695a3bf3334d32e2f314bcc2109488b7b7e39191fa",
-      "source_sha256": "a5b3c7cd62a6977afe8f66e326d5da495a0d1c73a75eeed808013dd80cb684bc",
-      "bytes": 15935,
+      "sha256": "8de213c0027d23d371b3d208fd8be59aad624d72c2f2d371fd98ce098703a38f",
+      "source_sha256": "8de213c0027d23d371b3d208fd8be59aad624d72c2f2d371fd98ce098703a38f",
+      "bytes": 19053,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/New-NativeCandidate.ps1"
     },
@@ -2502,6 +2478,14 @@
       "source_path": "deploy/sub2api/bootstrap_route.py"
     },
     {
+      "path": "deploy/sub2api/bridge_observability.py",
+      "sha256": "c93ffc0b238d439e329abdab102ecf6acc38fb3783c7d0c12088f12e9147e491",
+      "source_sha256": "c93ffc0b238d439e329abdab102ecf6acc38fb3783c7d0c12088f12e9147e491",
+      "bytes": 4195,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/bridge_observability.py"
+    },
+    {
       "path": "deploy/sub2api/clean-handoff-validation.json",
       "sha256": "ee9010daaf16c159862fa68ac030d52bfd8da7ab740ff418a254aa428f7c627a",
       "source_sha256": "f27d8bffe322ab95a353ff8fc22a61b441c5843c783ee88e00e09356f0e94cfb",
@@ -2524,6 +2508,14 @@
       "bytes": 2517,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/controller-validation.json"
+    },
+    {
+      "path": "deploy/sub2api/edge_proxy.py",
+      "sha256": "9801d8f7371195f39f13c0e9d51eb0d36f0ea89042bb0fa44274b7dfcabcebd6",
+      "source_sha256": "9801d8f7371195f39f13c0e9d51eb0d36f0ea89042bb0fa44274b7dfcabcebd6",
+      "bytes": 15025,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/edge_proxy.py"
     },
     {
       "path": "deploy/sub2api/export_source.py",
@@ -2550,6 +2542,54 @@
       "source_path": "deploy/sub2api/frontend-validation.json"
     },
     {
+      "path": "deploy/sub2api/host/Capture-TemporaryProcesses.ps1",
+      "sha256": "aad28cf482ffe001a51f094dd6cee709c592bf3275b87adf632c47282d98f519",
+      "source_sha256": "aad28cf482ffe001a51f094dd6cee709c592bf3275b87adf632c47282d98f519",
+      "bytes": 1656,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/host/Capture-TemporaryProcesses.ps1"
+    },
+    {
+      "path": "deploy/sub2api/host/Install-Sub2ApiServices.ps1",
+      "sha256": "38f75f79501aeddf600a10dd9199a555095e0dcce651f62cac8922aab05b8588",
+      "source_sha256": "38f75f79501aeddf600a10dd9199a555095e0dcce651f62cac8922aab05b8588",
+      "bytes": 9781,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/host/Install-Sub2ApiServices.ps1"
+    },
+    {
+      "path": "deploy/sub2api/host/README.md",
+      "sha256": "e080ec848be0f970119bf9b22beb2c86402fc4ab136dca2ea0080b43b6eb8435",
+      "source_sha256": "e080ec848be0f970119bf9b22beb2c86402fc4ab136dca2ea0080b43b6eb8435",
+      "bytes": 3948,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/host/README.md"
+    },
+    {
+      "path": "deploy/sub2api/host/Stop-TemporaryProcesses.ps1",
+      "sha256": "b3dac862da86392e26d6941ef796482a88aee7a48b3d73730fa75be6e7bfacc3",
+      "source_sha256": "b3dac862da86392e26d6941ef796482a88aee7a48b3d73730fa75be6e7bfacc3",
+      "bytes": 3349,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/host/Stop-TemporaryProcesses.ps1"
+    },
+    {
+      "path": "deploy/sub2api/host/Verify-Services.ps1",
+      "sha256": "bc947dca79c8e14bdc38a6903f635ae12492e4b374429d8866363833d3468d33",
+      "source_sha256": "bc947dca79c8e14bdc38a6903f635ae12492e4b374429d8866363833d3468d33",
+      "bytes": 3903,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/host/Verify-Services.ps1"
+    },
+    {
+      "path": "deploy/sub2api/host_cutover.py",
+      "sha256": "1dad80d402ffd0abe90e93cb44c36b57c290e46a59b62afe355b6885ab6cd072",
+      "source_sha256": "1dad80d402ffd0abe90e93cb44c36b57c290e46a59b62afe355b6885ab6cd072",
+      "bytes": 18697,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/host_cutover.py"
+    },
+    {
       "path": "deploy/sub2api/native-persistence-validation.json",
       "sha256": "31311014c2d7ba3bebaf3758291992627efeace8eba37db6a5fd9c269688e93e",
       "source_sha256": "ac3646e3c366c80b56515605debaca7ae4789f4de5763876a56520244aaf0997",
@@ -2559,9 +2599,9 @@
     },
     {
       "path": "deploy/sub2api/native-windows.example.json",
-      "sha256": "fb57653b59ca653c86aa3ed35af35222dbe0d35af0dcf36cdee26017dd41f52e",
-      "source_sha256": "86bcdf421335fab43c45305a57c9dcaa26f6cdb74b75f275fdb56b803efec324",
-      "bytes": 1289,
+      "sha256": "c7935a77342f7620d1aa20eb513e42a06bec37c586e80f9314c8dc05bed8e0b8",
+      "source_sha256": "c7935a77342f7620d1aa20eb513e42a06bec37c586e80f9314c8dc05bed8e0b8",
+      "bytes": 1439,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/native-windows.example.json"
     },
@@ -2574,12 +2614,36 @@
       "source_path": "deploy/sub2api/prewarm-jobs.example.json"
     },
     {
+      "path": "deploy/sub2api/production_route.py",
+      "sha256": "ae6d4e09824c53166601f10737127a7d017dc0e206491c08c49ba46ab179edfc",
+      "source_sha256": "ae6d4e09824c53166601f10737127a7d017dc0e206491c08c49ba46ab179edfc",
+      "bytes": 6159,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/production_route.py"
+    },
+    {
+      "path": "deploy/sub2api/production_supply.py",
+      "sha256": "f48b8d07939904811ca819b3f091386ec11b11f401cc33f8b7ed3f0d3c3efd9b",
+      "source_sha256": "f48b8d07939904811ca819b3f091386ec11b11f401cc33f8b7ed3f0d3c3efd9b",
+      "bytes": 8494,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/production_supply.py"
+    },
+    {
       "path": "deploy/sub2api/public-downloads-manifest.json",
       "sha256": "816fd45965958614b7b45841e45e237c7a86cd738ff4d501d19f3e55a862ee0f",
       "source_sha256": "ec8065884b85e3b152ea8270756904ce4f9c419a1ffed06c93db4264f415bbc8",
       "bytes": 6585,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/public-downloads-manifest.json"
+    },
+    {
+      "path": "deploy/sub2api/release_control.py",
+      "sha256": "5e01cd3a7ddaaeea940e19771b0406ff4ccd065045f5275ff9ea2ed75fec42c5",
+      "source_sha256": "5e01cd3a7ddaaeea940e19771b0406ff4ccd065045f5275ff9ea2ed75fec42c5",
+      "bytes": 2145,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/release_control.py"
     },
     {
       "path": "deploy/sub2api/snapshot_sqlite.py",
@@ -2598,10 +2662,26 @@
       "source_path": "deploy/sub2api/test_bootstrap_route.py"
     },
     {
+      "path": "deploy/sub2api/test_edge_proxy.py",
+      "sha256": "4cd6200227d9170a15e3d80c42ff0da169e2ffdfefefa8dfe33efe15ba1d4d16",
+      "source_sha256": "4cd6200227d9170a15e3d80c42ff0da169e2ffdfefefa8dfe33efe15ba1d4d16",
+      "bytes": 13615,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_edge_proxy.py"
+    },
+    {
+      "path": "deploy/sub2api/test_host_cutover.py",
+      "sha256": "a53b171c28331084b13e9da65bb24cda88f1c4e16b52f56d76acd774d0b1b53a",
+      "source_sha256": "a53b171c28331084b13e9da65bb24cda88f1c4e16b52f56d76acd774d0b1b53a",
+      "bytes": 17820,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_host_cutover.py"
+    },
+    {
       "path": "deploy/sub2api/test_native_candidate.py",
-      "sha256": "ec0aa0190a84fe04e18a16a9b07ce124ca7b0a85cfbc074084e1462709a792a4",
-      "source_sha256": "ec0aa0190a84fe04e18a16a9b07ce124ca7b0a85cfbc074084e1462709a792a4",
-      "bytes": 9597,
+      "sha256": "7ba9d891a578dd326bcffbb58b51b4b4e613412e7f56c3ed734f9bd628c115ce",
+      "source_sha256": "7ba9d891a578dd326bcffbb58b51b4b4e613412e7f56c3ed734f9bd628c115ce",
+      "bytes": 14025,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/test_native_candidate.py"
     },
@@ -2628,6 +2708,54 @@
       "bytes": 13579,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/verify_native_persistence.py"
+    },
+    {
+      "path": "deploy/sub2api/workflow-templates/ci.yml",
+      "sha256": "367be8e4085f7549b12d0678b092153917b7d005d3b429bf0ba4f7b5c2ee0e43",
+      "source_sha256": "367be8e4085f7549b12d0678b092153917b7d005d3b429bf0ba4f7b5c2ee0e43",
+      "bytes": 2378,
+      "git_mode": "100644",
+      "source_path": ".github/workflows/ci.yml"
+    },
+    {
+      "path": "deploy/sub2api/workflow-templates/docker-build.yml",
+      "sha256": "27e857171b9ff69211a255dbe53e22f69287b4e4e28d3912bf9c192259a2980b",
+      "source_sha256": "27e857171b9ff69211a255dbe53e22f69287b4e4e28d3912bf9c192259a2980b",
+      "bytes": 4971,
+      "git_mode": "100644",
+      "source_path": ".github/workflows/docker-build.yml"
+    },
+    {
+      "path": "deploy/sub2api/workflow-templates/docker-image-branch.yml",
+      "sha256": "6dbe088fc1f4284779de8fd8ba89a0b20c1b2b1ee9f30fdbf6af26b81c0169cc",
+      "source_sha256": "6dbe088fc1f4284779de8fd8ba89a0b20c1b2b1ee9f30fdbf6af26b81c0169cc",
+      "bytes": 6521,
+      "git_mode": "100644",
+      "source_path": ".github/workflows/docker-image-branch.yml"
+    },
+    {
+      "path": "deploy/sub2api/workflow-templates/electron-build.yml",
+      "sha256": "521453414fedeaf50f75422204f543b29931703218350b7169c0fbe81c213208",
+      "source_sha256": "521453414fedeaf50f75422204f543b29931703218350b7169c0fbe81c213208",
+      "bytes": 4278,
+      "git_mode": "100644",
+      "source_path": ".github/workflows/electron-build.yml"
+    },
+    {
+      "path": "deploy/sub2api/workflow-templates/release.yml",
+      "sha256": "ea2af9d530a16d23668eb73053ed6d3458da40a7b8804fdf004b30e0de5fe158",
+      "source_sha256": "ea2af9d530a16d23668eb73053ed6d3458da40a7b8804fdf004b30e0de5fe158",
+      "bytes": 5478,
+      "git_mode": "100644",
+      "source_path": ".github/workflows/release.yml"
+    },
+    {
+      "path": "deploy/sub2api/workflow-templates/sync-release-to-gitcode.yml",
+      "sha256": "06113152ca4a2ac7202e2a9fa54f18731387b2a9c55012949b397fa784200e0a",
+      "source_sha256": "06113152ca4a2ac7202e2a9fa54f18731387b2a9c55012949b397fa784200e0a",
+      "bytes": 9541,
+      "git_mode": "100644",
+      "source_path": ".github/workflows/sync-release-to-gitcode.yml"
     },
     {
       "path": "docker-compose.dev.yml",
@@ -3054,6 +3182,14 @@
       "source_path": "lab/sub2api_e2e/README.md"
     },
     {
+      "path": "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md",
+      "sha256": "b7bf4e025fd678e3c9a1d34ff4bbc75985741e3d7daa8ede90e45d2545f97eb8",
+      "source_sha256": "b7bf4e025fd678e3c9a1d34ff4bbc75985741e3d7daa8ede90e45d2545f97eb8",
+      "bytes": 8358,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md"
+    },
+    {
       "path": "lab/sub2api_e2e/acceptance-gaps.json",
       "sha256": "ea28d051f1acf1b38c234f0d52e62c6b314dcc9888ba3474f3e33d0c577dd978",
       "source_sha256": "be1ae9ff365f41a7d78bf66f32e9073124b4dea93c8813c9fdf2dad754982da9",
@@ -3148,6 +3284,14 @@
       "bytes": 4600,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/database_regression.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/disable_operator_fixture.py",
+      "sha256": "792dab98da036c44d38f52ca89884ca1ed58c2b27f80b5aeb6f16ec15116aa78",
+      "source_sha256": "792dab98da036c44d38f52ca89884ca1ed58c2b27f80b5aeb6f16ec15116aa78",
+      "bytes": 5211,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/disable_operator_fixture.py"
     },
     {
       "path": "lab/sub2api_e2e/enrollment-database-summary-m9a709013.json",
@@ -3422,6 +3566,14 @@
       "source_path": "lab/sub2api_e2e/portable/smoke_api.py"
     },
     {
+      "path": "lab/sub2api_e2e/prepare_operator_fixture.py",
+      "sha256": "52c4578385e2117aebfde5846382ea690273406e7de08b3fee3426a2d2fe5507",
+      "source_sha256": "52c4578385e2117aebfde5846382ea690273406e7de08b3fee3426a2d2fe5507",
+      "bytes": 6736,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/prepare_operator_fixture.py"
+    },
+    {
       "path": "lab/sub2api_e2e/prepare_real_gateway.py",
       "sha256": "e54ed65a83e3effcc40e04b5259e979337522b6365fcd7eee6f7db699aeff0b5",
       "source_sha256": "e54ed65a83e3effcc40e04b5259e979337522b6365fcd7eee6f7db699aeff0b5",
@@ -3500,6 +3652,118 @@
       "bytes": 19964,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/realyu_negative.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-accounting-summary.json",
+      "sha256": "d010f60cd1cda99a0112db4ac09ea5375347f02202aa6dcbf1cdebe185aa6010",
+      "source_sha256": "ea7692663edc38080e62b016e1230010a801a58d968df5b780cc2b9bcd198126",
+      "bytes": 1820,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-accounting-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-candidate-rollup.json",
+      "sha256": "161fce85abc81859f16273d471b84baa5e7eee970c55229bf79d79337386da9a",
+      "source_sha256": "76412518b12636a0ad027bb71059e4f5c10a1d69947d4cd2bbe3b1baf7fb3d51",
+      "bytes": 812,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-candidate-rollup.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-catalog-edge-summary.json",
+      "sha256": "cc755f84cb862d783f35c1d836d7265bf51bde93c2b50a6511fa7f597a1c0c4c",
+      "source_sha256": "fffae4a5cbd33c71eef25685131d1b1cccc810af3b4b96cd3e9bcb6a03267d0e",
+      "bytes": 7559,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-catalog-edge-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-catalog-go-summary.json",
+      "sha256": "c8e243d8afa160b5886be29958210b180924a2191ba37d9ff73334d4459c46e5",
+      "source_sha256": "d6cf42e07942ebca02a8aba10b374ed64461625e31bb8b2d1747bef774718c99",
+      "bytes": 7557,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-catalog-go-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-image-functional-first.json",
+      "sha256": "fb63fc42bef23dfac9c82f8b3ba8494023b2403232d890358c8a7e9ceb8ba58d",
+      "source_sha256": "aa608443403d0eaf849069a49735f741fe61bf94df216428d6468d89f0a3c56a",
+      "bytes": 1849,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-image-functional-first.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-image-token-decision.json",
+      "sha256": "8a5738168761722e7cd3bea3e046acbcffbc0b0dadb14b39af1fd5aee94fe114",
+      "source_sha256": "e61ee4af37d0d659968b66a858960361e8688326284b9ff65bd2db44adb0f3e9",
+      "bytes": 2095,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-image-token-decision.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-preparation-summary.json",
+      "sha256": "f8ab1f40cfa97494c75442aba8891bd80866be3a7e9d37c0304fe549075a5810",
+      "source_sha256": "9ac85cc2791718ff08ff75286392fcbe9700df59facc4e9362eb2de0771a0a4e",
+      "bytes": 969,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-preparation-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-projection-summary.json",
+      "sha256": "0e31449686551fef153e3061b918e380c2e22e68d80023a8e7e6c8c2376a0782",
+      "source_sha256": "ef8b1833a541ea7f8203d8ee41f7677661deb667708a77a2c05538d995358e6f",
+      "bytes": 910,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-projection-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-public-deployment-blocker.json",
+      "sha256": "3d2df1121563c0f12d851cca0d47759d5928e05e7652631a27a67115353b8780",
+      "source_sha256": "32be8391b67b04c3015b9a9da705e697ad042b90b6f04d656ec6981496df9cbc",
+      "bytes": 2269,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-public-deployment-blocker.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-public-operator-preparation.json",
+      "sha256": "41c5eb0345cbad3d7306684d34dd46ae303a7620a355525438944d3205e8df00",
+      "source_sha256": "6547e460d7b14fa001fb4c428d6c1568a35202d88a812be4ebabff178539a5f3",
+      "bytes": 2391,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-public-operator-preparation.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release-real-edge-first.json",
+      "sha256": "ef951c5328bf7eb0b5ea1acd5155b25b235d1ec722099316f1dbf6854d12789f",
+      "source_sha256": "bd5c5845ea3d2dbf7a499d6238e1858bec468bffde8bc20b1736793889b9ae66",
+      "bytes": 27371,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release-real-edge-first.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/release_acceptance.py",
+      "sha256": "634525c8060549738bc0002f48cad796979c4211483cd305fbbcd35a8b91e086",
+      "source_sha256": "634525c8060549738bc0002f48cad796979c4211483cd305fbbcd35a8b91e086",
+      "bytes": 22434,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release_acceptance.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/release_cli_dialogue.py",
+      "sha256": "82717991525a040ab5234158ad85f53f4706993e35248947e1a9f1277a25cf51",
+      "source_sha256": "82717991525a040ab5234158ad85f53f4706993e35248947e1a9f1277a25cf51",
+      "bytes": 7103,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release_cli_dialogue.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/release_owner_isolation.py",
+      "sha256": "1a1e1fa46ac5f6bdb0e9a8af67f2dd0761e1c1a56ee0125fa2b6ac79f7752ef6",
+      "source_sha256": "1a1e1fa46ac5f6bdb0e9a8af67f2dd0761e1c1a56ee0125fa2b6ac79f7752ef6",
+      "bytes": 7631,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/release_owner_isolation.py"
     },
     {
       "path": "lab/sub2api_e2e/requirements.txt",
@@ -22966,7 +23230,8 @@
       "source_path": "web/vitest.config.ts"
     }
   ],
-  "publication_review": {
+  "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
+  "previous_publication_review": {
     "checked_at_utc": "2026-10-09T14:04:45.755496+00:00",
     "checks": {
       "file_hashes": true,
@@ -22983,5 +23248,65 @@
     "workflow_templates_preserved_count": 6,
     "workflow_permission_requested": false,
     "receiving_machine_go_path": "Explicit --go argument or PATH; help/compile check passed, no runtime code changed"
+  },
+  "publication_review": {
+    "checked_at_utc": "2026-10-09T16:44:03.237045+00:00",
+    "checks": {
+      "file_hashes": true,
+      "private_paths_excluded": true,
+      "compiled_inputs_match_validated_export": true,
+      "public_assets_exact": true
+    },
+    "review_scope": "Incremental deployment scripts, native packaging, documentation and sanitized acceptance artifacts; all existing compiled Go/frontend inputs unchanged from the previous reviewed export.",
+    "changed_or_added_count": 38,
+    "changed_or_added_paths": [
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "deploy/sub2api/EDGE-MIGRATION.md",
+      "deploy/sub2api/Install-HostRelease.ps1",
+      "deploy/sub2api/NATIVE-WINDOWS.md",
+      "deploy/sub2api/New-NativeCandidate.ps1",
+      "deploy/sub2api/bridge_observability.py",
+      "deploy/sub2api/edge_proxy.py",
+      "deploy/sub2api/host/Capture-TemporaryProcesses.ps1",
+      "deploy/sub2api/host/Install-Sub2ApiServices.ps1",
+      "deploy/sub2api/host/README.md",
+      "deploy/sub2api/host/Stop-TemporaryProcesses.ps1",
+      "deploy/sub2api/host/Verify-Services.ps1",
+      "deploy/sub2api/host_cutover.py",
+      "deploy/sub2api/native-windows.example.json",
+      "deploy/sub2api/production_route.py",
+      "deploy/sub2api/production_supply.py",
+      "deploy/sub2api/release_control.py",
+      "deploy/sub2api/test_edge_proxy.py",
+      "deploy/sub2api/test_host_cutover.py",
+      "deploy/sub2api/test_native_candidate.py",
+      "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md",
+      "lab/sub2api_e2e/disable_operator_fixture.py",
+      "lab/sub2api_e2e/prepare_operator_fixture.py",
+      "lab/sub2api_e2e/release-accounting-summary.json",
+      "lab/sub2api_e2e/release-candidate-rollup.json",
+      "lab/sub2api_e2e/release-catalog-edge-summary.json",
+      "lab/sub2api_e2e/release-catalog-go-summary.json",
+      "lab/sub2api_e2e/release-image-functional-first.json",
+      "lab/sub2api_e2e/release-image-token-decision.json",
+      "lab/sub2api_e2e/release-preparation-summary.json",
+      "lab/sub2api_e2e/release-projection-summary.json",
+      "lab/sub2api_e2e/release-public-deployment-blocker.json",
+      "lab/sub2api_e2e/release-public-operator-preparation.json",
+      "lab/sub2api_e2e/release-real-edge-first.json",
+      "lab/sub2api_e2e/release_acceptance.py",
+      "lab/sub2api_e2e/release_cli_dialogue.py",
+      "lab/sub2api_e2e/release_owner_isolation.py"
+    ],
+    "reviewed_synthetic_or_parser_findings": 3,
+    "unexpected_credential_patterns": 0,
+    "git_ancestry_included": false,
+    "public_asset_count": 38,
+    "active_workflow_files": 0,
+    "workflow_templates_preserved_count": 6,
+    "workflow_permission_requested": false,
+    "deployment_status": "OS_ELEVATION_CANCELLED_NOT_DEPLOYED",
+    "note": "Bounded incremental content review and literal-pattern scan, not proof of absence of every possible secret. This source freeze is not an installed/public acceptance receipt; first failure artifacts and declared acceptance limits remain intact."
   }
 }

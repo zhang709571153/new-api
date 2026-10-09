@@ -1,0 +1,53 @@
+{
+  "status": "FAIL_PRICING_MIGRATION",
+  "gateway_sha256": "b008148e28522c052fb3e92172c4a8fc17170eae3726cb10c49c4cd45a091105",
+  "source_run": "production-deploy-20261009/candidate-runtime/image-enabled-retest",
+  "functional_status": "PASS",
+  "visual_review": {
+    "observed_at_utc": "2026-10-09T16:18:50.785125+00:00",
+    "image_sha256": "6e7bbc88804f71daa51d54c5939b4ea65bc708ee10ed6590ff7ab03f8d0bbaa6",
+    "status": "PASS",
+    "description": "One blue square centered on a white background; no visible text",
+    "image_dimensions": [
+      1254,
+      1254
+    ]
+  },
+  "single_model_request": true,
+  "automatic_retries": 0,
+  "request_id": "202610091615063742981008268d9d60aM55SJh",
+  "original_group_denial_preserved": "release-real-edge-first.json",
+  "group_configuration_repair": "Official group allow_image_generation enabled; no gateway code or pricing changed for this probe",
+  "wallet_token_log_reconcile": true,
+  "charged_quota": 67,
+  "dimensions_requested": [
+    1024,
+    1024
+  ],
+  "dimensions_returned": [
+    1254,
+    1254
+  ],
+  "dimensions_contract": "FAIL",
+  "billing_contract": "FAIL",
+  "billing_evidence": {
+    "current_path": "type59 OpenAI Images token pricing",
+    "input_tokens": 23,
+    "output_tokens": 515,
+    "model_ratio": 1,
+    "group_ratio": 0.125,
+    "model_price": -1,
+    "image_fixed_surcharge_present": false,
+    "inherited_image_generation_pricing": {
+      "enabled": true,
+      "base_cny": {
+        "1K": 0.2,
+        "2K": 0.25,
+        "4K": 0.3
+      },
+      "multiplier": 1.2
+    },
+    "old_path": "Images translated to Responses image_generation tool; existing image-only CNY tariff applied independently of text groups"
+  },
+  "boundary": "Financial ledger consistency alone does not prove the intended product tariff was applied. No transaction was corrected manually."
+}

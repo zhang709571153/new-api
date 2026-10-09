@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "scope": "Official stock admin readback verifies each member/workspace projects to its own active user; this alone is not a cross-response negative test",
+  "rows": [
+    {
+      "subject": "personal-a",
+      "realyu_user_id": 67,
+      "team_id": 0,
+      "billing_owner_id": 67,
+      "sub2api_user_id": 2,
+      "restricted_to_group": 2,
+      "status": "active"
+    },
+    {
+      "subject": "personal-b",
+      "realyu_user_id": 68,
+      "team_id": 0,
+      "billing_owner_id": 68,
+      "sub2api_user_id": 3,
+      "restricted_to_group": 2,
+      "status": "active"
+    },
+    {
+      "subject": "team-b",
+      "realyu_user_id": 68,
+      "team_id": 11,
+      "billing_owner_id": 67,
+      "sub2api_user_id": 4,
+      "restricted_to_group": 2,
+      "status": "active"
+    }
+  ],
+  "distinct_stock_owners": true,
+  "production_changed": false,
+  "model_requests_executed": 0
+}

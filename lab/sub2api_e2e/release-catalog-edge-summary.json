@@ -1,0 +1,311 @@
+{
+  "status": "PASS",
+  "cases": [
+    "catalog"
+  ],
+  "gateway_sha256": "b008148e28522c052fb3e92172c4a8fc17170eae3726cb10c49c4cd45a091105",
+  "subject_count": 3,
+  "automatic_retries": 0,
+  "maximum_model_requests": 23,
+  "scope": "Dedicated operator identities; existing customer state is never provisioned or adjusted",
+  "tested_at_utc": "2026-10-09T16:05:34.484294+00:00",
+  "sdk_version": "3.26.1",
+  "checks": [
+    {
+      "name": "catalog",
+      "status": "PASS",
+      "subjects_checked": 3,
+      "seconds": 0.969
+    }
+  ],
+  "requests": [
+    {
+      "case": null,
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605345451338008268d9d6clBzPoev"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605346690891008268d9d67LoRRtA4"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605347001206008268d9d6kDi0canz"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605347181824008268d9d682sdaEPY"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605347335549008268d9d6dKV0xcYe"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605347385681008268d9d6JhyXlLWK"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605347642821008268d9d6r2iTWi0p"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605347799875008268d9d6cAlmBNcY"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605348084875008268d9d6hUY8E1GN"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605348384642008268d9d6TNeY6hqz"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605348562357008268d9d6GnHBAmxS"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 404,
+      "request_id": "202610091605348992549008268d9d6o0yWnFfp"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605349043593008268d9d6kxPlXZKI"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605349308738008268d9d6S4cFNhmT"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605349351219008268d9d6e1k5N5gW"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605349643656008268d9d6J1THVQXp"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605349978037008268d9d6tnneFDIJ"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605350379426008268d9d6kSPgVJCL"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605350686309008268d9d6cCf0Rlfy"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605350881122008268d9d6GqOkJxBk"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605351196123008268d9d6TsNwjGtI"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605351618144008268d9d689XPqfaT"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 404,
+      "request_id": "202610091605351930519008268d9d6CXAaXMha"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605352243000008268d9d6tFhl15fV"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605352436641008268d9d6jchyrcxz"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605352742348008268d9d6BmqY0CTn"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605353039266008268d9d6c4siKILi"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605353479400008268d9d6Zvj38o9N"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605353659907008268d9d6NuNIYUIj"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605354095240008268d9d6eTlOw5g1"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605354392871008268d9d6y2NPJoWQ"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605354690309008268d9d6XkWTFsTx"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091605354993348008268d9d651M09C2d"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 404,
+      "request_id": "202610091605355165220008268d9d66WwMmOK3"
+    }
+  ],
+  "desktop_e2e_performed": false,
+  "long_term_stability_proven": false,
+  "ledger": {
+    "before": {
+      "users": {
+        "67": {
+          "id": 67,
+          "quota": 5000000,
+          "used_quota": 0
+        },
+        "68": {
+          "id": 68,
+          "quota": 5000000,
+          "used_quota": 0
+        }
+      },
+      "tokens": {
+        "108": {
+          "id": 108,
+          "user_id": 67,
+          "workspace_user_id": 0,
+          "used_quota": 0,
+          "remain_quota": 0
+        },
+        "109": {
+          "id": 109,
+          "user_id": 68,
+          "workspace_user_id": 0,
+          "used_quota": 0,
+          "remain_quota": 0
+        },
+        "111": {
+          "id": 111,
+          "user_id": 67,
+          "workspace_user_id": 68,
+          "used_quota": 0,
+          "remain_quota": 1000000
+        }
+      }
+    },
+    "after": {
+      "users": {
+        "67": {
+          "id": 67,
+          "quota": 5000000,
+          "used_quota": 0
+        },
+        "68": {
+          "id": 68,
+          "quota": 5000000,
+          "used_quota": 0
+        }
+      },
+      "tokens": {
+        "108": {
+          "id": 108,
+          "user_id": 67,
+          "workspace_user_id": 0,
+          "used_quota": 0,
+          "remain_quota": 0
+        },
+        "109": {
+          "id": 109,
+          "user_id": 68,
+          "workspace_user_id": 0,
+          "used_quota": 0,
+          "remain_quota": 0
+        },
+        "111": {
+          "id": 111,
+          "user_id": 67,
+          "workspace_user_id": 68,
+          "used_quota": 0,
+          "remain_quota": 1000000
+        }
+      }
+    },
+    "new_usage": [],
+    "scope": "Dedicated test identities only; finalize exact reconciliation after async consume logs settle"
+  },
+  "model_requests_executed": 0,
+  "http_responses_observed": 34,
+  "source_run": "production-deploy-20261009/candidate-runtime/catalog-edge-first",
+  "ledger_unchanged": true
+}

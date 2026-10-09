@@ -1,0 +1,1001 @@
+{
+  "status": "FAIL",
+  "cases": [
+    "catalog",
+    "responses-stream",
+    "responses-nonstream",
+    "chat",
+    "pdf-inline",
+    "pdf-url",
+    "web-search",
+    "tool-roundtrip",
+    "websocket",
+    "subjects",
+    "failed-request",
+    "all-text-models",
+    "image-generation"
+  ],
+  "gateway_sha256": "b008148e28522c052fb3e92172c4a8fc17170eae3726cb10c49c4cd45a091105",
+  "subject_count": 3,
+  "automatic_retries": 0,
+  "maximum_model_requests": 23,
+  "scope": "Formal release binary -> new edge -> stock Sub2API -> real upstream, dedicated clone identities",
+  "tested_at_utc": "2026-10-09T16:08:37.151541+00:00",
+  "sdk_version": "3.26.1",
+  "checks": [
+    {
+      "name": "catalog",
+      "status": "PASS",
+      "subjects_checked": 3,
+      "seconds": 0.938
+    },
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "response_id": "resp_0d0790e8023a7ab8016ac911883e84819bbb98d4bf727e958d",
+      "output_types": [
+        "message"
+      ],
+      "delta_characters": 24,
+      "final_characters": 24,
+      "done_items": 1,
+      "seconds": 5.687
+    },
+    {
+      "name": "responses-nonstream",
+      "status": "PASS",
+      "response_id": "resp_02cb66db99155196016ac9118cf0648194a7165efb059911fc",
+      "seconds": 2.484
+    },
+    {
+      "name": "chat",
+      "status": "PASS",
+      "seconds": 2.844
+    },
+    {
+      "name": "pdf-inline",
+      "status": "PASS",
+      "response_id": "resp_0adb1866ece65126016ac91192138487d0aebae9ac38772813",
+      "output_types": [
+        "message"
+      ],
+      "delta_characters": 108,
+      "final_characters": 108,
+      "done_items": 1,
+      "seconds": 3.625
+    },
+    {
+      "name": "pdf-url",
+      "status": "PASS",
+      "response_id": "resp_059bd3e88877a34c016ac911961cb887d0b4887081084354d2",
+      "output_types": [
+        "message"
+      ],
+      "delta_characters": 14,
+      "final_characters": 14,
+      "done_items": 1,
+      "tls_verification_disabled": false,
+      "seconds": 4.0
+    },
+    {
+      "name": "web-search",
+      "status": "PASS",
+      "response_id": "resp_04628b338c10f974016ac911997b7887d09e35fddaf6ebf885",
+      "output_types": [
+        "message",
+        "web_search_call",
+        "message"
+      ],
+      "delta_characters": 277,
+      "final_characters": 277,
+      "done_items": 3,
+      "seconds": 7.063
+    },
+    {
+      "name": "tool-roundtrip",
+      "status": "PASS",
+      "response_ids": [
+        "resp_05740a63e3951f00016ac911a0e9ac8196967bb91fa9a974ca",
+        "resp_05740a63e3951f00016ac911a375d481968cd0d40931c5367e"
+      ],
+      "seconds": 4.703
+    },
+    {
+      "name": "websocket",
+      "status": "PASS",
+      "turns": [
+        {
+          "response_id": "resp_0d42299de7308824016ac911a6118c8193bc7c3e62b3b65dac",
+          "terminal_status": "completed"
+        },
+        {
+          "response_id": "resp_0d42299de7308824016ac911a7e05c8193864b24cd965e2ce2",
+          "terminal_status": "completed"
+        }
+      ],
+      "same_socket_continuation": true,
+      "seconds": 4.656
+    },
+    {
+      "name": "subjects",
+      "status": "PASS",
+      "subjects": [
+        {
+          "label": "personal-a",
+          "user_id": 67,
+          "workspace_team_id": 0,
+          "response_id": "resp_0a67b8250508b673016ac911a9da5881909e7e0cbd0b6485fe",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 32,
+          "final_characters": 32,
+          "done_items": 1
+        },
+        {
+          "label": "personal-b",
+          "user_id": 68,
+          "workspace_team_id": 0,
+          "response_id": "resp_053e35822d075009016ac911ac62b48194b16d3d5a61eb8ccf",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 32,
+          "final_characters": 32,
+          "done_items": 1
+        },
+        {
+          "label": "team-b",
+          "user_id": 68,
+          "workspace_team_id": 11,
+          "response_id": "resp_0ac866adbafcfbd8016ac911b11cb0819aae44338049a90339",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 32,
+          "final_characters": 32,
+          "done_items": 1
+        }
+      ],
+      "limit": "Request authorization and final content only; upstream ownership isolation requires separate mapping/negative evidence.",
+      "seconds": 11.078
+    },
+    {
+      "name": "failed-request",
+      "status": "PASS",
+      "http_status": 400,
+      "no_charge_verified": true,
+      "pre_reservation_refund_verified": false,
+      "limit": "No-charge denial is not proof of pre-reservation refund; correlate reserve/refund server logs separately.",
+      "seconds": 0.656
+    },
+    {
+      "name": "all-text-models",
+      "status": "PASS",
+      "models": [
+        {
+          "model": "gpt-6-astra",
+          "status": "PASS",
+          "response_id": "resp_01347d6b1df34b68016ac911b591948199afee6aca16464cef",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        },
+        {
+          "model": "gpt-6.1-sol",
+          "status": "PASS",
+          "response_id": "resp_0f31d439dfb56fa5016ac911b7e2e8819bacf37045f9f5f3f2",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        },
+        {
+          "model": "gpt-6-sol",
+          "status": "PASS",
+          "response_id": "resp_0308c54e9db282c2016ac911bb45648190828195ccae69282a",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        },
+        {
+          "model": "gpt-6-luna",
+          "status": "PASS",
+          "response_id": "resp_0bf7cdd76237fda8016ac911be0694819487af0712b8299a4c",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        },
+        {
+          "model": "gpt-5.6-sol",
+          "status": "PASS",
+          "response_id": "resp_0dd51845fb11f955016ac911bf3e7481979e4d2a4f0b34b12d",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "status": "PASS",
+          "response_id": "resp_07258df34995cdea016ac911c2521481978970bb104a76cd2d",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "status": "PASS",
+          "response_id": "resp_0e222660ae9fbecc016ac911c413cc8197a812e13dc7aa30c0",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        },
+        {
+          "model": "gpt-5.5",
+          "status": "PASS",
+          "response_id": "resp_06ed45b6ab714b84016ac911c7ca6081909263faf1cc34138e",
+          "output_types": [
+            "message"
+          ],
+          "delta_characters": 24,
+          "final_characters": 24,
+          "done_items": 1
+        }
+      ],
+      "seconds": 19.375
+    },
+    {
+      "name": "image-generation",
+      "status": "FAIL",
+      "error_type": "PermissionDeniedError",
+      "http_status": 403,
+      "seconds": 0.063
+    }
+  ],
+  "requests": [
+    {
+      "case": null,
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608372118233008268d9d6M1AbqOQD"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608373640371008268d9d6sCopFE68"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608373947740008268d9d60T1v5Dk7"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608374130279008268d9d61KPrw0RK"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608374409645008268d9d6V0hBoMKr"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608374608974008268d9d632rRpLDz"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608374895782008268d9d6hmRJFUwR"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608375047129008268d9d6lEwTj9jS"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608375336434008268d9d6QCYFj0vK"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608375637849008268d9d6rPAjlrZx"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608375699577008268d9d6mNzSPCsO"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 404,
+      "request_id": "202610091608375971592008268d9d6txrn0exv"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608376274430008268d9d6NKDv0uVL"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608376704317008268d9d6nfiXphym"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608377012924008268d9d6k7nwhFlh"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608377323846008268d9d6enqZiwlC"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608377631018008268d9d6wiRs7sab"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608377812188008268d9d6NQLAYNDN"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608378086529008268d9d6IhRdqxe2"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608378396181008268d9d6K1X6oYy9"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608378701441008268d9d6KrneA2nG"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608379010659008268d9d6ed7jf0A2"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 404,
+      "request_id": "202610091608379323072008268d9d6V7dea6Rf"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608379499167008268d9d6ueAJdu3L"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608379652738008268d9d6qyKjlbux"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608379933337008268d9d6nBDasasN"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608380234854008268d9d67vhwUzjB"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608380407662008268d9d63YUYZ1ra"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608380686909008268d9d6NGHFqddU"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608380860609008268d9d6a5Yb4miN"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608381145094008268d9d6oWpyRBMh"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608381330922008268d9d6ey8DPYk9"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 200,
+      "request_id": "202610091608381377029008268d9d6LSO9Ce8H"
+    },
+    {
+      "case": "catalog",
+      "method": "GET",
+      "http_status": 404,
+      "request_id": "202610091608381415712008268d9d6s5ERMjPV"
+    },
+    {
+      "case": "responses-stream",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091608382247407008268d9d6lHPM0Sko"
+    },
+    {
+      "case": "responses-nonstream",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091608438580204008268d9d6tfEH0QP3"
+    },
+    {
+      "case": "chat",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091608464016905008268d9d66x3uw2eY"
+    },
+    {
+      "case": "pdf-inline",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091608492143138008268d9d6g4kOE6uX"
+    },
+    {
+      "case": "pdf-url",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091608528123530008268d9d6CGYtRLIF"
+    },
+    {
+      "case": "web-search",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091608568296951008268d9d6bUViCHJB"
+    },
+    {
+      "case": "tool-roundtrip",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609038682265008268d9d6HN5LrlsS"
+    },
+    {
+      "case": "tool-roundtrip",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609067466274008268d9d6R2iitCgz"
+    },
+    {
+      "case": "subjects",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609132495931008268d9d6qnTazoeu"
+    },
+    {
+      "case": "subjects",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609155992564008268d9d6PqBOqLDH"
+    },
+    {
+      "case": "subjects",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609204628535008268d9d6DoDLFgTs"
+    },
+    {
+      "case": "failed-request",
+      "method": "POST",
+      "http_status": 400,
+      "request_id": "202610091609243527583008268d9d68zNr2bMT"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609249874640008268d9d61w3Y5Zmh"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609272063448008268d9d6DWsxUEju"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609304417556008268d9d66vus5gH6"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609333192454008268d9d6yIwHKfko"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609345945933008268d9d6lqB9c5LH"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609374725593008268d9d6AaYU9kdD"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609392889452008268d9d6hb9LIsi0"
+    },
+    {
+      "case": "all-text-models",
+      "method": "POST",
+      "http_status": 200,
+      "request_id": "202610091609428416152008268d9d6OJgujTsO"
+    },
+    {
+      "case": "image-generation",
+      "method": "POST",
+      "http_status": 403,
+      "request_id": "202610091609443932222008268d9d65FMsvRXh"
+    }
+  ],
+  "desktop_e2e_performed": false,
+  "long_term_stability_proven": false,
+  "ledger": {
+    "before": {
+      "users": {
+        "67": {
+          "id": 67,
+          "quota": 5000000,
+          "used_quota": 0
+        },
+        "68": {
+          "id": 68,
+          "quota": 5000000,
+          "used_quota": 0
+        }
+      },
+      "tokens": {
+        "108": {
+          "id": 108,
+          "user_id": 67,
+          "workspace_user_id": 0,
+          "used_quota": 0,
+          "remain_quota": 0
+        },
+        "109": {
+          "id": 109,
+          "user_id": 68,
+          "workspace_user_id": 0,
+          "used_quota": 0,
+          "remain_quota": 0
+        },
+        "111": {
+          "id": 111,
+          "user_id": 67,
+          "workspace_user_id": 68,
+          "used_quota": 0,
+          "remain_quota": 1000000
+        }
+      }
+    },
+    "after": {
+      "users": {
+        "67": {
+          "id": 67,
+          "quota": 4995904,
+          "used_quota": 4176
+        },
+        "68": {
+          "id": 68,
+          "quota": 4999922,
+          "used_quota": 78
+        }
+      },
+      "tokens": {
+        "108": {
+          "id": 108,
+          "user_id": 67,
+          "workspace_user_id": 0,
+          "used_quota": 4098,
+          "remain_quota": -4098
+        },
+        "109": {
+          "id": 109,
+          "user_id": 68,
+          "workspace_user_id": 0,
+          "used_quota": 78,
+          "remain_quota": -78
+        },
+        "111": {
+          "id": 111,
+          "user_id": 67,
+          "workspace_user_id": 68,
+          "used_quota": 80,
+          "remain_quota": 999920
+        }
+      }
+    },
+    "new_usage": [
+      {
+        "id": 24798,
+        "request_id": "202610091608382247407008268d9d6lHPM0Sko",
+        "upstream_request_id": "7bc382e1-6ac5-4805-83f3-4cb7993e1ce1",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 80,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24799,
+        "request_id": "202610091608438580204008268d9d6tfEH0QP3",
+        "upstream_request_id": "49a35995-fb1b-4d92-b8d6-1b74839ce27d",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 79,
+        "stream_status": null,
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24800,
+        "request_id": "202610091608464016905008268d9d66x3uw2eY",
+        "upstream_request_id": "78f07afe-2a8a-41e4-b014-19dce05fda28",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 13,
+        "stream_status": null,
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24801,
+        "request_id": "202610091608492143138008268d9d6g4kOE6uX",
+        "upstream_request_id": "8c0fb22c-eef7-4f80-a9d3-d6b84931ed0e",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 108,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24802,
+        "request_id": "202610091608528123530008268d9d6CGYtRLIF",
+        "upstream_request_id": "ecbcb081-f6a7-45f9-8626-75e706312347",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 76,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24803,
+        "request_id": "202610091608568296951008268d9d6bUViCHJB",
+        "upstream_request_id": "fe883d7a-ac18-43f3-bf85-7586124b6d2a",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 1325,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24804,
+        "request_id": "202610091609038682265008268d9d6HN5LrlsS",
+        "upstream_request_id": "5a371876-57eb-447e-9243-cebb78687178",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 549,
+        "stream_status": null,
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24805,
+        "request_id": "202610091609067466274008268d9d6R2iitCgz",
+        "upstream_request_id": "e80eabd0-9404-4b05-bca4-3432c2b8ca93",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 548,
+        "stream_status": null,
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24806,
+        "request_id": "202610091609086151789008268d9d6VktNFsR4-ws-0",
+        "upstream_request_id": "",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 13,
+        "stream_status": {
+          "end_reason": "done",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24807,
+        "request_id": "202610091609086151789008268d9d6VktNFsR4-ws-1",
+        "upstream_request_id": "",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 17,
+        "stream_status": {
+          "end_reason": "done",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24808,
+        "request_id": "202610091609132495931008268d9d6qnTazoeu",
+        "upstream_request_id": "db5a419c-f2d2-4365-9365-48183cf08e2f",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 80,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24809,
+        "request_id": "202610091609155992564008268d9d6PqBOqLDH",
+        "upstream_request_id": "65d7bf08-4980-4f8d-89c9-400612a8d707",
+        "user_id": 68,
+        "token_id": 109,
+        "workspace_team_id": -1,
+        "quota": 78,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24810,
+        "request_id": "202610091609204628535008268d9d6DoDLFgTs",
+        "upstream_request_id": "87af68ec-6937-4092-900c-031d279d76e5",
+        "user_id": 67,
+        "token_id": 111,
+        "workspace_team_id": 11,
+        "quota": 80,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "subscription"
+      },
+      {
+        "id": 24811,
+        "request_id": "202610091609249874640008268d9d61w3Y5Zmh",
+        "upstream_request_id": "c8aa3916-e836-4119-a24a-e6b96effae6a",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 401,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24812,
+        "request_id": "202610091609272063448008268d9d6DWsxUEju",
+        "upstream_request_id": "35887e14-7791-45b8-a3d5-b85afad02b45",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 79,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24813,
+        "request_id": "202610091609304417556008268d9d66vus5gH6",
+        "upstream_request_id": "4765b6d2-f61b-4985-8124-a586de6e5940",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 85,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24814,
+        "request_id": "202610091609333192454008268d9d6yIwHKfko",
+        "upstream_request_id": "7a13ac54-fde6-414a-9c1d-5b46baf1a00e",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 6,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24815,
+        "request_id": "202610091609345945933008268d9d6lqB9c5LH",
+        "upstream_request_id": "876581be-e768-47d8-a5e0-8bf34df7f3eb",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 169,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24816,
+        "request_id": "202610091609374725593008268d9d6AaYU9kdD",
+        "upstream_request_id": "e01d1dad-2aaf-457e-8948-83612a72f2bb",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 130,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24817,
+        "request_id": "202610091609392889452008268d9d6hb9LIsi0",
+        "upstream_request_id": "5cf1bafc-7c34-4b8e-9513-959e5d42df53",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 13,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      },
+      {
+        "id": 24818,
+        "request_id": "202610091609428416152008268d9d6OJgujTsO",
+        "upstream_request_id": "950a37b1-29fe-47f7-a320-cb0d504d9154",
+        "user_id": 67,
+        "token_id": 108,
+        "workspace_team_id": -1,
+        "quota": 325,
+        "stream_status": {
+          "end_reason": "eof",
+          "response_status": "completed",
+          "status": "ok"
+        },
+        "billing_source": "wallet"
+      }
+    ],
+    "scope": "Dedicated test identities only; finalize exact reconciliation after async consume logs settle"
+  },
+  "model_requests_executed": 23,
+  "http_responses_observed": 55,
+  "source_run": "production-deploy-20261009/candidate-runtime/real-edge-first",
+  "first_failure_preserved": true,
+  "production_gateway_changed": false,
+  "first_image_failure": {
+    "request_id": "202610091609443932222008268d9d65FMsvRXh",
+    "sub2api_request_id": "854db901-aef1-49b5-9841-3c233a36ce59",
+    "http_status": 403,
+    "cause": "Stock group allow_image_generation was false",
+    "upstream_image_generated": false,
+    "refund_reconciliation": "release-accounting-summary.json"
+  },
+  "immediate_ledger_note": "The immediate first snapshot captured asynchronous token refund in flight; retain it and use release-accounting-summary.json for the later persisted reconciliation."
+}

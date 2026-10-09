@@ -1,0 +1,58 @@
+{
+  "status": "TOKEN_PRICING_ACCEPTED",
+  "recorded_at_utc": "2026-10-09T16:30:50.774115+00:00",
+  "gateway_sha256": "b008148e28522c052fb3e92172c4a8fc17170eae3726cb10c49c4cd45a091105",
+  "scope": "Current acceptance criterion after explicit operator pricing choice",
+  "operator_decision": "Use token billing reported by the new native Images API; cancel CNY per-image surcharge implementation.",
+  "first_failure_preserved": "release-real-edge-first.json: image group capability denied, no charge after async refund",
+  "prior_pricing_review_preserved": "release-image-functional-first.json remains unchanged as the historical review under the earlier parity assumption",
+  "group_capability_retest": "PASS after official group allow_image_generation=true",
+  "visual_review": "PASS: centered blue square on white background without text",
+  "usage": {
+    "id": 24819,
+    "request_id": "202610091615063742981008268d9d60aM55SJh",
+    "prompt_tokens": 23,
+    "completion_tokens": 515,
+    "quota": 67
+  },
+  "pricing": {
+    "model_ratio": 1,
+    "completion_ratio": 1,
+    "group_ratio": 0.125,
+    "model_price": -1,
+    "usage_estimated": false,
+    "billing_source": "wallet"
+  },
+  "formula": "round((23 + 515 * 1) * 1 * 0.125) = round(67.25) = 67 quota",
+  "expected_quota": 67,
+  "ledger_reconciliation": {
+    "token_108_used": true,
+    "token_108_remaining": true,
+    "token_109_used": true,
+    "token_109_remaining": true,
+    "token_111_used": true,
+    "token_111_remaining": true,
+    "payer_67_used": true,
+    "payer_67_wallet": true,
+    "payer_68_used": true,
+    "payer_68_wallet": true
+  },
+  "wallet_decrease": 67,
+  "token_used_increase": 67,
+  "token_remaining_decrease": 67,
+  "manual_ledger_changes": false,
+  "image_dimensions": {
+    "requested": [
+      1024,
+      1024
+    ],
+    "actual": [
+      1254,
+      1254
+    ],
+    "exact_dimensions_preserved": false,
+    "status": "PROVIDER_OUTPUT_BOUNDARY_RETAINED"
+  },
+  "image_sha256": "6e7bbc88804f71daa51d54c5939b4ea65bc708ee10ed6590ff7ab03f8d0bbaa6",
+  "no_additional_model_request_for_this_decision": true
+}

@@ -1,0 +1,18 @@
+{
+  "status": "CANDIDATE_FUNCTIONAL_13_CATEGORIES_ACCEPTED_WITH_RETAINED_FIRST_FAILURE",
+  "gateway_sha256": "b008148e28522c052fb3e92172c4a8fc17170eae3726cb10c49c4cd45a091105",
+  "first_run": {
+    "categories": 13,
+    "passed": 12,
+    "failed": 1,
+    "artifact": "release-real-edge-first.json"
+  },
+  "image_after_group_enablement": "PASS",
+  "image_token_pricing": "TOKEN_PRICING_ACCEPTED",
+  "all_eight_text_models_complete_sse": "PASS",
+  "exact_image_dimensions": "Requested1024x1024; provider returned1254x1254. Boundary retained.",
+  "settled_accounting": "15/15 checks PASS, including failed-request refund",
+  "production_public_acceptance": "NOT_RUN_OS_ELEVATION_CANCELLED",
+  "native_cli_final_public": "NOT_RUN_OS_ELEVATION_CANCELLED",
+  "real_cross_subject_ws": "NOT_RUN_OS_ELEVATION_CANCELLED"
+}

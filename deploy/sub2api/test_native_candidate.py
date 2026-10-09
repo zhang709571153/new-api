@@ -5,6 +5,9 @@ file stands in for the two application binaries: these tests validate packaging,
 not executable compatibility or real Sub2API behavior.
 """
 import copy
+import ctypes
+from ctypes import wintypes
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -12,6 +15,7 @@ import subprocess
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
+import zipfile
 
 HERE = Path(__file__).resolve().parent
 WINSW_SHA = '05b82d46ad331cc16bdc00de5c6332c1ef818df8ceefcd49c726553209b3a0da'
@@ -35,6 +39,14 @@ class NativeCandidateTest(unittest.TestCase):
         self.cfg['candidate_version'] = 'realyu-sub2api-candidate-test01'
         for role in ('realyu', 'sub2api', 'prewarm', 'winsw'):
             self.cfg['binaries'][role] = {'path': str(self.winsw), 'sha256': WINSW_SHA}
+        # Synthetic TZif packaging fixture, not a timezone-runtime acceptance.
+        self.zoneinfo = self.base / 'zoneinfo.zip'
+        with zipfile.ZipFile(self.zoneinfo, 'w') as archive:
+            archive.writestr('Asia/Shanghai', b'TZif' + b'\x00' * 40)
+        self.go_license = self.base / 'GO-LICENSE.txt'
+        self.go_license.write_text('The Go Authors: synthetic test license fixture. ' + 'Not a distribution license. ' * 4)
+        for name, path in [('zoneinfo', self.zoneinfo), ('go_license', self.go_license)]:
+            self.cfg['dependencies'][name] = {'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
         for field in ('SESSION_SECRET', 'CRYPTO_SECRET'):
             self.cfg['realyu'][field] = 'fixture-only-' + 'a' * 48
         for field in ('DATABASE_PASSWORD', 'REDIS_PASSWORD', 'ADMIN_PASSWORD', 'JWT_SECRET', 'TOTP_ENCRYPTION_KEY'):
@@ -87,12 +99,21 @@ class NativeCandidateTest(unittest.TestCase):
                 self.assertEqual(env['RUN_MODE'], 'standard')
                 self.assertEqual(env['TOKEN_REFRESH_ENABLED'], 'false')
                 self.assertEqual(env['IDEMPOTENCY_DEFAULT_TTL_SECONDS'], '86400')
+                self.assertEqual(env['ZONEINFO'], str(self.root / 'bin/deps/zoneinfo.zip'))
+                self.assertEqual(env['DATABASE_MAX_OPEN_CONNS'], '50')
+                self.assertEqual(env['DATABASE_MAX_IDLE_CONNS'], '10')
+                self.assertEqual(env['REDIS_POOL_SIZE'], '128')
+                self.assertEqual(env['REDIS_MIN_IDLE_CONNS'], '16')
             else:
                 self.assertEqual(tree.findtext('arguments'), '--watch')
                 self.assertEqual(env['REALYU_SUB2API_QUEUE_DIR'], str(self.root / 'state/enrollment-queue'))
                 self.assertEqual(env['REALYU_SUB2API_STATE_DIR'], str(self.root / 'state/prewarm'))
                 self.assertNotIn('SQLITE_PATH', env)
                 self.assertNotIn('SQL_DSN', env)
+        self.assertEqual((self.root / 'bin/deps/zoneinfo.zip').read_bytes(), self.zoneinfo.read_bytes())
+        self.assertEqual((self.root / 'bin/deps/GO-LICENSE.txt').read_bytes(), self.go_license.read_bytes())
+        self.assertEqual(marker['timezone_sha256'], self.cfg['dependencies']['zoneinfo']['sha256'])
+        self.assertEqual(marker['go_license_sha256'], self.cfg['dependencies']['go_license']['sha256'])
         # An ACL check prints only permission metadata, never file contents.
         script = "Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Security/Microsoft.PowerShell.Security.psd1'); $a=Get-Acl -LiteralPath $args[0]; [pscustomobject]@{protected=$a.AreAccessRulesProtected;sids=@($a.Access | ForEach-Object {$_.IdentityReference.Translate([Security.Principal.SecurityIdentifier]).Value})} | ConvertTo-Json"
         check = self.base / 'check-acl.ps1'
@@ -159,6 +180,59 @@ class NativeCandidateTest(unittest.TestCase):
             result = self.run_packager(bad, validate=True)
             self.assertNotEqual(result.returncode, 0)
             self.assertNotIn(value, result.stdout + result.stderr)
+
+    def test_timezone_and_license_are_required_readable_and_hash_checked(self):
+        cases = []
+        absent = copy.deepcopy(self.cfg)
+        del absent['dependencies']
+        cases.append(absent)
+        for name in ('zoneinfo', 'go_license'):
+            missing = copy.deepcopy(self.cfg)
+            del missing['dependencies'][name]
+            cases.append(missing)
+            wrong_hash = copy.deepcopy(self.cfg)
+            wrong_hash['dependencies'][name]['sha256'] = '0' * 64
+            cases.append(wrong_hash)
+            unreadable = copy.deepcopy(self.cfg)
+            unreadable['dependencies'][name]['path'] = str(self.base / 'absent-input')
+            cases.append(unreadable)
+        for index, config in enumerate(cases):
+            with self.subTest(case=index):
+                result = self.run_packager(config, validate=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertFalse(self.root.exists())
+                self.assertNotIn(self.cfg['sub2api']['ADMIN_PASSWORD'], result.stdout + result.stderr)
+
+    def test_timezone_archive_needs_valid_shanghai_entry(self):
+        for contents in (None, b'NOTZ' + b'\x00' * 40):
+            with self.subTest(contents=contents is not None):
+                with zipfile.ZipFile(self.zoneinfo, 'w') as archive:
+                    archive.writestr('UTC' if contents is None else 'Asia/Shanghai', contents or b'TZif')
+                self.cfg['dependencies']['zoneinfo']['sha256'] = hashlib.sha256(self.zoneinfo.read_bytes()).hexdigest()
+                result = self.run_packager(validate=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertFalse(self.root.exists())
+
+    def test_locked_timezone_or_license_fails_before_output_without_input_leak(self):
+        create = ctypes.windll.kernel32.CreateFileW
+        create.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD, ctypes.c_void_p,
+                           wintypes.DWORD, wintypes.DWORD, wintypes.HANDLE]
+        create.restype = wintypes.HANDLE
+        close = ctypes.windll.kernel32.CloseHandle
+        close.argtypes = [wintypes.HANDLE]
+        close.restype = wintypes.BOOL
+        for path in (self.zoneinfo, self.go_license):
+            with self.subTest(dependency=path.name):
+                handle = create(str(path), 0x80000000, 0, None, 3, 0x80, None)
+                self.assertNotEqual(handle, ctypes.c_void_p(-1).value)
+                try:
+                    result = self.run_packager(validate=True)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn('Cannot read dependency', result.stderr)
+                    self.assertFalse(self.root.exists())
+                    self.assertNotIn(self.cfg['sub2api']['ADMIN_PASSWORD'], result.stdout + result.stderr)
+                finally:
+                    self.assertTrue(close(handle))
 
 
 if __name__ == '__main__':

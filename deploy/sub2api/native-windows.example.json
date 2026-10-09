@@ -20,6 +20,16 @@
       "sha256": "05b82d46ad331cc16bdc00de5c6332c1ef818df8ceefcd49c726553209b3a0da"
     }
   },
+  "dependencies": {
+    "zoneinfo": {
+      "path": "",
+      "sha256": ""
+    },
+    "go_license": {
+      "path": "",
+      "sha256": ""
+    }
+  },
   "ports": {
     "realyu": 23000,
     "sub2api": 28080

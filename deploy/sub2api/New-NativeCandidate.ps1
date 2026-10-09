@@ -145,6 +145,44 @@ try {
         if ($name -eq 'winsw' -and $hash -ne '05b82d46ad331cc16bdc00de5c6332c1ef818df8ceefcd49c726553209b3a0da') { Stop-Candidate 'WinSW must match the reviewed v2.12.0 x64 artifact' }
         $binaries[$name] = [IO.Path]::GetFullPath($source)
     }
+    # The stock Windows Sub2API binary does not embed IANA time zone data. Keep
+    # its reviewed archive and accompanying Go license in the portable package;
+    # never depend on this machine's GOROOT or a developer-installed Go runtime.
+    $dependenciesProperty = $config.PSObject.Properties['dependencies']
+    if ($null -eq $dependenciesProperty) { Stop-Candidate 'Missing dependency manifest' }
+    $runtimeDependencies = @{}
+    $dependencyHashes = @{}
+    foreach ($name in @('zoneinfo', 'go_license')) {
+        $property = $dependenciesProperty.Value.PSObject.Properties[$name]
+        if ($null -eq $property) { Stop-Candidate "Missing dependency: $name" }
+        $entry = $property.Value
+        $source = Require-Text $entry.path "dependencies.$name.path"
+        $hash = Require-Text $entry.sha256 "dependencies.$name.sha256"
+        if ($hash -notmatch '^[a-fA-F0-9]{64}$' -or -not (Test-Path -LiteralPath $source -PathType Leaf)) { Stop-Candidate "Invalid dependency: $name" }
+        try { $actualHash = Get-Sha256 $source }
+        catch { Stop-Candidate "Cannot read dependency: $name" }
+        if ($actualHash -ne $hash) { Stop-Candidate "Dependency hash mismatch: $name" }
+        $runtimeDependencies[$name] = [IO.Path]::GetFullPath($source)
+        $dependencyHashes[$name] = $actualHash
+    }
+    try {
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        $archive = [IO.Compression.ZipFile]::OpenRead($runtimeDependencies.zoneinfo)
+        try {
+            $zone = $archive.GetEntry('Asia/Shanghai')
+            if ($null -eq $zone -or $zone.Length -lt 4) { Stop-Candidate 'Timezone archive lacks Asia/Shanghai' }
+            $stream = $zone.Open()
+            try {
+                $magic = New-Object byte[] 4
+                if ($stream.Read($magic, 0, 4) -ne 4 -or [Text.Encoding]::ASCII.GetString($magic) -ne 'TZif') { Stop-Candidate 'Timezone archive has invalid zone data' }
+            } finally { $stream.Dispose() }
+        } finally { $archive.Dispose() }
+        $license = Get-Content -Raw -LiteralPath $runtimeDependencies.go_license
+        if ($license.Length -lt 64 -or $license -notmatch 'The Go Authors') { Stop-Candidate 'Go timezone license is missing or invalid' }
+    } catch {
+        if (-not $script:SafeFailure) { $script:SafeFailure = 'Cannot read the reviewed timezone archive or license' }
+        throw
+    }
     $realyuEnv = [ordered]@{
         BIND_ADDRESS='127.0.0.1'; PORT=[string]$realyuPort; VERSION=$version; GIN_MODE='release'
         SQLITE_PATH=(Join-Path $root 'state\realyu\new-api.db') + '?_pragma=busy_timeout(30000)&_pragma=journal_mode(WAL)&_txlock=immediate'
@@ -178,6 +216,9 @@ try {
         SERVER_HOST='127.0.0.1'; SERVER_PORT=[string]$subPort; SERVER_MODE='release'; RUN_MODE='standard'
         AUTO_SETUP='true'; DATA_DIR=(Join-Path $root 'state\sub2api'); TOKEN_REFRESH_ENABLED='false'; TZ='Asia/Shanghai'
         IDEMPOTENCY_DEFAULT_TTL_SECONDS='86400'
+        ZONEINFO=(Join-Path $root 'bin\deps\zoneinfo.zip')
+        DATABASE_MAX_OPEN_CONNS='50'; DATABASE_MAX_IDLE_CONNS='10'
+        REDIS_POOL_SIZE='128'; REDIS_MIN_IDLE_CONNS='16'
     }
     $required = @('DATABASE_HOST','DATABASE_PORT','DATABASE_USER','DATABASE_PASSWORD','DATABASE_DBNAME','DATABASE_SSLMODE',
                   'REDIS_HOST','REDIS_PORT','REDIS_PASSWORD','REDIS_DB','REDIS_ENABLE_TLS',
@@ -206,7 +247,7 @@ try {
     # Apply restrictive ACL before writing anything sensitive. On failure, leave
     # the new directory for inspection; never recursively remove a computed path.
     Set-PrivateAcl $root $false
-    foreach ($directory in @('bin','services','state','state\realyu','state\sub2api','state\integration','state\enrollment-queue','state\prewarm','logs','logs\realyu','logs\sub2api','logs\prewarm')) {
+    foreach ($directory in @('bin','bin\deps','services','state','state\realyu','state\sub2api','state\integration','state\enrollment-queue','state\prewarm','logs','logs\realyu','logs\sub2api','logs\prewarm')) {
         [void](New-Item -ItemType Directory -Path (Join-Path $root $directory))
     }
     # This candidate shares LocalService between processes. Production account
@@ -215,6 +256,12 @@ try {
     Copy-Item -LiteralPath $binaries.realyu -Destination (Join-Path $root 'bin\realyu.exe')
     Copy-Item -LiteralPath $binaries.sub2api -Destination (Join-Path $root 'bin\sub2api.exe')
     Copy-Item -LiteralPath $binaries.prewarm -Destination (Join-Path $root 'bin\sub2api-prewarm.exe')
+    $dependencyTargets = @{zoneinfo='bin\deps\zoneinfo.zip'; go_license='bin\deps\GO-LICENSE.txt'}
+    foreach ($name in @('zoneinfo', 'go_license')) {
+        $destination = Join-Path $root $dependencyTargets[$name]
+        Copy-Item -LiteralPath $runtimeDependencies[$name] -Destination $destination
+        if ((Get-Sha256 $destination) -ne $dependencyHashes[$name]) { Stop-Candidate "Copied dependency hash mismatch: $name" }
+    }
     foreach ($name in @('realyu-service','sub2api-service','prewarm-service')) {
         Copy-Item -LiteralPath $binaries.winsw -Destination (Join-Path $root "services\$name.exe")
     }
@@ -238,6 +285,7 @@ try {
         realyu_service=$realyuId; sub2api_service=$subId; prewarm_service=$prewarmId; mode='legacy-bootstrap'; redis_supply=$supply
         realyu_url="http://127.0.0.1:$realyuPort"; sub2api_url="http://127.0.0.1:$subPort"
         services_installed=$false; services_started=$false; production_changes=$false
+        timezone_sha256=$dependencyHashes.zoneinfo; go_license_sha256=$dependencyHashes.go_license
     }
     $receipt | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root 'candidate.json') -Encoding UTF8
     $receipt | ConvertTo-Json

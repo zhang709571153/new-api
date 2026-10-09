@@ -1,0 +1,103 @@
+{
+  "status": "IDENTITIES_READY_NO_INFERENCE",
+  "scope": "Production dedicated operator account preparation only; no inference or payment requests",
+  "started_at": "2026-10-09T16:23:53.615177+00:00",
+  "user_ids": [
+    67,
+    68
+  ],
+  "workspace_team_id": 11,
+  "subscription_id": 10,
+  "subjects": [
+    {
+      "label": "personal-owner",
+      "user_id": 67,
+      "billing_owner_id": 67,
+      "workspace_team_id": 0,
+      "token_id": 108
+    },
+    {
+      "label": "personal-member",
+      "user_id": 68,
+      "billing_owner_id": 68,
+      "workspace_team_id": 0,
+      "token_id": 109
+    },
+    {
+      "label": "team-member",
+      "user_id": 68,
+      "billing_owner_id": 67,
+      "workspace_team_id": 11,
+      "token_id": 111
+    }
+  ],
+  "wallet_quota_granted": {
+    "owner": 250000,
+    "member": 500000
+  },
+  "team_weekly_quota": 250000,
+  "baseline": {
+    "users": [
+      {
+        "id": 67,
+        "quota": 250000,
+        "used_quota": 0,
+        "request_count": 0,
+        "status": 1
+      },
+      {
+        "id": 68,
+        "quota": 500000,
+        "used_quota": 0,
+        "request_count": 0,
+        "status": 1
+      }
+    ],
+    "tokens": [
+      {
+        "id": 108,
+        "user_id": 67,
+        "workspace_user_id": 0,
+        "status": 1,
+        "remain_quota": 0,
+        "used_quota": 0
+      },
+      {
+        "id": 110,
+        "user_id": 67,
+        "workspace_user_id": 67,
+        "status": 1,
+        "remain_quota": 0,
+        "used_quota": 0
+      },
+      {
+        "id": 111,
+        "user_id": 67,
+        "workspace_user_id": 68,
+        "status": 1,
+        "remain_quota": 250000,
+        "used_quota": 0
+      },
+      {
+        "id": 109,
+        "user_id": 68,
+        "workspace_user_id": 0,
+        "status": 1,
+        "remain_quota": 0,
+        "used_quota": 0
+      }
+    ],
+    "subscription": {
+      "id": 10,
+      "user_id": 67,
+      "amount_total": 1000000,
+      "amount_used": 0
+    }
+  },
+  "production_customer_balances_modified": false,
+  "production_channel_or_price_changes": false,
+  "creation": "Existing administrative and dashboard APIs; read-only SQLite evidence",
+  "sessions_logged_out": true,
+  "cleanup": "Disable only these dedicated users and keys after public acceptance; preserve audit records",
+  "private_fixture": "public-operator/fixture.json (local private evidence, excluded from Git)"
+}
