@@ -1,0 +1,13 @@
+{
+  "candidate_url": "http://127.0.0.1:23000",
+  "expected_version": "REPLACE_WITH_EXACT_CANDIDATE_VERSION",
+  "admin_user_id": 0,
+  "admin_access_token": "",
+  "route": {
+    "name": "sub2api-primary",
+    "base_url": "http://127.0.0.1:28080",
+    "models": "REPLACE_WITH_APPROVED_MODEL_IDS",
+    "group": "default",
+    "sub2api_group_id": 0
+  }
+}

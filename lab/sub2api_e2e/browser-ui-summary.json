@@ -1,0 +1,16 @@
+{
+  "scope": "isolated RealYu website browser UI, separate from native Codex desktop",
+  "evidence_provider": "parent agent browser-tool observation",
+  "status": "BLOCKED_BROWSER_RUNTIME_CRASH",
+  "production_changed": false,
+  "login_submitted": false,
+  "page_content_read": false,
+  "observations": [
+    "createBrowserTab initial navigation timed out after 30 seconds",
+    "Browser getState reported both the existing reference tab and new about:blank test tab crashed",
+    "Selecting the test tab timed out again during initial navigation"
+  ],
+  "alternative_browser_automation_used": false,
+  "product_ui_passed": false,
+  "product_ui_failed": false
+}

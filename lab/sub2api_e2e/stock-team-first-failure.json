@@ -1,0 +1,86 @@
+{
+  "scope": "actual RealYu and stock Sub2API with synthetic upstream",
+  "real_model_test": false,
+  "production_changed": false,
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "sub2api_version": "0.2.15",
+  "sdk_version": "3.26.1",
+  "checks": {
+    "stock_prewarmed_customers_have_distinct_upstream_users": true,
+    "each_stock_customer_has_both_dedicated_pool_keys": true,
+    "alpha_fresh_user_matches_reviewed_queue": true,
+    "beta_fresh_user_matches_reviewed_queue": true,
+    "gamma_fresh_user_matches_reviewed_queue": true,
+    "actual_stock_team_subject_prewarming_completed": true,
+    "stock_team_members_and_personal_scopes_have_distinct_internal_users": true,
+    "channel_0_matches_reviewed_queue": true,
+    "channel_1_matches_reviewed_queue": true,
+    "realyu_alpha_sdk_stream_final_matches_delta": true,
+    "realyu_alpha_sdk_nonstream_final": true,
+    "realyu_alpha_sdk_chat_nonstream_final": true,
+    "realyu_beta_sdk_stream_final_matches_delta": true,
+    "realyu_beta_sdk_nonstream_final": true,
+    "realyu_beta_sdk_chat_nonstream_final": true,
+    "realyu_gamma_sdk_stream_final_matches_delta": true,
+    "realyu_gamma_sdk_nonstream_final": true
+  },
+  "all_passed": false,
+  "team_upstream_user_ids": [
+    6,
+    7,
+    8
+  ],
+  "workspace_team_id": 1,
+  "failure": {
+    "type": "InternalServerError",
+    "after_check": "realyu_gamma_sdk_nonstream_final"
+  },
+  "owned_processes_stopped": true,
+  "source_run": "stock-chain-19f013291b/attempt-1400e9942d",
+  "failure_request_id": "202610091240510732057008268d9d6BwJLTwHk",
+  "failure_reason": "Actual SQLite busy on token update during team subscription pre-consume after prior response delivery",
+  "failure_ledger": {
+    "successful_log_rows": [
+      8,
+      880
+    ],
+    "subscription_used": 880,
+    "token_used": 880,
+    "personal_wallet_sum": 15000000,
+    "member_weekly_used": 880,
+    "reservations_by_status": [
+      [
+        "settled",
+        8,
+        880
+      ]
+    ],
+    "attribution": [
+      [
+        2,
+        2,
+        3,
+        330
+      ],
+      [
+        2,
+        3,
+        3,
+        330
+      ],
+      [
+        2,
+        4,
+        2,
+        220
+      ]
+    ]
+  },
+  "subsequent_diagnosis": {
+    "category": "isolated harness SQLite DSN configuration",
+    "cause": "Bare SQLITE_PATH replaced the application default WAL, busy_timeout and immediate transaction options.",
+    "correction": "Use glebarez-supported _pragma=busy_timeout(30000)&_pragma=journal_mode(WAL)&_txlock=immediate",
+    "product_billing_logic_changed": false,
+    "retest": "stock-team-summary.json"
+  }
+}

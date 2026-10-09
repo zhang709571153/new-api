@@ -1,0 +1,71 @@
+{
+  "scope": "new isolated native Windows persistence fixtures",
+  "production_changes": false,
+  "scm_changes": false,
+  "checks": [
+    {
+      "name": "PostgreSQL committed rows survive a graceful restart",
+      "status": "PASS"
+    },
+    {
+      "name": "PostgreSQL custom dump restores into a fresh database",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis authentication and loopback fixture startup",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis Lua lease operation is available",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis SAVE produces an RDB snapshot",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis AOF survives normal restart without shutdown snapshot",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis persisted hash/list/sorted-set values",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis lease retains a bounded TTL after restart",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis background AOF rewrite succeeds",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis crash targets this script owned active process",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis AOF restores after forced termination",
+      "status": "PASS"
+    },
+    {
+      "name": "Redis restores a standalone RDB snapshot",
+      "status": "PASS"
+    }
+  ],
+  "artifacts": {
+    "postgres_sha256": "14817df435104dcfe05ad8343fda200930abf778553ab60154bd285aea6833e1",
+    "redis_server_sha256": "5bc44512f4ff7828f0d65e59ad712c1b66f692c4f827c966123d3ece4ec5945c"
+  },
+  "status": "PASS",
+  "all_owned_processes_stopped": true,
+  "not_run": [
+    "SCM installation/account/reboot",
+    "disk-full fault",
+    "production data restore",
+    "long-duration load or availability SLA"
+  ],
+  "versions": {
+    "postgres": "18.6",
+    "redis": "8.10.2 MSYS2 community Windows build"
+  }
+}

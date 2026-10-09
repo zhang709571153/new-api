@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-09",
+  "scope": "deployment templates, native Windows packaging, persistent prewarm CLI, route/bootstrap/snapshot fixtures and isolated native database persistence; no production changes",
+  "production_changes": false,
+  "checks": [
+    {
+      "name": "frozen production source manifest",
+      "status": "PASS",
+      "files": 2631,
+      "missing": 0,
+      "mismatch": 0
+    },
+    {
+      "name": "SQLite snapshot WAL consistency, source protection and overwrite refusal",
+      "status": "PASS",
+      "tests": 3,
+      "command": "python -m unittest discover -s deploy/sub2api -p test_snapshot_sqlite.py -v"
+    },
+    {
+      "name": "Windows inventory syntax and read-only execution",
+      "status": "PASS",
+      "powershell": "5.1",
+      "host": "Windows 11; destination Windows Server remains untested"
+    },
+    {
+      "name": "Compose YAML parse and loopback-only published ports",
+      "status": "PASS"
+    },
+    {
+      "name": "Official compose-spec JSON Schema 2020-12 validation",
+      "status": "PASS",
+      "schema_source": "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"
+    },
+    {
+      "name": "Sub2API PostgreSQL Redis Docker Hub tag/digest lookup",
+      "status": "PASS",
+      "note": "Sub2API image tag is 0.2.15; v0.2.15 returned 404 and was corrected"
+    },
+    {
+      "name": "Native Windows packager: loopback/manual service configs, ACL, path/overwrite/hash protection, TLS checks and secret-safe failures",
+      "status": "PASS",
+      "tests": 6,
+      "powershell": "5.1",
+      "command": "python -m unittest discover -s deploy/sub2api -p test_native_candidate.py -v"
+    },
+    {
+      "name": "Native packager includes three manual-start services including --watch prewarm worker",
+      "status": "PASS",
+      "note": "Five safety tests rerun with worker dirs/env/config; no SCM install/start"
+    },
+    {
+      "name": "Compose persistent watcher in portal profile, loopback ports, directional mounts and schema validation",
+      "status": "PASS",
+      "note": "Official schema 2020-12; worker queue/config RO and state RW, gateway queue RW and state/config RO; runtime NOT_RUN"
+    },
+    {
+      "name": "Independent persistent prewarm worker regression",
+      "status": "PASS",
+      "command": "go test ./cmd/sub2api-prewarm -count=1",
+      "note": "Serial progress; durable 429/block; OS lock; alias protection; watch enqueue/resume/heartbeat; configuration-generation TOCTOU refusal before effects; graceful-stop recovery; fixtures only; five internal-credit roots cover durable intents, DONE-only eligibility, replay/restart/config/TTL, inspection/add backoff and bounded scan",
+      "tests": 13
+    },
+    {
+      "name": "Independent prewarmed gateway recovery is read-only",
+      "status": "PASS",
+      "command": "go test ./service -run ^TestSub2APIPrewarmedWebOnlyRecoversExistingIdentities$ -count=1",
+      "note": "No request-path user creation or login; wrong-generation worker call refused before side effects"
+    },
+    {
+      "name": "All deployment helper tests",
+      "status": "PASS",
+      "tests": 14,
+      "command": "python -m unittest discover -s deploy/sub2api -p test_*.py -v"
+    },
+    {
+      "name": "Pinned WinSW 2.12.0 native XML load and read-only service status",
+      "status": "PASS",
+      "result": "Both generated services reported NonExistent; no service installed or started"
+    },
+    {
+      "name": "Docker Compose interpolation and container startup",
+      "status": "NOT_RUN",
+      "reason": "No Docker engine/CLI available on this host"
+    },
+    {
+      "name": "Target Windows Server native SCM, restart/restore and upstream E2E",
+      "status": "NOT_RUN",
+      "reason": "Target SCM installation, reboot, production data restore, disk-full/load acceptance and private backup destination remain unconfirmed; free community Redis is the preferred candidate"
+    },
+    {
+      "name": "Prewarm Windows and Linux amd64 build",
+      "status": "PASS"
+    },
+    {
+      "name": "Independent PostgreSQL 18.6 and Redis 8.10.2 MSYS2 persistence fixtures",
+      "status": "PASS",
+      "checks": 12,
+      "receipt": "native-persistence-validation.json",
+      "note": "Own new isolated processes only; all stopped; SCM and production unchanged"
+    },
+    {
+      "name": "Authorized current isolated Sub2API administrative confirmation",
+      "status": "PASS",
+      "note": "Normal flow HTTP 200; confirmation no longer required; groups read HTTP 200. Private receipt excluded from Git; scripts do not automatically acknowledge."
+    },
+    {
+      "name": "Frozen public download completeness recheck",
+      "status": "PASS",
+      "files": 38,
+      "missing": 0,
+      "added": 0,
+      "sha_mismatch": 0,
+      "over_50MiB": 0
+    },
+    {
+      "name": "Native SQLite DSN matches glebarez driver pragma syntax",
+      "status": "PASS",
+      "tests": 5,
+      "note": "Packager changed to repeated _pragma=busy_timeout(30000)/journal_mode(WAL), preserving _txlock=immediate; native safety suite rerun"
+    },
+    {
+      "name": "Native explicit RealYu outbound proxy fields and Sub idempotency TTL",
+      "status": "PASS",
+      "tests": 6,
+      "note": "Safe URI/NO_PROXY checks, no arbitrary env overrides; generator does not install/start services"
+    },
+    {
+      "name": "Internal credit worker bounded state machine",
+      "status": "PASS",
+      "tests": 5,
+      "command": "go test ./cmd/sub2api-prewarm -run ^TestCredit -count=1",
+      "note": "Included in 13-root cmd suite; independently reviewed by integration agent. Stock isolated acceptance is a separate report."
+    },
+    {
+      "name": "Compose schema with explicit idempotency TTL and independent remote-file egress",
+      "status": "PASS",
+      "note": "Static schema 2020-12; loopback ports and internal NO_PROXY retained; container runtime not exercised"
+    },
+    {
+      "name": "Actual stock Sub2API internal credit worker and restart acceptance",
+      "status": "PASS",
+      "checks": 10,
+      "receipt": "../../lab/sub2api_e2e/credit-watch-summary.json",
+      "worker_sha256": "aef61bd46ced72b9ded3eff510ef37ee37d1f0a3103e846d7fa7a0303a8b42a1",
+      "note": "Two pool keys share one projected user; exactly one official add/audit, balance 1+100=101, restart no repeat; no RealYu DB, customer wallet or model execution"
+    }
+  ],
+  "retained_initial_failures": [
+    "The first SQLite fixture run exposed three Windows WinError 32 cleanup failures caused by unclosed sqlite3 connections; contextlib.closing was added to production code and tests, then all three cases passed.",
+    "The first Windows PowerShell execution was blocked by its script policy; the read-only script was subsequently executed with a process-only ExecutionPolicy Bypass, without changing machine policy.",
+    "The first Compose schema runner used Ajv's default draft; the official schema requires the Ajv 2020 implementation, which then validated successfully.",
+    "The first native packager tests exposed a PowerShell 5.1 child inheriting PowerShell 7 module paths, making Get-FileHash unavailable. The packager now hashes through .NET and imports the runtime's built-in ACL module explicitly; all five cases then passed.",
+    "An initial WinSW version invocation without a same-name XML failed to find configuration. Generated configurations subsequently loaded with read-only status, reporting NonExistent; no runtime startup is claimed.",
+    "Watcher heartbeat tests exposed Windows atomic replacement failing while a concurrent reader briefly held the old file. MoveFileEx now retries only transient sharing/lock/access-denied errors for at most one second, preserving atomic replacement and failing persistent errors.",
+    "Independent review found a watcher generation A task could reach a batch loaded against configuration B. The batch now requires watcher generation, same-load config digest and current raw digest to agree before any side effect; a deterministic regression confirms no projection or state creation.",
+    "The first graceful-stop regression expected three fixture tasks, while prepareWorker defines two; the assertion was corrected to one interrupted attempt plus two recovered tasks, after state/cooldown assertions had already passed.",
+    "Integration database acceptance exposed a SQLite harness DSN mismatch. Independent review found the native packager also used mattn-style parameters; it now uses the glebarez _pragma syntax already present in Compose, and packaging assertions check it.",
+    "A subsequent heartbeat test exposed transient Windows sharing violations when reading a concurrently replaced file. Private file reads now retry only sharing/lock violations for a bounded 90 ms; the full 13-root worker suite then passed."
+  ],
+  "limits": [
+    "Static Compose validation is not container runtime or full integration E2E.",
+    "Registry manifest lookup does not prove image runtime behavior or target platform acceptance.",
+    "Native packager tests use synthetic secrets and a known binary fixture; they do not prove actual application startup, graceful shutdown, SCM recovery or Windows Server target behavior.",
+    "No production backup, account import, DNS change, release or old-host retirement was performed.",
+    "Sub2API administrative electronic confirmation is an operator action; no script acknowledges or bypasses it.",
+    "Automatic committed-customer/member reconciliation is connected in the candidate. Actual integration receipts are maintained separately; this file does not claim target signup/model E2E.",
+    "Retained obsolete jobs are not automatically canceled. BLOCKED/FAILED jobs stop the batch until operator resolution; revocation in RealYu still blocks external access.",
+    "Native candidate processes share LocalService. Production per-service filesystem isolation requires distinct service identities and target ACL/network acceptance.",
+    "A local configuration OS lock does not coordinate different hosts/config copies or all callers sharing the same upstream IP.",
+    "Internal credit is not a second customer charge or a mirrored RealYu wallet. Unknown add outcomes block by default; finite-window replay requires operator reconciliation, and no absolute exactly-once claim is made.",
+    "Credit policy examples require real capacity sizing. Alerts, target service operation and unresolved-intent reconciliation remain operational acceptance requirements."
+  ]
+}

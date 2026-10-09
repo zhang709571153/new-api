@@ -1,0 +1,45 @@
+{
+  "checked_at_utc": "2026-10-09T13:43:17.252313+00:00",
+  "scope": "independent fresh source export with no historical Git ancestry, installed dependencies from frozen lockfile",
+  "production_changed": false,
+  "source_files": 2868,
+  "compiled_input_count": 2679,
+  "compiled_input_digest": "dd863b8e56b98ca4e921cf4522f20e3f61d6ddf9e60f711302945f4a749edfc6",
+  "build_did_not_modify_compiled_inputs": true,
+  "toolchain": {
+    "go": "1.25.12",
+    "bun": "1.4.2",
+    "cgo_enabled": false
+  },
+  "checks": {
+    "bun_install_frozen_lockfile": "PASS",
+    "frontend_typecheck_and_production_build": "PASS",
+    "gateway_go_build": "PASS",
+    "worker_go_build": "PASS",
+    "fresh_gateway_bootstrap_http": {
+      "fresh_users_have_distinct_personal_keys": true,
+      "deployment_bootstrap_real_api_creates_route": true,
+      "deployment_bootstrap_idempotent_readback": true,
+      "deployment_bootstrap_standalone_bearer_transport": true,
+      "fixture_admin_access_token_revoked": true
+    }
+  },
+  "binaries": {
+    "realyu-candidate.exe": {
+      "sha256": "d98d1a601d45da7150451a2ffd925a6383a0717c4638009acfee6e139d3afa16",
+      "bytes": 362949120
+    },
+    "sub2api-prewarm.exe": {
+      "sha256": "8ac607bf72faee338238b5393555d326d910662b76503d4cc4854d0dda75710c",
+      "bytes": 58090496
+    }
+  },
+  "first_failure_preserved": "Standalone bootstrap runner initially assumed its ignored private parent directory existed; create parents fix passed the actual fresh-export bootstrap rerun. No gateway business logic changed.",
+  "cleanup": {
+    "owned_bootstrap_processes_stopped": true
+  },
+  "limitations": [
+    "Fresh export binaries were built and bootstrap-tested; earlier real inference reports remain scoped to their recorded binary hashes.",
+    "No target Windows Server installation, production traffic switch or full native Codex acceptance is claimed."
+  ]
+}

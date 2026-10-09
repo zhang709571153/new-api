@@ -1,0 +1,49 @@
+{
+  "status": "FAIL_WITH_SEPARATE_TOOL_POLICY_BLOCK",
+  "desktop_e2e_performed": false,
+  "compact_e2e_performed": false,
+  "automatic_retries": 0,
+  "config_isolated": true,
+  "sandbox": "workspace-write",
+  "version": "codex-cli 0.162.0",
+  "checks": {
+    "baseline_tests_fail": true,
+    "actual_source_changed": false,
+    "tests_unchanged": true,
+    "external_tests_pass": false,
+    "cli_initial_success": false,
+    "real_test_command_observed": false,
+    "new_process_resume_recalls_marker": true
+  },
+  "limitation": "Local execution policy rejected tools; not bypassed and not counted as an API capability failure.",
+  "source_run": "cli-f3efbd5c8f1f",
+  "production_changed": false,
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "scope": "official latest stable CLI against actual isolated v4 gateway and stock Sub2API; original tool workflow plus one independent no-tool control",
+  "official_release": {
+    "tag": "rust-v0.162.0",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.162.0",
+    "published_at": "2026-10-08T18:55:59Z",
+    "prerelease": false,
+    "zip_sha256": "46558d62bd36d0a87c8db11d440c05d2167e1b14e1d8525c6391ea78b50d8cfa",
+    "exe_sha256": "dce685d569526ef4712fa82d20ff20e1309baad5fcd34215e1126698f611242f"
+  },
+  "tool_execution_blocked": true,
+  "incomplete_stream_reported": true,
+  "initial_failure": "stream disconnected before completion: stream closed before response.completed",
+  "initial_failure_not_overwritten": true,
+  "no_tools_control": {
+    "exit_code": 0,
+    "terminal_completed": true,
+    "exact_answer": true,
+    "tool_events": 0
+  },
+  "diagnosis": "Sub2API recorded an upstream HTTP/2 INTERNAL_ERROR received from peer on the third request. RealYu recorded failed stream, zero settled quota and full refund of 16527 precharged quota. Logs do not distinguish the upstream endpoint from the intervening egress proxy. This is separate from the local tool-policy refusal.",
+  "raw_evidence_sha256": {
+    "initial.jsonl": "3f8ad088fbf0f93581f9cec975f2cf1e32d965f0618aec8063144f08fab51c88",
+    "initial.stderr": "3d266d37721b65c46fda2242f0b4633f179d4265b2d49979141c1cf8703eaf57",
+    "resume.jsonl": "78a33e184c1fc48b96068a181c5a4b80fb17063d0e69c92ee1eef4c99dcb1563",
+    "no-tools-control.jsonl": "e5abd21b8e79a341d1e36b58aaa18b1abcc1724110254e10f578a3f54391ff67"
+  },
+  "diagnosis_evidence": "latest-cli-stream-failure.json"
+}

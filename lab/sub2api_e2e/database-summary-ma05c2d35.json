@@ -1,0 +1,91 @@
+{
+  "run_id": "ma05c2d35",
+  "tested_at_utc": "2026-10-09T11:37:28Z",
+  "baseline": "frozen actual RealYu release binary; no live data",
+  "command": "python lab/sub2api_e2e/database_regression.py --baseline <frozen-release.exe> --candidate <isolated-candidate.exe> --engines-root <local-portable-engines>",
+  "candidate_is_production": false,
+  "engines": {
+    "mysql": {
+      "version": "8.4.11",
+      "port": 28606
+    },
+    "postgres": {
+      "version": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
+      "port": 28632
+    },
+    "sqlite": {
+      "version": "3.50.4",
+      "verification_client_version": "3.53.1",
+      "application_driver": "github.com/glebarez/sqlite v1.11.0 (modernc.org/sqlite v1.40.1)"
+    }
+  },
+  "cases": [
+    {
+      "engine": "sqlite",
+      "log_engine": "mysql",
+      "scenario": "fresh",
+      "status": "PASS",
+      "iteration": 1,
+      "candidate_startups": 2,
+      "users": 2,
+      "personal_keys": 2,
+      "consume_log_count": 1,
+      "wallet_quota": 5000000123,
+      "consume_quota": 12345,
+      "ledger_keys_wallet_preserved": true,
+      "username_and_key_uniqueness": true,
+      "schema_and_indexes_idempotent": true
+    },
+    {
+      "engine": "sqlite",
+      "log_engine": "mysql",
+      "scenario": "release_upgrade",
+      "status": "PASS",
+      "iteration": 1,
+      "candidate_startups": 2,
+      "users": 2,
+      "personal_keys": 2,
+      "consume_log_count": 1,
+      "wallet_quota": 5000000123,
+      "consume_quota": 12345,
+      "ledger_keys_wallet_preserved": true,
+      "username_and_key_uniqueness": true,
+      "schema_and_indexes_idempotent": true
+    }
+  ],
+  "team_tests": {
+    "sqlite_05dbb1f8": {
+      "engine": "sqlite",
+      "status": "PASS",
+      "command": "go test ./controller -run ^(TestWorkspaceFundingIsolation|TestWorkspaceFundingScopePermissions|TestWorkspaceTeamLifecycle)$ -count=1 -v",
+      "executed_without_skips": true,
+      "passed_test_roots": [
+        "TestWorkspaceTeamLifecycle",
+        "TestWorkspaceFundingIsolation",
+        "TestWorkspaceFundingScopePermissions"
+      ],
+      "separate_primary_and_log_databases": true
+    },
+    "mysql_05dbb1f8": {
+      "engine": "mysql",
+      "status": "FAIL",
+      "command": "go test ./controller -run ^(TestWorkspaceFundingIsolation|TestWorkspaceFundingScopePermissions|TestWorkspaceTeamLifecycle)$ -count=1 -v",
+      "executed_without_skips": false,
+      "passed_test_roots": [
+        "TestWorkspaceTeamLifecycle"
+      ],
+      "separate_primary_and_log_databases": true
+    }
+  },
+  "limitations": [
+    "Minimum supported MySQL/PostgreSQL versions are not tested by this run."
+  ],
+  "baseline_sha256": "f729e2b8f2c631e1b804b7e6ef56397efbe76560c2e8fc6528f845c2eff4de20",
+  "candidate_sha256": "220c5e5ddd9de46da734d5f4fc803d832145ed35ec9d77163cf7787cc80aea4c",
+  "external_model_calls": 0,
+  "production_changed": false,
+  "source": "latest frozen business baseline plus Sub2API integration",
+  "status": "FAIL",
+  "error": "Team regression failed for mysql; inspect private test log",
+  "owned_processes_stopped": true
+}

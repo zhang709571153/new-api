@@ -1,0 +1,32 @@
+{
+  "run_id": "model-catalog-4dbd581dd7",
+  "scope": "real gateway HTTP authorization and catalog; observation-only upstream fixture",
+  "gateway_sha256": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb",
+  "production_changed": false,
+  "model_requests_executed": 0,
+  "checks": {
+    "fresh_customer_wallet_is_zero": true,
+    "restricted_key_has_zero_remaining_and_used_quota": true,
+    "list_contains_exact_authorized_custom_models": false
+  },
+  "requests": [
+    {
+      "label": "normal-list",
+      "path": "/v1/models",
+      "http_status": 200,
+      "request_id": "202610091306473213572008268d9d6ZNPFtApx",
+      "error_code": null
+    }
+  ],
+  "all_passed": false,
+  "failure": {
+    "type": "AssertionError",
+    "after_check": "list_contains_exact_authorized_custom_models"
+  },
+  "owned_processes_stopped": true,
+  "subsequent_diagnosis": {
+    "category": "test fixture or assertion correction",
+    "note": "Fixture omitted model billing configuration, so the catalog correctly hid unpriced models.",
+    "latest_retest": "model-catalog-summary.json"
+  }
+}

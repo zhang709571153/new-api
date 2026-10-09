@@ -1,0 +1,23 @@
+{
+  "status": "BLOCKED",
+  "desktop_e2e_performed": false,
+  "compact_e2e_performed": false,
+  "automatic_retries": 0,
+  "config_isolated": true,
+  "sandbox": "workspace-write",
+  "version": "codex-cli 0.160.0",
+  "checks": {
+    "baseline_tests_fail": true,
+    "actual_source_changed": false,
+    "tests_unchanged": true,
+    "external_tests_pass": false,
+    "cli_initial_success": true,
+    "real_test_command_observed": false,
+    "new_process_resume_recalls_marker": true
+  },
+  "limitation": "Local execution policy rejected tools; not bypassed and not counted as an API capability failure.",
+  "source_run": "cli-2b3b90b3bd15",
+  "production_changed": false,
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "scope": "actual isolated Codex CLI conversation and new-process resume; tool execution blocked by local policy"
+}

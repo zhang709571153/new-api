@@ -1,0 +1,43 @@
+.github
+.git
+*.md
+.vscode
+.gitignore
+Makefile
+docs
+.eslintcache
+.gocache
+/web/node_modules
+/web/dist
+!THIRD-PARTY-LICENSES.md
+
+# Never send host state, credentials or historical customer evidence to a builder.
+**/.lab
+**/.private
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules
+**/__pycache__
+**/*.pyc
+**/*.db
+**/*.db-*
+**/*.sqlite
+**/*.sqlite3
+**/credentials.json
+**/auth.json
+**/*.log
+**/*.pem
+**/*.key
+tmp
+lab/results
+lab/handoff
+upload
+logs
+data
+backups
+deploy/sub2api/state
+# Public CA bundle is a verified download, not a private TLS key.
+!web/public/downloads/realyu/runtime/cacert-*.pem
+# These Markdown files are published installer instructions, not internal docs.
+!web/public/downloads/realyu/*.md

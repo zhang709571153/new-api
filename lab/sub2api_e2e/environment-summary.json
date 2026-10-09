@@ -1,0 +1,15 @@
+{
+  "scope": "actual isolated RealYu v4 connected to stock Sub real group4",
+  "os": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.14",
+  "candidate_url": "http://127.0.0.1:28502/v1",
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "client_version": "0.160.0",
+  "missing_key_status": 401,
+  "invalid_key_status": 401,
+  "valid_key_status": 200,
+  "selected_model_present": true,
+  "model_count": 1,
+  "api_key_not_recorded": true,
+  "production_changed": false
+}

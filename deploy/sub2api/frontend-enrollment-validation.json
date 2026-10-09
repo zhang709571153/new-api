@@ -1,0 +1,36 @@
+{
+  "tested_at_utc": "2026-10-09T12:54:11.438490+00:00",
+  "production_changed": false,
+  "checks": {
+    "typecheck": "PASS",
+    "changed_frontend_lint": "PASS",
+    "workspace_channels_related_regressions": {
+      "status": "PASS",
+      "files": 10,
+      "tests": 187
+    },
+    "production_frontend_build": "PASS",
+    "browser_e2e": "BLOCKED",
+    "branding_synthetic_fixture_regression": {
+      "status": "PASS",
+      "tests": 19
+    }
+  },
+  "scope": "member API access preparation state; ready does not imply upstream health",
+  "sha256": {
+    "web/src/features/workspace/api.ts": "9f869e882a296eb6a8f5b3e16c2d9200e1bd387c508f72962863776a5b5e3359",
+    "web/src/features/workspace/api-access-setup.tsx": "355af65d49af28a099512a4b1362c283e71d7065e6d622e9e222b041a9fecfbb",
+    "web/src/features/workspace/personal-key.tsx": "522583bff46d8c33eeb84c895c2754779b3876d40a41750ffbce89c1423c2aba",
+    "web/src/features/workspace/__tests__/api-access-setup.test.tsx": "0c513211df2f07f7241fb7f26a1b9d53c3466817b06548882f77834aa0b6244b"
+  },
+  "fixture_privacy_change": "Replaced a host-derived test username with a synthetic username.",
+  "browser_e2e_blocker": {
+    "reason": "browser_runtime_crash",
+    "attempted_target": "isolated loopback candidate",
+    "create_tab_result": "30 second timeout; browser inventory reported This page crashed for existing and new tabs",
+    "select_new_tab_result": "initial-navigation timeout",
+    "login_submitted": false,
+    "product_ui_accepted": false,
+    "alternative_ui_automation_used": false
+  }
+}

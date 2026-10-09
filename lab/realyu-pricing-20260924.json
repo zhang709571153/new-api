@@ -1,0 +1,66 @@
+{
+  "verified_at": "2026-09-24",
+  "source": "https://developers.openai.com/api/docs/pricing",
+  "discount": 0.1,
+  "discount_updated_at": "2026-09-26",
+  "currency": "USD",
+  "unit": "per million tokens",
+  "models": {
+    "gpt-6-astra": {
+      "input": 10,
+      "cached_input": 1.0,
+      "cache_write": 12.5,
+      "output": 50,
+      "fast_multiplier": 2,
+      "billing_expr": "(len > 272000 ? tier(\"long\", p * 20 + cr * 2 + c * 75 + cc * 25) : tier(\"standard\", p * 10 + cr * 1 + c * 50 + cc * 12.5)) * ((param(\"service_tier\") == \"fast\" || param(\"service_tier\") == \"priority\") ? 2 : 1)"
+    },
+    "gpt-6-sol": {
+      "input": 2,
+      "cached_input": 0.2,
+      "cache_write": 2.5,
+      "output": 10,
+      "fast_multiplier": 2,
+      "billing_expr": "(len > 272000 ? tier(\"long\", p * 4 + cr * 0.4 + c * 15 + cc * 5) : tier(\"standard\", p * 2 + cr * 0.2 + c * 10 + cc * 2.5)) * ((param(\"service_tier\") == \"fast\" || param(\"service_tier\") == \"priority\") ? 2 : 1)"
+    },
+    "gpt-6-luna": {
+      "input": 0.1,
+      "cached_input": 0.01,
+      "cache_write": 0.125,
+      "output": 0.5,
+      "fast_multiplier": 2,
+      "billing_expr": "(len > 272000 ? tier(\"long\", p * 0.2 + cr * 0.02 + c * 0.75 + cc * 0.25) : tier(\"standard\", p * 0.1 + cr * 0.01 + c * 0.5 + cc * 0.125)) * ((param(\"service_tier\") == \"fast\" || param(\"service_tier\") == \"priority\") ? 2 : 1)"
+    },
+    "gpt-5.6-sol": {
+      "input": 4,
+      "cached_input": 0.4,
+      "cache_write": 5.0,
+      "output": 20,
+      "fast_multiplier": 2,
+      "billing_expr": "(len > 272000 ? tier(\"long\", p * 8 + cr * 0.8 + c * 30 + cc * 10) : tier(\"standard\", p * 4 + cr * 0.4 + c * 20 + cc * 5)) * ((param(\"service_tier\") == \"fast\" || param(\"service_tier\") == \"priority\") ? 2 : 1)"
+    },
+    "gpt-5.6-terra": {
+      "input": 2,
+      "cached_input": 0.2,
+      "cache_write": 2.5,
+      "output": 12,
+      "fast_multiplier": 2,
+      "billing_expr": "(len > 272000 ? tier(\"long\", p * 4 + cr * 0.4 + c * 18 + cc * 5) : tier(\"standard\", p * 2 + cr * 0.2 + c * 12 + cc * 2.5)) * ((param(\"service_tier\") == \"fast\" || param(\"service_tier\") == \"priority\") ? 2 : 1)"
+    },
+    "gpt-5.6-luna": {
+      "input": 0.2,
+      "cached_input": 0.02,
+      "cache_write": 0.25,
+      "output": 1.2,
+      "fast_multiplier": 2,
+      "billing_expr": "(len > 272000 ? tier(\"long\", p * 0.4 + cr * 0.04 + c * 1.8 + cc * 0.5) : tier(\"standard\", p * 0.2 + cr * 0.02 + c * 1.2 + cc * 0.25)) * ((param(\"service_tier\") == \"fast\" || param(\"service_tier\") == \"priority\") ? 2 : 1)"
+    },
+    "gpt-5.5": {
+      "input": 5,
+      "cached_input": 0.5,
+      "cache_write": null,
+      "output": 30,
+      "fast_multiplier": 2.5,
+      "billing_expr": "(len > 272000 ? tier(\"long\", p * 10 + cr * 1 + c * 45) : tier(\"standard\", p * 5 + cr * 0.5 + c * 30)) * ((param(\"service_tier\") == \"fast\" || param(\"service_tier\") == \"priority\") ? 2.5 : 1)"
+    }
+  }
+}

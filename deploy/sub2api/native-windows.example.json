@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "candidate_version": "realyu-sub2api-candidate-REPLACE_WITH_COMMIT",
+  "service_suffix": "Rehearsal01",
+  "binaries": {
+    "realyu": {
+      "path": "",
+      "sha256": ""
+    },
+    "sub2api": {
+      "path": "",
+      "sha256": ""
+    },
+    "prewarm": {
+      "path": "",
+      "sha256": ""
+    },
+    "winsw": {
+      "path": "",
+      "sha256": "05b82d46ad331cc16bdc00de5c6332c1ef818df8ceefcd49c726553209b3a0da"
+    }
+  },
+  "ports": {
+    "realyu": 23000,
+    "sub2api": 28080
+  },
+  "realyu": {
+    "SESSION_SECRET": "",
+    "CRYPTO_SECRET": "",
+    "HTTP_PROXY": "",
+    "HTTPS_PROXY": "",
+    "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "sub2api": {
+    "DATABASE_HOST": "127.0.0.1",
+    "DATABASE_PORT": "28432",
+    "DATABASE_USER": "sub2api_candidate",
+    "DATABASE_PASSWORD": "",
+    "DATABASE_DBNAME": "sub2api_candidate",
+    "DATABASE_SSLMODE": "disable",
+    "REDIS_HOST": "127.0.0.1",
+    "REDIS_PORT": "28379",
+    "REDIS_USERNAME": "",
+    "REDIS_PASSWORD": "",
+    "REDIS_DB": "0",
+    "REDIS_ENABLE_TLS": "false",
+    "ADMIN_EMAIL": "candidate-admin@example.test",
+    "ADMIN_PASSWORD": "",
+    "JWT_SECRET": "",
+    "TOTP_ENCRYPTION_KEY": ""
+  },
+  "sub2api_windows_service_dependencies": [],
+  "redis_supply": "community-windows-candidate"
+}

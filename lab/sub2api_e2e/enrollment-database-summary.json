@@ -1,0 +1,67 @@
+{
+  "run_id": "meab5f3c8",
+  "tested_at_utc": "2026-10-09T12:52:46Z",
+  "baseline": "frozen actual RealYu release binary; no live data",
+  "command": "python lab/sub2api_e2e/database_regression.py --baseline <frozen-release.exe> --candidate <isolated-candidate.exe> --engines-root <local-portable-engines> --enrollment-only",
+  "candidate_is_production": false,
+  "engines": {
+    "mysql": {
+      "version": "8.4.11",
+      "port": 28606
+    },
+    "postgres": {
+      "version": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
+      "port": 28632
+    },
+    "sqlite": {
+      "version": "3.50.4",
+      "verification_client_version": "3.53.1",
+      "application_driver": "github.com/glebarez/sqlite v1.11.0 (modernc.org/sqlite v1.40.1)"
+    }
+  },
+  "cases": [],
+  "team_tests": {
+    "sqlite_f8c59e16": {
+      "engine": "sqlite",
+      "status": "PASS",
+      "command": "go test ./controller -run ^TestSub2APIEnrollmentReconcilesCommittedWorkspaceSubjects$ -count=1 -v",
+      "executed_without_skips": true,
+      "passed_test_roots": [
+        "TestSub2APIEnrollmentReconcilesCommittedWorkspaceSubjects"
+      ],
+      "separate_primary_and_log_databases": true
+    },
+    "mysql_f8c59e16": {
+      "engine": "mysql",
+      "status": "PASS",
+      "command": "go test ./controller -run ^TestSub2APIEnrollmentReconcilesCommittedWorkspaceSubjects$ -count=1 -v",
+      "executed_without_skips": true,
+      "passed_test_roots": [
+        "TestSub2APIEnrollmentReconcilesCommittedWorkspaceSubjects"
+      ],
+      "separate_primary_and_log_databases": true
+    },
+    "postgres_f8c59e16": {
+      "engine": "postgres",
+      "status": "PASS",
+      "command": "go test ./controller -run ^TestSub2APIEnrollmentReconcilesCommittedWorkspaceSubjects$ -count=1 -v",
+      "executed_without_skips": true,
+      "passed_test_roots": [
+        "TestSub2APIEnrollmentReconcilesCommittedWorkspaceSubjects"
+      ],
+      "separate_primary_and_log_databases": true
+    }
+  },
+  "limitations": [
+    "Minimum supported MySQL/PostgreSQL versions are not tested by this run."
+  ],
+  "baseline_sha256": "f729e2b8f2c631e1b804b7e6ef56397efbe76560c2e8fc6528f845c2eff4de20",
+  "candidate_sha256": "f2143928d90dba27d32d3f5a3367a431d50f2aca5d81054ddf95fdf06f2c9bd4",
+  "external_model_calls": 0,
+  "production_changed": false,
+  "source": "latest frozen business baseline plus Sub2API integration",
+  "scope": "new read-only enrollment regression root on three real DB engines; no upgrade scenario repeated",
+  "candidate_binary_executed": false,
+  "status": "PASS",
+  "owned_processes_stopped": true
+}

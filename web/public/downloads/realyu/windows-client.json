@@ -1,0 +1,8 @@
+{
+  "version": "1.4.20",
+  "platform": "windows-x64",
+  "file": "realyu-client.exe",
+  "sha256": "c5e799ed9512d6ee8b6274b46a25f24d692d941b434ed903378a4bb1b695eaf0",
+  "bytes": 31901102,
+  "packager": "PyInstaller 6.22.3"
+}

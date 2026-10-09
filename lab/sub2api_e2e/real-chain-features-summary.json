@@ -1,0 +1,67 @@
+{
+  "upstream": "real",
+  "base_url": "http://127.0.0.1:28502/v1",
+  "model": "gpt-6.1-sol",
+  "sdk_version": "3.26.1",
+  "tested_at": "2026-10-09T12:37:08.145447+00:00",
+  "automatic_retries": 0,
+  "desktop_e2e_performed": false,
+  "checks": [
+    {
+      "name": "tool-roundtrip",
+      "status": "PASS",
+      "response_ids": [
+        "resp_07384aca95b806ba016ac8dff6289c8195ac243a3c5970c51e",
+        "resp_07384aca95b806ba016ac8dffc6ac481958facff61ceefbb09"
+      ],
+      "call_id_preserved": true,
+      "reasoning_items": 0,
+      "seconds": 10.266
+    },
+    {
+      "name": "image-input",
+      "status": "PASS",
+      "response_id": "resp_01077ba0caa72818016ac8e000092881959065c076d8a5e76b",
+      "image_content_verified": true,
+      "seconds": 4.859
+    },
+    {
+      "name": "json-schema",
+      "status": "PASS",
+      "response_id": "resp_03bcfaace1b82218016ac8e0051f5881939ca60cc0f6a1831c",
+      "schema_verified": true,
+      "seconds": 3.735
+    },
+    {
+      "name": "compact-v2",
+      "status": "PASS",
+      "response_id": "resp_035b28d537668056016ac8e00ed4c0819580f3444d593ff050",
+      "compact_id": "resp_07eafbbc8440ba9f016ac8e008bd9c8193a7d829fd77ec24bb",
+      "native_compaction_v2_verified": true,
+      "seconds": 11.969
+    },
+    {
+      "name": "websocket",
+      "status": "PASS",
+      "response_ids": [
+        "resp_0051a7bc720ddcb0016ac8e014d5c88196b147fcf0986822cf",
+        "resp_0051a7bc720ddcb0016ac8e0172dd4819695e7eb40631be3d2"
+      ],
+      "same_socket_two_turns_verified": true,
+      "seconds": 5.813
+    },
+    {
+      "name": "image-generation",
+      "status": "PASS",
+      "response_id": "resp_0357a3511ef8ee6c016ac8e01a53c487d29426614b00259728",
+      "image_bytes": 942002,
+      "image_sha256": "6138d46ba5c98dd80a9c68563f9af2177b1444d37eac5c72111d00c05d3f4d64",
+      "seconds": 19.937
+    }
+  ],
+  "status": "PASS",
+  "scope": "actual RealYu -> stock Sub2API -> real upstream, isolated candidate",
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "source_run": "real-gateway-cf1de9270b/real-features-first.json",
+  "production_changed": false
+}

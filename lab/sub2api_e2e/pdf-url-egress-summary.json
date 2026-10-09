@@ -1,0 +1,20 @@
+{
+  "source_run": "real-gateway-237e84fa39/pdf-url-egress-first.json",
+  "gateway_sha256": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb",
+  "scope": "single actual RealYu -> stock Sub2API -> real upstream public PDF URL request",
+  "production_changed": false,
+  "automatic_retries": 0,
+  "maximum_model_requests": 1,
+  "gateway_download_egress": "explicit local HTTP proxy; local Sub2API bypassed with NO_PROXY",
+  "tls_verification_disabled": false,
+  "original_direct_egress_failure": "portable-api-summary.json: gpt-6_1-sol-pdf-url",
+  "status": "PASS_WITH_CONFIGURED_EGRESS",
+  "http_status": 200,
+  "request_id": "202610091321494944682008268d9d6188Wp3kT",
+  "response_id": "resp_0ae8a1d2e7b7325d016ac8ea6ff65c87d1bb765731b1eecfc2",
+  "terminal_status": "completed",
+  "output_items": 1,
+  "text": "Dummy PDF file",
+  "elapsed_seconds": 5.266,
+  "document_text_verified": true
+}

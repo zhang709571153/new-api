@@ -1,0 +1,186 @@
+{
+  "status": "FAIL",
+  "scope": "Read-only correlation of the first official Codex CLI 0.162.0 tool-task attempt; no retry or policy change",
+  "fixture_id": "cli-f3efbd5c8f1f",
+  "gateway_fixture_id": "real-gateway-cf1de9270b",
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "sub2api_version": "v0.2.15",
+  "sub2api_sha256": "c624c115dd7e5dd1a33c083d3ef601599338f9ed986c2cb007a5663d375f9978",
+  "time_range_utc": [
+    "2026-10-09T13:30:24Z",
+    "2026-10-09T13:30:58Z"
+  ],
+  "first_failure_preserved": true,
+  "production_changed": false,
+  "additional_inference_requests_in_diagnosis": 0,
+  "timeline": [
+    {
+      "stage": "initial model response",
+      "started_at_utc": "2026-10-09T13:30:25.056Z",
+      "sub_request_id": "a4945566-1947-4650-b80a-3772075db8f4",
+      "client_request_id": "0ece5639-f244-4c85-85d7-0debc37fc56b",
+      "result": "Completed; commentary and first exec tool call"
+    },
+    {
+      "stage": "local tool",
+      "time_utc": "2026-10-09T13:30:34.414Z",
+      "result": "exec_command rejected by local execution policy; no source edit or test execution"
+    },
+    {
+      "stage": "response after local tool refusal",
+      "started_at_utc": "2026-10-09T13:30:34.615Z",
+      "sub_request_id": "48f94299-ccae-4162-94f7-dbd345d90c3a",
+      "client_request_id": "4b893c51-0eac-4f08-a7db-b958da3b52de",
+      "result": "Completed; second exec tool call/output recorded in isolated CLI rollout"
+    },
+    {
+      "stage": "third model response",
+      "started_at_utc": "2026-10-09T13:30:40.953Z",
+      "failed_at_utc": "2026-10-09T13:30:52.597Z",
+      "sub_request_id": "40d25bca-7c5f-4985-8cca-370a4c7855ee",
+      "client_request_id": "d8386a22-dd5d-4206-aa09-eeaf6ae5af4a",
+      "sub_error": "stream read error: stream error: stream ID 5; INTERNAL_ERROR; received from peer",
+      "cli_error": "stream disconnected before completion: stream closed before response.completed",
+      "cli_turn_failed_at_utc": "2026-10-09T13:30:52.943Z",
+      "access_status": 200,
+      "semantic_status": "failed"
+    },
+    {
+      "stage": "separate process resume",
+      "started_at_utc": "2026-10-09T13:30:53.370Z",
+      "sub_request_id": "d110c890-9c5f-4c53-b245-3d4c5b764058",
+      "client_request_id": "41e5fd5b-2af0-47f9-b9c3-1f7fcfa68383",
+      "result": "Completed and recalled conversation marker; does not repair the first failure"
+    }
+  ],
+  "realyu_sqlite_persisted_usage": [
+    {
+      "id": 43,
+      "created_at": 1791552634,
+      "request_id": "202610091330248802980008268d9d6TPpjavGC",
+      "upstream_request_id": "0ece5639-f244-4c85-85d7-0debc37fc56b",
+      "prompt_tokens": 25165,
+      "completion_tokens": 81,
+      "quota": 25246,
+      "stream_status": {
+        "end_reason": "eof",
+        "response_status": "completed",
+        "status": "ok"
+      },
+      "usage_estimated": false
+    },
+    {
+      "id": 44,
+      "created_at": 1791552641,
+      "request_id": "202610091330345890084008268d9d68lH9bNmS",
+      "upstream_request_id": "4b893c51-0eac-4f08-a7db-b958da3b52de",
+      "prompt_tokens": 25363,
+      "completion_tokens": 35,
+      "quota": 25398,
+      "stream_status": {
+        "end_reason": "eof",
+        "response_status": "completed",
+        "status": "ok"
+      },
+      "usage_estimated": false
+    },
+    {
+      "id": 45,
+      "created_at": 1791552652,
+      "request_id": "202610091330407639626008268d9d6vbFhdlHF",
+      "upstream_request_id": "d8386a22-dd5d-4206-aa09-eeaf6ae5af4a",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "quota": 0,
+      "stream_status": {
+        "end_reason": "eof",
+        "response_status": "failed",
+        "status": "error"
+      },
+      "usage_estimated": false
+    },
+    {
+      "id": 46,
+      "created_at": 1791552658,
+      "request_id": "202610091330533384325008268d9d68GRUnfkB",
+      "upstream_request_id": "41e5fd5b-2af0-47f9-b9c3-1f7fcfa68383",
+      "prompt_tokens": 26667,
+      "completion_tokens": 28,
+      "quota": 26695,
+      "stream_status": {
+        "end_reason": "eof",
+        "response_status": "completed",
+        "status": "ok"
+      },
+      "usage_estimated": false
+    }
+  ],
+  "sub2api_postgresql_persisted_usage": [
+    {
+      "id": 132,
+      "request_id": "client:0ece5639-f244-4c85-85d7-0debc37fc56b",
+      "upstream_request_id": null,
+      "input_tokens": 21069,
+      "output_tokens": 81,
+      "cache_read_tokens": 4096,
+      "total_cost": 0.0433576,
+      "actual_cost": 0.0433576,
+      "created_at": "2026-10-09T21:30:34.443629+08:00"
+    },
+    {
+      "id": 133,
+      "request_id": "client:4b893c51-0eac-4f08-a7db-b958da3b52de",
+      "upstream_request_id": null,
+      "input_tokens": 403,
+      "output_tokens": 35,
+      "cache_read_tokens": 24960,
+      "total_cost": 0.003652,
+      "actual_cost": 0.003652,
+      "created_at": "2026-10-09T21:30:40.887914+08:00"
+    },
+    {
+      "id": 134,
+      "request_id": "client:41e5fd5b-2af0-47f9-b9c3-1f7fcfa68383",
+      "upstream_request_id": null,
+      "input_tokens": 171,
+      "output_tokens": 28,
+      "cache_read_tokens": 26496,
+      "total_cost": 0.0032716,
+      "actual_cost": 0.0032716,
+      "created_at": "2026-10-09T21:30:57.91179+08:00"
+    }
+  ],
+  "sub2api_postgresql_persisted_error": [
+    {
+      "id": 11,
+      "request_id": "40d25bca-7c5f-4985-8cca-370a4c7855ee",
+      "client_request_id": "d8386a22-dd5d-4206-aa09-eeaf6ae5af4a",
+      "error_phase": "internal",
+      "error_type": "api_error",
+      "error_source": "gateway",
+      "error_owner": "platform",
+      "status_code": 502,
+      "upstream_status_code": 502,
+      "network_error_type": null,
+      "created_at": "2026-10-09T21:30:52.909011+08:00"
+    }
+  ],
+  "failed_request_accounting": {
+    "realyu_log_id": 45,
+    "pre_reserved_quota": 16527,
+    "refunded_quota": 16527,
+    "final_quota": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "stream_status": "failed",
+    "sub2api_usage_row_for_failed_client_request": false,
+    "evidence": "Persisted RealYu SQLite usage row plus matching refund log; Sub PostgreSQL records only the two successful initial responses and the later resume"
+  },
+  "conclusion": "The tool policy refusal and incomplete SSE stream are independent observed failures. Sub2API reports its upstream HTTP/2 peer resetting stream 5 with INTERNAL_ERROR. RealYu records an unsuccessful stream and refunds the failed request; HTTP 200 had already been sent and does not prove terminal completion.",
+  "unresolved": "The existing evidence does not distinguish the remote service from the configured outbound proxy as the origin of the HTTP/2 reset. No packet capture or repeated inference was performed.",
+  "limits": [
+    "This was the v4 gateway process, not a complete latest-v8 acceptance rerun.",
+    "Sub2API accounting is an internal technical ledger; no claim about ChatGPT subscription provider billing follows.",
+    "The separate no-tools control is recorded by the parent in native-cli-latest-summary.json and does not erase this first failure."
+  ]
+}

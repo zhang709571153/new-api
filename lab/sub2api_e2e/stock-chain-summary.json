@@ -1,0 +1,46 @@
+{
+  "scope": "actual RealYu and stock Sub2API with synthetic upstream",
+  "real_model_test": false,
+  "production_changed": false,
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "sub2api_version": "0.2.15",
+  "sdk_version": "3.26.1",
+  "checks": {
+    "stock_prewarmed_customers_have_distinct_upstream_users": true,
+    "each_stock_customer_has_both_dedicated_pool_keys": true,
+    "stock_sub2api_sdk_stream_final_matches_delta": true,
+    "stock_sub2api_sdk_nonstream_final": true,
+    "stock_sub2api_sdk_chat_nonstream_final": true,
+    "stock_second_pool_inference": true,
+    "alpha_fresh_user_matches_reviewed_queue": true,
+    "beta_fresh_user_matches_reviewed_queue": true,
+    "channel_0_matches_reviewed_queue": true,
+    "channel_1_matches_reviewed_queue": true,
+    "realyu_alpha_sdk_stream_final_matches_delta": true,
+    "realyu_alpha_sdk_nonstream_final": true,
+    "realyu_alpha_sdk_chat_nonstream_final": true,
+    "realyu_beta_sdk_stream_final_matches_delta": true,
+    "realyu_beta_sdk_nonstream_final": true,
+    "realyu_beta_sdk_chat_nonstream_final": true,
+    "six_successful_gateway_requests_each_settle_once": true,
+    "gateway_wallet_key_and_ledger_reconcile_exactly": true,
+    "gateway_restart_retains_balances_and_keys": true,
+    "gateway_restart_recovers_prewarmed_identity": true,
+    "sqlite_integrity": true
+  },
+  "all_passed": true,
+  "gateway_charge_quota": 660,
+  "owned_processes_stopped": true,
+  "source_run": "stock-chain-19f013291b/attempt-faaf2160d1",
+  "mock_upstream_port": 28084,
+  "initial_failures_preserved": [
+    {
+      "run": "attempt-cf0ba43065",
+      "reason": "fixture HMAC payload omitted final zero character; no model request occurred"
+    },
+    {
+      "run": "attempt-714745d60c",
+      "reason": "mock did not implement function capability probe or Chat SSE; stock account probe correctly chose CC fallback; repaired fixture and official account update re-probed native support successfully"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "version": "1.4.30",
+  "package_bytes": 120342,
+  "bootstrap_bytes": 5359,
+  "total_bytes": 125701,
+  "package_sha256": "ac6dabb470675f991b8f5a0fb980c44c78b1dd2e7093506876aa73f97158394e",
+  "required_external_runtimes": [],
+  "deferred_component_downloads": [],
+  "native_Mac_test": "pending_user_test"
+}

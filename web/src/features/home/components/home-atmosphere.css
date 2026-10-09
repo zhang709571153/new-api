@@ -1,0 +1,427 @@
+/*
+Copyright (C) 2023-2026 QuantumNous
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+For commercial licensing, please contact support@quantumnous.com
+*/
+.realyu-home {
+  --home-ink: #0b2544;
+  --home-muted: #48667e;
+  --home-line: rgb(46 142 183 / 16%);
+  --home-card: rgb(255 255 255 / 56%);
+  --home-glow: rgb(63 191 238 / 18%);
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: calc(100svh - 76px);
+  color: var(--home-ink);
+  background: linear-gradient(155deg, #f8fdff 0%, #edf9ff 48%, #f5fbff 100%);
+}
+
+.dark .realyu-home {
+  --home-ink: #f1f8ff;
+  --home-muted: #adc7df;
+  --home-line: rgb(127 206 246 / 16%);
+  --home-card: rgb(14 39 64 / 46%);
+  --home-glow: rgb(44 178 255 / 13%);
+  background: linear-gradient(155deg, #040c18 0%, #071b31 52%, #061427 100%);
+}
+
+.realyu-atmosphere {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+}
+
+.realyu-aurora {
+  position: absolute;
+  width: min(80vw, 1100px);
+  height: min(70vw, 850px);
+  border-radius: 50%;
+  filter: blur(44px);
+  opacity: 0.72;
+  will-change: transform;
+  animation: realyu-sky-drift 22s ease-in-out infinite alternate;
+}
+
+.realyu-aurora-one {
+  top: -32%;
+  left: -24%;
+  background: radial-gradient(ellipse, rgb(67 201 255 / 54%), transparent 67%);
+}
+
+.realyu-aurora-two {
+  top: -12%;
+  right: -25%;
+  background: radial-gradient(ellipse, rgb(76 161 251 / 38%), transparent 66%);
+  animation-delay: -11s;
+  animation-duration: 27s;
+  animation-direction: alternate-reverse;
+}
+
+.realyu-aurora-three {
+  bottom: -66%;
+  left: 15%;
+  width: 90%;
+  height: 100%;
+  background: radial-gradient(ellipse, rgb(75 220 248 / 40%), transparent 67%);
+  animation-delay: -6s;
+  animation-duration: 19s;
+}
+
+.dark .realyu-aurora-one {
+  background: radial-gradient(ellipse, rgb(7 123 206 / 40%), transparent 66%);
+}
+
+.dark .realyu-aurora-two {
+  background: radial-gradient(ellipse, rgb(37 127 240 / 34%), transparent 66%);
+}
+
+.dark .realyu-aurora-three {
+  background: radial-gradient(ellipse, rgb(39 173 255 / 36%), transparent 64%);
+}
+
+.realyu-sky-texture {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1200px;
+  opacity: 0.22;
+  background-image: radial-gradient(
+    rgb(31 118 168 / 40%) 0.7px,
+    transparent 0.7px
+  );
+  background-size: 30px 30px;
+  mask-image: linear-gradient(transparent 7%, #000 70%, transparent);
+}
+
+.dark .realyu-sky-texture {
+  opacity: 0.28;
+  background-image: radial-gradient(
+    rgb(125 211 252 / 45%) 0.7px,
+    transparent 0.7px
+  );
+}
+
+.realyu-pointer-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 580px;
+  height: 580px;
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(circle, var(--home-glow), transparent 66%);
+  transform: translate3d(
+    calc(var(--glow-x, 50vw) - 50%),
+    calc(var(--glow-y, 30vh) - 50%),
+    0
+  );
+  transition: opacity 450ms ease;
+}
+
+.realyu-home-hero {
+  min-height: min(720px, 77svh);
+  padding-top: clamp(9rem, 18vh, 12rem);
+  padding-bottom: 5rem;
+}
+
+.realyu-home-intro {
+  animation: realyu-home-enter 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.realyu-home-title {
+  font-size: clamp(3.2rem, 6.3vw, 5.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  color: var(--home-ink);
+  text-shadow: 0 2px 30px rgb(255 255 255 / 24%);
+}
+
+.dark .realyu-home-title {
+  text-shadow: 0 2px 40px rgb(87 174 255 / 13%);
+}
+
+.realyu-home-muted {
+  color: var(--home-muted);
+}
+
+.realyu-home-primary {
+  color: #042e45;
+  border: 1px solid rgb(100 226 255 / 55%);
+  border-radius: 16px !important;
+  background: linear-gradient(120deg, #57dbf6, #24b9e9 65%, #41cbef);
+  box-shadow:
+    0 8px 28px rgb(15 169 215 / 18%),
+    inset 0 1px 0 rgb(255 255 255 / 50%);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.realyu-home-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 34px rgb(15 169 215 / 30%),
+    inset 0 1px 0 rgb(255 255 255 / 50%);
+}
+
+.realyu-home-secondary {
+  color: var(--home-ink);
+}
+.realyu-home-secondary:hover {
+  background: var(--home-card);
+  color: var(--home-ink);
+}
+
+.realyu-home-benefit {
+  border: 1px solid var(--home-line);
+  border-radius: 22px;
+  background: var(--home-card);
+  box-shadow: 0 8px 28px rgb(20 112 166 / 3%);
+  backdrop-filter: blur(12px);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+  animation: realyu-home-enter 800ms 120ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.realyu-home-benefit:nth-child(2) {
+  animation-delay: 220ms;
+}
+.realyu-home-benefit:nth-child(3) {
+  animation-delay: 320ms;
+}
+.realyu-home-benefit:hover {
+  transform: translateY(-4px);
+  border-color: rgb(54 181 229 / 38%);
+  box-shadow: 0 14px 40px rgb(20 112 166 / 10%);
+}
+
+.realyu-home-icon {
+  color: #1687ad;
+  background: rgb(160 232 252 / 28%);
+}
+.dark .realyu-home-icon {
+  color: #68dcfa;
+  background: rgb(66 180 238 / 12%);
+}
+
+.realyu-home-header {
+  background: rgb(248 253 255 / 82%);
+  border-color: rgb(46 142 183 / 10%);
+}
+.dark .realyu-home-header {
+  background: rgb(4 12 24 / 82%);
+  border-color: rgb(127 206 246 / 10%);
+}
+
+.realyu-home-footer {
+  background: #f5fbff;
+}
+
+.realyu-hero-kicker {
+  border: 1px solid var(--home-line);
+  color: var(--home-muted);
+  background: var(--home-card);
+  letter-spacing: 0.08em;
+}
+.realyu-hero-kicker > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #24b9e9;
+  box-shadow: 0 0 16px #24b9e9;
+  animation: realyu-pulse 3s ease-in-out infinite alternate;
+}
+.realyu-orbit {
+  position: absolute;
+  width: 150%;
+  height: 520px;
+  top: 190px;
+  left: -25%;
+  border: 1px solid rgb(45 170 230 / 13%);
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgb(51 177 248 / 5%);
+  animation: realyu-orbit-flow 18s ease-in-out infinite alternate;
+}
+.realyu-orbit-two {
+  top: 310px;
+  animation-delay: -9s;
+  animation-duration: 24s;
+  animation-direction: alternate-reverse;
+}
+.dark .realyu-orbit {
+  border-color: rgb(72 172 243 / 15%);
+  box-shadow: 0 -1px 40px rgb(51 177 248 / 7%);
+}
+.realyu-section-kicker {
+  color: #087fa6;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.dark .realyu-section-kicker {
+  color: #70dcfa;
+}
+.realyu-model-section {
+  padding-top: 3rem;
+}
+.realyu-model-card {
+  border: 1px solid var(--home-line);
+  background: var(--home-card);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+.realyu-model-card:hover {
+  transform: translateY(-4px);
+}
+.realyu-model-card[aria-pressed='true'] {
+  border-color: #25aace;
+  box-shadow:
+    0 0 0 1px rgb(37 170 206 / 25%),
+    0 12px 60px rgb(32 173 221 / 12%);
+  background: linear-gradient(145deg, rgb(119 217 249 / 15%), var(--home-card));
+}
+.realyu-model-symbol {
+  color: #1387b1;
+}
+.dark .realyu-model-symbol {
+  color: #65d4f8;
+}
+.realyu-model-rates {
+  border-color: var(--home-line);
+}
+.realyu-estimator {
+  border: 1px solid var(--home-line);
+  background: var(--home-card);
+}
+.realyu-estimate-result {
+  background: linear-gradient(
+    135deg,
+    rgb(43 177 230 / 12%),
+    rgb(70 147 236 / 5%)
+  );
+}
+.realyu-token-range {
+  min-height: 28px;
+}
+.realyu-token-meter {
+  background: rgb(85 169 210 / 15%);
+}
+.realyu-token-meter > span {
+  background: #24b9e9;
+  transition: width 200ms ease;
+}
+.realyu-token-meter > span + span {
+  background: #538eec;
+}
+@keyframes realyu-orbit-flow {
+  from {
+    transform: rotate(-12deg) translateY(-20px);
+  }
+  to {
+    transform: rotate(9deg) translateY(35px);
+  }
+}
+@keyframes realyu-pulse {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.dark .realyu-home-footer {
+  background: #061427;
+}
+
+@keyframes realyu-sky-drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-8deg) scale(1);
+  }
+  to {
+    transform: translate3d(12%, 12%, 0) rotate(14deg) scale(1.15);
+  }
+}
+
+@keyframes realyu-home-enter {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .realyu-home-hero {
+    min-height: 600px;
+    padding-top: 9rem;
+    padding-bottom: 4rem;
+  }
+  .realyu-aurora {
+    width: 130vw;
+    height: 120vw;
+    filter: blur(28px);
+  }
+  .realyu-aurora-one {
+    top: -5%;
+    left: -75%;
+  }
+  .realyu-aurora-two {
+    top: 0;
+    right: -80%;
+  }
+  .realyu-home-benefit {
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .realyu-aurora,
+  .realyu-orbit,
+  .realyu-hero-kicker > span,
+  .realyu-home-intro,
+  .realyu-home-benefit {
+    animation: none;
+    will-change: auto;
+  }
+  .realyu-home-primary,
+  .realyu-model-card,
+  .realyu-token-meter > span,
+  .realyu-home-benefit {
+    transition: none;
+  }
+  .realyu-home-primary:hover,
+  .realyu-model-card:hover,
+  .realyu-home-benefit:hover {
+    transform: none;
+  }
+  .realyu-pointer-glow {
+    display: none;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .realyu-pointer-glow {
+    display: none;
+  }
+}

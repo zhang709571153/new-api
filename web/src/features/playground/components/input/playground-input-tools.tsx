@@ -1,0 +1,80 @@
+/*
+Copyright (C) 2023-2026 QuantumNous
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+For commercial licensing, please contact support@quantumnous.com
+*/
+import { Trash2Icon } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import {
+  PromptInputButton,
+  PromptInputTools,
+} from '@/components/ai-elements/prompt-input'
+import { ConfirmDialog } from '@/components/confirm-dialog'
+
+import type { ParameterEnabled, PlaygroundConfig } from '../../types'
+
+type PlaygroundInputToolsProps = {
+  config: PlaygroundConfig
+  disabled?: boolean
+  hasMessages?: boolean
+  onClearMessages?: () => void
+  onConfigChange: <K extends keyof PlaygroundConfig>(
+    key: K,
+    value: PlaygroundConfig[K]
+  ) => void
+  onParameterEnabledChange: (
+    key: keyof ParameterEnabled,
+    value: boolean
+  ) => void
+  parameterEnabled: ParameterEnabled
+}
+
+export function PlaygroundInputTools(props: PlaygroundInputToolsProps) {
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <PromptInputTools>
+        <PromptInputButton
+          aria-label={t('Clear chat history')}
+          disabled={
+            props.disabled || !props.hasMessages || !props.onClearMessages
+          }
+          onClick={() => setOpen(true)}
+          variant='ghost'
+        >
+          <Trash2Icon size={16} />
+        </PromptInputButton>
+      </PromptInputTools>
+      <ConfirmDialog
+        destructive
+        open={open}
+        onOpenChange={setOpen}
+        title={t('Clear chat history?')}
+        desc={t(
+          'All playground messages saved in this browser will be removed. This cannot be undone.'
+        )}
+        confirmText={t('Clear')}
+        handleConfirm={() => {
+          props.onClearMessages?.()
+          setOpen(false)
+        }}
+      />
+    </>
+  )
+}

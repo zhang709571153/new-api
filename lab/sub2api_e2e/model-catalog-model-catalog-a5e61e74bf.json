@@ -1,0 +1,20 @@
+{
+  "run_id": "model-catalog-a5e61e74bf",
+  "scope": "real gateway HTTP authorization and catalog; observation-only upstream fixture",
+  "gateway_sha256": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb",
+  "production_changed": false,
+  "model_requests_executed": 0,
+  "checks": {},
+  "requests": [],
+  "all_passed": false,
+  "failure": {
+    "type": "BootstrapError",
+    "after_check": "startup"
+  },
+  "owned_processes_stopped": true,
+  "subsequent_diagnosis": {
+    "category": "test fixture or assertion correction",
+    "note": "Fixture route name lacked the required sub2api- prefix; bootstrap refused creation.",
+    "latest_retest": "model-catalog-summary.json"
+  }
+}

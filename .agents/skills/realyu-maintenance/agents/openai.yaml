@@ -1,0 +1,4 @@
+interface:
+  display_name: "Realyu 系统维护"
+  short_description: "快速定位 Realyu 账号池、计费、团队、客户端及本机发布维护入口"
+  default_prompt: "使用 $realyu-maintenance 定位当前 Realyu 系统与相关模块，完成维护并更新必要的文档。"

@@ -1,0 +1,64 @@
+{
+  "sdk_version": "3.26.1",
+  "base_url": "http://127.0.0.1:28502/v1",
+  "model": "gpt-6.1-sol",
+  "upstream": "real",
+  "tested_at": "2026-10-09T12:36:39.648204+00:00",
+  "automatic_retries": 0,
+  "checks": [
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "response_id": "resp_034a21de8a858767016ac8dfda7fa88193a6414692ddb80a35",
+      "output_types": [
+        "message"
+      ],
+      "delta_characters": 28,
+      "final_characters": 28,
+      "done_items": 1,
+      "seconds": 4.922
+    },
+    {
+      "name": "responses-nonstream",
+      "status": "PASS",
+      "seconds": 4.188
+    },
+    {
+      "name": "chat-nonstream",
+      "status": "PASS",
+      "seconds": 4.703
+    },
+    {
+      "name": "pdf-stream",
+      "status": "PASS",
+      "response_id": "resp_076b4142f4825764016ac8dfe80f5c87d2955e5ebcad42b284",
+      "output_types": [
+        "message"
+      ],
+      "delta_characters": 120,
+      "final_characters": 120,
+      "done_items": 1,
+      "seconds": 5.687
+    },
+    {
+      "name": "web-search-stream",
+      "status": "PASS",
+      "response_id": "resp_079611feacade933016ac8dfed32b087d18b4ba304f75a816c",
+      "output_types": [
+        "message",
+        "web_search_call",
+        "message"
+      ],
+      "delta_characters": 284,
+      "final_characters": 284,
+      "done_items": 3,
+      "seconds": 7.938
+    }
+  ],
+  "desktop_e2e_performed": false,
+  "status": "PASS",
+  "scope": "actual RealYu -> stock Sub2API -> real upstream, isolated candidate",
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "source_run": "real-gateway-cf1de9270b/real-sdk-first.json",
+  "production_changed": false
+}

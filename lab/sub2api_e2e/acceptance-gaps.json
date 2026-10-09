@@ -1,0 +1,163 @@
+{
+  "checklist_total": 67,
+  "counts": {
+    "PASS": 24,
+    "NOT_RUN": 28,
+    "PARTIAL": 9,
+    "FAIL": 4,
+    "BLOCKED": 2
+  },
+  "interpretation": "P0 gaps are uncompleted acceptance criteria, not all proven product defects. No production release or SLA claim.",
+  "remaining_p0": [
+    {
+      "id": "API06",
+      "status": "NOT_RUN",
+      "operation": "Codex 原生 custom 或 apply_patch 工具调用"
+    },
+    {
+      "id": "API10",
+      "status": "PARTIAL",
+      "operation": "带 reasoning 状态的两轮工具往返"
+    },
+    {
+      "id": "API12",
+      "status": "PARTIAL",
+      "operation": "SSE 逐段正文、output_item.done、最终对象分别核对"
+    },
+    {
+      "id": "WEB02",
+      "status": "PARTIAL",
+      "operation": "独立 `/alpha/search` 使用当前客户端真实格式"
+    },
+    {
+      "id": "WEB04",
+      "status": "NOT_RUN",
+      "operation": "搜索、打开结果页面、继续追问引用内容"
+    },
+    {
+      "id": "IMG04",
+      "status": "PARTIAL",
+      "operation": "Responses 原生图片工具"
+    },
+    {
+      "id": "IMG06",
+      "status": "NOT_RUN",
+      "operation": "生成、展示、编辑、查看、重启客户端后继续编辑"
+    },
+    {
+      "id": "CLI01",
+      "status": "BLOCKED",
+      "operation": "在隔离工作区新建 RealYu 会话并读取 AGENTS.md"
+    },
+    {
+      "id": "CLI02",
+      "status": "BLOCKED",
+      "operation": "让 Codex 查文件、读代码、解释已有测试"
+    },
+    {
+      "id": "CLI03",
+      "status": "FAIL",
+      "operation": "修复提供的 invoice.py 错误并运行 unittest"
+    },
+    {
+      "id": "CLI04",
+      "status": "NOT_RUN",
+      "operation": "多轮澄清后再次修改同一文件"
+    },
+    {
+      "id": "CLI05",
+      "status": "NOT_RUN",
+      "operation": "中断终端长任务并继续短任务"
+    },
+    {
+      "id": "CLI06",
+      "status": "PARTIAL",
+      "operation": "关闭客户端，再恢复同一 chat"
+    },
+    {
+      "id": "CLI07",
+      "status": "NOT_RUN",
+      "operation": "继续原有历史 chat，而非仅新建 chat"
+    },
+    {
+      "id": "CLI08",
+      "status": "NOT_RUN",
+      "operation": "触发手动和自动上下文压缩后继续"
+    },
+    {
+      "id": "CLI09",
+      "status": "NOT_RUN",
+      "operation": "用 Codex 读取本地 PDF 和扫描页"
+    },
+    {
+      "id": "CLI10",
+      "status": "NOT_RUN",
+      "operation": "在 Codex 中联网、开网页并追问"
+    },
+    {
+      "id": "CLI11",
+      "status": "NOT_RUN",
+      "operation": "Codex 图片生成、预览和编辑"
+    },
+    {
+      "id": "CLI12",
+      "status": "NOT_RUN",
+      "operation": "加载已授权本地 MCP 的只读工具并调用"
+    },
+    {
+      "id": "CLI15",
+      "status": "NOT_RUN",
+      "operation": "权限允许与拒绝各一次"
+    },
+    {
+      "id": "CLI17",
+      "status": "NOT_RUN",
+      "operation": "原生桌面界面重复新聊、续聊、PDF、搜索和图片场景"
+    },
+    {
+      "id": "REL03",
+      "status": "PARTIAL",
+      "operation": "当前 Codex WebSocket 协商及 HTTP 回退"
+    },
+    {
+      "id": "REL07",
+      "status": "NOT_RUN",
+      "operation": "用 request_id 和 CF-Ray 关联成功与失败到源站"
+    },
+    {
+      "id": "REL08",
+      "status": "PARTIAL",
+      "operation": "由有授权的服务端 agent 核对成功、取消与失败账本"
+    }
+  ],
+  "known_failed_criteria": [
+    {
+      "id": "DOC03",
+      "priority": "P1",
+      "operation": "Files 上传后使用返回的 file_id",
+      "notes": "Files multipart upload returns HTTP400: model missing. No file_id was created, so inference by file_id and cross-user file isolation remain unverified."
+    },
+    {
+      "id": "WEB03",
+      "priority": "P1",
+      "operation": "`web_search_preview` 和旧客户端报文",
+      "notes": "web_search_preview is rejected with HTTP400 Unsupported tool type. Current web_search stream/nonstream pass; old-client compatibility is not accepted."
+    },
+    {
+      "id": "IMG05",
+      "priority": "P1",
+      "operation": "Images 流式、mask、输出格式和尺寸选项",
+      "notes": "All three real generation/edit requests asked for 1024x1024 and returned 1370x1148. Requested size is not honored. Stream, mask and other format options remain NOT_RUN; no extra images were requested."
+    }
+  ],
+  "additional_runtime_blockers": [
+    "browser-ui-summary.json: browser process crashes before page content/login",
+    "native-cli-summary.json: local policy refuses file/terminal tools"
+  ],
+  "deployment_not_verified": [
+    "Target-host SCM installation and service recovery",
+    "Target-host OS reboot recovery",
+    "Production customer data migration/restore",
+    "Long-duration load and disk-full behavior"
+  ]
+}

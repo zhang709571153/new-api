@@ -1,0 +1,53 @@
+{
+  "tested_at_utc": "2026-10-09T12:15:13.776200+00:00",
+  "scope": "controller package regression after aligning legacy fixtures to current independent team funding",
+  "package_status": "pass",
+  "passed_test_roots": 486,
+  "failed_test_roots": [],
+  "skipped_test_roots": [
+    "TestVLLMStatusLive",
+    "TestTokenMigrationFromChar48ToVarchar128MySQL",
+    "TestTokenMigrationFromChar48ToVarchar128Postgres",
+    "TestWorkspaceFundingSnapshotMigration"
+  ],
+  "skip_reasons": [
+    "channel_inference_test.go:143: NEW_API_VLLM_TEST_URL is not configured",
+    "token_test.go:421: set TEST_MYSQL_DSN to run mysql migration compatibility test",
+    "token_test.go:431: set TEST_POSTGRES_DSN to run postgres migration compatibility test",
+    "workspace_funding_test.go:423: requires the private disposable online-backup copy"
+  ],
+  "baseline_failed_roots": [
+    "TestClientInstallIdentityFlow",
+    "TestClientModelDiscoveryAuthorization",
+    "TestPlaygroundRealKeyFunding"
+  ],
+  "fixture_corrections": [
+    "Replace mock-only spending assertion with actual billing refusal and unchanged wallets.",
+    "Retained response route uses the actual route parameter; team authentication does not imply funded inference.",
+    "Playground team fixture funds its independent weekly subscription; duplicate settle/refund preserves wallet and charges subscription once."
+  ],
+  "business_billing_code_changed": false,
+  "production_changes": false,
+  "model_catalog_followup": {
+    "scope": "full controller package after model-detail authorization fix, before later credit-status additions",
+    "status": "PASS",
+    "passed_test_roots": 487,
+    "skipped_test_roots": [
+      "TestVLLMStatusLive",
+      "TestTokenMigrationFromChar48ToVarchar128MySQL",
+      "TestTokenMigrationFromChar48ToVarchar128Postgres",
+      "TestWorkspaceFundingSnapshotMigration"
+    ],
+    "package_elapsed_seconds": 194.075,
+    "timeout_seconds": 300,
+    "original_120_second_package_timeout_retained": true,
+    "raw_log_sha256": "095eb3751721b80cee612b24c1bb20c151eeb7109a1f6fa1786fa307d47f4e3a",
+    "credit_status_followup": "Separate targeted controller enrollment regression passed after credit-status addition; not relabeled as part of this earlier full-package run."
+  },
+  "restored_build_snapshot_omissions": {
+    "kind": "unchanged upstream documentation, plugin formatter configuration and relayconvert golden fixtures",
+    "count": 29,
+    "relayconvert_submodule_tests": "PASS",
+    "runtime_code_restored": false
+  }
+}

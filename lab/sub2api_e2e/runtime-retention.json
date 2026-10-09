@@ -1,0 +1,82 @@
+{
+  "checked_at_utc": "2026-10-09T13:40:00.385811+00:00",
+  "production_changed": false,
+  "scope": "Task-owned process receipts, executable paths/digests and held process handles verified before cleanup; private data and logs retained",
+  "components": [
+    {
+      "component": "stock-sub2api",
+      "loopback_port": 28082,
+      "receipt_pid": 52616,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk",
+      "stop_method": "TerminateProcess on verified owned handle",
+      "owned_process_stopped": true,
+      "executable_verified": true
+    },
+    {
+      "component": "postgresql",
+      "loopback_port": 28432,
+      "receipt_pid": 2152,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk",
+      "stop_method": "pg_ctl fast owned data directory",
+      "owned_process_stopped": true,
+      "executable_verified": true
+    },
+    {
+      "component": "redis",
+      "loopback_port": 28379,
+      "receipt_pid": 50668,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk",
+      "stop_method": "authenticated redis-cli SHUTDOWN SAVE",
+      "owned_process_stopped": true,
+      "executable_verified": true
+    },
+    {
+      "component": "mock-original",
+      "loopback_port": 28083,
+      "receipt_pid": 21780,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk",
+      "stop_method": "TerminateProcess on verified owned handle",
+      "owned_process_stopped": true,
+      "executable_verified": true
+    },
+    {
+      "component": "mock-current",
+      "loopback_port": 28084,
+      "receipt_pid": 15112,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk",
+      "stop_method": "TerminateProcess on verified owned handle",
+      "owned_process_stopped": true,
+      "executable_verified": true
+    },
+    {
+      "component": "parent-real-v4-candidate",
+      "loopback_port": 28502,
+      "receipt_pid": 61780,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk",
+      "stop_method": "TerminateProcess on verified owned handle",
+      "owned_process_stopped": true,
+      "executable_verified": true
+    },
+    {
+      "component": "images-v7-candidate",
+      "loopback_port": 28504,
+      "receipt_pid": 41528,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk"
+    },
+    {
+      "component": "pdf-egress-v7-candidate",
+      "loopback_port": 28505,
+      "receipt_pid": 43784,
+      "port_listening_at_freeze": false,
+      "retention_reason": "Owned test process stopped after scoped acceptance; evidence retained on disk"
+    }
+  ],
+  "all_recorded_test_ports_closed": true
+}

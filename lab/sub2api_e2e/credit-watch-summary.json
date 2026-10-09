@@ -1,0 +1,30 @@
+{
+  "run_id": "credit-watch-04c5825c02",
+  "scope": "actual worker and stock Sub2API internal allowance; no RealYu database or model execution",
+  "worker_sha256": "aef61bd46ced72b9ded3eff510ef37ee37d1f0a3103e846d7fa7a0303a8b42a1",
+  "sub2api_version": "0.2.15",
+  "production_changed": false,
+  "customer_payment_or_wallet_mutation": false,
+  "checks": {
+    "two_pool_projection_jobs_complete": true,
+    "one_credit_operation_confirmed": true,
+    "same_subject_multiple_pools_credit_deduplicated": true,
+    "one_stock_user_retains_two_pool_keys": true,
+    "additive_credit_preserves_initial_balance": true,
+    "official_sub_audit_records_exact_worker_operation": true,
+    "worker_credit_status_is_visible": true,
+    "restart_keeps_single_confirmed_operation_id": true,
+    "restart_does_not_repeat_add_or_create_audit": true,
+    "credit_worker_sends_no_model_requests": true
+  },
+  "all_passed": true,
+  "internal_credit": {
+    "before_balance": 1,
+    "add_amount": 100,
+    "after_balance": 101,
+    "official_audit_rows": 1,
+    "operations_after_restart": 1,
+    "shared_pool_count": 2
+  },
+  "owned_processes_stopped": true
+}

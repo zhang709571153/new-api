@@ -1,0 +1,213 @@
+{
+  "tested_at_utc": "2026-10-09T13:27:45.640338+00:00",
+  "scope": "isolated local runtime and runner verification",
+  "production_changed": false,
+  "sub2api_version": "v0.2.15",
+  "postgresql_version": "18.6",
+  "redis_version": "8.10.2 community Windows MSYS2 build",
+  "openai_sdk": "3.26.1",
+  "ports": {
+    "sub2api": 28082,
+    "postgresql": 28432,
+    "redis": 28379,
+    "mock": 28083,
+    "mock_current": 28084
+  },
+  "bind": "127.0.0.1",
+  "binary_sha256": {
+    "sub2api": {
+      "url": "https://github.com/Wei-Shaw/sub2api/releases/download/v0.2.15/sub2api_0.2.15_windows_amd64.zip",
+      "sha256": "1a95286596a10c268b17e67d508ade717b4ca1dfde2b4f4c295ab2d31f1dc5d1"
+    },
+    "redis": {
+      "url": "https://github.com/redis-windows/redis-windows/releases/download/8.10.2/Redis-8.10.2-Windows-x64-msys2.zip",
+      "sha256": "7c8cebd50347eaa1d9e784da842ed47a4f33394637835531d6614777b950ee85"
+    }
+  },
+  "checks": {
+    "pinned_artifact_sha256": "PASS",
+    "postgres_fresh_database": "PASS",
+    "redis_authenticated_startup": "PASS",
+    "stock_sub2api_bootstrap_and_login": "PASS",
+    "sub2api_restart_login_identity_twice": "PASS",
+    "sdk_normal_stream_and_nonstream_and_chat_against_mock": "PASS",
+    "sdk_rejects_empty_terminal_negative_fixture": "PASS",
+    "python_compile": "PASS",
+    "admin_pool_configuration": "PASS",
+    "sub2api_to_mock_e2e": "PASS",
+    "realyu_sub2api_full_chain": "PASS",
+    "real_upstream_e2e": "PASS",
+    "native_codex_cli": "BLOCKED_LOCAL_TOOL_POLICY; conversation and resume PASS",
+    "native_codex_desktop": "NOT_RUN",
+    "actual_realyu_sub2api_negative_paths": "PASS",
+    "deployment_route_bootstrap_real_api_and_idempotency": "PASS",
+    "deployment_standalone_bearer_and_token_revocation": "PASS",
+    "real_three_database_fresh_and_frozen_release_upgrade": "PASS",
+    "real_three_database_team_and_funding_roots": "PASS",
+    "v3_shared_payer_team_negative_paths_and_leave": "PASS",
+    "real_upstream_extended_features": "PASS",
+    "prewarm_real_process_contract": "PASS",
+    "enrollment_real_database_readonly_root": "PASS",
+    "stock_team_success_stability": "PASS_SAMPLED",
+    "automatic_enrollment_and_watcher_actual_process": "PASS",
+    "bounded_three_subject_concurrency": "PASS_SYNTHETIC_UPSTREAM",
+    "portable_api_matrix": "23 PASS / 8 FAIL / 3 NOT_OFFERED; exact limits in portable-api-summary.json",
+    "independent_native_pg_redis_persistence": "PASS_SEPARATE_FIXTURE",
+    "actual_http_model_catalog_retest": "PASS_15_CHECKS_V8_ZERO_UPSTREAM_ZERO_CHARGE",
+    "legacy_images_generation_and_two_edits_v7": "PASS_3_REAL_REQUESTS_AND_VISUAL_REVIEW",
+    "legacy_images_requested_dimensions": "FAIL_1024X1024_RETURNED_1370X1148",
+    "stock_internal_credit_worker": "PASS_10_CHECKS_OFFICIAL_AUDIT_AND_RESTART",
+    "pdf_url_configured_egress": "PASS_ONE_REAL_REQUEST_WITH_TLS_VERIFICATION",
+    "website_browser_ui": "BLOCKED_BROWSER_RUNTIME_CRASH",
+    "native_codex_cli_latest": "FAIL_INITIAL_UPSTREAM_STREAM; local tool policy BLOCKED; no-tool control and new-process resume PASS"
+  },
+  "blocker": {
+    "code": "LOCAL_CLI_TOOL_POLICY",
+    "scope": "Native CLI file-read/edit/test workflow",
+    "api_conversation_and_resume_passed": true,
+    "policy_bypassed": false
+  },
+  "first_failure_preserved": "Redis MSYS2 rejected Win32 absolute config path; fixed to cwd-relative config/data paths; first run log retained privately.",
+  "limitations": [
+    "Runtime health and runner self-validation are not complete chain acceptance.",
+    "The malformed upstream negative fixture is expected to FAIL SDK acceptance.",
+    "No production OAuth refresh tokens imported.",
+    "No production load or SLA claim.",
+    "Service-manager restart, reboot recovery and unattended process supervision are not tested.",
+    "Actual rejection path uses invalid management key -> stock Sub2API 401 -> safe RealYu 503; stock administrator JWT 423 is separate evidence.",
+    "The 67-item checklist records remaining desktop, cancellation, reconnect, MCP/skills/subagents and long-duration acceptance gaps explicitly."
+  ],
+  "executables_sha256": {
+    "sub2api": {
+      "filename": "sub2api.exe",
+      "sha256": "c624c115dd7e5dd1a33c083d3ef601599338f9ed986c2cb007a5663d375f9978"
+    },
+    "redis": {
+      "filename": "redis-server.exe",
+      "sha256": "5bc44512f4ff7828f0d65e59ad712c1b66f692c4f827c966123d3ece4ec5945c"
+    },
+    "postgres": {
+      "filename": "postgres.exe",
+      "sha256": "14817df435104dcfe05ad8343fda200930abf778553ab60154bd285aea6833e1"
+    }
+  },
+  "actual_realyu_negative_assertions": 35,
+  "service_control_manager_installed": false,
+  "automatic_startup_verified": false,
+  "process_supervision_verified": false,
+  "database_scenarios": 6,
+  "database_candidate_startups_per_scenario": 2,
+  "database_team_test_roots_without_skips": 9,
+  "bootstrap_assertions": 5,
+  "postgres_and_redis_restart_verified": true,
+  "team_negative_assertions": 38,
+  "candidate_sha256_by_scope": {
+    "v2_full_negative_bootstrap_and_database": "024198f9b945eb053dfbaa5b9f2368d4f38f47817c9890d6dc493cdae41e6861",
+    "v3_team_negative": "bc23496068c1573fcd9acc372397d7c567d2e4565f0b3c913ce2956b7d34d724",
+    "v4_stock_chain_and_real_sdk": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+    "v5_team_dsn_fix": "26a13d4b9137329fb4ec3b4a89627dcb3f8ec2d8fd3b41df038e5e9a8a9be711",
+    "v6_team_and_automatic_enrollment": "f2143928d90dba27d32d3f5a3367a431d50f2aca5d81054ddf95fdf06f2c9bd4",
+    "v7_model_catalog_fix": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb",
+    "v7_model_catalog_and_legacy_images": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb",
+    "v8_frozen_source_model_catalog_only": "3177b66b325281bb40e720f57b41d2fb19eb32eee5f2a7d8b15c2b641f2bf348"
+  },
+  "latest_candidate_sha256": "3177b66b325281bb40e720f57b41d2fb19eb32eee5f2a7d8b15c2b641f2bf348",
+  "operator_confirmation_completed": true,
+  "checklist_counts": {
+    "PASS": 24,
+    "NOT_RUN": 28,
+    "PARTIAL": 9,
+    "FAIL": 4,
+    "BLOCKED": 2
+  },
+  "resolved_first_failure": {
+    "code": "SQLITE_BUSY",
+    "cause": "Harness bare DSN replaced correct project SQLite defaults",
+    "fix": "Correct glebarez _pragma WAL/busy timeout and immediate transaction DSN; no customer billing logic changes",
+    "evidence": "stock-team-first-failure.json; stock-team-summary.json"
+  },
+  "watcher_actual_process_assertions": 22,
+  "stock_team_assertions": 30,
+  "portable_api_counts": {
+    "PASS": 23,
+    "FAIL": 8,
+    "NOT_OFFERED": 3,
+    "VISUAL_REVIEW_REQUIRED": 0
+  },
+  "open_api_findings": [
+    {
+      "case": "gpt-6_1-sol-chat-web",
+      "classification": "search_execution_not_proven",
+      "http_status": 200,
+      "request_id": "202610091254430807453008268d9d6Dq0sadOv"
+    },
+    {
+      "case": "gpt-6_1-sol-pdf-url",
+      "classification": "gateway_outbound_tls_trust_failure",
+      "http_status": 500,
+      "request_id": "202610091254383105163008268d9d639L9ybyT",
+      "resolved_by": "pdf-url-egress-summary.json",
+      "retest_status": "PASS_WITH_EXPLICIT_GATEWAY_EGRESS",
+      "candidate_sha256": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb"
+    },
+    {
+      "case": "gpt-6_1-sol-preview",
+      "classification": "unsupported_tool_variant",
+      "http_status": 400,
+      "request_id": "202610091254192176994008268d9d6mpDufL55"
+    },
+    {
+      "case": "gpt-6_1-sol-upload",
+      "classification": "files_protocol_gap",
+      "http_status": 400,
+      "request_id": "202610091254210438311008268d9d6cDgM1rbX"
+    },
+    {
+      "case": "legacy-completions",
+      "classification": "legacy_endpoint_unavailable",
+      "http_status": 404,
+      "request_id": "202610091255470193907008268d9d6Fm7YwsgR"
+    },
+    {
+      "case": "models-detail",
+      "classification": "catalog_inconsistency",
+      "http_status": 200,
+      "request_id": "202610091254496080463008268d9d64nlznw81",
+      "resolved_by": "model-catalog-summary.json",
+      "retest_status": "PASS_V8",
+      "candidate_sha256": "3177b66b325281bb40e720f57b41d2fb19eb32eee5f2a7d8b15c2b641f2bf348"
+    },
+    {
+      "case": "responses-compact",
+      "classification": "legacy_compaction_endpoint_unavailable",
+      "http_status": 502,
+      "request_id": "202610091255380154795008268d9d6YktTbHMM"
+    },
+    {
+      "case": "responses-previous-id",
+      "classification": "oauth_http_continuation_limit",
+      "http_status": 400,
+      "request_id": "202610091255368078349008268d9d6SCeCbEpU"
+    }
+  ],
+  "persistence_evidence": {
+    "report": "deploy/sub2api/native-persistence-validation.json",
+    "scope": "Independent fresh fixture; PostgreSQL normal restart/dump restore and Redis AOF/RDB/own-process crash recovery",
+    "same_as_sub2api_runtime_fixture": false,
+    "checks_passed": 12,
+    "service_manager_or_system_reboot_verified": false
+  },
+  "latest_worker_sha256": "aef61bd46ced72b9ded3eff510ef37ee37d1f0a3103e846d7fa7a0303a8b42a1",
+  "remaining_p0_count": 24,
+  "acceptance_gaps_report": "acceptance-gaps.json",
+  "website_ui_status": "BLOCKED_BROWSER_RUNTIME_CRASH",
+  "internal_credit_scope": "Separate actual stock worker test; no RealYu DB or inference execution. Prior actual enrollment and inference chains retain their original v4/v6/v7 hashes.",
+  "latest_cli_official_version": "0.162.0",
+  "latest_cli_report": "native-cli-latest-summary.json",
+  "latest_cli_stream_failure": "latest-cli-stream-failure.json",
+  "official_sub2api_latest_rechecked": {
+    "version": "v0.2.15",
+    "published_at": "2026-10-09T03:35:49Z",
+    "prerelease": false
+  }
+}

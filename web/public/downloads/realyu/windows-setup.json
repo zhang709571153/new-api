@@ -1,0 +1,22 @@
+{
+  "windows_setup_version": "1.4.32",
+  "total_bytes": 147291,
+  "package_bytes": 135922,
+  "bootstrap_bytes": 11369,
+  "package_sha256": "6da1a0d7b8d0b7c0e09f1030d48269d12ce6a55a3e622d37aac92aa144a6a93b",
+  "proxy_policy": "windows_system",
+  "required_external_runtimes": [],
+  "deferred_component_downloads": [],
+  "source_sha256": {
+    "common.ps1": "3e2f542318c9df73dc807ed6f809ca622ed5c39486f22bb5ba76d1b14c06ba02",
+    "native.cs": "b7d0f800f2cbb6d6e248d4c7bb8167673dfcff4d2bee496982fff09d92e283b8",
+    "image.cs": "de556e38b0b22b60e1d58873953ddbd82a3dc9dbf353c4ec2db741a57c30ff9e",
+    "setup-core.ps1": "740caeb67bce0efed28f81942035f8a3983e5ca570f10678fdaefb5095e5479d",
+    "realyu-images.ps1": "da73c706331252ff770b753d23050cc78a23126c52439330c7684519e15e3c32",
+    "tools.json": "1f149621d88bb53c43b860808eafeb6b608fb2f0d5d5c51b74957114bddc3480",
+    "models.json": "edd1989d99aee9e46194e65e1fa67c387571263d1b148ad870846b24e033a525",
+    "errors.json": "89abd5b419d3a16eed9da48c4259ed0729da0651dfd2c7f9eaa2000c83790375",
+    "workbuddy-core.ps1": "a093f2362669027826ee473fc1de9bc2d9651f32ebb31100853d8bc797d686f7",
+    "workbuddy-config.ps1": "5730816e74138f5422bec757564da522fcbf3935bc04582a44eee9d632bd7aa2"
+  }
+}

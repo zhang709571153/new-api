@@ -1,0 +1,160 @@
+# Linux engine only. On Windows Server first provision/verify a supported Linux
+# guest. This file does not install virtualization, open a firewall, or change DNS.
+name: realyu-sub2api-candidate
+
+x-log-policy: &log-policy
+  driver: json-file
+  options:
+    max-size: 20m
+    max-file: "5"
+
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:?set a verified PostgreSQL image}
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_USER: sub2api
+      POSTGRES_DB: sub2api
+      POSTGRES_PASSWORD: ${SUB2API_POSTGRES_PASSWORD:?set a private PostgreSQL password}
+      TZ: ${TZ:-Asia/Shanghai}
+    volumes:
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U sub2api -d sub2api && psql -U sub2api -d sub2api -Atqc 'SELECT 1' >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 60s
+    logging: *log-policy
+
+  redis:
+    image: ${REDIS_IMAGE:?set a verified Redis image}
+    restart: unless-stopped
+    environment:
+      REDISCLI_AUTH: ${SUB2API_REDIS_PASSWORD:?set a private Redis password}
+      TZ: ${TZ:-Asia/Shanghai}
+    command: [sh, -ec, 'exec redis-server --appendonly yes --appendfsync everysec --requirepass "$$REDISCLI_AUTH"']
+    volumes:
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/redis:/data
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging: *log-policy
+
+  sub2api:
+    image: ${SUB2API_IMAGE:?pin the accepted Sub2API release}
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+    ports:
+      - "127.0.0.1:${SUB2API_PORT:-28080}:8080"
+    environment:
+      AUTO_SETUP: "true"
+      RUN_MODE: standard
+      IDEMPOTENCY_DEFAULT_TTL_SECONDS: "86400"
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: "8080"
+      SERVER_MODE: release
+      DATABASE_HOST: postgres
+      DATABASE_PORT: "5432"
+      DATABASE_USER: sub2api
+      DATABASE_DBNAME: sub2api
+      DATABASE_PASSWORD: ${SUB2API_POSTGRES_PASSWORD:?set PostgreSQL password}
+      DATABASE_SSLMODE: disable
+      DATABASE_MAX_OPEN_CONNS: "50"
+      DATABASE_MAX_IDLE_CONNS: "10"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ${SUB2API_REDIS_PASSWORD:?set Redis password}
+      REDIS_DB: "0"
+      ADMIN_EMAIL: ${SUB2API_ADMIN_EMAIL:?set a private administrator identity}
+      ADMIN_PASSWORD: ${SUB2API_ADMIN_PASSWORD:?set a strong unique administrator password}
+      JWT_SECRET: ${SUB2API_JWT_SECRET:?preserve the JWT secret across restarts}
+      TOTP_ENCRYPTION_KEY: ${SUB2API_TOTP_ENCRYPTION_KEY:?preserve the TOTP encryption key}
+      TZ: ${TZ:-Asia/Shanghai}
+      LOG_OUTPUT_TO_FILE: "false"
+      SECURITY_TRUST_FORWARDED_IP_FOR_API_KEY_ACL: "false"
+      SECURITY_URL_ALLOWLIST_ALLOW_INSECURE_HTTP: "false"
+      SECURITY_URL_ALLOWLIST_ALLOW_PRIVATE_HOSTS: "false"
+    volumes:
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/sub2api:/app/data
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, wget, -q, -T, "5", -O, /dev/null, "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 4
+      start_period: 120s
+    logging: *log-policy
+
+  prewarm:
+    # Required with the portal: serializes durable identity enrollment.
+    profiles: [portal]
+    image: ${REALYU_IMAGE:?build the reviewed RealYu image including the prewarm CLI}
+    restart: unless-stopped
+    read_only: true
+    security_opt: [no-new-privileges:true]
+    entrypoint: [/sub2api-prewarm]
+    command: [--watch]
+    environment:
+      REALYU_SUB2API_BINDINGS_FILE: /run/realyu-integration/sub2api.json
+      REALYU_SUB2API_QUEUE_DIR: /run/realyu-queue
+      REALYU_SUB2API_STATE_DIR: /run/realyu-prewarm
+    volumes:
+      # Worker needs to create an OS lock beside the bindings file; it does not rewrite secrets.
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/integration:/run/realyu-integration
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/integration/sub2api.json:/run/realyu-integration/sub2api.json:ro
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/enrollment-queue:/run/realyu-queue:ro
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/prewarm:/run/realyu-prewarm
+    depends_on:
+      sub2api: {condition: service_healthy}
+    logging: *log-policy
+
+  realyu:
+    # Optional until the backend candidate and migrated state have been reviewed.
+    profiles: [portal]
+    image: ${REALYU_IMAGE:?set the locally built candidate image}
+    build:
+      context: ../..
+      dockerfile: deploy/sub2api/Dockerfile.realyu
+      args:
+        APP_VERSION: ${REALYU_VERSION:?set a distinct candidate version}
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+    ports:
+      - "127.0.0.1:${REALYU_PORT:-23000}:3000"
+    environment:
+      PORT: "3000"
+      BIND_ADDRESS: 0.0.0.0
+      GIN_MODE: release
+      TZ: ${TZ:-Asia/Shanghai}
+      SQLITE_PATH: /data/new-api.db?_pragma=busy_timeout(30000)&_pragma=journal_mode(WAL)&_txlock=immediate
+      SESSION_SECRET: ${REALYU_SESSION_SECRET:?preserve the RealYu session secret}
+      CRYPTO_SECRET: ${REALYU_CRYPTO_SECRET:?preserve the RealYu crypto secret}
+      USER_SESSION_ACTIVE_LIMIT: "500"
+      TRUSTED_PROXIES: none
+      HTTP_PROXY: ${REALYU_HTTP_PROXY:-}
+      HTTPS_PROXY: ${REALYU_HTTPS_PROXY:-}
+      NO_PROXY: "localhost,127.0.0.1,::1,sub2api,postgres,redis,${REALYU_NO_PROXY_EXTRA:-}"
+      REALYU_UPSTREAM_DRIVER: sub2api
+      REALYU_SUB2API_ADMIN_URL: ${REALYU_SUB2API_ADMIN_URL:?set the browser reachable private admin URL}
+      REALYU_SUB2API_BINDINGS_FILE: /run/realyu-integration/sub2api.json
+      REALYU_SUB2API_QUEUE_DIR: /run/realyu-queue
+      REALYU_SUB2API_STATE_DIR: /run/realyu-prewarm
+    volumes:
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/realyu:/data
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/integration:/run/realyu-integration:ro
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/enrollment-queue:/run/realyu-queue
+      - ${STATE_ROOT:?set an absolute private Linux state directory}/prewarm:/run/realyu-prewarm:ro
+    depends_on:
+      sub2api: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, wget, -q, -T, "5", -O, /dev/null, "http://localhost:3000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 4
+    logging: *log-policy

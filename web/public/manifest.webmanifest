@@ -1,0 +1,9 @@
+{
+  "name": "RealYu API",
+  "short_name": "RealYu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4fc1df",
+  "icons": []
+}

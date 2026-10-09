@@ -1,0 +1,105 @@
+{
+  "run_id": "model-catalog-dbdb0d4837",
+  "scope": "real gateway HTTP authorization and catalog; observation-only upstream fixture",
+  "gateway_sha256": "3177b66b325281bb40e720f57b41d2fb19eb32eee5f2a7d8b15c2b641f2bf348",
+  "production_changed": false,
+  "model_requests_executed": 0,
+  "checks": {
+    "fresh_customer_wallet_is_zero": true,
+    "restricted_key_has_zero_remaining_and_used_quota": true,
+    "list_contains_exact_authorized_custom_models": true,
+    "detail_matches_list_gpt-6.1-sol": true,
+    "detail_matches_list_catalog-other": true,
+    "zero_balance_restricted_key_can_list_only_allowed_model": true,
+    "zero_balance_restricted_key_can_read_allowed_detail": true,
+    "model-restricted_returns_404_model_not_found": true,
+    "group-restricted_returns_404_model_not_found": true,
+    "unknown_returns_404_model_not_found": true,
+    "model_detail_requires_authentication": true,
+    "model_detail_rejects_invalid_authentication": true,
+    "read_only_exception_does_not_authorize_zero_quota_inference": true,
+    "all_catalog_and_denial_requests_leave_ledger_unchanged": true,
+    "no_upstream_management_login_or_inference_requests": true
+  },
+  "requests": [
+    {
+      "label": "normal-list",
+      "path": "/v1/models",
+      "http_status": 200,
+      "request_id": "202610091324537159574008268d9d6svCuX3TN",
+      "error_code": null
+    },
+    {
+      "label": "normal-detail-gpt-6.1-sol",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 200,
+      "request_id": "202610091324537316821008268d9d6xnEw7Nbn",
+      "error_code": null
+    },
+    {
+      "label": "normal-detail-catalog-other",
+      "path": "/v1/models/catalog-other",
+      "http_status": 200,
+      "request_id": "202610091324537344507008268d9d67t7JPRU3",
+      "error_code": null
+    },
+    {
+      "label": "restricted-list",
+      "path": "/v1/models",
+      "http_status": 200,
+      "request_id": "202610091324537471936008268d9d6fKkpdRIG",
+      "error_code": null
+    },
+    {
+      "label": "restricted-allowed-detail",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 200,
+      "request_id": "202610091324537628441008268d9d6aP1O9aZX",
+      "error_code": null
+    },
+    {
+      "label": "model-restricted",
+      "path": "/v1/models/catalog-other",
+      "http_status": 404,
+      "request_id": "202610091324537786900008268d9d6GgfSoKW2",
+      "error_code": "model_not_found"
+    },
+    {
+      "label": "group-restricted",
+      "path": "/v1/models/catalog-private",
+      "http_status": 404,
+      "request_id": "202610091324537951287008268d9d60ERxm902",
+      "error_code": "model_not_found"
+    },
+    {
+      "label": "unknown",
+      "path": "/v1/models/never-offered",
+      "http_status": 404,
+      "request_id": "202610091324538108439008268d9d6rMJlCF2P",
+      "error_code": "model_not_found"
+    },
+    {
+      "label": "missing-auth",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 401,
+      "request_id": "202610091324538422692008268d9d6KR5GCSsU",
+      "error_code": ""
+    },
+    {
+      "label": "invalid-auth",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 401,
+      "request_id": "202610091324538728272008268d9d6X7iNTYBs",
+      "error_code": ""
+    },
+    {
+      "label": "zero-quota-inference",
+      "path": "/v1/responses",
+      "http_status": 401,
+      "request_id": "202610091324538887592008268d9d63hQ11lAY",
+      "error_code": ""
+    }
+  ],
+  "all_passed": true,
+  "owned_processes_stopped": true
+}

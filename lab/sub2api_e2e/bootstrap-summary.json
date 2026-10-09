@@ -1,0 +1,24 @@
+{
+  "scope": "actual deployment bootstrap API and standalone bearer transport",
+  "all_passed": true,
+  "checks": {
+    "fresh_users_have_distinct_personal_keys": true,
+    "deployment_bootstrap_real_api_creates_route": true,
+    "deployment_bootstrap_idempotent_readback": true,
+    "deployment_bootstrap_standalone_bearer_transport": true,
+    "fixture_admin_access_token_revoked": true
+  },
+  "candidate_sha256": "024198f9b945eb053dfbaa5b9f2368d4f38f47817c9890d6dc493cdae41e6861",
+  "production_changed": false,
+  "sub2api_successful_inference": false,
+  "real_upstream_e2e_performed": false,
+  "actual_sub2api_management_rejection": "401 without a configured system key; separately observed admin JWT guard is 423",
+  "deployment_bootstrap_auth_scope": "fixture session adapter and standalone Client bearer transport both exercised; fixture token revoked",
+  "remaining_isolated_sessions": 0,
+  "owned_processes_stopped": true,
+  "source_run": "negative-4f4b9f358b",
+  "initial_failure_preserved": {
+    "run": "negative-9022d5c67d",
+    "reason": "fixture management token creation correctly required password security proof; runner now uses existing /api/verify and X-Security-Proof"
+  }
+}

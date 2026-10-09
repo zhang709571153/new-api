@@ -1,0 +1,112 @@
+{
+  "run_id": "model-catalog-1470e7452c",
+  "scope": "real gateway HTTP authorization and catalog; observation-only upstream fixture",
+  "gateway_sha256": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb",
+  "production_changed": false,
+  "model_requests_executed": 0,
+  "checks": {
+    "fresh_customer_wallet_is_zero": true,
+    "restricted_key_has_zero_remaining_and_used_quota": true,
+    "list_contains_exact_authorized_custom_models": true,
+    "detail_matches_list_gpt-6.1-sol": true,
+    "detail_matches_list_catalog-other": true,
+    "zero_balance_restricted_key_can_list_only_allowed_model": true,
+    "zero_balance_restricted_key_can_read_allowed_detail": true,
+    "model-restricted_returns_404_model_not_found": true,
+    "group-restricted_returns_404_model_not_found": true,
+    "unknown_returns_404_model_not_found": true,
+    "model_detail_requires_authentication": true,
+    "model_detail_rejects_invalid_authentication": true,
+    "read_only_exception_does_not_authorize_zero_quota_inference": false
+  },
+  "requests": [
+    {
+      "label": "normal-list",
+      "path": "/v1/models",
+      "http_status": 200,
+      "request_id": "202610091307163392696008268d9d6EK5pOrTE",
+      "error_code": null
+    },
+    {
+      "label": "normal-detail-gpt-6.1-sol",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 200,
+      "request_id": "202610091307163543607008268d9d66fJFBVU7",
+      "error_code": null
+    },
+    {
+      "label": "normal-detail-catalog-other",
+      "path": "/v1/models/catalog-other",
+      "http_status": 200,
+      "request_id": "202610091307163699409008268d9d62UcyjSIS",
+      "error_code": null
+    },
+    {
+      "label": "restricted-list",
+      "path": "/v1/models",
+      "http_status": 200,
+      "request_id": "202610091307163851817008268d9d62UgQuNMj",
+      "error_code": null
+    },
+    {
+      "label": "restricted-allowed-detail",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 200,
+      "request_id": "202610091307164000854008268d9d6ZufQFP64",
+      "error_code": null
+    },
+    {
+      "label": "model-restricted",
+      "path": "/v1/models/catalog-other",
+      "http_status": 404,
+      "request_id": "202610091307164152421008268d9d6WpngthOI",
+      "error_code": "model_not_found"
+    },
+    {
+      "label": "group-restricted",
+      "path": "/v1/models/catalog-private",
+      "http_status": 404,
+      "request_id": "202610091307164169307008268d9d6V46RCDUv",
+      "error_code": "model_not_found"
+    },
+    {
+      "label": "unknown",
+      "path": "/v1/models/never-offered",
+      "http_status": 404,
+      "request_id": "202610091307164184973008268d9d6yHuFzlFL",
+      "error_code": "model_not_found"
+    },
+    {
+      "label": "missing-auth",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 401,
+      "request_id": "202610091307164459817008268d9d6Akbx7WWk",
+      "error_code": ""
+    },
+    {
+      "label": "invalid-auth",
+      "path": "/v1/models/gpt-6.1-sol",
+      "http_status": 401,
+      "request_id": "202610091307164549588008268d9d6qTNl14O7",
+      "error_code": ""
+    },
+    {
+      "label": "zero-quota-inference",
+      "path": "/v1/responses",
+      "http_status": 401,
+      "request_id": "202610091307164565103008268d9d6E8gTu4s8",
+      "error_code": ""
+    }
+  ],
+  "all_passed": false,
+  "failure": {
+    "type": "AssertionError",
+    "after_check": "read_only_exception_does_not_authorize_zero_quota_inference"
+  },
+  "owned_processes_stopped": true,
+  "subsequent_diagnosis": {
+    "category": "test fixture or assertion correction",
+    "note": "Fixture expected only 403 for a zero-quota inference denial; existing TokenAuth correctly returns 401. No upstream inference was allowed.",
+    "latest_retest": "model-catalog-summary.json"
+  }
+}

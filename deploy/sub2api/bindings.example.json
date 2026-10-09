@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "namespace": "realyu-candidate",
+  "identity_secret": "",
+  "admin_api_key": "",
+  "pools": [
+    {
+      "channel_id": 0,
+      "base_url": "http://sub2api:8080",
+      "group_id": 0
+    }
+  ],
+  "provision": {
+    "enabled": true,
+    "mode": "prewarmed",
+    "initial_balance": 100,
+    "concurrency": 10
+  },
+  "bindings": [],
+  "credit": {
+    "enabled": true,
+    "low_watermark": 20,
+    "topup_amount": 100,
+    "check_interval_seconds": 60,
+    "idempotency_window_seconds": 3600
+  }
+}

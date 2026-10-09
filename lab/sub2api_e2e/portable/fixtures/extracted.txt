@@ -1,0 +1,9 @@
+PDF Reading Verification
+Verification code: REALYU-PDF-0EC610C570E7
+Page 1 inventory: blue boxes = 17
+This is synthetic test data, not an employee document.
+Read page 2 to calculate the combined inventory.
+
+Inventory - Page 2
+Page 2 inventory: green boxes = 26
+Warehouse: NORTH-QUAY

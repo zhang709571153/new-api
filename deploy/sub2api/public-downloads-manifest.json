@@ -1,0 +1,157 @@
+{
+  "release": "realyu-provider-v3.9.2.22-20261008",
+  "files": [
+    {
+      "path": "web/public/downloads/realyu/diagnose-realyu-network.ps1",
+      "sha256": "45b7826cd8ec0b1ceadc997dfca75acdeb83702eba86bb4c88cae40aebc022ec"
+    },
+    {
+      "path": "web/public/downloads/realyu/macos-setup.json",
+      "sha256": "18f4d5a0f41616161009d4a88bbe8b833120b7b125cec77b718cf3f30a22ba06"
+    },
+    {
+      "path": "web/public/downloads/realyu/models.json",
+      "sha256": "f3b7151480ae83f595bbceedca125d69db49cac3121b9a350957935cdcb7a6ad"
+    },
+    {
+      "path": "web/public/downloads/realyu/probe-macos-1.4.27.sh",
+      "sha256": "12e4fcbabebbfec9cd4ee57f7b8c46966d86515d9e4c5721e87a86859592d3c3"
+    },
+    {
+      "path": "web/public/downloads/realyu/realyu-client.exe",
+      "sha256": "c5e799ed9512d6ee8b6274b46a25f24d692d941b434ed903378a4bb1b695eaf0"
+    },
+    {
+      "path": "web/public/downloads/realyu/realyu-setup-macos.zip",
+      "sha256": "ac6dabb470675f991b8f5a0fb980c44c78b1dd2e7093506876aa73f97158394e"
+    },
+    {
+      "path": "web/public/downloads/realyu/realyu-setup-windows.zip",
+      "sha256": "6da1a0d7b8d0b7c0e09f1030d48269d12ce6a55a3e622d37aac92aa144a6a93b"
+    },
+    {
+      "path": "web/public/downloads/realyu/realyu_images.py",
+      "sha256": "34b361bf70ee7283cbf854cfa4ab0545cd4aa5b6a24bff5afe477285e18ce957"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/cacert-2026-09-25.pem",
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/cpython-3.13.15+20260924-aarch64-apple-darwin-install_only_stripped.tar.gz",
+      "sha256": "064afb7c2fc0bbf511d886288adf98696af5105e36c138cdf2c199c0146fcf68"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/cpython-3.13.15+20260924-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "sha256": "5ad58156cbec94e5643c13caa792e92df72a23f33d3a6425d4cbff5c4b7a040c"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/cpython-3.13.15+20260924-x86_64-apple-darwin-install_only_stripped.tar.gz",
+      "sha256": "327814efd865a0b6a99c149b12a261e9d0ad409183515c745d41bda2d07282e9"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/cpython-3.13.15+20260924-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "sha256": "d0b640eed27fbdd6f5f2bd33444aee53df2c8863f8b2a96f4094717411e3de9c"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/image-sdk-1.4.17-aarch64-apple-darwin.zip",
+      "sha256": "21aae5d5b8ddb0f53ff81eafe71c65a062972885739b78bfbeca613941548cd5"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/image-sdk-1.4.17-aarch64-unknown-linux-gnu.zip",
+      "sha256": "abba906e397cd86c0da63f46aefa2563ad95b5892cf1d77c05501e1ba00b5ae9"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/image-sdk-1.4.17-x86_64-apple-darwin.zip",
+      "sha256": "1e3d34e2b82fa6b067f5bae49987d84a85d0ed9a70e90a9731a3453f60c9e5b8"
+    },
+    {
+      "path": "web/public/downloads/realyu/runtime/image-sdk-1.4.17-x86_64-unknown-linux-gnu.zip",
+      "sha256": "dd866be4473bc352b423ffc638154a675b78648e037365db4358b4ebf3e672f7"
+    },
+    {
+      "path": "web/public/downloads/realyu/setup-macos.sh",
+      "sha256": "d50c630662ad61553ad4b91d1a1d80ef9a033049867d594e772e26f440b56b5b"
+    },
+    {
+      "path": "web/public/downloads/realyu/setup-workbuddy.ps1",
+      "sha256": "82b244e5493b23fe457788742e592eb8e5d59fedd7ba6ed24bbf982aeb85da4b"
+    },
+    {
+      "path": "web/public/downloads/realyu/setup-workbuddy.py",
+      "sha256": "477c7ccdea072bcf16054fc3d366a511bc439dc672b00ad5aecf59eace473626"
+    },
+    {
+      "path": "web/public/downloads/realyu/setup-workbuddy.sh",
+      "sha256": "59af0e8ffd83cbf5e1478dcb64ca9223418bc1922b1ed49aa0b76d7ca2f1d76a"
+    },
+    {
+      "path": "web/public/downloads/realyu/setup.ps1",
+      "sha256": "06314067d8631309818b3e306808415d2e38f73c42a0283384fac3c973e1d70f"
+    },
+    {
+      "path": "web/public/downloads/realyu/setup.py",
+      "sha256": "8cd90436ea472835166388c66b45c6dcc5a047c2b8109d7bd7bdde3dc6ac8eae"
+    },
+    {
+      "path": "web/public/downloads/realyu/setup.sh",
+      "sha256": "51a407d6649e4aff14709a9b024eda614fe2fb07487ddeaf1c4946e3397aef40"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-macos-1.4.21.md",
+      "sha256": "9f33bf33c207edcd5d8774da315b960e3b4459f044d701cfd0b336944dbc93cc"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-macos-1.4.23.md",
+      "sha256": "6b2f33934fecae5bc4fb986145ed3185e26a6d269103c11850ac1fb79ec0bbe7"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-macos-1.4.24.md",
+      "sha256": "566195f579d7437161c22d52dd76bf97ab4479b40a49304dab2a74190872f1e7"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-macos-1.4.25.md",
+      "sha256": "bba6be0228f7c45c6b6266f7ada46f554d8698138254c0b8d150fab59caa7d04"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-macos-1.4.26.md",
+      "sha256": "207c70a0f197ee0fd47c6f7feee14a1788614815b12bb131606683016c49255b"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-macos-1.4.27.md",
+      "sha256": "4d13e54275ff1a6d475215595ba9d353b4af6df3860989de3a8f92dc583713fe"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-windows-1.4.21.md",
+      "sha256": "bd1839e85151546418dc9fb8dbd5b95979dc938b914f012c8c506851dbfbca41"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-windows-1.4.22.md",
+      "sha256": "5c838e4b804b1fe25231344ed71135acd893c2c8fb46199b9c1c7761a8724df2"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-windows-1.4.27.md",
+      "sha256": "6c4a036036e0270eb2d90e7b586bd7f7fe8a96d80de4272a69edba3a83f210d5"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-windows-1.4.28.md",
+      "sha256": "11bec7e1bb8324f9fe47cef8edea466cd89b5a4d0e9a1adfd3851df5068abb7a"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-windows-1.4.29.md",
+      "sha256": "58d1c333ef1c2965476ba88c7862e3448848a4cf641c61312a4e213a83613735"
+    },
+    {
+      "path": "web/public/downloads/realyu/smoke-windows-1.4.30.md",
+      "sha256": "5e4993c683b795ab959a1ea1af2d06e247f0bda4057940ac128e76fab6687ded"
+    },
+    {
+      "path": "web/public/downloads/realyu/windows-client.json",
+      "sha256": "531c63d5331ff4aab5ef2bf3de0c1f4a3b36762049aab74e5cecd36fee3f2fa7"
+    },
+    {
+      "path": "web/public/downloads/realyu/windows-setup.json",
+      "sha256": "d69648ad56e19722808a5ee8ece5110356a0786e2227e5ce41d871f0463d2709"
+    }
+  ]
+}

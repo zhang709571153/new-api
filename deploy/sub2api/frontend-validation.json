@@ -1,0 +1,33 @@
+{
+  "tested_at_utc": "2026-10-09T11:43:34.795980+00:00",
+  "scope": "candidate frontend and bootstrap helper; not complete chain acceptance",
+  "production_changed": false,
+  "toolchain": {
+    "bun": "1.4.2"
+  },
+  "checks": {
+    "frontend_typecheck": "PASS",
+    "changed_frontend_lint": "PASS",
+    "channels_and_selected_workspace_regressions": {
+      "status": "PASS",
+      "files": 29,
+      "tests": 346
+    },
+    "frontend_production_build": "PASS",
+    "bootstrap_and_sqlite_snapshot_unit_tests": {
+      "status": "PASS",
+      "tests": 9
+    },
+    "native_browser_desktop_e2e": "NOT_RUN",
+    "successful_realyu_sub2api_upstream_chain": "BLOCKED"
+  },
+  "sha256": {
+    "web/src/features/channels/index.tsx": "11c462810e6b460d6c8816363f7ae21e0bf7683b429dd61c531f7704f3160fe7",
+    "web/src/features/channels/api.ts": "f0ef05564b941d1f793a4b48fe837531500c3abddbb33d3148a909d0fd687b2b",
+    "web/src/features/channels/components/sub2api-management.tsx": "56070309fc63433dbcf59251b6d4e954d62b9ee4bb426a5b562956280cf1e258",
+    "web/src/features/channels/components/__tests__/sub2api-management.test.tsx": "5c5b126c205f87905f82d9ea476d892fc88d444d7eef6e927083f995115d6103",
+    "web/src/features/channels/__tests__/driver-routing.test.tsx": "79a6219e1b000ff424ef4bd36878ee5010732f01731093ede45a4aa90683fe18",
+    "deploy/sub2api/bootstrap_route.py": "2130c5c4673cb6b1618bddd7e3ca91f49268a45c9592391cfbde4197b0db6747",
+    "deploy/sub2api/test_bootstrap_route.py": "cff9d9a25a486a4c261978dad97186702e9ec7210c8e38873cf2e7f0304e6269"
+  }
+}

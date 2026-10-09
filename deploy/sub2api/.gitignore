@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.private/
+state/
+backups/
+preflight-*.json
+*.dump
+*.tar
+*.tar.gz
+__pycache__/
+*.pyc

@@ -1,0 +1,95 @@
+{
+  "source_run": "real-gateway-77ca6b6bf6/legacy-images-first",
+  "gateway_sha256": "5efb62be06a49bcff389aff140820b1c2b38a85d126817e780b33a8a173c5ffb",
+  "scope": "actual isolated RealYu -> stock Sub2API -> real OAuth Images API",
+  "production_changed": false,
+  "automatic_retries": 0,
+  "maximum_image_requests": 3,
+  "model": "gpt-image-2",
+  "visual_review": "PASS",
+  "checks": [
+    {
+      "case": "generation",
+      "status": "PASS",
+      "http_status": 200,
+      "request_id": "202610091311089853898008268d9d6CTPBojMB",
+      "elapsed_seconds": 26.891,
+      "image_file": "generation.png",
+      "image_bytes": 1955957,
+      "sha256": "df38c6004e2307b1133e5e6d8dd10c261535b6f3ea40e28db6a879fddc325527",
+      "dimensions": [
+        1370,
+        1148
+      ],
+      "format": "PNG",
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "requested_size_honored": false,
+      "visual_review": "Sunlit wooden desk, open cream notebook, dark green lamp and terracotta succulent match the requested scene."
+    },
+    {
+      "case": "multipart-edit",
+      "status": "PASS",
+      "http_status": 200,
+      "request_id": "202610091311359233774008268d9d6wO4lbVci",
+      "elapsed_seconds": 47.188,
+      "image_file": "multipart-edit.png",
+      "image_bytes": 1895124,
+      "sha256": "bf9597648b8c5f527ab812a6dd2e75a8496d106b881b0616f6658fff8d43f30d",
+      "dimensions": [
+        1370,
+        1148
+      ],
+      "format": "PNG",
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "requested_size_honored": false,
+      "reference_sha256": "df38c6004e2307b1133e5e6d8dd10c261535b6f3ea40e28db6a879fddc325527",
+      "visual_review": "Same original desk, notebook, lamp, succulent, window, camera angle and existing cream mug are preserved; a new red ceramic coffee mug appears beside the notebook.",
+      "actual_reference_image_preserved": true
+    },
+    {
+      "case": "json-images-edit",
+      "status": "PASS",
+      "http_status": 200,
+      "request_id": "202610091312231581201008268d9d6YdVDsrfS",
+      "elapsed_seconds": 44.14,
+      "image_file": "json-images-edit.png",
+      "image_bytes": 1899646,
+      "sha256": "21b4686aeef1f11dce867bcc5b09c8567c9da50bb97482a9467bf3aeaa2c66f8",
+      "dimensions": [
+        1370,
+        1148
+      ],
+      "format": "PNG",
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "requested_size_honored": false,
+      "reference_sha256": "df38c6004e2307b1133e5e6d8dd10c261535b6f3ea40e28db6a879fddc325527",
+      "visual_review": "Same original desk, notebook, lamp, succulent, window, camera angle and existing cream mug are preserved; a new red ceramic coffee mug appears beside the notebook.",
+      "actual_reference_image_preserved": true
+    }
+  ],
+  "pillow_version": "12.3.0",
+  "all_three_image_operations_passed": true,
+  "all_requested_dimensions_honored": false,
+  "synthetic_customer_ledger": {
+    "successful_consumptions": 3,
+    "consumed_quota": 30000,
+    "wallet_debit": 30000,
+    "key_used_quota": 30000,
+    "request_count": 3,
+    "exact_reconciliation": true
+  },
+  "limitations": [
+    "All three requested 1024x1024 images returned 1370x1148; strict requested-size compatibility is FAIL.",
+    "These are three bounded real requests on v7; this does not establish stream/mask/URL-output options, long-run stability or native desktop workflows.",
+    "The fixture uses an explicit synthetic RealYu per-image price; no claim about production pricing follows."
+  ]
+}

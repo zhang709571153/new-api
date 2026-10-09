@@ -1,0 +1,47 @@
+{
+  "scope": "actual local worker and gateway processes with fake management protocol",
+  "stock_sub2api_success_verified": false,
+  "production_changed": false,
+  "inference_performed": false,
+  "worker_sha256": "c5954b1984f848c780b7d92680da389efd25b9421b12ec2945ac21fa69efb3be",
+  "gateway_sha256": "b721d84996eee1d65bcd377cd0b510a8abedb23d0e8a6a75845ad6d125691235",
+  "checks": {
+    "first_no_sensitive_error_echo": true,
+    "multiple_subjects_and_pools_completed": true,
+    "subject_ownership_distinct_and_pool_identity_stable": true,
+    "single_worker_real_login_spacing": true,
+    "persistent_state_has_no_internal_keys_or_passwords": true,
+    "worker_output_has_no_internal_keys_or_passwords": true,
+    "resume_no_sensitive_error_echo": true,
+    "new_process_resume_does_not_rebuild": true,
+    "recover_remote_no_sensitive_error_echo": true,
+    "lost_local_progress_recovers_remote_identities_without_rebuilding": true,
+    "worker_does_not_execute_inference": true,
+    "rate_limit_no_sensitive_error_echo": true,
+    "429_stops_with_retry_wait": true,
+    "429_persists_at_least_sixty_second_deadline": true,
+    "early_resume_no_sensitive_error_echo": true,
+    "immediate_resume_respects_persisted_backoff": true,
+    "backoff_resume_does_not_mutate_progress": true,
+    "compliance_no_sensitive_error_echo": true,
+    "423_blocks_queue_without_advancing_subjects": true,
+    "actual_gateway_prewarmed_missing_identity_rejects_and_preserves_ledger": true,
+    "web_path_never_creates_or_logs_in_or_infers": true
+  },
+  "all_passed": true,
+  "evidence": {
+    "multiple_subjects": {
+      "users": 2,
+      "keys": 3,
+      "initial_elapsed_seconds": 9.203
+    },
+    "429": {
+      "login_attempts": 1,
+      "early_resume_seconds": 0.047,
+      "future_time_recovery": "requires separate controlled-clock unit test; no wall-clock minute waits"
+    },
+    "gateway_management_reads": 20
+  },
+  "source_run": "prewarm-453ab27075",
+  "checks_count": 21
+}

@@ -1,0 +1,17 @@
+{
+  "scope": "actual worker Retry-After deadline with loopback management fixture; gateway not executed in this targeted run",
+  "stock_sub2api_success_verified": false,
+  "production_changed": false,
+  "inference_performed": false,
+  "worker_sha256": "2261610f64e9f1e410f97f9afd6d7d015d8331cbc73446f67d4811610fa816fa",
+  "checks": {
+    "longer_retry_after_no_sensitive_error_echo": true,
+    "upstream_longer_retry_after_is_respected": true,
+    "longer_retry_early_resume_no_sensitive_error_echo": true,
+    "longer_retry_after_blocks_immediate_management_calls": true
+  },
+  "all_passed": true,
+  "evidence": {},
+  "source_run": "prewarm-236d937d64",
+  "checks_count": 4
+}
