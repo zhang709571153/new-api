@@ -1,0 +1,271 @@
+{
+  "status": "PUBLISHED_ACCEPTED",
+  "recorded_at_utc": "2026-10-09T17:50:09.100378+00:00",
+  "operation_id": "sub2api-scope-20261009T172526Z-3ee7e037",
+  "version": "realyu-sub2api-v3.10.0.1-20261010",
+  "gateway_sha256": "91a9dc35306ae1fe29f3326d91af92ec855e25df09f6e56c9678d359a7864b8a",
+  "gateway_build_source_commit": "05a732e7e24acc129e9bfc8808d9ffe718608b83",
+  "public_base_url": "https://api.realyu.fun/v1",
+  "sub2api_version": "0.2.15",
+  "worker_sha256": "8ac607bf72faee338238b5393555d326d910662b76503d4cc4854d0dda75710c",
+  "dependency_scm_checks": {
+    "passed": 24,
+    "status": "PASS"
+  },
+  "cutover": {
+    "phase": "published",
+    "ledger_preserved": true,
+    "database_rollback": false,
+    "schema_changed": false,
+    "cold_backup_sha256": "e3fabff39d55cb8cf161a7dfc84db11b5c5cb106d66cf76ee5f149ebd78376cf",
+    "cold_backup_integrity": "ok"
+  },
+  "sdk": {
+    "status": "PASS",
+    "categories": [
+      {
+        "name": "catalog",
+        "status": "PASS",
+        "seconds": 13.406
+      },
+      {
+        "name": "responses-stream",
+        "status": "PASS",
+        "seconds": 2.907
+      },
+      {
+        "name": "responses-nonstream",
+        "status": "PASS",
+        "seconds": 2.828
+      },
+      {
+        "name": "chat",
+        "status": "PASS",
+        "seconds": 2.437
+      },
+      {
+        "name": "pdf-inline",
+        "status": "PASS",
+        "seconds": 4.516
+      },
+      {
+        "name": "pdf-url",
+        "status": "PASS",
+        "seconds": 3.453
+      },
+      {
+        "name": "web-search",
+        "status": "PASS",
+        "seconds": 7.484
+      },
+      {
+        "name": "tool-roundtrip",
+        "status": "PASS",
+        "seconds": 7.016
+      },
+      {
+        "name": "websocket",
+        "status": "PASS",
+        "seconds": 7.422
+      },
+      {
+        "name": "subjects",
+        "status": "PASS",
+        "seconds": 8.828
+      },
+      {
+        "name": "failed-request",
+        "status": "PASS",
+        "seconds": 1.141
+      },
+      {
+        "name": "all-text-models",
+        "status": "PASS",
+        "seconds": 21.453
+      },
+      {
+        "name": "image-generation",
+        "status": "PASS",
+        "seconds": 28.265
+      }
+    ],
+    "model_requests_executed": 23,
+    "all_eight_text_models": "PASS",
+    "runner_automatic_retries": 0
+  },
+  "ownership": {
+    "status": "PASS",
+    "checks": [
+      {
+        "label": "source-first",
+        "status": "PASS"
+      },
+      {
+        "label": "http-different-person",
+        "status": "PASS",
+        "denied": true,
+        "http_status": 403
+      },
+      {
+        "label": "http-same-person-team",
+        "status": "PASS",
+        "denied": true,
+        "http_status": 403
+      },
+      {
+        "label": "http-unsigned-id",
+        "status": "PASS",
+        "denied": true,
+        "http_status": 403
+      },
+      {
+        "label": "http-tampered-id",
+        "status": "PASS",
+        "denied": true,
+        "http_status": 403
+      },
+      {
+        "label": "different-person",
+        "status": "PASS",
+        "denied": true,
+        "http_status": 403,
+        "error_code": "access_denied"
+      },
+      {
+        "label": "same-person-team",
+        "status": "PASS",
+        "denied": true,
+        "http_status": 403,
+        "error_code": "access_denied"
+      },
+      {
+        "label": "source-continues",
+        "status": "PASS"
+      }
+    ],
+    "denied_requests_uncharged": true
+  },
+  "cli": {
+    "version": "codex-cli 0.162.0",
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "initial",
+        "status": "PASS",
+        "exit_code": 0,
+        "tools_observed": 0,
+        "terminal_completed": true,
+        "exact_reply": true,
+        "incomplete_stream_reported": false
+      },
+      {
+        "name": "resume",
+        "status": "PASS",
+        "exit_code": 0,
+        "tools_observed": 0,
+        "terminal_completed": true,
+        "exact_reply": true,
+        "incomplete_stream_reported": false
+      }
+    ],
+    "scope": "No-tool initial dialogue and separate-process resume"
+  },
+  "billing": {
+    "status": "PASS",
+    "checks_passed": 20,
+    "checks_total": 20,
+    "dedicated_operator_usage_records": 47,
+    "unique_request_settlement": true,
+    "subscription_and_member_allowance": "PASS",
+    "native_images_reported_token_pricing": "PASS",
+    "customer_ledger_reset": false
+  },
+  "image": {
+    "status": "PASS",
+    "endpoint": "/v1/images/generations",
+    "model": "gpt-image-2",
+    "request_id": "202610091736016956265008268d9d6BOZdRFAK",
+    "prompt": "一只小小的白色比熊犬进入《原神》的提瓦特世界，在蒙德的绿色草地和古代遗迹前勇敢地打丘丘人。小比熊毛茸茸、圆脸黑鼻，穿着精致的冒险家披风，挥动一把小剑，以风元素旋风与两只戴面具、拿木盾的丘丘人交战。画面要看得出比熊和丘丘人的全身动作，动作生动、表情可爱又英勇，明亮的阳光，远处有风车与山丘。高质量原神风格的动漫游戏插画，精致细节、电影感构图，无文字、无水印，无血腥。",
+    "reported_usage": {
+      "input_tokens": 172,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 172
+      },
+      "output_tokens": 601,
+      "total_tokens": 773,
+      "output_tokens_details": {
+        "image_tokens": 601,
+        "text_tokens": 0
+      }
+    },
+    "quota_charged": 97,
+    "requested_size": "1024x1024",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "exact_requested_size_honored": false,
+    "sha256": "776824f3c8719ac8965e773b8866a7e43155ee20f78b33c986377c3174ad43af",
+    "seconds": 28.265,
+    "visual_review": "PASS: white bichon with a small sword and wind powers fights two masked hilichurls in a Mondstadt-like scene"
+  },
+  "refresh_ownership": {
+    "driver": "sub2api",
+    "old_refresher_stopped": true,
+    "renewable_accounts_transferred": 2,
+    "real_refresh_checks_passed": 2,
+    "one_inactive_access_only_account_quarantined": true,
+    "status": "PASS"
+  },
+  "after_refresh": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "responses-stream",
+        "status": "PASS"
+      },
+      {
+        "name": "websocket",
+        "status": "PASS"
+      },
+      {
+        "name": "subjects",
+        "status": "PASS"
+      }
+    ]
+  },
+  "cleanup": {
+    "status": "PASS",
+    "operator_users_disabled": 2,
+    "personal_keys_disabled": 2,
+    "all_four_keys_denied": true,
+    "workspace_keys_revoked_by_user_status": 2,
+    "financial_records_preserved": true,
+    "candidate_processes_stopped": true
+  },
+  "maintenance_tool_corrections": [
+    "Ordinary account GET hides secrets. The first transfer was reconciled with a scoped official export without replay; regression coverage added.",
+    "Generic token changes reject workspace keys. Cleanup used disabled operator user status and verified all four keys return 401; original failed receipt retained."
+  ],
+  "remaining_limits": [
+    "Requested image dimensions may differ",
+    "Files API and older search/compact interface gaps",
+    "Unsigned old response IDs and retained item/conversation lookup rejected; full inline history remains available",
+    "Desktop UI/tool execution and target Windows Server acceptance remain separate",
+    "Whole-host reboot not tested; finite smoke is not a stability SLA"
+  ],
+  "first_failed_public_cutover_preserved": true,
+  "upstream_internal_retries": "Stock Sub2API behavior, not asserted zero",
+  "private_evidence_sha256": {
+    "cutover-receipt.json": "446a8bf93f3ca9fae28879ffe6f298a872419ed157df74a2b8fb100092fa36e8",
+    "public-sdk-first/summary.json": "ae65fec842af0a27c9a7a813a9e7e10834731408b410a3832898cbe014026f6b",
+    "public-owner-first/summary.json": "9fe1ca98affa653b60cd7f89a31f1312c362d9c6829fdb426327577a1ff5da4e",
+    "public-cli-first/summary.json": "fc96c4266e2735a949607ef40724edfd921e7567b3e7f98e3d13f15cf1f6cb69",
+    "public-billing-after-refresh.json": "c7074d9dde32b0a4d7e37d7b9b9bf961f1d74afb983b636fb64217d8c49a2d72",
+    "refresh-smoke.json": "5a958e35a7df9b6f800b09426c43b92ecfa34910e32db494bf76ba85643933da",
+    "public-after-refresh/summary.json": "d4dc64bea7ca21a31793baf95518418bfd16bb004430cc367a73dbfd61fb5b65",
+    "operator-cleanup-final.json": "0fe400355204eec31ad62cfa846f2dc8cd907d6027c9ae2ef2921629439a6db8",
+    "dependency-verification.json": "0953dfcc8320c7c9bb0c481ef7f0a035e910c1c81bab5b3ab02b711047d7d958"
+  }
+}

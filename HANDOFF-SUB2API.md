@@ -1,6 +1,6 @@
 # RealYu / Sub2API 候选交接入口
 
-2026-10-10 本机发布的最新授权与状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)。Sub2API、PostgreSQL、免费 Redis 及 worker 已安装为 Windows 服务。首次公网验收发现响应续接缺少跨身份拒绝证据，已保留最新账本回退旧网关。修复后的 `v3.10.0.1` 候选通过真实上游 13 类功能、HTTP/WS 身份隔离、八个文本模型和 Codex CLI 对话/恢复，第二次切换尚待执行；不得把候选结果写成已完成公网发布。用户选择的新 token 计费仅适用于 native Images，既有 Responses 图片工具口径不在本次变更内。另一台机器仍按独立 Windows 部署和验收流程接手。
+2026-10-10 当前主机已发布 `realyu-sub2api-v3.10.0.1-20261010`，公网确认新版本。13 类功能、8 个文本模型、8 项 HTTP/WS 身份隔离检查、Codex 0.162.0 对话/恢复及 20 项账务核对通过；两套上游续期凭据已迁入 Sub2API，并实际刷新成功。Sub2API、PostgreSQL、免费 Redis 和 worker 已作为 Windows 服务运行。首次切换的回退与修复证据保留，完整状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md) 和 [公网验收报告](lab/sub2api_e2e/release-public-20261010.json)。用户选择的新 token 计费适用于 native Images，既有 Responses 图片工具口径不变。另一台机器仍按独立 Windows 部署和验收流程接手。
 
 **首次交接时的冻结说明（历史记录，后续本机授权和状态以上方 LIVE 文档为准）：** 当时授权覆盖隔离开发、测试、候选打包及迁移准备。
 不要替换线上程序、路由、数据库或凭据，不要重启线上服务，不要切换域名、

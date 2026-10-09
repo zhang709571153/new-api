@@ -1,5 +1,11 @@
 # Sub2API candidate acceptance
 
+The current host's 2026-10-10 publication and real public acceptance are recorded
+in [LIVE-DEPLOYMENT.md](../../LIVE-DEPLOYMENT.md) and
+[release-public-20261010.json](release-public-20261010.json). Historical candidate
+reports keep their original scope. The portable checklist is a fresh-machine
+test template; its NOT_RUN items are not relabeled by this host's core smoke.
+
 These tools target isolated candidates. They do not publish RealYu, migrate a
 production database, import production refresh tokens, or change everyday Codex
 configuration. Generated credentials, logs, downloads, DB data and process

@@ -1,11 +1,12 @@
 # RealYu / Sub2API candidate deployment
 
-This directory is a **candidate and migration handoff**, not a production release.
-The user's latest clarification keeps production unchanged: authority covers
-isolated development/testing, candidate packaging and migration preparation.
-Do not switch traffic, replace live programs/routes/databases, or restart/stop
-the existing services. Production deployment awaits an explicit user command;
-passing tests alone does not authorize it. Rehearsal commands use isolated state.
+This directory contains deployment and migration tooling. The user subsequently
+authorized production deployment on the current host; its exact live version,
+acceptance results and first failures are recorded in
+[LIVE-DEPLOYMENT.md](../../LIVE-DEPLOYMENT.md). Another Windows Server still
+requires its own environment preparation, private state transfer and acceptance.
+Never run two active production credential refreshers or independent writable
+copies of the customer ledger. Rehearsal commands use isolated state.
 
 Read [the complete handoff](../../lab/maintenance/sub2api-migration.md) first.
 

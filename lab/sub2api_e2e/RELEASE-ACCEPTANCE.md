@@ -132,8 +132,11 @@ python lab/sub2api_e2e/release_owner_isolation.py --secret-file PRIVATE_JSON --o
 ```
 
 Both commands validate locally without making network requests when `--run`
-is omitted. Disable only the dedicated operator users and keys after final
-public acceptance, retaining their usage and management audit history.
+is omitted. Disable only the dedicated operator users and personal keys after
+final acceptance, retaining financial and management audit history. Workspace
+keys reject generic token changes; disable the dedicated users and require all
+four keys, including team-owner and member keys, to fail authentication. Do not
+delete a team or alter its balances merely to clean up an acceptance fixture.
 
 ## Cutover and rollback observations
 

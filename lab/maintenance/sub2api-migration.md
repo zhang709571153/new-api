@@ -1,11 +1,11 @@
 # Sub2API integration and Windows Server handoff
 
-Status: candidate development and isolated verification. The user's latest
-clarification keeps production unchanged. Authority covers isolated tests,
-candidate packaging and migration preparation only: do not switch traffic,
-replace live programs/routes/databases, or restart/stop the old services.
-Production deployment still requires an explicit user command in addition to
-acceptance gates. Never run two active production credential refreshers.
+The user subsequently authorized production deployment on the current host.
+Its live version, public acceptance and retained first failures are recorded in
+[LIVE-DEPLOYMENT.md](../../LIVE-DEPLOYMENT.md). This runbook covers the separate
+future Windows Server migration; local publication does not establish acceptance
+on that other machine. Never run two active production credential refreshers or
+two independent writable copies of the customer ledger.
 Target inventory received 2026-10-09: Windows Server 2025 Datacenter 24H2,
 build 26100.32860, x64, 4 vCPU, 16 GiB RAM and about 158 GiB free on one system
 disk. It reports no available Linux engine or nested-virtualization extensions.

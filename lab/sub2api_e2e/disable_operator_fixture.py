@@ -49,8 +49,8 @@ def main():
         return {'users': users, 'tokens': tokens}
 
     report = {'status': 'RUNNING', 'started_at': dt.datetime.now(dt.timezone.utc).isoformat(),
-              'scope': 'Only dedicated release test users and four keys; no deletes or ledger resets',
-              'before': snapshot(), 'keys_disabled': [], 'users_disabled': []}
+              'scope': 'Only dedicated release test users and their personal keys; all four keys must be denied; no deletes or ledger resets',
+              'before': snapshot(), 'keys_disabled': [], 'users_disabled': [], 'team_keys_revoked_by_user_status': []}
 
     def save():
         args.output.write_text(json.dumps(report, indent=2))
@@ -66,7 +66,14 @@ def main():
                 for token in report['before']['tokens']:
                     if token['user_id'] != account['id']:
                         continue
-                    session.call('/api/token/?status_only=1', {'id': token['id'], 'status': 2}, 'PUT')
+                    # Team keys belong to the workspace API; generic token
+                    # updates are intentionally rejected. Disabling both fixture
+                    # users revokes their access while preserving team audit.
+                    if token['workspace_user_id']:
+                        report['team_keys_revoked_by_user_status'].append(token['id'])
+                        continue
+                    if token['status'] != 2:
+                        session.call('/api/token/?status_only=1', {'id': token['id'], 'status': 2}, 'PUT')
                     report['keys_disabled'].append(token['id'])
                     save()
             finally:
@@ -76,15 +83,19 @@ def main():
             report['users_disabled'].append(account['id'])
             save()
         report['after'] = snapshot()
-        assert all(row['status'] == 2 for kind in report['after'].values() for row in kind)
+        assert all(row['status'] == 2 for row in report['after']['users'])
+        assert all(row['status'] == 2 for row in report['after']['tokens'] if not row['workspace_user_id'])
         for kind in ('users', 'tokens'):
             strip_status = lambda rows: [{k: v for k, v in row.items() if k != 'status'} for row in rows]
             assert strip_status(report['before'][kind]) == strip_status(report['after'][kind]), 'Cleanup altered accounting state'
         report['disabled_key_readonly_denials'] = []
-        for subject in cfg['subjects']:
-            status, value, _, _ = Session(subject['api_key']).request('/v1/models')
+        with sqlite3.connect(database.as_uri() + '?mode=ro', uri=True) as db:
+            key_rows = db.execute('SELECT id,key FROM tokens WHERE user_id IN (?,?) ORDER BY id', user_ids).fetchall()
+        assert {row[0] for row in key_rows} == expected_tokens
+        for token_id, key in key_rows:
+            status, value, _, _ = Session('sk-' + key.removeprefix('sk-')).request('/v1/models')
             denied = status in (401, 403)
-            report['disabled_key_readonly_denials'].append({'token_id': subject['token_id'], 'http_status': status, 'denied': denied})
+            report['disabled_key_readonly_denials'].append({'token_id': token_id, 'http_status': status, 'denied': denied})
             assert denied, 'Disabled key still passed model catalog authentication'
         report['status'] = 'PASS'
     except Exception as exc:

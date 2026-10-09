@@ -85,9 +85,32 @@ def materials(database, channel_ids):
     return result
 
 
+def verify_refresh_transfer(client, account_id, expected_credentials):
+    current = client.call("/api/v1/admin/accounts/" + str(account_id))
+    if current.get("id") != account_id or current.get("expires_at"):
+        raise RuntimeError("Transferred renewable account metadata differs")
+    # Ordinary account GET responses deliberately omit OAuth secrets. The
+    # authenticated official export can read back exactly one selected account;
+    # compare only in memory and never save/print the returned credentials.
+    exported = client.call("/api/v1/admin/accounts/data?ids=" + str(account_id) + "&include_proxies=false")
+    accounts = exported.get("accounts", [])
+    if len(accounts) != 1:
+        raise RuntimeError("Credential readback scope differs")
+    account = accounts[0]
+    credentials = account.get("credentials") or {}
+    refresh = credentials.get("refresh_token")
+    expected = expected_credentials.get("refresh_token")
+    if (account.get("name") != current.get("name") or account.get("platform") != "openai"
+            or account.get("type") != "oauth" or not credentials.get("access_token")
+            or credentials.get("chatgpt_account_id") != expected_credentials.get("chatgpt_account_id")
+            or not isinstance(refresh, str) or not isinstance(expected, str) or not expected
+            or not secrets.compare_digest(refresh, expected)):
+        raise RuntimeError("Transferred credential readback differs; reconcile before retry")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["stage", "transfer-refresh"])
+    parser.add_argument("action", choices=["stage", "transfer-refresh", "reconcile-transfer"])
     parser.add_argument("--plan", type=Path, required=True)
     args = parser.parse_args()
     plan = read(args.plan)
@@ -126,9 +149,33 @@ def main():
         ownership = read(plan["ownership_receipt"])
         if ownership.get("old_refresh_owner_stopped") is not True or ownership.get("driver") != "sub2api":
             raise RuntimeError("Verified old-owner shutdown receipt is required")
-        if receipt["phase"] not in ("access_only_ready", "refresh_transferred") or receipt.get("pending"):
+        if receipt["phase"] not in ("access_only_ready", "refresh_transferred"):
             raise RuntimeError("Supply stage is incomplete")
         mappings = {item["source_channel_id"]: item for item in receipt["accounts"]}
+        if args.action == "reconcile-transfer":
+            pending = receipt.get("pending") or {}
+            if pending.get("action") != "transfer-refresh":
+                raise RuntimeError("No matching transfer intent to reconcile")
+            selected = [(row, key, credentials) for row, key, credentials, _ in source
+                        if row["id"] == pending.get("source_channel_id")]
+            if len(selected) != 1 or not selected[0][1].get("refresh_token"):
+                raise RuntimeError("Pending transfer source differs")
+            row, key, credentials = selected[0]
+            credentials["refresh_token"] = key["refresh_token"]
+            item = mappings[row["id"]]
+            verify_refresh_transfer(client, item["sub2api_account_id"], credentials)
+            item["refresh_transferred"] = True
+            receipt.setdefault("reconciled_intents", []).append({**pending,
+                "verified_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                "verification": "official_single_account_export; no upstream mutation replayed"})
+            receipt.pop("pending")
+            receipt["updated_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+            save(receipt_path, receipt)
+            print(json.dumps({"phase": receipt["phase"], "reconciled_source_channel_id": row["id"],
+                              "upstream_mutations_replayed": 0}))
+            return
+        if receipt.get("pending"):
+            raise RuntimeError("Pending transfer must be reconciled before another write")
         for row, key, credentials, expiry in source:
             item = mappings[row["id"]]
             if item["refresh_transferred"] or not key.get("refresh_token"):
@@ -142,9 +189,7 @@ def main():
             save(receipt_path, receipt)
             client.call("/api/v1/admin/accounts/" + str(item["sub2api_account_id"]),
                         {"credentials": credentials, "expires_at": 0}, method="PUT", operation=operation)
-            current = client.call("/api/v1/admin/accounts/" + str(item["sub2api_account_id"]))
-            if current.get("expires_at") or not current.get("credentials", {}).get("refresh_token"):
-                raise RuntimeError("Transferred renewable account readback failed; reconcile pending intent")
+            verify_refresh_transfer(client, item["sub2api_account_id"], credentials)
             item["refresh_transferred"] = True
             receipt.pop("pending", None)
             save(receipt_path, receipt)
