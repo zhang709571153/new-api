@@ -134,6 +134,13 @@ write independent customer ledgers or refresh the same OAuth credentials.
 
 ## Remaining boundaries
 
+The 2026-10-10 post-publication audit confirms the live routing and refresh-owner
+switch, and compares actual non-fixture traffic with Sub2API usage. It records
+seven remaining P1 items, including interrupted-stream settlement, backups,
+delivered alerts and the remote management URL. See the
+[current P0/P1 checklist](lab/maintenance/sub2api-p0-p1-20261010.md) and
+[sanitized audit](lab/sub2api_e2e/production-audit-20261010.json).
+
 - Files upload/file IDs and old search/compact interfaces retain compatibility
   limits. Inline and URL PDFs and current `web_search` are separately tested.
 - Images may return 1254 by 1254 or 1536 by 1024 when 1024 by 1024 was requested.

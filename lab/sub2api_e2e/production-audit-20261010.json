@@ -1,0 +1,172 @@
+{
+  "format": 1,
+  "checked_at_utc": "2026-10-09T18:12:45.914506+00:00",
+  "deployment": "PUBLISHED_ACCEPTED",
+  "audit_scope": "Current operational metadata and fixed-window non-fixture traffic; no new complete E2E or production change",
+  "live_version": "realyu-sub2api-v3.10.0.1-20261010",
+  "gateway_sha256": "91a9dc35306ae1fe29f3326d91af92ec855e25df09f6e56c9678d359a7864b8a",
+  "health": {
+    "public_client_user_agent": {
+      "path": "/api/status",
+      "status": 200,
+      "server": "cloudflare",
+      "cf_mitigated": null,
+      "content_type": "application/json; charset=utf-8",
+      "version": "realyu-sub2api-v3.10.0.1-20261010",
+      "code": null,
+      "success": true,
+      "response_bytes": 2726
+    },
+    "local_gateway": {
+      "success": true,
+      "version": "realyu-sub2api-v3.10.0.1-20261010"
+    },
+    "local_edge": {
+      "success": true,
+      "version": "realyu-sub2api-v3.10.0.1-20261010"
+    },
+    "sub2api": {
+      "status": "ok"
+    },
+    "maintenance": false,
+    "initial_generic_python_probe_http": 403
+  },
+  "driver": {
+    "enabled": true,
+    "configured": true,
+    "pool_count": 1,
+    "legacy_channels_enabled": 0,
+    "active_sub2api_routes": 1,
+    "legacy_management_http": 410,
+    "legacy_auth_sync_enabled": false,
+    "refresh_owner_transferred": true,
+    "active_accounts": 2,
+    "inactive_accounts": 1,
+    "projected_historical_subjects_done": 87,
+    "projection_pending": 0,
+    "worker_credit_status": "ready",
+    "credit_operations_pending": 0,
+    "management_url_scope": "server-loopback-only"
+  },
+  "traffic": {
+    "from_utc": "2026-10-09T17:33:00+00:00",
+    "until_utc": "2026-10-09T18:02:54.000402+00:00",
+    "non_fixture_consume_rows": 112,
+    "non_fixture_billing_subjects": 2,
+    "completed": 106,
+    "client_gone": 5,
+    "failed": 1,
+    "completed_usage_input_output_cache_match": 106,
+    "completed_usage_missing": 0,
+    "completed_usage_mismatch": 0,
+    "duplicate_consume_request_ids": 0,
+    "failed_quota": 0,
+    "failure_kind": "upstream HTTP/2 INTERNAL_ERROR received from peer",
+    "estimated_disconnect_rows_with_later_sub2api_usage": 5,
+    "all_consume_rows_on_new_route": true,
+    "scope_limit": "RealYu consume records, not all HTTP requests or an SLA; client_gone cause is unproven; exact token agreement is not a historical financial-ledger audit"
+  },
+  "storage": {
+    "sqlite_quick_check": "ok",
+    "postgres": {
+      "version": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
+      "database_bytes": 24475327,
+      "connections": 14,
+      "active_connections": 1,
+      "max_connections": "100",
+      "wal_level": "replica",
+      "archive_mode": "off",
+      "fsync": "on",
+      "full_page_writes": "on",
+      "synchronous_commit": "on",
+      "deadlocks": 0
+    },
+    "redis": {
+      "redis_version": "8.10.2",
+      "uptime_in_seconds": "4405",
+      "connected_clients": "26",
+      "used_memory": "1781612",
+      "used_memory_human": "1.70M",
+      "maxmemory": "536870912",
+      "maxmemory_policy": "noeviction",
+      "rdb_last_bgsave_status": "ok",
+      "rdb_last_save_time": "1791568905",
+      "rdb_changes_since_last_save": "320",
+      "aof_enabled": "1",
+      "aof_last_write_status": "ok",
+      "aof_last_bgrewrite_status": "ok",
+      "aof_rewrite_in_progress": "0",
+      "aof_current_size": "3428890",
+      "aof_base_size": "89",
+      "total_error_replies": "14",
+      "rejected_connections": "0",
+      "evicted_keys": "0",
+      "blocked_clients": "0"
+    },
+    "redis_config": {
+      "appendonly": "yes",
+      "bind": "127.0.0.1",
+      "save": "300 10",
+      "maxmemory-policy": "noeviction",
+      "maxmemory": "536870912",
+      "appendfsync": "everysec"
+    }
+  },
+  "monitoring": {
+    "kuma_existing_monitors": 6,
+    "kuma_sub2api_component_monitors": 0,
+    "kuma_notification_channels": 0,
+    "sub2api_alert_rules_enabled": 8,
+    "sub2api_email_alert_recipients": 0,
+    "sub2api_channel_monitors": 0,
+    "sub2api_log_archive_integrated": false
+  },
+  "recovery": {
+    "services_automatic_delayed_start": true,
+    "service_restart_backoff_seconds": [
+      10,
+      30,
+      60
+    ],
+    "whole_host_reboot_acceptance": "NOT_RUN",
+    "latest_found_sub2api_dump_scope": "before account import; not a post-refresh production restore point",
+    "scheduled_offhost_consistent_backup_acceptance": "NOT_RUN",
+    "native_isolated_persistence_tests": "previously passed; not whole-host or production-state recovery"
+  },
+  "p0": {
+    "new_confirmed_incidents": 0,
+    "previous_response_scope_fix": "deployed; prior public ownership acceptance passed; not replayed in this audit"
+  },
+  "p1": [
+    {
+      "id": "P1-01",
+      "issue": "Interrupted-stream final usage and settlement reconciliation"
+    },
+    {
+      "id": "P1-02",
+      "issue": "Protected scheduled backups and off-host restore drill"
+    },
+    {
+      "id": "P1-03",
+      "issue": "Sub2API dependencies, stream outcomes and delivered alerts"
+    },
+    {
+      "id": "P1-04",
+      "issue": "Usable authenticated remote supply-management URL"
+    },
+    {
+      "id": "P1-05",
+      "issue": "Supply quota semantics, spare capacity and failure routing acceptance"
+    },
+    {
+      "id": "P1-06",
+      "issue": "Windows reboot, dependency recovery and sustained-load acceptance"
+    },
+    {
+      "id": "P1-07",
+      "issue": "Native Codex desktop and actual tool workflow acceptance"
+    }
+  ],
+  "production_mutations": [],
+  "private_customer_material_published": false
+}

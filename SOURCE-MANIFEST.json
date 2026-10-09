@@ -303,9 +303,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "cfd590413358ba8e125a9644da6d1e5569c09ec0bc6c4bbe2df1fd48e8ee79ee",
-      "source_sha256": "cfd590413358ba8e125a9644da6d1e5569c09ec0bc6c4bbe2df1fd48e8ee79ee",
-      "bytes": 4413,
+      "sha256": "4b4aa868292905bcf3807e93a2ceb9310864996225e5528ba9df5c40d9296d08",
+      "source_sha256": "4b4aa868292905bcf3807e93a2ceb9310864996225e5528ba9df5c40d9296d08",
+      "bytes": 4631,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -319,9 +319,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "f131504fab20e24f8a29cde1baee9d04e2040b83fdf780a24ba0badc4f5daefe",
-      "source_sha256": "9648c061079179ea0d7ab9771b53bd98a66c59db6f6b57d146107c007777b471",
-      "bytes": 9392,
+      "sha256": "09616f075e9beb73cea68a3c08856296a83e2ff4c34cc7339298d64f1fed48fa",
+      "source_sha256": "09616f075e9beb73cea68a3c08856296a83e2ff4c34cc7339298d64f1fed48fa",
+      "bytes": 9826,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -3166,6 +3166,14 @@
       "source_path": "lab/maintenance/sub2api-migration.md"
     },
     {
+      "path": "lab/maintenance/sub2api-p0-p1-20261010.md",
+      "sha256": "3eb5a0e5e7c479b2a4b5758f0cedc8eff0814aba195369906245ba4c3615d848",
+      "source_sha256": "3eb5a0e5e7c479b2a4b5758f0cedc8eff0814aba195369906245ba4c3615d848",
+      "bytes": 8982,
+      "git_mode": "100644",
+      "source_path": "lab/maintenance/sub2api-p0-p1-20261010.md"
+    },
+    {
       "path": "lab/realyu-pricing-20260924.json",
       "sha256": "4eff106578670c9a653ddaeddb17db9dccf26d7a3a09273d2cf8bef09fbad19c",
       "source_sha256": "096102a77524a2d840cbdc78a50f04831958988fcecd522464275911119d7183",
@@ -3620,6 +3628,14 @@
       "bytes": 11368,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/prewarm_worker_acceptance.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/production-audit-20261010.json",
+      "sha256": "b22cfc56819100964c7d2b6ede8aa133899aa5d79bc9b6c8406b5ba7eb18b705",
+      "source_sha256": "b22cfc56819100964c7d2b6ede8aa133899aa5d79bc9b6c8406b5ba7eb18b705",
+      "bytes": 5552,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/production-audit-20261010.json"
     },
     {
       "path": "lab/sub2api_e2e/projection_control_fixture.py",
@@ -23315,38 +23331,24 @@
   },
   "publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-09T17:50:13.770530+00:00",
-    "checks": {
-      "file_hashes": true,
-      "private_paths_excluded": true,
-      "all_go_inputs_match_tested_build": true,
-      "public_assets_unchanged": true
-    },
-    "review_scope": "Final public release evidence, migration docs, scoped credential readback/reconciliation and operator fixture cleanup. Gateway binary unchanged.",
-    "changed_or_added_count": 12,
+    "checked_at_utc": "2026-10-09T18:14:12.873674+00:00",
+    "review_scope": "Sanitized post-publication operational audit and prioritized P0/P1 checklist. Documentation only; deployed binaries unchanged.",
     "changed_or_added_paths": [
       "HANDOFF-SUB2API.md",
       "LIVE-DEPLOYMENT.md",
-      "deploy/sub2api/NATIVE-WINDOWS.md",
-      "deploy/sub2api/README.md",
-      "deploy/sub2api/production_supply.py",
-      "deploy/sub2api/test_production_supply.py",
-      "lab/maintenance/sub2api-migration.md",
-      "lab/sub2api_e2e/README.md",
-      "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md",
-      "lab/sub2api_e2e/disable_operator_fixture.py",
-      "lab/sub2api_e2e/portable/checklist.json",
-      "lab/sub2api_e2e/release-public-20261010.json"
+      "lab/maintenance/sub2api-p0-p1-20261010.md",
+      "lab/sub2api_e2e/production-audit-20261010.json"
     ],
-    "go_input_files_verified": 1090,
+    "changed_or_added_count": 4,
+    "checks": {
+      "file_hashes": true,
+      "private_paths_excluded": true,
+      "go_inputs_unchanged_from_previous_verified_revision": true,
+      "public_assets_unchanged": true
+    },
     "unexpected_credential_patterns": 0,
-    "git_ancestry_included": false,
-    "active_workflow_files": 0,
-    "public_asset_count": 38,
-    "workflow_templates_preserved_count": 6,
-    "workflow_permission_requested": false,
-    "deployment_status": "PUBLISHED_ACCEPTED",
-    "note": "Bounded source review, not proof of absence of all possible secrets. See release-public-20261010.json for actual scope and limitations."
+    "deployment_status": "PUBLISHED_ACCEPTED_WITH_P1_BACKLOG",
+    "note": "Read-only production audit; incomplete recovery and client acceptance are explicitly tracked. Does not claim a fresh complete E2E or absence of all defects."
   },
   "publication_review_history": [
     {
@@ -23450,6 +23452,41 @@
       "workflow_permission_requested": false,
       "deployment_status": "FIRST_CUTOVER_ROLLED_BACK_CORRECTED_CANDIDATE_PASS_RETRY_PENDING",
       "note": "Bounded content review is not proof of absence of all secrets. Candidate acceptance is not public deployment."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-09T17:50:13.770530+00:00",
+      "checks": {
+        "file_hashes": true,
+        "private_paths_excluded": true,
+        "all_go_inputs_match_tested_build": true,
+        "public_assets_unchanged": true
+      },
+      "review_scope": "Final public release evidence, migration docs, scoped credential readback/reconciliation and operator fixture cleanup. Gateway binary unchanged.",
+      "changed_or_added_count": 12,
+      "changed_or_added_paths": [
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "deploy/sub2api/NATIVE-WINDOWS.md",
+        "deploy/sub2api/README.md",
+        "deploy/sub2api/production_supply.py",
+        "deploy/sub2api/test_production_supply.py",
+        "lab/maintenance/sub2api-migration.md",
+        "lab/sub2api_e2e/README.md",
+        "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md",
+        "lab/sub2api_e2e/disable_operator_fixture.py",
+        "lab/sub2api_e2e/portable/checklist.json",
+        "lab/sub2api_e2e/release-public-20261010.json"
+      ],
+      "go_input_files_verified": 1090,
+      "unexpected_credential_patterns": 0,
+      "git_ancestry_included": false,
+      "active_workflow_files": 0,
+      "public_asset_count": 38,
+      "workflow_templates_preserved_count": 6,
+      "workflow_permission_requested": false,
+      "deployment_status": "PUBLISHED_ACCEPTED",
+      "note": "Bounded source review, not proof of absence of all possible secrets. See release-public-20261010.json for actual scope and limitations."
     }
   ]
 }

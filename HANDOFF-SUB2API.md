@@ -8,6 +8,8 @@
 
 接手机器为 Windows Server。先阅读：
 
+当前线上复核与后续修复顺序见 [2026-10-10 P0/P1 清单](lab/maintenance/sub2api-p0-p1-20261010.md)。数据面切换完成不代表异地运营入口、备份告警与完整客户端验收均已完成。
+
 使用交接分支 `codex/sub2api-handoff-20261009`，不要从默认分支部署：
 
 ```powershell
