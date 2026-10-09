@@ -325,6 +325,21 @@ func Sub2APISessionID(subject Sub2APISubject, signal string) (string, error) {
 }
 
 func Sub2APIScopeRequestBody(subject Sub2APISubject, data []byte) ([]byte, error) {
+	// Server-retained item/conversation lookup has no tenant ownership proof.
+	// Full inline history (including encrypted reasoning) remains supported.
+	if conversation := gjson.GetBytes(data, "conversation"); conversation.Exists() && conversation.Type != gjson.Null {
+		return nil, ErrSub2APIResponseNotOwned
+	}
+	for _, item := range gjson.GetBytes(data, "input").Array() {
+		if item.Get("type").String() == "item_reference" {
+			return nil, ErrSub2APIResponseNotOwned
+		}
+	}
+	var err error
+	data, err = Sub2APIUnscopeResponseReference(subject, data, "previous_response_id")
+	if err != nil {
+		return nil, err
+	}
 	for _, field := range []string{"prompt_cache_key", "conversation_id"} {
 		if value := gjson.GetBytes(data, field); value.Exists() && value.Type == gjson.String && value.String() != "" {
 			scoped, err := Sub2APISessionID(subject, value.String())

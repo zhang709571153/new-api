@@ -111,10 +111,20 @@ new `CODEX_HOME` does not alter daily Codex credentials or execution policy.
 This does not count as a successful file/tool or desktop UI test.
 
 `release_owner_isolation.py` holds the source person's WS open, attempts its
-response ID from another person and from the same person's team identity, then
-requires successful continuation on the original connection. Foreign responses
-must be denied without retained-content exposure or token charges. The four
-attempts are bounded and unretried; a failure remains a first-failure artifact.
+response ID from another person and from the same person's team identity over
+both HTTP and WS, and also rejects unsigned/tampered HTTP references. It then
+requires successful continuation on the original connection. All six denied
+requests must expose no retained content and change no subject's token balance.
+The eight attempts are bounded with runner retries disabled; upstream internal
+retry behavior is separate. A failure remains a first-failure artifact.
+
+The production first attempt exposed a missing ownership boundary in stock
+upstream retained-response routing. A mocked provider's denial was insufficient
+evidence. The gateway now authenticates opaque response IDs with its immutable
+identity secret, namespace, member and team before any upstream lookup. Keep
+this real-provider isolation test in the release checklist. Unauthenticated raw
+response IDs from older releases and server-retained `conversation` or
+`item_reference` lookups are rejected. Full inline history remains supported.
 
 ```powershell
 python lab/sub2api_e2e/release_cli_dialogue.py --codex PINNED_CODEX_EXE --secret-file PRIVATE_JSON --output NEW_PRIVATE_OUTPUT --run

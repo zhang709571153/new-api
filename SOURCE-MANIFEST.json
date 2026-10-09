@@ -303,9 +303,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "82e0668ac13f9fbcf4b8e396d5bc3313c9412bc38751308c7c1dd2e43c644f68",
-      "source_sha256": "82e0668ac13f9fbcf4b8e396d5bc3313c9412bc38751308c7c1dd2e43c644f68",
-      "bytes": 4368,
+      "sha256": "da09d6c766552762b8ea57738f7dd8f7eb44cb94fb2b146fdd1490cc4f9ad5da",
+      "source_sha256": "da09d6c766552762b8ea57738f7dd8f7eb44cb94fb2b146fdd1490cc4f9ad5da",
+      "bytes": 4378,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -319,9 +319,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "d6ebf2e6ca2296545d69c10557ecac7325c45c771c180d0ee769ae3a4497b467",
-      "source_sha256": "d6ebf2e6ca2296545d69c10557ecac7325c45c771c180d0ee769ae3a4497b467",
-      "bytes": 10439,
+      "sha256": "08c59d8dc4e0a297a857b2260b286e2206dcb2be0b6eae4c5a07eba22d2fc310",
+      "source_sha256": "ed0730f85031b7f4e09c9bcfecfb195a5a0ec61354d69c8337eafcee3ce9fe10",
+      "bytes": 7049,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -2423,9 +2423,9 @@
     },
     {
       "path": "deploy/sub2api/Install-HostRelease.ps1",
-      "sha256": "88c524041c1e4e166e83495f2cf56719dcc5c5e2957cdaa49b1176e9b9230367",
-      "source_sha256": "88c524041c1e4e166e83495f2cf56719dcc5c5e2957cdaa49b1176e9b9230367",
-      "bytes": 3507,
+      "sha256": "41f9ff5f302efd2a99b874e8c6262f155afe0c0a1bd86128dd6a9f936b19212e",
+      "source_sha256": "41f9ff5f302efd2a99b874e8c6262f155afe0c0a1bd86128dd6a9f936b19212e",
+      "bytes": 4823,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/Install-HostRelease.ps1"
     },
@@ -2559,9 +2559,9 @@
     },
     {
       "path": "deploy/sub2api/host/README.md",
-      "sha256": "e080ec848be0f970119bf9b22beb2c86402fc4ab136dca2ea0080b43b6eb8435",
-      "source_sha256": "e080ec848be0f970119bf9b22beb2c86402fc4ab136dca2ea0080b43b6eb8435",
-      "bytes": 3948,
+      "sha256": "c2ae10fd1d9d9e6ee3bee0f62d29f45a3a3947345d37f8c1f254de2643b51af6",
+      "source_sha256": "c2ae10fd1d9d9e6ee3bee0f62d29f45a3a3947345d37f8c1f254de2643b51af6",
+      "bytes": 4556,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/host/README.md"
     },
@@ -2575,9 +2575,9 @@
     },
     {
       "path": "deploy/sub2api/host/Verify-Services.ps1",
-      "sha256": "bc947dca79c8e14bdc38a6903f635ae12492e4b374429d8866363833d3468d33",
-      "source_sha256": "bc947dca79c8e14bdc38a6903f635ae12492e4b374429d8866363833d3468d33",
-      "bytes": 3903,
+      "sha256": "49ee670d6bffc6d0d410eaedb94c861931385139a0c73dbef82318098a896b88",
+      "source_sha256": "49ee670d6bffc6d0d410eaedb94c861931385139a0c73dbef82318098a896b88",
+      "bytes": 4898,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/host/Verify-Services.ps1"
     },
@@ -2615,9 +2615,9 @@
     },
     {
       "path": "deploy/sub2api/production_route.py",
-      "sha256": "ae6d4e09824c53166601f10737127a7d017dc0e206491c08c49ba46ab179edfc",
-      "source_sha256": "ae6d4e09824c53166601f10737127a7d017dc0e206491c08c49ba46ab179edfc",
-      "bytes": 6159,
+      "sha256": "eaacd7512991c982c21eeaf51db92585874e807f79dbe04944b6c9ea8e667c0e",
+      "source_sha256": "eaacd7512991c982c21eeaf51db92585874e807f79dbe04944b6c9ea8e667c0e",
+      "bytes": 8313,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/production_route.py"
     },
@@ -3183,11 +3183,19 @@
     },
     {
       "path": "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md",
-      "sha256": "b7bf4e025fd678e3c9a1d34ff4bbc75985741e3d7daa8ede90e45d2545f97eb8",
-      "source_sha256": "b7bf4e025fd678e3c9a1d34ff4bbc75985741e3d7daa8ede90e45d2545f97eb8",
-      "bytes": 8358,
+      "sha256": "a51a964ec96c3d9196379da807018c59955dd55c4b347ae471b0038ba10ca233",
+      "source_sha256": "a51a964ec96c3d9196379da807018c59955dd55c4b347ae471b0038ba10ca233",
+      "bytes": 9048,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md"
+    },
+    {
+      "path": "lab/sub2api_e2e/RESPONSE-OWNERSHIP.md",
+      "source_path": "lab/sub2api_e2e/RESPONSE-OWNERSHIP.md",
+      "source_sha256": "6bc0870b818493648cd0b8e0eb6c70c1143273b9d6f1a12eb34d6363fc113d92",
+      "sha256": "6bc0870b818493648cd0b8e0eb6c70c1143273b9d6f1a12eb34d6363fc113d92",
+      "bytes": 2224,
+      "git_mode": "100644"
     },
     {
       "path": "lab/sub2api_e2e/acceptance-gaps.json",
@@ -3686,6 +3694,14 @@
       "source_path": "lab/sub2api_e2e/release-catalog-go-summary.json"
     },
     {
+      "path": "lab/sub2api_e2e/release-image-bichon-20261010.json",
+      "source_path": "lab/sub2api_e2e/release-image-bichon-20261010.json",
+      "source_sha256": "02565a1d267e7ea9da6edda0472d7cd62e85495172da58a1bc59c3773e308a41",
+      "sha256": "7c8ed9c0dc9a69cb77ab0df95be3b9d315196a3c9c0f485120a9182c1659221c",
+      "bytes": 1681,
+      "git_mode": "100644"
+    },
+    {
       "path": "lab/sub2api_e2e/release-image-functional-first.json",
       "sha256": "fb63fc42bef23dfac9c82f8b3ba8494023b2403232d890358c8a7e9ceb8ba58d",
       "source_sha256": "aa608443403d0eaf849069a49735f741fe61bf94df216428d6468d89f0a3c56a",
@@ -3742,10 +3758,18 @@
       "source_path": "lab/sub2api_e2e/release-real-edge-first.json"
     },
     {
+      "path": "lab/sub2api_e2e/release-scope-candidate-20261010.json",
+      "source_path": "lab/sub2api_e2e/release-scope-candidate-20261010.json",
+      "source_sha256": "437a39027eeda9f317c5ff2e0059fac52377191ca830d8ce82c3cdb809754f63",
+      "sha256": "ea8e8f13d4fcf8481d8409f73bd1984cdf7e57b80b708d74fc33847fd971ab55",
+      "bytes": 3974,
+      "git_mode": "100644"
+    },
+    {
       "path": "lab/sub2api_e2e/release_acceptance.py",
-      "sha256": "634525c8060549738bc0002f48cad796979c4211483cd305fbbcd35a8b91e086",
-      "source_sha256": "634525c8060549738bc0002f48cad796979c4211483cd305fbbcd35a8b91e086",
-      "bytes": 22434,
+      "sha256": "d0543a331a4813de9d54c14eb702922c853b9c98be7b9aab76b6242b6ff435b7",
+      "source_sha256": "d0543a331a4813de9d54c14eb702922c853b9c98be7b9aab76b6242b6ff435b7",
+      "bytes": 22858,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/release_acceptance.py"
     },
@@ -3759,9 +3783,9 @@
     },
     {
       "path": "lab/sub2api_e2e/release_owner_isolation.py",
-      "sha256": "1a1e1fa46ac5f6bdb0e9a8af67f2dd0761e1c1a56ee0125fa2b6ac79f7752ef6",
-      "source_sha256": "1a1e1fa46ac5f6bdb0e9a8af67f2dd0761e1c1a56ee0125fa2b6ac79f7752ef6",
-      "bytes": 7631,
+      "sha256": "51f6e46b4b54d11c3fe49374f896920484e7126531ad612be4f4d6bacb865977",
+      "source_sha256": "51f6e46b4b54d11c3fe49374f896920484e7126531ad612be4f4d6bacb865977",
+      "bytes": 9179,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/release_owner_isolation.py"
     },
@@ -6815,9 +6839,9 @@
     },
     {
       "path": "relay/channel/openai/relay_responses.go",
-      "sha256": "a3a68bfe67467b63b93f5300cc581dc0c9c4144aba0f9516c4ef3d202fa71455",
-      "source_sha256": "a3a68bfe67467b63b93f5300cc581dc0c9c4144aba0f9516c4ef3d202fa71455",
-      "bytes": 4089,
+      "sha256": "7d11f07f37fdb38fd6b5e758ed9a918843aa9e0036423efb4355824f50989a85",
+      "source_sha256": "7d11f07f37fdb38fd6b5e758ed9a918843aa9e0036423efb4355824f50989a85",
+      "bytes": 4685,
       "git_mode": "100644",
       "source_path": "relay/channel/openai/relay_responses.go"
     },
@@ -6852,6 +6876,14 @@
       "bytes": 1769,
       "git_mode": "100644",
       "source_path": "relay/channel/openai/stream_tool_billing_test.go"
+    },
+    {
+      "path": "relay/channel/openai/sub2api_response_scope_test.go",
+      "source_path": "relay/channel/openai/sub2api_response_scope_test.go",
+      "source_sha256": "ce7901b96766be6624713a531b01a02520a93a9d46100af805b94b877d4cf1ce",
+      "sha256": "ce7901b96766be6624713a531b01a02520a93a9d46100af805b94b877d4cf1ce",
+      "bytes": 3138,
+      "git_mode": "100644"
     },
     {
       "path": "relay/channel/openai/usage.go",
@@ -7823,25 +7855,25 @@
     },
     {
       "path": "relay/responses_handler.go",
-      "sha256": "1438143dec9633251a3d1463a0dbbe36646f0d2dad6bac1074259e39af325c27",
-      "source_sha256": "1438143dec9633251a3d1463a0dbbe36646f0d2dad6bac1074259e39af325c27",
-      "bytes": 3953,
+      "sha256": "8f72a13b5bef94d40c23b623807d0ad6217f0d64934c8e5f62d8d746008cc8f3",
+      "source_sha256": "8f72a13b5bef94d40c23b623807d0ad6217f0d64934c8e5f62d8d746008cc8f3",
+      "bytes": 4152,
       "git_mode": "100644",
       "source_path": "relay/responses_handler.go"
     },
     {
       "path": "relay/responses_request.go",
-      "sha256": "6a3b55fef8b6c9b282e2819329d528ad0f2772669f4523622254a2bd3a35ac4f",
-      "source_sha256": "6a3b55fef8b6c9b282e2819329d528ad0f2772669f4523622254a2bd3a35ac4f",
-      "bytes": 3807,
+      "sha256": "d43cb095ee3915036ec65c115f2e33ba3d57c20bb0cfc45407a1079d397d0c83",
+      "source_sha256": "d43cb095ee3915036ec65c115f2e33ba3d57c20bb0cfc45407a1079d397d0c83",
+      "bytes": 4190,
       "git_mode": "100644",
       "source_path": "relay/responses_request.go"
     },
     {
       "path": "relay/responses_websocket.go",
-      "sha256": "baad3e421f23b859bd6961d76cd0167d0e8394c1491140f64852c7ca71689c85",
-      "source_sha256": "baad3e421f23b859bd6961d76cd0167d0e8394c1491140f64852c7ca71689c85",
-      "bytes": 38343,
+      "sha256": "1816a89dc0390b2b4a809a54a19fbe3cf5bae62894713e9e83cd81abe7926b06",
+      "source_sha256": "1816a89dc0390b2b4a809a54a19fbe3cf5bae62894713e9e83cd81abe7926b06",
+      "bytes": 39750,
       "git_mode": "100644",
       "source_path": "relay/responses_websocket.go"
     },
@@ -10031,9 +10063,9 @@
     },
     {
       "path": "service/sub2api_driver.go",
-      "sha256": "b84f20c4f4f04f0b7fff5772c70a8619aa3bae2ddfc672ecdf45e8af3db01c30",
-      "source_sha256": "b84f20c4f4f04f0b7fff5772c70a8619aa3bae2ddfc672ecdf45e8af3db01c30",
-      "bytes": 26469,
+      "sha256": "52fa151b538e906c009d3eda1bc8b1dfeeb8fc348a3b271d793821d0d777d10e",
+      "source_sha256": "52fa151b538e906c009d3eda1bc8b1dfeeb8fc348a3b271d793821d0d777d10e",
+      "bytes": 27082,
       "git_mode": "100644",
       "source_path": "service/sub2api_driver.go"
     },
@@ -10052,6 +10084,22 @@
       "bytes": 15195,
       "git_mode": "100644",
       "source_path": "service/sub2api_enrollment.go"
+    },
+    {
+      "path": "service/sub2api_response_scope.go",
+      "source_path": "service/sub2api_response_scope.go",
+      "source_sha256": "7215b503ffbd857958871c5dcf5d576a6b16c7eac3dd15afe3582ab7eca11087",
+      "sha256": "7215b503ffbd857958871c5dcf5d576a6b16c7eac3dd15afe3582ab7eca11087",
+      "bytes": 3036,
+      "git_mode": "100644"
+    },
+    {
+      "path": "service/sub2api_response_scope_test.go",
+      "source_path": "service/sub2api_response_scope_test.go",
+      "source_sha256": "bbf889ea97f6b078666f2ad65b8a34761914e32f76f8712bb1cd2575730fba4a",
+      "sha256": "bbf889ea97f6b078666f2ad65b8a34761914e32f76f8712bb1cd2575730fba4a",
+      "bytes": 4268,
+      "git_mode": "100644"
     },
     {
       "path": "service/subscription_reset_task.go",
@@ -23308,5 +23356,47 @@
     "workflow_permission_requested": false,
     "deployment_status": "OS_ELEVATION_CANCELLED_NOT_DEPLOYED",
     "note": "Bounded incremental content review and literal-pattern scan, not proof of absence of every possible secret. This source freeze is not an installed/public acceptance receipt; first failure artifacts and declared acceptance limits remain intact."
+  },
+  "content_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-09T17:31:06.854803+00:00",
+    "checks": {
+      "file_hashes": true,
+      "private_paths_excluded": true,
+      "compiled_go_changes_match_tested_build": true,
+      "public_assets_exact": true
+    },
+    "review_scope": "Response ownership boundary, HTTP/WS isolation tests, existing-service retry verification, fresh route reconciliation and sanitized release evidence.",
+    "changed_or_added_count": 20,
+    "changed_or_added_paths": [
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "deploy/sub2api/Install-HostRelease.ps1",
+      "deploy/sub2api/host/README.md",
+      "deploy/sub2api/host/Verify-Services.ps1",
+      "deploy/sub2api/production_route.py",
+      "lab/sub2api_e2e/RELEASE-ACCEPTANCE.md",
+      "lab/sub2api_e2e/RESPONSE-OWNERSHIP.md",
+      "lab/sub2api_e2e/release-image-bichon-20261010.json",
+      "lab/sub2api_e2e/release-scope-candidate-20261010.json",
+      "lab/sub2api_e2e/release_acceptance.py",
+      "lab/sub2api_e2e/release_owner_isolation.py",
+      "relay/channel/openai/relay_responses.go",
+      "relay/channel/openai/sub2api_response_scope_test.go",
+      "relay/responses_handler.go",
+      "relay/responses_request.go",
+      "relay/responses_websocket.go",
+      "service/sub2api_driver.go",
+      "service/sub2api_response_scope.go",
+      "service/sub2api_response_scope_test.go"
+    ],
+    "unexpected_credential_patterns": 0,
+    "git_ancestry_included": false,
+    "active_workflow_files": 0,
+    "public_asset_count": 38,
+    "workflow_templates_preserved_count": 6,
+    "workflow_permission_requested": false,
+    "deployment_status": "FIRST_CUTOVER_ROLLED_BACK_CORRECTED_CANDIDATE_PASS_RETRY_PENDING",
+    "note": "Bounded content review is not proof of absence of all secrets. Candidate acceptance is not public deployment."
   }
 }

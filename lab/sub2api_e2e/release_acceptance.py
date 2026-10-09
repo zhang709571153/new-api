@@ -293,8 +293,11 @@ def main():
                 elif name == 'image-generation':
                     from PIL import Image
                     from io import BytesIO
-                    result = client.images.generate(model='gpt-image-2', prompt='One flat vector image of a blue square centered on a white background. No text.',
-                                                    n=1, size='1024x1024', quality='low', response_format='b64_json')
+                    prompt = config.get('image_prompt', 'One flat vector image of a blue square centered on a white background. No text.')
+                    quality = config.get('image_quality', 'low')
+                    assert quality in ('auto', 'low', 'medium', 'high'), 'Unknown image quality'
+                    result = client.images.generate(model='gpt-image-2', prompt=prompt,
+                                                    n=1, size='1024x1024', quality=quality, response_format='b64_json')
                     assert len(result.data) == 1 and result.data[0].b64_json, 'Expected exactly one image payload'
                     data = base64.b64decode(result.data[0].b64_json, validate=True)
                     with Image.open(BytesIO(data)) as img:
@@ -304,7 +307,9 @@ def main():
                         extension = img.format.lower()
                     assert extension in ('png', 'jpeg', 'webp'), 'Unexpected image encoding'
                     (args.output / ('generated-image.' + extension)).write_bytes(data)
-                    row.update(image_bytes=len(data), image_sha256=hashlib.sha256(data).hexdigest(), visual_review='NOT_RUN')
+                    row.update(image_bytes=len(data), image_sha256=hashlib.sha256(data).hexdigest(), visual_review='NOT_RUN',
+                               image_prompt=prompt, requested_quality=quality,
+                               reported_usage=result.usage.model_dump() if getattr(result, 'usage', None) else None)
                 row['status'] = 'PASS'
             except Exception as exc:
                 row['error_type'] = type(exc).__name__

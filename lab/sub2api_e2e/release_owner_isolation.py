@@ -5,6 +5,7 @@ person's team identity attempt to continue its response, then the original
 identity must still continue correctly. No key/permissions/service mutations.
 """
 import argparse
+import base64
 import datetime as dt
 import hashlib
 import json
@@ -42,8 +43,8 @@ def main():
     database = Path(cfg['ledger_db']).resolve(strict=True)
     before = ledger_snapshot(database, subjects)
     assert not args.output.exists(), 'Preserve first-failure output'
-    report = {'status': 'PREPARED', 'gateway_sha256': digest, 'maximum_model_attempts': 4,
-              'automatic_retries': 0, 'checks': [], 'scope': 'Dedicated real WS response ownership only'}
+    report = {'status': 'PREPARED', 'gateway_sha256': digest, 'maximum_model_attempts': 8,
+              'automatic_retries': 0, 'checks': [], 'scope': 'Dedicated real WS and HTTP response ownership'}
     if not args.run:
         print(json.dumps(report))
         return 0
@@ -108,13 +109,32 @@ def main():
             report['checks'].append(first)
             save()
             denial_before = ledger_snapshot(database, subjects)
+            public_id = first['response_id']
+            assert public_id.startswith('resp_ry1_'), 'Response ID lacks subject authentication'
+            encoded = public_id.removeprefix('resp_ry1_').split('.')[0]
+            raw_id = base64.urlsafe_b64decode(encoded + '=' * (-len(encoded) % 4)).decode()
+            tampered = public_id[:-1] + ('0' if public_id[-1] != '0' else '1')
+            with httpx.Client(trust_env=False, timeout=20) as client:
+                for label, subject, response_id in (
+                        ('http-different-person', outsider, public_id),
+                        ('http-same-person-team', team, public_id),
+                        ('http-unsigned-id', source, raw_id),
+                        ('http-tampered-id', source, tampered)):
+                    response = client.post(base + '/responses', headers={'Authorization': 'Bearer ' + subject['api_key']},
+                        json={'model': model, 'input': 'Repeat the remembered marker.', 'previous_response_id': response_id,
+                              'store': False, 'stream': False})
+                    assert response.status_code == 403, 'HTTP ownership denial must be explicit'
+                    assert marker not in response.text, 'HTTP denial exposed retained content'
+                    report['checks'].append({'label': label, 'status': 'PASS', 'denied': True,
+                        'http_status': response.status_code, 'request_id': response.headers.get('X-Oneapi-Request-Id')})
+                    save()
             for label, subject in (('different-person', outsider), ('same-person-team', team)):
                 with socket(subject) as foreign:
                     result = turn(foreign, label, first['response_id'], negative=True)
                 report['checks'].append(result)
                 save()
             denied_after, _, observations = observe_settlement(database, subjects, denial_before)
-            for subject in (outsider, team):
+            for subject in (source, outsider, team):
                 token = str(subject['token_id'])
                 assert denial_before['tokens'][token] == denied_after['tokens'][token], 'Denied subject was charged'
             report['denied_token_no_charge'] = True

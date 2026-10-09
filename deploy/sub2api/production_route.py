@@ -4,6 +4,7 @@ Uses a private plan and persistent receipt. Staging adds a disabled route only;
 activation requires a closed, fully drained maintenance admission gate.
 """
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -27,7 +28,7 @@ def save(path, value):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["stage", "activate", "restore-routing"])
+    parser.add_argument("action", choices=["stage", "restage", "activate", "restore-routing"])
     parser.add_argument("--plan", type=Path, required=True)
     args = parser.parse_args()
     plan = read(args.plan)
@@ -52,7 +53,35 @@ def main():
         if channels["total"] > 100:
             raise RuntimeError("Channel inventory exceeds this deployment plan")
         items = channels["items"]
-        if args.action == "stage":
+        if args.action == "restage":
+            if receipt_path.exists():
+                raise RuntimeError("Restaging requires a fresh operation receipt")
+            prior_path = Path(plan["restored_receipt"])
+            if hashlib.sha256(prior_path.read_bytes()).hexdigest() != plan["restored_receipt_sha256"]:
+                raise RuntimeError("Previous restored receipt changed")
+            prior = read(prior_path)
+            if prior.get("phase") != "restored":
+                raise RuntimeError("Previous route rollback is not complete")
+            matches = [item for item in items if item["name"] == plan["route_name"]]
+            if len(matches) != 1:
+                raise RuntimeError("Restored route identity is ambiguous")
+            restored = matches[0]
+            if (restored["id"] != prior["channel_id"] or restored["status"] != 2
+                    or restored["type"] != 59 or restored["base_url"] != plan["sub2api_base_url"]
+                    or restored["group"] != "default"
+                    or sorted(restored["models"].split(",")) != sorted(prior["models"])):
+                raise RuntimeError("Restored route configuration differs")
+            settings = json.loads(restored.get("setting") or "{}")
+            if not all(settings.get(key) is True for key in ("pass_through_body_enabled", "responses_websocket_enabled")):
+                raise RuntimeError("Restored route protocol settings differ")
+            originals = [{key: item[key] for key in ("id", "type", "status", "models", "group")}
+                         for item in items if item["id"] != restored["id"]]
+            if sorted(originals, key=lambda item: item["id"]) != sorted(prior["original_channels"], key=lambda item: item["id"]):
+                raise RuntimeError("Legacy channel baseline changed; reconcile before restaging")
+            receipt = {"phase": "disabled_route_ready", "channel_id": restored["id"],
+                       "models": prior["models"], "original_channels": originals,
+                       "restored_receipt_sha256": plan["restored_receipt_sha256"], "restage_read_only": True}
+        elif args.action == "stage":
             matches = [item for item in items if item["name"] == plan["route_name"]]
             if matches:
                 if receipt.get("channel_id") != matches[0]["id"] or matches[0]["status"] != 2:

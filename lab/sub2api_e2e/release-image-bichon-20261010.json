@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "path": "isolated RealYu edge -> Sub2API -> real upstream",
+  "endpoint": "/v1/images/generations",
+  "model": "gpt-image-2",
+  "gateway_sha256": "91a9dc35306ae1fe29f3326d91af92ec855e25df09f6e56c9678d359a7864b8a",
+  "requested_size": "1024x1024",
+  "actual_dimensions": [
+    1536,
+    1024
+  ],
+  "image_sha256": "2d96bc3ebe4aab1aeddb80aa21f33f26350b2d1f5eef694033c91ed78de39b00",
+  "seconds": 28.688,
+  "prompt": "一只小小的白色比熊犬进入《原神》的提瓦特世界，在蒙德的绿色草地和古代遗迹前勇敢地打丘丘人。小比熊毛茸茸、圆脸黑鼻，穿着精致的冒险家披风，挥动一把小剑，以风元素旋风与两只戴面具、拿木盾的丘丘人交战。画面要看得出比熊和丘丘人的全身动作，动作生动、表情可爱又英勇，明亮的阳光，远处有风车与山丘。高质量原神风格的动漫游戏插画，精致细节、电影感构图，无文字、无水印，无血腥。",
+  "reported_usage": {
+    "input_tokens": 172,
+    "input_tokens_details": {
+      "image_tokens": 0,
+      "text_tokens": 172
+    },
+    "output_tokens": 601,
+    "total_tokens": 773,
+    "output_tokens_details": {
+      "image_tokens": 601,
+      "text_tokens": 0
+    }
+  },
+  "request_id": "202610091727581502446008268d9d6rXb3ESek",
+  "quota_charged": 97,
+  "financial_invariants": true,
+  "visual_review": {
+    "status": "PASS",
+    "observed": "White bichon in adventurer cape and small sword fights two masked hilichurls with wind effects; Mondstadt-like windmills, city and ruins; no text"
+  },
+  "production_public_acceptance": false,
+  "exact_requested_dimensions_honored": false
+}

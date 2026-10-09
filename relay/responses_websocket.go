@@ -87,14 +87,16 @@ type responsesWSCallState struct {
 }
 
 type responsesWSSession struct {
-	ctx            context.Context
-	cancel         context.CancelFunc
-	client         *websocket.Conn
-	runner         ResponsesWSRequestRunner
-	request        *http.Request
-	requestID      string
-	nextEventIndex int
-	workers        sync.WaitGroup
+	ctx             context.Context
+	cancel          context.CancelFunc
+	client          *websocket.Conn
+	runner          ResponsesWSRequestRunner
+	request         *http.Request
+	requestID       string
+	nextEventIndex  int
+	workers         sync.WaitGroup
+	responseSubject service.Sub2APISubject
+	scopeResponses  bool
 
 	clientWriteMu sync.Mutex
 	targetWriteMu sync.Mutex
@@ -120,6 +122,8 @@ func ResponsesWebSocketHelper(c *gin.Context, client *websocket.Conn, runner Res
 	ctx, cancel := context.WithCancel(c.Request.Context())
 	s := &responsesWSSession{ctx: ctx, cancel: cancel, client: client, runner: runner,
 		request: c.Request.Clone(ctx), requestID: c.GetString(common.RequestIdKey)}
+	s.scopeResponses = service.Sub2APIDriverEnabled()
+	s.responseSubject = service.Sub2APISubjectFromContext(c)
 	if s.requestID == "" {
 		s.requestID = common.NewRequestId()
 	}
@@ -225,6 +229,9 @@ func (s *responsesWSSession) runRequest(state *responsesWSCallState, message []b
 }
 
 func (s *responsesWSSession) runCall(c *gin.Context, state *responsesWSCallState, create responsesWSCreateRequest) (apiErr *types.NewAPIError) {
+	if s.scopeResponses && s.responseSubject != service.Sub2APISubjectFromContext(c) {
+		return types.NewErrorWithStatusCode(service.ErrSub2APIResponseNotOwned, types.ErrorCodeAccessDenied, http.StatusForbidden, types.ErrOptionWithSkipRetry())
+	}
 	policy := service.RequestPolicy(c)
 	modelName := create.Request.Model
 	started := time.Now()
@@ -486,6 +493,12 @@ func (s *responsesWSSession) runCall(c *gin.Context, state *responsesWSCallState
 				pendingControl = nil
 			}
 		case control := <-state.controls:
+			if s.scopeResponses {
+				if _, err := service.Sub2APIUnscopeResponseReference(s.responseSubject, control.body, "response_id"); err != nil {
+					s.sendError(control.eventID, control.streamID, types.NewErrorWithStatusCode(err, types.ErrorCodeAccessDenied, http.StatusForbidden, types.ErrOptionWithSkipRetry()))
+					continue
+				}
+			}
 			if pendingControl != nil || sentControl != nil {
 				s.sendError(control.eventID, control.streamID, newResponsesWSInvalidRequestError(errors.New("a response control event is already pending")))
 				continue
@@ -632,6 +645,9 @@ func buildResponsesWSCreatePayload(c *gin.Context, info *relaycommon.RelayInfo, 
 	if service.Sub2APIDriverEnabled() {
 		jsonData, err = service.Sub2APIScopeRequestBody(service.Sub2APISubjectFromContext(c), jsonData)
 		if err != nil {
+			if errors.Is(err, service.ErrSub2APIResponseNotOwned) {
+				return nil, types.NewErrorWithStatusCode(err, types.ErrorCodeAccessDenied, http.StatusForbidden, types.ErrOptionWithSkipRetry())
+			}
 			return nil, types.NewError(err, types.ErrorCodeInvalidRequest, types.ErrOptionWithSkipRetry())
 		}
 	}
@@ -651,6 +667,9 @@ func (s *responsesWSSession) startTargetReader(target *websocket.Conn) {
 	s.workers.Go(func() {
 		for {
 			kind, body, err := target.ReadMessage()
+			if err == nil && s.scopeResponses {
+				body, err = service.Sub2APIScopeResponseBody(s.responseSubject, body)
+			}
 			incoming := responsesWSMessage{kind: kind, body: body, err: err}
 			if state := s.getCurrent(); state != nil {
 				select {
@@ -716,6 +735,18 @@ func (s *responsesWSSession) setTarget(target *websocket.Conn) bool {
 }
 
 func (s *responsesWSSession) writeTarget(kind int, message []byte) error {
+	if s.scopeResponses {
+		var control struct {
+			Type string `json:"type"`
+		}
+		if common.Unmarshal(message, &control) == nil && control.Type == "response.cancel" {
+			var err error
+			message, err = service.Sub2APIUnscopeResponseReference(s.responseSubject, message, "response_id")
+			if err != nil {
+				return err
+			}
+		}
+	}
 	s.targetWriteMu.Lock()
 	defer s.targetWriteMu.Unlock()
 	target := s.getTarget()

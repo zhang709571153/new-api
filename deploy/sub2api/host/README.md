@@ -35,6 +35,15 @@ reinstalled. Existing RealYu service SID enablement remains the main cutover
 operator's responsibility. `LocalService` plus per-service SIDs is not equivalent
 to separate Windows user accounts.
 
+After a completed gateway rollback with these dependencies still running, a
+fresh pinned host plan can select `dependency_mode: "reuse"`. The elevated
+`Install-HostRelease.ps1` then runs the pinned read-only `Verify-Services.ps1`
+(including executable identity and application hashes) before cutover. It does
+not reinstall the four services. Use a new operation directory and verdict;
+`production_route.py restage` verifies the pinned prior `restored` receipt and
+current disabled route/legacy channel baseline without changing routing.
+Do not rerun an already completed or rolled-back operation directory.
+
 The one-off private `prepare-production.py`, `enable-production-images.py` and
 `verify-production-runtime.py` are deliberately not included. They contained
 historical workstation assumptions and mutating initialization/acceptance steps.

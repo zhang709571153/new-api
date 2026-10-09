@@ -1,6 +1,6 @@
 # RealYu / Sub2API 候选交接入口
 
-2026-10-10 本机发布准备的最新授权与状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，当前状态为 **OS_ELEVATION_CANCELLED，尚未上线**。用户已授权本机部署，但 Windows 提权窗口被取消，未创建新 SCM 服务，旧生产保持原样运行。重新执行须使用最终输入重新封装的私有计划并正常完成系统提权；候选 13 类功能验收不等于生产公网验收。用户选择的新 token 计费仅适用于 native Images，既有 Responses 图片工具口径不在本次变更内。另一台机器仍按独立 Windows 部署和验收流程接手，不能把 Git 推送或本机结果视为其已部署。
+2026-10-10 本机发布的最新授权与状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)。Sub2API、PostgreSQL、免费 Redis 及 worker 已安装为 Windows 服务。首次公网验收发现响应续接缺少跨身份拒绝证据，已保留最新账本回退旧网关。修复后的 `v3.10.0.1` 候选通过真实上游 13 类功能、HTTP/WS 身份隔离、八个文本模型和 Codex CLI 对话/恢复，第二次切换尚待执行；不得把候选结果写成已完成公网发布。用户选择的新 token 计费仅适用于 native Images，既有 Responses 图片工具口径不在本次变更内。另一台机器仍按独立 Windows 部署和验收流程接手。
 
 **首次交接时的冻结说明（历史记录，后续本机授权和状态以上方 LIVE 文档为准）：** 当时授权覆盖隔离开发、测试、候选打包及迁移准备。
 不要替换线上程序、路由、数据库或凭据，不要重启线上服务，不要切换域名、

@@ -39,6 +39,12 @@ func OaiResponsesHandler(c *gin.Context, info *relaycommon.RelayInfo, resp *http
 	info.ObserveResponseModel(responsesResponse.Model)
 	info.ResponseServiceTier = responsesResponse.ServiceTier
 	responseBody = rewriteSGLangResponsesCreatedAt(info, responseBody, "created_at", responsesResponse.CreatedAt)
+	if info.GetChannelType() == constant.ChannelTypeSub2API && service.Sub2APIDriverEnabled() {
+		responseBody, err = service.Sub2APIScopeResponseBody(service.Sub2APISubjectFromContext(c), responseBody)
+		if err != nil {
+			return nil, types.NewOpenAIError(err, types.ErrorCodeBadResponseBody, http.StatusBadGateway)
+		}
+	}
 
 	// 写入新的 response body
 	service.IOCopyBytesGracefully(c, resp, responseBody)
@@ -91,6 +97,14 @@ func OaiResponsesStreamHandler(c *gin.Context, info *relaycommon.RelayInfo, resp
 		}
 		if streamResponse.Response != nil {
 			data = string(rewriteSGLangResponsesCreatedAt(info, []byte(data), "response.created_at", streamResponse.Response.CreatedAt))
+		}
+		if info.GetChannelType() == constant.ChannelTypeSub2API && service.Sub2APIDriverEnabled() {
+			body, err := service.Sub2APIScopeResponseBody(service.Sub2APISubjectFromContext(c), []byte(data))
+			if err != nil {
+				sr.Error(err)
+				return
+			}
+			data = string(body)
 		}
 		sendResponsesStreamData(c, streamResponse, data)
 		accumulator.Observe(&streamResponse)

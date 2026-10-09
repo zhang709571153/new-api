@@ -1,158 +1,115 @@
 # Local Sub2API deployment record
 
-**Status: OS_ELEVATION_CANCELLED — NOT DEPLOYED.** The user has authorized the
-local production deployment, but the Windows elevation prompt was cancelled.
-No new SCM services were created and the old production services remain running
-with their existing configuration. Cutover and public acceptance did not occur.
-The release owner updates this status only after an actual operation and its
-matching acceptance receipt. Another machine remains subject to its own
-[Windows deployment procedure](deploy/sub2api/NATIVE-WINDOWS.md) and acceptance.
+**2026-10-10 status: first cutover rolled back; corrected candidate accepted;
+second public cutover pending.** Production currently runs
+`realyu-provider-v3.9.2.22-20261008`. The four new dependency services are already
+installed and running automatically under LocalService. Deployment authorization
+remains in force. The normal elevated Windows entry must execute the new pinned
+plan; source delivery and candidate acceptance are not public deployment.
 
-## Planned topology and ownership
+## Topology
 
-| Component | Host-local endpoint | Owner / purpose |
+| Component | Host-local endpoint | Responsibility |
 | --- | --- | --- |
-| Existing public tunnel | `api.realyu.fun` to `127.0.0.1:18301` | Existing tunnel services remain the public ingress |
-| Transparent edge | `127.0.0.1:18301` | HTTP/SSE/Responses WebSocket and native Images forwarding |
-| Maintenance observation | `127.0.0.1:18302` | Admission marker and active request count |
-| RealYu / New API | `127.0.0.1:18300` | Customer accounts, teams, authorization, subscriptions and accounting |
-| Sub2API v0.2.15 standard | `127.0.0.1:28090` | Upstream OAuth accounts, scheduling and internal execution identities |
-| PostgreSQL 18.6 | `127.0.0.1:28490` | Separate Sub2API database |
-| Redis 8.10.2 community Windows build | `127.0.0.1:28391` | Sub2API cache, leases and coordination |
-| Identity and internal credit worker | No listener | Persistent queue, bounded preparation, operator-visible failures |
+| Existing public tunnel | `api.realyu.fun` to `127.0.0.1:18301` | Existing public ingress |
+| Transparent edge | `127.0.0.1:18301` | HTTP/SSE, Responses WS and native Images |
+| Maintenance observation | `127.0.0.1:18302` | Admission and active requests |
+| RealYu / New API | `127.0.0.1:18300` | Users, teams, permissions, plans and customer ledger |
+| Sub2API 0.2.15 standard | `127.0.0.1:28090` | Upstream accounts, scheduling and projected identities |
+| PostgreSQL 18.6 | `127.0.0.1:28490` | Separate Sub2API state |
+| Redis 8.10.2 community Windows build | `127.0.0.1:28391` | Cache, leases and coordination; no paid Redis dependency |
+| Identity and internal-credit worker | No listener | Persisted preparation and credit intents |
 
-The candidate rehearsal uses 28600/28601/28602 and a cloned RealYu database.
-These endpoints do not prove the 18300/18301 production path has been switched.
-Candidate edge validation has ended: the owned edge process was verified against
-its retained PID/creation-time receipt and stopped at 2026-10-09 16:39:55 UTC;
-listeners 28601 and 28602 are closed. No production process or listener was
-stopped by this cleanup. The release owner also verified the candidate Go
-executable hash and port ownership before stopping its 28600 process. The old
-production chain remains running; the final public `/api/status` readback still
-returned version `v3.9.2.22`. This was a read-only status check, not a production
-inference acceptance.
-The new supply uses its own PostgreSQL and Redis; customer financial data stays
-in the existing RealYu database. Upstream user ownership is based on the actual
-member and team, independent from the payer. Namespace and identity secret must
-remain stable through restarts and migration.
+The isolated candidate uses 28600/28601/28602 and its own RealYu database copy
+and namespace. Neither its balances nor its response ownership are production
+acceptance. Preserve the production namespace and identity secret on migration.
+The member/team identity is distinct from the customer who pays the charge.
 
-Existing channels remain as historical rows. The new internal type 59 route
-retains the existing `default` group and model IDs; ordinary API keys are not
-reissued. Administrator requests explicitly pinned to an old channel ID need
-their pin updated. Sub2API mode disables legacy channel management and refresh
-tasks. Refresh-token ownership is transferred only after full acceptance and
-verified shutdown of the previous refresher; access-only staging is separate.
+## Actual first attempt
 
-## Release fields to fill after the actual operation
+The cancelled elevation attempt was followed by a successful manual elevated
+installation at 2026-10-09 16:51 UTC. All four new services were installed. The
+first gateway cutover opened for public testing at 16:52 UTC. It took an integrity
+checked cold backup, preserved the customer ledger and changed no database schema.
 
-| Field | Current record |
-| --- | --- |
-| Source revision | Handoff branch `codex/sub2api-handoff-20261009`; run `git rev-parse HEAD` on the received checkout and verify `SOURCE-MANIFEST.json` |
-| RealYu candidate version | `realyu-sub2api-v3.10.0-20261009` |
-| RealYu candidate SHA-256 | `b008148e28522c052fb3e92172c4a8fc17170eae3726cb10c49c4cd45a091105` |
-| Worker / edge source hashes | Final inputs are pinned by the reviewed private plan and source manifest; no installed receipt exists yet |
-| SCM installation / automatic recovery | OS_ELEVATION_CANCELLED; no new services created |
-| Admission drain and cold ledger backup | PENDING cutover receipt |
-| Customer ledger preserved while closed | PENDING cutover receipt |
-| Public acceptance operation ID / status | PENDING |
-| OAuth refresh ownership transferred | PENDING separate official account API receipt |
-| Reboot recovery | NOT_RUN unless an actual authorized host reboot is recorded |
+Public PDF inline/link reading, web search with citations, HTTP/SSE and chat
+passed. Account 1 returned upstream WS 1011 and was quarantined through the
+normal Sub2API admin API. A separate run using the remaining supply passed two
+WS turns, three identities, validation rejection and native image generation.
 
-## Evidence boundaries and first failures
+The real cross-subject WS check then selected a retained upstream connection
+and timed out with a busy error. No foreign content or charge was observed, but
+there was no authoritative ownership denial. This was treated as P0. The gateway
+program and routing were rolled back against the current customer database;
+the backup database was never restored over new transactions. Refresh tokens
+have not moved, and the original refresh owner remains responsible while legacy
+production is active. All first-failure evidence remains private and unchanged.
 
-- Edge transport: six real loopback socket tests passed, including live SSE,
-  complete WebSocket frames/errors and maintenance behavior. This is transport
-  evidence, not production or upstream availability evidence.
-- Cutover lifecycle: simulated SCM with real temporary SQLite tests cover
-  rollback without overwriting new charges, async settlement stability, state
-  generation/subject checks, old verdict rejection and schema failure handling.
-  These tests do not replace actual elevated SCM installation or public traffic.
-- The 28601 candidate completed 13 functional categories across the original
-  run and the separate image rerun: core HTTP/SSE, PDF, search, function tools,
-  WebSocket, three scoped identities, and all eight text-model SSE requests.
-  The original run passed 12 of 13 categories. Its Images request returned 403 because
-  the official Sub2API group image flag was disabled. The first report remains
-  preserved; a later image request succeeded after the official setting changed.
-- The first immediate accounting snapshot showed a two-quota token discrepancy;
-  later read-only database checks showed the asynchronous refund converged and
-  matched successful usage. Keep both observations and use bounded settlement
-  checks; do not silently replace the first failure.
-- Native Images uses a different pricing path from the former bridge. The user
-  explicitly selected the new `/v1/images/*` reported-token pricing, without
-  adding the old Responses image tier fee. The observed 67-quota image transaction
-  is consistent with that chosen policy. The exploratory CNY adaptation is not
-  part of the release. Existing Responses image-tool pricing stays separate.
-  Retain the original comparison evidence and this later policy decision;
-  successful image bytes alone still do not establish correct accounting.
-- Browser visual acceptance remains **BLOCKED** by repeated browser runtime
-  timeout/reset. API results do not imply a completed visual acceptance.
-- Public production acceptance, final native CLI dialogue and the additional
-  real-provider cross-subject WebSocket check remain **NOT_RUN**. Candidate
-  scoped responses are not by themselves proof of cross-subject isolation.
-- Files API, legacy search/compact interfaces, requested image dimensions,
-  desktop/CLI execution policy, the remote host and machine reboot retain the
-  separate limitations recorded in the migration and E2E documents.
+## Corrected candidate
 
-Sanitized reports are in [lab/sub2api_e2e](lab/sub2api_e2e/); request transcripts,
-account identities, raw logs and receipts remain private. Every final PASS must
-identify its tested binary/source and path. The historical reports are not
-retroactively relabeled after a later build or fix.
+Version `realyu-sub2api-v3.10.0.1-20261010`, binary SHA-256
+`91a9dc35306ae1fe29f3326d91af92ec855e25df09f6e56c9678d359a7864b8a`.
+The worker remains at SHA-256
+`8ac607bf72faee338238b5393555d326d910662b76503d4cc4854d0dda75710c`.
 
-## Executable handoff and rollback
+Authenticated opaque response IDs now bind retained continuation to the member
+and team. Foreign, unsigned and tampered references are rejected locally before
+upstream lookup. See [ownership behavior](lab/sub2api_e2e/RESPONSE-OWNERSHIP.md).
+The exact candidate passed 13 functional categories, all eight text models,
+eight real HTTP/WS ownership checks, exact denied-request no-charge checks and
+Codex 0.162.0 initial dialogue plus separate-process resume. See the
+[sanitized candidate report](lab/sub2api_e2e/release-scope-candidate-20261010.json).
+These results still require a separate production run after the second cutover.
 
-### Resume the cancelled local operation
+Native `/v1/images/*` uses the new interface's reported-token pricing by the
+user's explicit decision. The former Responses image-tool tariff is unchanged.
+Successful image bytes alone are insufficient; reconcile usage, token quota,
+wallet/subscription payer and team allowance after settlement.
 
-The deployment authorization remains recorded; Windows administrator elevation
-still has to succeed through the normal operating-system prompt. Do not bypass
-that prompt or interpret a cancelled prompt as a successful installation.
+## Retry and migration
 
-1. Recheck the old services, public ingress and maintenance marker. Confirm that
-   no partially installed new SCM service or prior operation is active.
-2. Rebuild the private plan from the final reviewed source and pin every input
-   hash, including the parameterized service installer. Revalidate its roots,
-   ports, current customer/queue coverage, worker readiness and schema identity.
-   Do not reuse a plan whose source files have since changed.
-3. Capture and validate the three temporary dependency process identities. Stop
-   only those exact processes with the explicit host-tool stop option, so the
-   new dependency services can bind their ports. Keep the old RealYu services
-   running until the cutover helper has closed admission and drained traffic.
-4. In a normally elevated PowerShell, run the reviewed `Install-HostRelease.ps1`
-   with the private `-Plan` and matching `-ExpectedPlanSha256`. Its `-ValidateOnly`
-   mode checks inputs without installing services. A validation PASS is not a
-   release receipt.
-5. Follow the private operation receipt. Supply a public acceptance verdict for
-   that exact operation, binary and version within the bounded window. Only a
-   final accepted receipt permits this document to claim deployment. Transfer
-   refresh ownership separately after acceptance and old-owner shutdown.
+Use a fresh operation directory and pinned inputs, including the exact gateway,
+edge, management helper and service verifier. A plan with `dependency_mode:
+"reuse"` verifies the existing installed dependency services under normal Windows
+administrator elevation; it does not reinstall them. `production_route.py
+restage` validates the pinned previous restored receipt and unchanged channel
+baseline without modifying routing. Never reuse a completed operation directory.
 
-The current public test fields remain NOT_RUN until that resumed operation
-actually occurs. A failed or interrupted attempt retains its own receipt and
-does not erase this cancelled attempt.
+The reviewed `Install-HostRelease.ps1 -Plan ... -ExpectedPlanSha256 ...` entry
+checks every pinned input. `-ValidateOnly` performs no service mutation.
+`host_cutover.py` closes admission, drains active work and async settlement,
+activates the route through the official API, stops the old gateway/edge,
+takes a cold backup, installs verified inputs and compares closed-gate ledger
+and schema. It provisionally opens for a 20-minute public acceptance window.
+Only a matching operation/version/binary PASS verdict publishes the release.
+Failure restores the old program/routing while preserving the latest ledger.
+Unexpected schema changes or an unverified drain retain maintenance for recovery.
 
-The transport package and existing-host procedure are described in
-[EDGE-MIGRATION.md](deploy/sub2api/EDGE-MIGRATION.md). The reviewed host-specific
-SCM tools are in [deploy/sub2api/host](deploy/sub2api/host/README.md).
-`production_supply.py`, `production_route.py` and `host_cutover.py` consume
-reviewed private plans; no plan, credentials or binary is included in Git.
+After public acceptance, verify the old refresh process is gone and old channels
+are disabled before transferring renewable credentials through Sub2API's normal
+account API. Account 1 remains inactive; it has no refresh token. Accounts 2 and
+3 have renewable credentials. After transfer, rollback also requires the newest
+rotated credentials; an old secret backup is not a safe refresh-owner rollback.
 
-`host_cutover.py` closes admission, waits for edge/backend traffic and a stable
-ledger, changes routes through the official API, stops the old API/edge, takes a
-cold backup, installs verified inputs, checks closed-gate ledger/schema state,
-then provisionally opens for a bounded public acceptance window. The verdict is
-bound to the operation, version and binary hash. Failure restores the old
-program/routing against the **current** customer database; it never overwrites
-new completed charges with a pre-cutover database snapshot.
+Another Windows Server uses [NATIVE-WINDOWS.md](deploy/sub2api/NATIVE-WINDOWS.md)
+and [the migration runbook](lab/maintenance/sub2api-migration.md). Copy current
+private databases, bindings, queue/credit state, credentials and tunnel material
+through a protected channel, separately from Git. Do not allow two machines to
+write independent customer ledgers or refresh the same OAuth credentials.
 
-An unexpected schema change blocks automatic old-program rollback and retains
-the maintenance gate. If the API cannot be reached or a safe drain cannot be
-established, the state is `recovery_required_drain`: the gate stays closed and
-the operator reconciles process ownership and ledger stability before recovery.
-That state is not a successful rollback. After refresh ownership transfers,
-returning to the old refresher additionally requires reconciliation of the newest
-rotated credentials; restoring an old secret file is insufficient.
+## Remaining boundaries
 
-The manually prepared initial job inventory on this host is an operational
-artifact, not a separate product feature. A new machine uses the committed
-automatic scanner and single worker to prepare permitted customer/team pools.
-Preserve queue/state and unknown credit intents; do not reset them to force a
-green status or repeat an uncertain top-up.
+- Files upload/file IDs and old search/compact interfaces retain compatibility
+  limits. Inline and URL PDFs and current `web_search` are separately tested.
+- Images may return 1254 by 1254 when 1024 by 1024 was requested.
+- Old unsigned retained response IDs and unauthenticated retained item/conversation
+  references are rejected; full inline history remains supported.
+- Browser UI acceptance was blocked by browser runtime failures. CLI dialogue
+  acceptance does not imply file/tool execution or desktop UI acceptance.
+- Automatic startup is configured; no actual whole-machine reboot was performed.
+  Finite smoke observations are not a long-term stability or availability SLA.
+- Non-P0 compatibility issues are tracked for subsequent fixes, per user direction.
+  A real isolation or accounting P0 still requires stopping the affected release.
+
+Raw transcripts, customer identities, secrets and private receipts are excluded
+from Git. Historical reports are preserved with their original binary hashes.

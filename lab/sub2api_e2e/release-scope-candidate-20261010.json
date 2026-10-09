@@ -1,0 +1,159 @@
+{
+  "status": "CANDIDATE_PASS_PUBLIC_RETRY_PENDING",
+  "recorded_at_utc": "2026-10-09T17:29:28.047810+00:00",
+  "version": "realyu-sub2api-v3.10.0.1-20261010",
+  "gateway_sha256": "91a9dc35306ae1fe29f3326d91af92ec855e25df09f6e56c9678d359a7864b8a",
+  "path": "isolated edge 28601 -> gateway 28600 -> installed stock Sub2API 28090 -> real ChatGPT upstream",
+  "customer_ledger": "isolated clone; not the production customer database",
+  "sdk_categories": [
+    {
+      "name": "catalog",
+      "status": "PASS",
+      "seconds": 0.969
+    },
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "seconds": 2.875
+    },
+    {
+      "name": "responses-nonstream",
+      "status": "PASS",
+      "seconds": 1.891
+    },
+    {
+      "name": "chat",
+      "status": "PASS",
+      "seconds": 2.469
+    },
+    {
+      "name": "pdf-inline",
+      "status": "PASS",
+      "seconds": 3.796
+    },
+    {
+      "name": "pdf-url",
+      "status": "PASS",
+      "seconds": 3.844
+    },
+    {
+      "name": "web-search",
+      "status": "PASS",
+      "seconds": 6.5
+    },
+    {
+      "name": "tool-roundtrip",
+      "status": "PASS",
+      "seconds": 5.86
+    },
+    {
+      "name": "websocket",
+      "status": "PASS",
+      "seconds": 4.468
+    },
+    {
+      "name": "subjects",
+      "status": "PASS",
+      "seconds": 6.25
+    },
+    {
+      "name": "failed-request",
+      "status": "PASS",
+      "seconds": 2.328
+    },
+    {
+      "name": "image-generation",
+      "status": "PASS",
+      "seconds": 14.36
+    }
+  ],
+  "all_eight_text_models": "PASS",
+  "owner_checks": [
+    {
+      "label": "source-first",
+      "status": "PASS"
+    },
+    {
+      "label": "http-different-person",
+      "status": "PASS"
+    },
+    {
+      "label": "http-same-person-team",
+      "status": "PASS"
+    },
+    {
+      "label": "http-unsigned-id",
+      "status": "PASS"
+    },
+    {
+      "label": "http-tampered-id",
+      "status": "PASS"
+    },
+    {
+      "label": "different-person",
+      "status": "PASS"
+    },
+    {
+      "label": "same-person-team",
+      "status": "PASS"
+    },
+    {
+      "label": "source-continues",
+      "status": "PASS"
+    }
+  ],
+  "denied_token_no_charge": true,
+  "native_cli": {
+    "version": "codex-cli 0.162.0",
+    "checks": [
+      {
+        "name": "initial",
+        "status": "PASS",
+        "exit_code": 0,
+        "tools_observed": 0,
+        "terminal_completed": true,
+        "exact_reply": true,
+        "incomplete_stream_reported": false
+      },
+      {
+        "name": "resume",
+        "status": "PASS",
+        "exit_code": 0,
+        "tools_observed": 0,
+        "terminal_completed": true,
+        "exact_reply": true,
+        "incomplete_stream_reported": false
+      }
+    ]
+  },
+  "accounting": {
+    "sdk_invariants": true,
+    "ownership_invariants": true,
+    "models_invariants": true
+  },
+  "go_tests": "PASS: service, relay, openai adapter, sub2api adapter and controller focused protocol tests",
+  "cutover_lifecycle_tests": {
+    "passed": 11,
+    "mode": "simulated SCM and real temporary SQLite"
+  },
+  "simple_image_visual_review": {
+    "status": "PASS",
+    "observed": "Blue square centered on white, no text",
+    "sha256": "a6735786da013c97f4844ea4d267b4018b1b6ef80b1f95dd5ee471a5fec30591"
+  },
+  "first_public_operation": {
+    "status": "ROLLED_BACK_WITH_CURRENT_LEDGER_PRESERVED",
+    "reason": "P0 retained response ownership not authoritatively denied by stock upstream",
+    "no_foreign_text_observed": true,
+    "denied_attempt_not_charged": true,
+    "first_failure_preserved": true,
+    "earlier_ws_failure": "Account 1 returned upstream WS 1011; quarantined inactive, accounts 2 and 3 remain active"
+  },
+  "public_retry": "PENDING",
+  "refresh_ownership_transferred": false,
+  "desktop_e2e_performed": false,
+  "reboot_tested": false,
+  "long_term_stability_proven": false,
+  "runner_automatic_retries": 0,
+  "upstream_internal_retry_behavior": "Stock Sub2API may retry; not claimed zero"
+}
