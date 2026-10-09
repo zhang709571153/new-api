@@ -1,5 +1,13 @@
 # Local Sub2API deployment record
 
+**Portal follow-up, 2026-10-10 03:15 CST:** the v3.10.0.2 candidate passed
+management HTTP E2E against isolated RealYu state and real Sub2API reads. Its
+publication has not run: Windows elevation was cancelled. The new native-console
+DNS exists, but its ingress is not loaded and returns 404. Production remains
+v3.10.0.1 below. See [UPDATELOG](UPDATELOG.md) and the
+[portal deployment guide](deploy/sub2api/ADMIN-PORTAL.md); candidate success does
+not replace production acceptance.
+
 **2026-10-10 status: PUBLISHED AND PUBLICLY ACCEPTED.** Production runs
 `realyu-sub2api-v3.10.0.1-20261010`, verified through `api.realyu.fun`. The second
 cutover completed with customer ledger preserved and no schema change. The four

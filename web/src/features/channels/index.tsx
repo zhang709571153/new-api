@@ -34,7 +34,7 @@ import { ROLE } from '@/lib/roles'
 import { requireServerSuccess } from '@/lib/server-error-message'
 import { useAuthStore } from '@/stores/auth-store'
 
-import { getChannelOps, getSub2APIStatus } from './api'
+import { getChannelOps, getSub2APIStatus, getSub2APIOverview } from './api'
 import { ChannelHealthDialog } from './components/channel-health-dialog'
 import { ChannelsDialogs } from './components/channels-dialogs'
 import { ChannelsPrimaryButtons } from './components/channels-primary-buttons'
@@ -50,6 +50,14 @@ export function Channels() {
     retry: false,
     staleTime: 30_000,
   })
+  const overviewQuery = useQuery({
+    queryKey: ['sub2api-overview'],
+    queryFn: getSub2APIOverview,
+    enabled: driverQuery.data?.enabled === true && driverQuery.data.configured,
+    retry: false,
+    staleTime: 30_000,
+    refetchInterval: 60_000,
+  })
 
   if (!driverQuery.isError && driverQuery.data?.enabled === false) {
     return <LegacyChannels />
@@ -59,7 +67,15 @@ export function Channels() {
   if (driverQuery.isError) {
     content = <ErrorState onRetry={() => void driverQuery.refetch()} />
   } else if (driverQuery.data) {
-    content = <Sub2APIManagement status={driverQuery.data} />
+    content = (
+      <Sub2APIManagement
+        status={driverQuery.data}
+        overview={overviewQuery.data}
+        overviewError={overviewQuery.isError}
+        refreshing={overviewQuery.isFetching}
+        onRefresh={() => void overviewQuery.refetch()}
+      />
+    )
   }
 
   return (

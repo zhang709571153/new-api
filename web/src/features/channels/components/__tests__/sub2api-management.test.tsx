@@ -22,6 +22,68 @@ import { describe, expect, it } from 'vitest'
 import { Sub2APIManagement } from '../sub2api-management'
 
 describe('Sub2API channel management', () => {
+  it('shows real account buckets, unknown quota and measured zero without inventing usage', () => {
+    render(
+      <Sub2APIManagement
+        status={{
+          enabled: true,
+          configured: true,
+          admin_url: 'https://supply.example.test',
+        }}
+        overview={{
+          observed_at: '2026-10-10T01:00:00Z',
+          pools: [
+            {
+              channel_id: 4,
+              group_id: 2,
+              group_name: 'Standard pool',
+              available: true,
+              truncated: false,
+              accounts: [
+                {
+                  id: 3,
+                  name: 'Renewable account',
+                  platform: 'openai',
+                  type: 'oauth',
+                  status: 'active',
+                  schedulable: true,
+                  concurrency: 5,
+                  current_concurrency: 1,
+                  five_hour_percent: 0,
+                  weekly_percent: null,
+                  today: { requests: 12, tokens: 2345 },
+                },
+              ],
+            },
+          ],
+        }}
+      />
+    )
+    expect(screen.getByText('Renewable account')).toBeVisible()
+    expect(screen.getByText('Standard pool')).toBeVisible()
+    expect(screen.getByText('0%')).toBeVisible()
+    expect(screen.getByText('100%')).toBeVisible()
+    expect(screen.getByRole('table')).toHaveTextContent('12')
+  })
+
+  it('keeps native management available when the overview fails', () => {
+    render(
+      <Sub2APIManagement
+        status={{
+          enabled: true,
+          configured: true,
+          admin_url: 'https://supply.example.test',
+        }}
+        overviewError
+      />
+    )
+    expect(
+      screen.getByRole('link', { name: 'Open Sub2API management' })
+    ).toBeVisible()
+    expect(
+      screen.getByText('Upstream statistics are unavailable.')
+    ).toBeVisible()
+  })
   it('opens the configured console without sharing the current page context', () => {
     render(
       <Sub2APIManagement

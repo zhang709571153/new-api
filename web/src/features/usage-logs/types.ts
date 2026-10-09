@@ -121,6 +121,16 @@ export interface ToolSurchargeItem {
 
 export interface LogOtherData {
   admin_info?: {
+    sub2api?: {
+      status: 'matched' | 'not_recorded' | 'unavailable'
+      usage_id?: number
+      account_id?: number
+      account_name?: string
+      group_id?: number
+      group_name?: string
+      model?: string
+      upstream_model?: string
+    }
     request_policy?: PolicyEvent[]
     is_multi_key?: boolean
     multi_key_index?: number

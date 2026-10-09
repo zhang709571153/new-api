@@ -4,6 +4,15 @@ DO NOT send optional commentary
 
 ## Realyu local maintenance navigation
 
+Maintain [DEVLOG.md](DEVLOG.md) and [UPDATELOG.md](UPDATELOG.md) for RealYu integration changes.
+DEVLOG records the concrete objective, implementation decisions, tests actually run,
+first failures and corrections, deployment state, and unresolved work. UPDATELOG records
+user-visible behavior by version, clearly separating unreleased candidates from verified
+production publication. Update the deployment handoff when configuration or commands change.
+Never put credentials, customer content, or raw production records in these logs. Commit
+the relevant logs and deployment instructions together with the code; Git publication is
+not proof of a production deployment.
+
 For this Sub2API migration candidate, start at [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md) and [the migration handoff](lab/maintenance/sub2api-migration.md). The current production system must remain unchanged until the user explicitly authorizes cutover. Historical host paths and releases are not this candidate's deployment instructions. The [realyu-maintenance skill](.agents/skills/realyu-maintenance/SKILL.md) is navigation only.
 
 ## Overview

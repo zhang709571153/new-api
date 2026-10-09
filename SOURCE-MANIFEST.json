@@ -271,9 +271,9 @@
     },
     {
       "path": "AGENTS.md",
-      "sha256": "b4f381cc712e1a86d920b77a9028c27b85013ec00b55f3f4bd4c078e8868fa7d",
-      "source_sha256": "b4f381cc712e1a86d920b77a9028c27b85013ec00b55f3f4bd4c078e8868fa7d",
-      "bytes": 26660,
+      "sha256": "c5f04d67ae1f0803f61415683fdb2de8fbb242ea2ac2d0267226b99c808c7df2",
+      "source_sha256": "c5f04d67ae1f0803f61415683fdb2de8fbb242ea2ac2d0267226b99c808c7df2",
+      "bytes": 27330,
       "git_mode": "100644",
       "source_path": "AGENTS.md"
     },
@@ -284,6 +284,14 @@
       "bytes": 995,
       "git_mode": "100644",
       "source_path": "CLAUDE.md"
+    },
+    {
+      "path": "DEVLOG.md",
+      "source_path": "DEVLOG.md",
+      "source_sha256": "416de261079b19e9c4e4b18526a8bdd975ecf2b043448780c77921b203a373d2",
+      "sha256": "416de261079b19e9c4e4b18526a8bdd975ecf2b043448780c77921b203a373d2",
+      "bytes": 4366,
+      "git_mode": "100644"
     },
     {
       "path": "Dockerfile",
@@ -303,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "4b4aa868292905bcf3807e93a2ceb9310864996225e5528ba9df5c40d9296d08",
-      "source_sha256": "4b4aa868292905bcf3807e93a2ceb9310864996225e5528ba9df5c40d9296d08",
-      "bytes": 4631,
+      "sha256": "5207105422aa449dfb9f5af9a667e5e118281eed256f58319c6ccb5fd7239bca",
+      "source_sha256": "5207105422aa449dfb9f5af9a667e5e118281eed256f58319c6ccb5fd7239bca",
+      "bytes": 4966,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -319,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "09616f075e9beb73cea68a3c08856296a83e2ff4c34cc7339298d64f1fed48fa",
-      "source_sha256": "09616f075e9beb73cea68a3c08856296a83e2ff4c34cc7339298d64f1fed48fa",
-      "bytes": 9826,
+      "sha256": "2781c204ea87e76738b7d4aa6a80593005a07a8c0c0a7f170769d75729c68729",
+      "source_sha256": "2781c204ea87e76738b7d4aa6a80593005a07a8c0c0a7f170769d75729c68729",
+      "bytes": 10311,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -388,6 +396,14 @@
       "bytes": 24893,
       "git_mode": "100644",
       "source_path": "THIRD-PARTY-LICENSES.md"
+    },
+    {
+      "path": "UPDATELOG.md",
+      "source_path": "UPDATELOG.md",
+      "source_sha256": "d759a5c85bb2c446b6fbfb1f9b8830e0f05317c6c4f5d98e9c3a07ffa5cab07a",
+      "sha256": "d759a5c85bb2c446b6fbfb1f9b8830e0f05317c6c4f5d98e9c3a07ffa5cab07a",
+      "bytes": 2282,
+      "git_mode": "100644"
     },
     {
       "path": "VERSION",
@@ -1471,9 +1487,9 @@
     },
     {
       "path": "controller/log.go",
-      "sha256": "8bc4b6604eb79451b7b97488add68542f37609ce6fb11c548f5644ff5717735e",
-      "source_sha256": "8bc4b6604eb79451b7b97488add68542f37609ce6fb11c548f5644ff5717735e",
-      "bytes": 5483,
+      "sha256": "35d8b2deaf65beb236086ff52cd8d06db88ecea1259c59dbf996384d03859e68",
+      "source_sha256": "35d8b2deaf65beb236086ff52cd8d06db88ecea1259c59dbf996384d03859e68",
+      "bytes": 5584,
       "git_mode": "100644",
       "source_path": "controller/log.go"
     },
@@ -1927,9 +1943,9 @@
     },
     {
       "path": "controller/sub2api.go",
-      "sha256": "69df59f5693bbc89b4b76d793dc199f62dac9731cabb75f1ee3b7ce87a891e6e",
-      "source_sha256": "69df59f5693bbc89b4b76d793dc199f62dac9731cabb75f1ee3b7ce87a891e6e",
-      "bytes": 3656,
+      "sha256": "9202812ce41a2f4ed592e47520cf47a69c597c620ae22e476bac0656792c85d1",
+      "source_sha256": "9202812ce41a2f4ed592e47520cf47a69c597c620ae22e476bac0656792c85d1",
+      "bytes": 4116,
       "git_mode": "100644",
       "source_path": "controller/sub2api.go"
     },
@@ -2398,6 +2414,14 @@
       "source_path": "deploy/sub2api/.gitignore"
     },
     {
+      "path": "deploy/sub2api/ADMIN-PORTAL.md",
+      "source_path": "deploy/sub2api/ADMIN-PORTAL.md",
+      "source_sha256": "58471a9a84d30cb073bdd18a2effdf665d276bbafeed2c3d9b45392879ac463d",
+      "sha256": "58471a9a84d30cb073bdd18a2effdf665d276bbafeed2c3d9b45392879ac463d",
+      "bytes": 8078,
+      "git_mode": "100644"
+    },
+    {
       "path": "deploy/sub2api/Dockerfile.realyu",
       "sha256": "6090fd1f708eda8fe26e6ed80dfd5084561eec2d0222e0d1fa97ab60dd10dc14",
       "source_sha256": "6090fd1f708eda8fe26e6ed80dfd5084561eec2d0222e0d1fa97ab60dd10dc14",
@@ -2447,11 +2471,19 @@
     },
     {
       "path": "deploy/sub2api/README.md",
-      "sha256": "02761bc1579c09f56b4d4870f7724c955891b068de9dd3a1a3ca57599c2d640a",
-      "source_sha256": "02761bc1579c09f56b4d4870f7724c955891b068de9dd3a1a3ca57599c2d640a",
-      "bytes": 12126,
+      "sha256": "880a7df029ecf136bb1436d2252a34eab418c9269d1027d6181b684a0db3230f",
+      "source_sha256": "880a7df029ecf136bb1436d2252a34eab418c9269d1027d6181b684a0db3230f",
+      "bytes": 12400,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/README.md"
+    },
+    {
+      "path": "deploy/sub2api/admin-ingress.example.yml",
+      "source_path": "deploy/sub2api/admin-ingress.example.yml",
+      "source_sha256": "ec6c347bc0a11983ba9b1f42f9486a9e2dd3a141e1b269a86ba97dc3dcd8dfe9",
+      "sha256": "ec6c347bc0a11983ba9b1f42f9486a9e2dd3a141e1b269a86ba97dc3dcd8dfe9",
+      "bytes": 489,
+      "git_mode": "100644"
     },
     {
       "path": "deploy/sub2api/bindings.example.json",
@@ -2519,9 +2551,9 @@
     },
     {
       "path": "deploy/sub2api/export_source.py",
-      "sha256": "a7ef43cb7c5da6477fdbc31c1e348819057140da271ecfe3a9ccede29356b0bc",
-      "source_sha256": "a7ef43cb7c5da6477fdbc31c1e348819057140da271ecfe3a9ccede29356b0bc",
-      "bytes": 6779,
+      "sha256": "8b161c12f3241a1555f8bb586b9bae43a341dc29281b432f8c498f04220efca6",
+      "source_sha256": "8b161c12f3241a1555f8bb586b9bae43a341dc29281b432f8c498f04220efca6",
+      "bytes": 6830,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/export_source.py"
     },
@@ -2583,9 +2615,9 @@
     },
     {
       "path": "deploy/sub2api/host_cutover.py",
-      "sha256": "1dad80d402ffd0abe90e93cb44c36b57c290e46a59b62afe355b6885ab6cd072",
-      "source_sha256": "1dad80d402ffd0abe90e93cb44c36b57c290e46a59b62afe355b6885ab6cd072",
-      "bytes": 18697,
+      "sha256": "e0b7a9e62e2b6d9acbb2b670857b8361c0303075febb6d206057187748583138",
+      "source_sha256": "e0b7a9e62e2b6d9acbb2b670857b8361c0303075febb6d206057187748583138",
+      "bytes": 19820,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/host_cutover.py"
     },
@@ -2671,9 +2703,9 @@
     },
     {
       "path": "deploy/sub2api/test_host_cutover.py",
-      "sha256": "a53b171c28331084b13e9da65bb24cda88f1c4e16b52f56d76acd774d0b1b53a",
-      "source_sha256": "a53b171c28331084b13e9da65bb24cda88f1c4e16b52f56d76acd774d0b1b53a",
-      "bytes": 17820,
+      "sha256": "7f5b00a35ae5df096ee61fcc00dbd6d3dd862fedf70c6caabbe2a50657dc5b9e",
+      "source_sha256": "7f5b00a35ae5df096ee61fcc00dbd6d3dd862fedf70c6caabbe2a50657dc5b9e",
+      "bytes": 19713,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/test_host_cutover.py"
     },
@@ -3222,6 +3254,22 @@
       "source_path": "lab/sub2api_e2e/acceptance-gaps.json"
     },
     {
+      "path": "lab/sub2api_e2e/admin-portal-candidate-20261010.json",
+      "source_path": "lab/sub2api_e2e/admin-portal-candidate-20261010.json",
+      "source_sha256": "b0a882e125431de9c50e7dcc1c81fea050d6a086b6792da0ab60c2c87ede7cad",
+      "sha256": "b0a882e125431de9c50e7dcc1c81fea050d6a086b6792da0ab60c2c87ede7cad",
+      "bytes": 2499,
+      "git_mode": "100644"
+    },
+    {
+      "path": "lab/sub2api_e2e/admin_portal.py",
+      "source_path": "lab/sub2api_e2e/admin_portal.py",
+      "source_sha256": "e7b796ec9e410dfc05afda9ce93084f0ac23969f6017b2a6393612ca1f3a442e",
+      "sha256": "e7b796ec9e410dfc05afda9ce93084f0ac23969f6017b2a6393612ca1f3a442e",
+      "bytes": 4954,
+      "git_mode": "100644"
+    },
+    {
       "path": "lab/sub2api_e2e/bootstrap-summary.json",
       "sha256": "86504168ac135cd79d21666eb3c00bb41313fdaf5d1b04d3080c679ad532b6a0",
       "source_sha256": "4608f60f484d3026cbbcc29ed97b0608db4cf19445c022a042bbb5a6b9752a37",
@@ -3460,6 +3508,14 @@
       "bytes": 871,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/native-cli-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/native_admin.py",
+      "source_path": "lab/sub2api_e2e/native_admin.py",
+      "source_sha256": "358324f53fa8d7418f44466a002e887f94104c576edd9d4bca27ff42c1ae79d1",
+      "sha256": "358324f53fa8d7418f44466a002e887f94104c576edd9d4bca27ff42c1ae79d1",
+      "bytes": 4087,
+      "git_mode": "100644"
     },
     {
       "path": "lab/sub2api_e2e/negative-summary.json",
@@ -9215,9 +9271,9 @@
     },
     {
       "path": "router/channel-router.go",
-      "sha256": "6506bf533ed71d0e1568f846130c6d8e1087d2ae724164cb1fed0826de2e7cce",
-      "source_sha256": "6506bf533ed71d0e1568f846130c6d8e1087d2ae724164cb1fed0826de2e7cce",
-      "bytes": 6871,
+      "sha256": "7a9f02ceb69eac92efc91f633e28f52ed94db6a06e692d30cd860758ab127dc0",
+      "source_sha256": "7a9f02ceb69eac92efc91f633e28f52ed94db6a06e692d30cd860758ab127dc0",
+      "bytes": 6987,
       "git_mode": "100644",
       "source_path": "router/channel-router.go"
     },
@@ -10103,9 +10159,9 @@
     },
     {
       "path": "service/sub2api_driver_test.go",
-      "sha256": "d946e982aaf2b839d0bec8febffe3491a8f51cb983f226550a3703e38985c02f",
-      "source_sha256": "d946e982aaf2b839d0bec8febffe3491a8f51cb983f226550a3703e38985c02f",
-      "bytes": 20232,
+      "sha256": "5e4d3697684099c471d96dc6f15d3d57cedfe9b1a4cf92609e095b1abd1756e5",
+      "source_sha256": "5e4d3697684099c471d96dc6f15d3d57cedfe9b1a4cf92609e095b1abd1756e5",
+      "bytes": 24179,
       "git_mode": "100644",
       "source_path": "service/sub2api_driver_test.go"
     },
@@ -10116,6 +10172,14 @@
       "bytes": 15195,
       "git_mode": "100644",
       "source_path": "service/sub2api_enrollment.go"
+    },
+    {
+      "path": "service/sub2api_observability.go",
+      "source_path": "service/sub2api_observability.go",
+      "source_sha256": "6f1fec5d8df29f8f349af117b826957c8eb95515ca68416e069c1772d1efa611",
+      "sha256": "6f1fec5d8df29f8f349af117b826957c8eb95515ca68416e069c1772d1efa611",
+      "bytes": 9077,
+      "git_mode": "100644"
     },
     {
       "path": "service/sub2api_response_scope.go",
@@ -14335,17 +14399,17 @@
     },
     {
       "path": "web/src/features/channels/__tests__/driver-routing.test.tsx",
-      "sha256": "ed206764a4ee0fe7a173f9ee934bf20ddcaf67a854e20ad596626f23c37fb218",
-      "source_sha256": "79a6219e1b000ff424ef4bd36878ee5010732f01731093ede45a4aa90683fe18",
-      "bytes": 3438,
+      "sha256": "7e9233aacc41e52ffcdbbd3056714089db86705f55504f051616da54e698e57c",
+      "source_sha256": "7e9233aacc41e52ffcdbbd3056714089db86705f55504f051616da54e698e57c",
+      "bytes": 3524,
       "git_mode": "100644",
       "source_path": "web/src/features/channels/__tests__/driver-routing.test.tsx"
     },
     {
       "path": "web/src/features/channels/api.ts",
-      "sha256": "f0ef05564b941d1f793a4b48fe837531500c3abddbb33d3148a909d0fd687b2b",
-      "source_sha256": "f0ef05564b941d1f793a4b48fe837531500c3abddbb33d3148a909d0fd687b2b",
-      "bytes": 18420,
+      "sha256": "40d469ce74deb0921fd6c34afb98449bc12a41df95efb434598940c01233042a",
+      "source_sha256": "40d469ce74deb0921fd6c34afb98449bc12a41df95efb434598940c01233042a",
+      "bytes": 19189,
       "git_mode": "100644",
       "source_path": "web/src/features/channels/api.ts"
     },
@@ -14431,9 +14495,9 @@
     },
     {
       "path": "web/src/features/channels/components/__tests__/sub2api-management.test.tsx",
-      "sha256": "1f74e8cbefa4b82e522663b3f2fde342fb9572653517ee82aecb97afab5a28da",
-      "source_sha256": "5c5b126c205f87905f82d9ea476d892fc88d444d7eef6e927083f995115d6103",
-      "bytes": 2633,
+      "sha256": "6a832d41a1639a5cddb5b8a5d208db6b8b25212d08e55a96e82f672afc8696a9",
+      "source_sha256": "6a832d41a1639a5cddb5b8a5d208db6b8b25212d08e55a96e82f672afc8696a9",
+      "bytes": 4501,
       "git_mode": "100644",
       "source_path": "web/src/features/channels/components/__tests__/sub2api-management.test.tsx"
     },
@@ -14863,9 +14927,9 @@
     },
     {
       "path": "web/src/features/channels/components/sub2api-management.tsx",
-      "sha256": "ab2b601e8325abeb4ad1d20db73958aa2ff5e524f3ef1c047b4c7dd0e9c81786",
-      "source_sha256": "56070309fc63433dbcf59251b6d4e954d62b9ee4bb426a5b562956280cf1e258",
-      "bytes": 2822,
+      "sha256": "81e49349b24ac68b974fbd213eec5d557108dcc6120f47ed7c58850a5cc903db",
+      "source_sha256": "81e49349b24ac68b974fbd213eec5d557108dcc6120f47ed7c58850a5cc903db",
+      "bytes": 8284,
       "git_mode": "100644",
       "source_path": "web/src/features/channels/components/sub2api-management.tsx"
     },
@@ -14943,9 +15007,9 @@
     },
     {
       "path": "web/src/features/channels/index.tsx",
-      "sha256": "11c462810e6b460d6c8816363f7ae21e0bf7683b429dd61c531f7704f3160fe7",
-      "source_sha256": "11c462810e6b460d6c8816363f7ae21e0bf7683b429dd61c531f7704f3160fe7",
-      "bytes": 4587,
+      "sha256": "9641aff887e6fe1bf32d72a0419cc7bfb16015a9896a1662c6f32285375ed885",
+      "source_sha256": "9641aff887e6fe1bf32d72a0419cc7bfb16015a9896a1662c6f32285375ed885",
+      "bytes": 5079,
       "git_mode": "100644",
       "source_path": "web/src/features/channels/index.tsx"
     },
@@ -20799,9 +20863,9 @@
     },
     {
       "path": "web/src/features/usage-logs/components/__tests__/mobile-card.test.tsx",
-      "sha256": "10ac40bf3113eb3c47d0c32e740c020462fc1bbbc8bc3363c85334011b8b0bf0",
-      "source_sha256": "10ac40bf3113eb3c47d0c32e740c020462fc1bbbc8bc3363c85334011b8b0bf0",
-      "bytes": 11270,
+      "sha256": "e763d90a69c7377f779ec8d8357923692f40855641f32506fea595992b2bb32c",
+      "source_sha256": "e763d90a69c7377f779ec8d8357923692f40855641f32506fea595992b2bb32c",
+      "bytes": 11965,
       "git_mode": "100644",
       "source_path": "web/src/features/usage-logs/components/__tests__/mobile-card.test.tsx"
     },
@@ -20871,9 +20935,9 @@
     },
     {
       "path": "web/src/features/usage-logs/components/columns/common-logs-columns.tsx",
-      "sha256": "9667c421ff10b477e2de95927dabf41e1824596d05df6222f6e65beb9e924cdf",
-      "source_sha256": "934b6ca0a297bd772327ec1d86fba487520a10291ab84edd0d160276341cd04c",
-      "bytes": 32892,
+      "sha256": "ec180ea8b12a650e0424be2344c504538526b5eb2f8af3f02918dae6891cafa0",
+      "source_sha256": "ec180ea8b12a650e0424be2344c504538526b5eb2f8af3f02918dae6891cafa0",
+      "bytes": 33298,
       "git_mode": "100644",
       "source_path": "web/src/features/usage-logs/components/columns/common-logs-columns.tsx"
     },
@@ -20895,9 +20959,9 @@
     },
     {
       "path": "web/src/features/usage-logs/components/common-log-mobile-card.tsx",
-      "sha256": "d6ab5f4af75c98465a14934b75f5c0ee5be3870699696ce1dbb4125c18490034",
-      "source_sha256": "d6ab5f4af75c98465a14934b75f5c0ee5be3870699696ce1dbb4125c18490034",
-      "bytes": 15094,
+      "sha256": "c22f45ad94b5bb191e0a98949ab88391b2a957d8532a0de700fdf22564b00de8",
+      "source_sha256": "c22f45ad94b5bb191e0a98949ab88391b2a957d8532a0de700fdf22564b00de8",
+      "bytes": 15401,
       "git_mode": "100644",
       "source_path": "web/src/features/usage-logs/components/common-log-mobile-card.tsx"
     },
@@ -20943,9 +21007,9 @@
     },
     {
       "path": "web/src/features/usage-logs/components/dialogs/details-dialog.tsx",
-      "sha256": "601f2955add954bc351ecc16d2e044a8c00137a608e41a72f1892bf140248619",
-      "source_sha256": "601f2955add954bc351ecc16d2e044a8c00137a608e41a72f1892bf140248619",
-      "bytes": 49009,
+      "sha256": "447f2ffa44aa2f36bb02f33557ee880c69a869acfc5551e4f935ca8fd458bf89",
+      "source_sha256": "447f2ffa44aa2f36bb02f33557ee880c69a869acfc5551e4f935ca8fd458bf89",
+      "bytes": 50400,
       "git_mode": "100644",
       "source_path": "web/src/features/usage-logs/components/dialogs/details-dialog.tsx"
     },
@@ -21263,9 +21327,9 @@
     },
     {
       "path": "web/src/features/usage-logs/types.ts",
-      "sha256": "aeef726552ceb46b0b151e9dff18ea4b4240a8c9af7f82d8276254a26e148664",
-      "source_sha256": "f21829e602257e12eb08f80a84ebb08411f03c2329a66114c05cac7699bc8af6",
-      "bytes": 14442,
+      "sha256": "84131a647f1dd740bfa725225bb7ef44f9d528019533d2d7f8708cbe3b6266a8",
+      "source_sha256": "84131a647f1dd740bfa725225bb7ef44f9d528019533d2d7f8708cbe3b6266a8",
+      "bytes": 14700,
       "git_mode": "100644",
       "source_path": "web/src/features/usage-logs/types.ts"
     },
@@ -22119,57 +22183,57 @@
     },
     {
       "path": "web/src/i18n/locales/en.json",
-      "sha256": "407b44f554142155d50590565d80101c893924ec8eb4f19bd64b185a6750a90f",
-      "source_sha256": "407b44f554142155d50590565d80101c893924ec8eb4f19bd64b185a6750a90f",
-      "bytes": 568496,
+      "sha256": "c20eaecd87fd648ec8f6ab7626cec7564b123088cd92759affd224f2afa826bf",
+      "source_sha256": "c20eaecd87fd648ec8f6ab7626cec7564b123088cd92759affd224f2afa826bf",
+      "bytes": 569656,
       "git_mode": "100644",
       "source_path": "web/src/i18n/locales/en.json"
     },
     {
       "path": "web/src/i18n/locales/fr.json",
-      "sha256": "ee345a309efe26e7cd438075ba48666b06dc389d7e55229ac8fc2b991b3e6b0f",
-      "source_sha256": "ee345a309efe26e7cd438075ba48666b06dc389d7e55229ac8fc2b991b3e6b0f",
-      "bytes": 638814,
+      "sha256": "4f6ead5442915435f692ffbcbadd164a7a002ecf17f0c192719856bafae3960c",
+      "source_sha256": "4f6ead5442915435f692ffbcbadd164a7a002ecf17f0c192719856bafae3960c",
+      "bytes": 640034,
       "git_mode": "100644",
       "source_path": "web/src/i18n/locales/fr.json"
     },
     {
       "path": "web/src/i18n/locales/ja.json",
-      "sha256": "1254bc45f8988c992a884e538c82327b244821f47605806972b636fe8700ba80",
-      "source_sha256": "1254bc45f8988c992a884e538c82327b244821f47605806972b636fe8700ba80",
-      "bytes": 681930,
+      "sha256": "b78d2735891092dee40826334bc68b11489fba8890f595173272b26992a049b7",
+      "source_sha256": "b78d2735891092dee40826334bc68b11489fba8890f595173272b26992a049b7",
+      "bytes": 683350,
       "git_mode": "100644",
       "source_path": "web/src/i18n/locales/ja.json"
     },
     {
       "path": "web/src/i18n/locales/ru.json",
-      "sha256": "f5be16f7fcaf4128aa7d29c44265b7af8bac5b6dc426cb773e260ad5db31e04a",
-      "source_sha256": "f5be16f7fcaf4128aa7d29c44265b7af8bac5b6dc426cb773e260ad5db31e04a",
-      "bytes": 820990,
+      "sha256": "dcd1460f1e0e6a8976d1513c6dcd8d8ef6b979b9197938b647861b45e37ba2b8",
+      "source_sha256": "dcd1460f1e0e6a8976d1513c6dcd8d8ef6b979b9197938b647861b45e37ba2b8",
+      "bytes": 822647,
       "git_mode": "100644",
       "source_path": "web/src/i18n/locales/ru.json"
     },
     {
       "path": "web/src/i18n/locales/vi.json",
-      "sha256": "0e44bc412e4ba45f1f88d83d68fbeb7eb18d61686d5bdd945cf628c7f5a6ae38",
-      "source_sha256": "0e44bc412e4ba45f1f88d83d68fbeb7eb18d61686d5bdd945cf628c7f5a6ae38",
-      "bytes": 658399,
+      "sha256": "5838973e42ffab4df9ac8eef69bf1aa44646abd1dc7304d5b1dc393b8e89b9f4",
+      "source_sha256": "5838973e42ffab4df9ac8eef69bf1aa44646abd1dc7304d5b1dc393b8e89b9f4",
+      "bytes": 659823,
       "git_mode": "100644",
       "source_path": "web/src/i18n/locales/vi.json"
     },
     {
       "path": "web/src/i18n/locales/zh-TW.json",
-      "sha256": "a351af80c3552a853da7167d1ee55ce7b07fafebd4103c49e42fa9c13e2f6a34",
-      "source_sha256": "a351af80c3552a853da7167d1ee55ce7b07fafebd4103c49e42fa9c13e2f6a34",
-      "bytes": 551069,
+      "sha256": "48d2021141f86a9dae7404cb1a76a3cecebd0fb24d858b9b494adcb8df0e3fff",
+      "source_sha256": "48d2021141f86a9dae7404cb1a76a3cecebd0fb24d858b9b494adcb8df0e3fff",
+      "bytes": 552225,
       "git_mode": "100644",
       "source_path": "web/src/i18n/locales/zh-TW.json"
     },
     {
       "path": "web/src/i18n/locales/zh.json",
-      "sha256": "fd03b49a9dd98d485ac13e251efb9b14af5f626d88a52880665cb39a2972e5be",
-      "source_sha256": "fd03b49a9dd98d485ac13e251efb9b14af5f626d88a52880665cb39a2972e5be",
-      "bytes": 549966,
+      "sha256": "1afb742916fbe41631dd0e09251d1994ab48d87504ff3ea9cb1a84710639424d",
+      "source_sha256": "1afb742916fbe41631dd0e09251d1994ab48d87504ff3ea9cb1a84710639424d",
+      "bytes": 551122,
       "git_mode": "100644",
       "source_path": "web/src/i18n/locales/zh.json"
     },
@@ -23331,24 +23395,59 @@
   },
   "publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-09T18:14:12.873674+00:00",
-    "review_scope": "Sanitized post-publication operational audit and prioritized P0/P1 checklist. Documentation only; deployed binaries unchanged.",
+    "checked_at_utc": "2026-10-09T19:18:49.427527+00:00",
+    "review_scope": "Account overview, exact administrative usage attribution, native HTTPS ingress template, ledger-preserving portal upgrade, smoke scripts and maintained DEVLOG/UPDATELOG. Candidate validated; production publication not executed.",
     "changed_or_added_paths": [
+      "AGENTS.md",
+      "DEVLOG.md",
       "HANDOFF-SUB2API.md",
       "LIVE-DEPLOYMENT.md",
-      "lab/maintenance/sub2api-p0-p1-20261010.md",
-      "lab/sub2api_e2e/production-audit-20261010.json"
+      "UPDATELOG.md",
+      "controller/log.go",
+      "controller/sub2api.go",
+      "deploy/sub2api/ADMIN-PORTAL.md",
+      "deploy/sub2api/README.md",
+      "deploy/sub2api/admin-ingress.example.yml",
+      "deploy/sub2api/export_source.py",
+      "deploy/sub2api/host_cutover.py",
+      "deploy/sub2api/test_host_cutover.py",
+      "lab/sub2api_e2e/admin-portal-candidate-20261010.json",
+      "lab/sub2api_e2e/admin_portal.py",
+      "lab/sub2api_e2e/native_admin.py",
+      "router/channel-router.go",
+      "service/sub2api_driver_test.go",
+      "service/sub2api_observability.go",
+      "web/src/features/channels/__tests__/driver-routing.test.tsx",
+      "web/src/features/channels/api.ts",
+      "web/src/features/channels/components/__tests__/sub2api-management.test.tsx",
+      "web/src/features/channels/components/sub2api-management.tsx",
+      "web/src/features/channels/index.tsx",
+      "web/src/features/usage-logs/components/__tests__/mobile-card.test.tsx",
+      "web/src/features/usage-logs/components/columns/common-logs-columns.tsx",
+      "web/src/features/usage-logs/components/common-log-mobile-card.tsx",
+      "web/src/features/usage-logs/components/dialogs/details-dialog.tsx",
+      "web/src/features/usage-logs/types.ts",
+      "web/src/i18n/locales/en.json",
+      "web/src/i18n/locales/fr.json",
+      "web/src/i18n/locales/ja.json",
+      "web/src/i18n/locales/ru.json",
+      "web/src/i18n/locales/vi.json",
+      "web/src/i18n/locales/zh-TW.json",
+      "web/src/i18n/locales/zh.json"
     ],
-    "changed_or_added_count": 4,
+    "changed_or_added_count": 36,
     "checks": {
       "file_hashes": true,
       "private_paths_excluded": true,
-      "go_inputs_unchanged_from_previous_verified_revision": true,
-      "public_assets_unchanged": true
+      "public_assets_unchanged": true,
+      "affected_frontend_lint_format_typecheck_build": true,
+      "frontend_tests": 74,
+      "host_lifecycle_tests": 12,
+      "real_candidate_management_checks": 11
     },
     "unexpected_credential_patterns": 0,
-    "deployment_status": "PUBLISHED_ACCEPTED_WITH_P1_BACKLOG",
-    "note": "Read-only production audit; incomplete recovery and client acceptance are explicitly tracked. Does not claim a fresh complete E2E or absence of all defects."
+    "deployment_status": "CANDIDATE_ACCEPTED_NOT_PUBLISHED",
+    "note": "Windows elevation cancelled. DNS created but native management ingress not loaded. Browser runtime crashed; no desktop or off-machine acceptance claim."
   },
   "publication_review_history": [
     {
@@ -23487,6 +23586,27 @@
       "workflow_permission_requested": false,
       "deployment_status": "PUBLISHED_ACCEPTED",
       "note": "Bounded source review, not proof of absence of all possible secrets. See release-public-20261010.json for actual scope and limitations."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-09T18:14:12.873674+00:00",
+      "review_scope": "Sanitized post-publication operational audit and prioritized P0/P1 checklist. Documentation only; deployed binaries unchanged.",
+      "changed_or_added_paths": [
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "lab/maintenance/sub2api-p0-p1-20261010.md",
+        "lab/sub2api_e2e/production-audit-20261010.json"
+      ],
+      "changed_or_added_count": 4,
+      "checks": {
+        "file_hashes": true,
+        "private_paths_excluded": true,
+        "go_inputs_unchanged_from_previous_verified_revision": true,
+        "public_assets_unchanged": true
+      },
+      "unexpected_credential_patterns": 0,
+      "deployment_status": "PUBLISHED_ACCEPTED_WITH_P1_BACKLOG",
+      "note": "Read-only production audit; incomplete recovery and client acceptance are explicitly tracked. Does not claim a fresh complete E2E or absence of all defects."
     }
   ]
 }

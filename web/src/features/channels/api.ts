@@ -49,6 +49,39 @@ export type Sub2APIStatus = {
   reason?: string
 }
 
+export type Sub2APIAccount = {
+  id: number
+  name: string
+  platform: string
+  type: string
+  status: string
+  schedulable: boolean
+  concurrency: number
+  current_concurrency: number
+  five_hour_percent: number | null
+  weekly_percent: number | null
+  today: { requests: number; tokens: number } | null
+}
+
+export type Sub2APIOverview = {
+  observed_at: string
+  pools: {
+    channel_id: number
+    group_id: number
+    group_name: string
+    accounts: Sub2APIAccount[]
+    available: boolean
+    truncated: boolean
+  }[]
+}
+
+export async function getSub2APIOverview(): Promise<Sub2APIOverview> {
+  const response = await api.get<{ success: boolean; data: Sub2APIOverview }>(
+    '/api/channel/sub2api/overview'
+  )
+  return requireServerSuccess(response.data).data
+}
+
 export async function getSub2APIStatus(): Promise<Sub2APIStatus> {
   const response = await api.get<{ success: boolean; data: Sub2APIStatus }>(
     '/api/channel/sub2api/status'

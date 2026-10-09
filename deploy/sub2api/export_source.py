@@ -15,7 +15,7 @@ SOURCE_ROOTS = {'.agents', '.github', 'bin', 'cmd', 'common', 'constant', 'contr
     'oauth', 'pkg', 'plugins', 'relay', 'relaykit', 'router', 'service', 'setting', 'types', 'web'}
 ROOT_FILES = {'.dockerignore', '.env.example', '.gitattributes', '.gitignore', 'AGENTS.md',
     'CLAUDE.md', 'Dockerfile', 'Dockerfile.dev', 'LICENSE', 'NOTICE', 'THIRD-PARTY-LICENSES.md',
-    'HANDOFF-SUB2API.md', 'VERSION', 'docker-compose.dev.yml', 'docker-compose.yml',
+    'HANDOFF-SUB2API.md', 'DEVLOG.md', 'UPDATELOG.md', 'LIVE-DEPLOYMENT.md', 'VERSION', 'docker-compose.dev.yml', 'docker-compose.yml',
     'go.mod', 'go.sum', 'main.go', 'makefile', 'new-api.service'}
 LAB_FILES = {'lab/maintenance/sub2api-migration.md', 'lab/realyu-pricing-20260924.json',
     'lab/verify_provider_release.py', 'lab/verify_database_matrix.py'}

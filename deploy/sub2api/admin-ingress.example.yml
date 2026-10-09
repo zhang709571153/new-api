@@ -1,0 +1,10 @@
+# Merge into the existing named tunnel before its final catch-all.
+# Preserve the RealYu inference hostname and every existing transport setting.
+# Use a separate origin: the native console keeps its own authentication.
+ingress:
+  - hostname: supply.example.com
+    path: ^/(api/v1/.*|assets/.*|logo\.svg|favicon\.ico|login(/.*)?|admin(/.*)?|auth/.*|oauth/.*)?$
+    service: http://127.0.0.1:28090
+  - hostname: supply.example.com
+    service: http_status:404
+  - service: http_status:404

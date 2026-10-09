@@ -20,6 +20,7 @@ func registerChannelRoutes(apiRouter *gin.RouterGroup) {
 	channelRoute := apiRouter.Group("/channel")
 	channelRoute.Use(middleware.AdminAuth())
 	channelRoute.GET("/sub2api/status", middleware.RequirePermission(authz.ChannelRead), controller.Sub2APIStatus)
+	channelRoute.GET("/sub2api/overview", middleware.RequirePermission(authz.ChannelRead), controller.Sub2APIOverview)
 	channelRoute.Use(controller.RequireLegacyChannelManagement)
 
 	channelRoute.POST("/:id/codex/login/start", middleware.RootAuth(), middleware.SessionCookieOriginGuard(), middleware.CriticalRateLimit(), middleware.DisableCache(), controller.CodexChannelLogin)

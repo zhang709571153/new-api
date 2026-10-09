@@ -742,6 +742,42 @@ export function DetailsDialog(props: DetailsDialogProps) {
           {channelChain && props.isAdmin && (
             <DetailRow label={t('Retry Chain')} value={channelChain} mono />
           )}
+          {props.isAdmin && other?.admin_info?.sub2api && (
+            <>
+              <DetailRow
+                label={t('Upstream account')}
+                value={
+                  other.admin_info.sub2api.status === 'matched'
+                    ? `${other.admin_info.sub2api.account_name || ''} #${other.admin_info.sub2api.account_id}`
+                    : t(
+                        'Upstream attribution is unavailable or not yet recorded.'
+                      )
+                }
+              />
+              {other.admin_info.sub2api.status === 'matched' && (
+                <>
+                  <DetailRow
+                    label={t('Upstream group')}
+                    value={`${other.admin_info.sub2api.group_name || ''} #${other.admin_info.sub2api.group_id}`}
+                  />
+                  <DetailRow
+                    label={t('Upstream model')}
+                    value={
+                      other.admin_info.sub2api.upstream_model ||
+                      other.admin_info.sub2api.model ||
+                      '—'
+                    }
+                    mono
+                  />
+                  <DetailRow
+                    label={t('Sub2API usage ID')}
+                    value={String(other.admin_info.sub2api.usage_id)}
+                    mono
+                  />
+                </>
+              )}
+            </>
+          )}
 
           {props.log.token_name && (
             <DetailRow

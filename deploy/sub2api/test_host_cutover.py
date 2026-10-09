@@ -218,6 +218,35 @@ class CutoverFixture(unittest.TestCase):
         self.assertEqual(cut.read(self.config)['binary_name'], self.plan['new_binary_name'])
         self.assertEqual(self.old_bridge.read_text(), '# candidate test bridge\n')
 
+    def test_portal_upgrade_never_replays_route_or_refresh_ownership_on_success_or_rollback(self):
+        for verdict in ('PASS', 'FAIL'):
+            with self.subTest(verdict=verdict):
+                fixture = CutoverFixture()
+                fixture.setUp()
+                try:
+                    fixture.plan['operation_kind'] = 'portal-upgrade'
+                    fixture.plan['verified_files'][str(fixture.bindings)] = cut.digest(fixture.bindings)
+                    tree = cut.ET.parse(fixture.xmls[0])
+                    for name, value in {'REALYU_UPSTREAM_DRIVER': 'sub2api', 'REALYU_SUB2API_BINDINGS_FILE': str(fixture.bindings)}.items():
+                        cut.ET.SubElement(tree.getroot(), 'env', name=name, value=value)
+                    tree.write(fixture.xmls[0])
+                    fixture.plan['sub2api_admin_url'] = 'https://supply.example.test/admin/accounts'
+                    fixture.public_verdict = verdict
+                    fixture.public_charge = 17
+                    if verdict == 'PASS':
+                        fixture.execute()
+                        self.assertIn('https://supply.example.test/admin/accounts', fixture.xmls[0].read_text())
+                    else:
+                        with self.assertRaises(RuntimeError):
+                            fixture.execute()
+                        self.assertEqual(cut.read(fixture.config)['binary_name'], fixture.old_binary.name)
+                    self.assertFalse(any(event[0] == 'route' for event in fixture.events))
+                    self.assertEqual(cut.read(fixture.route_receipt)['phase'], 'disabled_route_ready')
+                    with closing(sqlite3.connect(fixture.database)) as db:
+                        self.assertEqual(db.execute('SELECT quota,used_quota FROM users WHERE id=1').fetchone(), (983, 17))
+                finally:
+                    fixture.doCleanups()
+
     def test_public_failure_restores_program_and_routes_preserving_new_charge(self):
         self.public_verdict = 'FAIL'
         self.public_charge = 17

@@ -7,6 +7,7 @@ import (
 
 	"github.com/QuantumNous/new-api/common"
 	"github.com/QuantumNous/new-api/model"
+	"github.com/QuantumNous/new-api/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -50,6 +51,7 @@ func GetAllLogs(c *gin.Context) {
 		common.ApiError(c, err)
 		return
 	}
+	service.EnrichSub2APIAdminLogs(c.Request.Context(), logs)
 	if c.GetInt("role") < common.RoleRootUser {
 		model.FormatAdminLogs(logs)
 	} else {

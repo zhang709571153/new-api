@@ -10,6 +10,11 @@ copies of the customer ledger. Rehearsal commands use isolated state.
 
 Read [the complete handoff](../../lab/maintenance/sub2api-migration.md) first.
 
+For account visibility and remote administrator access, see
+[the admin portal guide](ADMIN-PORTAL.md), its ingress template, and the
+management acceptance scripts in `lab/sub2api_e2e/`. Actual deployment status is
+recorded separately in [UPDATELOG.md](../../UPDATELOG.md).
+
 The destination inventory confirms Windows Server 2025 without an available
 Linux engine or reported nested-virtualization extensions. Follow the
 [native Windows candidate guide](NATIVE-WINDOWS.md) as the primary path.

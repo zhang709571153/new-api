@@ -33,6 +33,20 @@ func Sub2APIWorkspaceStatus(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"success": true, "data": service.GetSub2APIEnrollmentStatus(c.GetInt("id"), c.Query("scope"))})
 }
 
+func Sub2APIOverview(c *gin.Context) {
+	c.Header("Cache-Control", "no-store")
+	if !service.Sub2APIDriverEnabled() {
+		c.JSON(http.StatusConflict, gin.H{"success": false, "message": "Sub2API driver is not enabled"})
+		return
+	}
+	data, err := service.GetSub2APIOverview(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusServiceUnavailable, gin.H{"success": false, "message": "Sub2API overview is unavailable"})
+		return
+	}
+	common.ApiSuccess(c, data)
+}
+
 func listSub2APICodexModels(c *gin.Context, modelNames, groups []string) {
 	cfg, err := service.LoadSub2APIConfig()
 	if err != nil {

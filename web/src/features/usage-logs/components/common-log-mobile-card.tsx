@@ -69,6 +69,11 @@ export function CommonLogMobileCard<TData>(props: {
   const [selectedField, setSelectedField] = useState<FieldName | null>(null)
   const log = props.log
   const other = parseLogOther(log.other)
+  const supply = props.isAdmin ? other?.admin_info?.sub2api : undefined
+  const accountLabel =
+    supply?.status === 'matched'
+      ? `${supply.account_name || t('Upstream account')} #${supply.account_id}`
+      : ''
   const displayable = isDisplayableLogType(log.type)
   const timing = isTimingLogType(log.type)
   const model = formatModelName(log)
@@ -102,7 +107,12 @@ export function CommonLogMobileCard<TData>(props: {
     },
     channel: {
       label: t('Channel'),
-      value: [log.channel_name, `#${log.channel}`].filter(Boolean).join(' '),
+      value: [
+        accountLabel,
+        [log.channel_name, `#${log.channel}`].filter(Boolean).join(' '),
+      ]
+        .filter(Boolean)
+        .join(' · '),
       visible: displayable && props.cells.has('channel'),
       sensitive: true,
     },

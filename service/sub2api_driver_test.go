@@ -14,11 +14,82 @@ import (
 	"time"
 
 	"github.com/QuantumNous/new-api/common"
+	"github.com/QuantumNous/new-api/model"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 )
+
+func TestSub2APIObservabilityScopesAndSanitizesNativeData(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "test-admin", r.Header.Get("x-api-key"))
+		w.Header().Set("Content-Type", "application/json")
+		switch r.URL.Path {
+		case "/api/v1/admin/groups/10":
+			_, _ = w.Write([]byte(`{"code":0,"data":{"id":10,"name":"Supply"}}`))
+		case "/api/v1/admin/accounts":
+			assert.Equal(t, "10", r.URL.Query().Get("group"))
+			_, _ = w.Write([]byte(`{"code":0,"data":{"pages":1,"items":[{"id":3,"name":"Account three","group_ids":[10],"credentials":{"access_token":"secret"},"extra":{"codex_5h_used_percent":0,"private":"secret"}},{"id":4,"group_ids":[20]}]}}`))
+		case "/api/v1/admin/accounts/today-stats/batch":
+			var body struct {
+				IDs []int `json:"account_ids"`
+			}
+			assert.NoError(t, common.DecodeJson(r.Body, &body))
+			assert.Equal(t, []int{3}, body.IDs)
+			_, _ = w.Write([]byte(`{"code":0,"data":{"stats":{"3":{"requests":7,"tokens":900,"cost":123}}}}`))
+		case "/api/v1/admin/usage":
+			switch r.URL.Query().Get("request_id") {
+			case "client:exact":
+				_, _ = w.Write([]byte(`{"code":0,"data":{"total":1,"items":[{"id":42,"request_id":"client:exact","account_id":3,"group_id":10,"model":"gpt-test","account":{"name":"Account three","credentials":"secret"},"group":{"name":"Supply"},"api_key":{"key":"secret"},"user":{"email":"private"}}]}}`))
+			case "client:wrong-group":
+				_, _ = w.Write([]byte(`{"code":0,"data":{"total":1,"items":[{"id":43,"request_id":"client:wrong-group","account_id":4,"group_id":20}]}}`))
+			case "client:substring":
+				_, _ = w.Write([]byte(`{"code":0,"data":{"total":1,"items":[{"id":44,"request_id":"client:substring-more","account_id":3,"group_id":10}]}}`))
+			default:
+				w.WriteHeader(http.StatusServiceUnavailable)
+			}
+		default:
+			t.Errorf("unexpected native request %s", r.URL.Path)
+			w.WriteHeader(http.StatusNotFound)
+		}
+	}))
+	defer server.Close()
+	writeSub2APIConfig(t, server.URL, func(cfg *Sub2APIConfig) { cfg.Pools = cfg.Pools[:1] })
+	view, err := GetSub2APIOverview(context.Background())
+	require.NoError(t, err)
+	require.Len(t, view.Pools, 1)
+	require.Len(t, view.Pools[0].Accounts, 1)
+	a := view.Pools[0].Accounts[0]
+	require.NotNil(t, a.FiveHourPercent)
+	assert.Zero(t, *a.FiveHourPercent)
+	assert.Nil(t, a.WeeklyPercent)
+	require.NotNil(t, a.Today)
+	assert.Equal(t, int64(7), a.Today.Requests)
+	raw, err := common.Marshal(view)
+	require.NoError(t, err)
+	for _, forbidden := range []string{"secret", "credentials", "private", "cost"} {
+		assert.NotContains(t, string(raw), forbidden)
+	}
+	logs := []*model.Log{
+		{ChannelId: 59, Type: model.LogTypeConsume, UpstreamRequestId: "exact", Other: `{"cost":9007199254740993,"admin_info":{"use_channel":[59]},"root_info":{"debug":1}}`},
+		{ChannelId: 59, Type: model.LogTypeConsume, UpstreamRequestId: "wrong-group"},
+		{ChannelId: 59, Type: model.LogTypeConsume, UpstreamRequestId: "substring"},
+		{ChannelId: 59, Type: model.LogTypeError, UpstreamRequestId: "unavailable"},
+		{ChannelId: 1, Type: model.LogTypeConsume, Other: `{"legacy":true}`},
+	}
+	EnrichSub2APIAdminLogs(context.Background(), logs)
+	assert.Equal(t, "Account three", gjson.Get(logs[0].Other, "admin_info.sub2api.account_name").String())
+	assert.Contains(t, logs[0].Other, "9007199254740993")
+	assert.Equal(t, "not_recorded", gjson.Get(logs[1].Other, "admin_info.sub2api.status").String())
+	assert.Equal(t, "not_recorded", gjson.Get(logs[2].Other, "admin_info.sub2api.status").String())
+	assert.Equal(t, "unavailable", gjson.Get(logs[3].Other, "admin_info.sub2api.status").String())
+	assert.Equal(t, `{"legacy":true}`, logs[4].Other)
+	assert.NotContains(t, logs[0].Other, "secret")
+	model.FormatAdminLogs(logs)
+	assert.True(t, gjson.Get(logs[0].Other, "admin_info.sub2api").Exists())
+	assert.False(t, gjson.Get(logs[0].Other, "root_info").Exists())
+}
 
 func writeSub2APIConfig(t *testing.T, baseURL string, edit func(*Sub2APIConfig)) string {
 	t.Helper()

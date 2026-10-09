@@ -207,6 +207,10 @@ def main():
     parser.add_argument("--plan", type=Path, required=True)
     args = parser.parse_args()
     plan = read(args.plan)
+    operation_kind = plan.get("operation_kind", "initial-cutover")
+    if operation_kind not in ("initial-cutover", "portal-upgrade"):
+        raise RuntimeError("Unknown deployment operation kind")
+    portal_upgrade = operation_kind == "portal-upgrade"
     if not ctypes.windll.shell32.IsUserAnAdmin():
         raise RuntimeError("This host installation requires the normal Windows administrator elevation")
     private = Path(plan["production_private"])
@@ -222,7 +226,15 @@ def main():
     if fetch("http://127.0.0.1:18300/api/status")["data"]["version"] != plan["old_version"]:
         raise RuntimeError("Live version advanced beyond the reviewed baseline")
     verify_gateway_process(private, private / read(private / "credentials.json")["binary_name"])
-    if read(plan["supply_receipt"])["phase"] != "access_only_ready":
+    if portal_upgrade:
+        # An upgrade never replays supply import, routing activation or refresh
+        # ownership transfer. The current private binding generation is pinned.
+        env = {node.attrib.get("name"): node.attrib.get("value") for node in ET.parse(plan["api_xml"]).getroot().findall("env")}
+        if (env.get("REALYU_UPSTREAM_DRIVER") != "sub2api"
+                or Path(env.get("REALYU_SUB2API_BINDINGS_FILE", "")).resolve() != Path(plan["bindings_file"]).resolve()
+                or plan["verified_files"].get(str(Path(plan["bindings_file"]))) != digest(plan["bindings_file"])):
+            raise RuntimeError("Portal upgrade requires the unchanged active Sub2API binding generation")
+    elif read(plan["supply_receipt"])["phase"] != "access_only_ready":
         raise RuntimeError("Initial publication requires access-only supply and reversible refresh ownership")
     validate_prepared(plan)
     baseline_schema = schema_state(private / "new-api.db")
@@ -248,7 +260,8 @@ def main():
             save(journal_file, journal)
             drain(private)
             validate_prepared(plan)
-            route("activate", plan["route_plan"], log)
+            if not portal_upgrade:
+                route("activate", plan["route_plan"], log)
             changed = True
             service("RealYuApi", "Stop")
             service("RealYuBridge", "Stop")
@@ -270,7 +283,7 @@ def main():
                 "REALYU_SUB2API_BINDINGS_FILE": plan["bindings_file"],
                 "REALYU_SUB2API_QUEUE_DIR": plan["queue_directory"],
                 "REALYU_SUB2API_STATE_DIR": plan["state_directory"],
-                "REALYU_SUB2API_ADMIN_URL": plan["sub2api_base_url"]})
+                "REALYU_SUB2API_ADMIN_URL": plan.get("sub2api_admin_url", plan["sub2api_base_url"])})
             change_xml(plan["bridge_xml"], {"REALYU_UPSTREAM_DRIVER": "sub2api"})
             shutil.copy2(plan["edge_proxy"], plan["production_bridge"])
             service("RealYuApi", "Start")
@@ -321,7 +334,7 @@ def main():
                     journal["phase"] = "recovery_required_drain"
                     save(journal_file, journal)
                     raise RuntimeError("Could not verify safe rollback drain; maintenance retained for recovery") from None
-            if changed or read(plan["route_receipt"])["phase"] in ("activating", "active"):
+            if changed or (not portal_upgrade and read(plan["route_receipt"])["phase"] in ("activating", "active")):
                 if schema_state(private / "new-api.db") != baseline_schema:
                     journal["phase"] = "recovery_required_schema_changed"
                     save(journal_file, journal)
@@ -338,11 +351,12 @@ def main():
                 wait_version(plan["old_version"])
                 verify_gateway_process(private, private / before["binary_name"])
                 service("RealYuBridge", "Start")
-                route_plan = read(plan["route_plan"])
-                route_plan["refresh_ownership_returned"] = True  # transfer has not run in this operation
-                restore_plan = run / "route-restore-plan.json"
-                save(restore_plan, route_plan)
-                route("restore-routing", restore_plan, log)
+                if not portal_upgrade:
+                    route_plan = read(plan["route_plan"])
+                    route_plan["refresh_ownership_returned"] = True  # transfer has not run in this operation
+                    restore_plan = run / "route-restore-plan.json"
+                    save(restore_plan, route_plan)
+                    route("restore-routing", restore_plan, log)
             if marker.exists() and read(marker).get("operation_id") == plan["operation_id"]:
                 marker.rename(run / "rollback-maintenance-marker.json")
             journal["phase"] = "rolled_back"

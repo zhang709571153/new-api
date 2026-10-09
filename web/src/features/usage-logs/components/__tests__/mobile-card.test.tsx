@@ -118,6 +118,33 @@ it('team mobile cards show the caller without an administrator user-information 
   ).not.toBeInTheDocument()
 })
 
+it('admin mobile cards identify the matched upstream account and respect privacy mode', async () => {
+  renderLogs({
+    logs: [
+      {
+        ...log,
+        other: JSON.stringify({
+          admin_info: {
+            sub2api: {
+              status: 'matched',
+              account_id: 3,
+              account_name: 'Supply account',
+              group_id: 2,
+            },
+          },
+        }),
+      },
+    ],
+  })
+  expect(
+    screen.getByRole('button', { name: /Channel: Supply account #3/ })
+  ).toBeVisible()
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Hide sensitive data' })
+  )
+  expect(screen.queryByText(/Supply account/)).not.toBeInTheDocument()
+})
+
 it('shows model mismatch evidence when tapping the mobile model badge', async () => {
   const user = userEvent.setup()
   renderLogs({

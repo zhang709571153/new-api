@@ -1,0 +1,61 @@
+{
+  "scope": "management HTTP E2E; no desktop or inference acceptance",
+  "base_url": "http://127.0.0.1:28600",
+  "started_at": "2026-10-10T03:09:45+0800",
+  "checks": {
+    "expected_version": true,
+    "anonymous_overview_denied": true,
+    "https_console_entry": true,
+    "real_account_pool": true,
+    "account_metadata_allowlist": true,
+    "native_today_stats": true,
+    "real_request_attribution": true,
+    "attribution_allowlist": true,
+    "ordinary_overview_denied": true,
+    "ordinary_admin_logs_denied": true,
+    "ordinary_logs_no_supply_metadata": true
+  },
+  "all_passed": true,
+  "pools": 1,
+  "accounts": 3,
+  "sampled_logs": 20,
+  "matched_logs": 20,
+  "test_user_disabled": true,
+  "version": "realyu-sub2api-v3.10.0.2-20261010",
+  "binary_sha256": "9b69ce46a2aeaa9c345b4117970f6e974ca4b368a9432ea175810973628ed37d",
+  "deployment_status": "CANDIDATE_ACCEPTED_NOT_PUBLISHED",
+  "frontend_tests": {
+    "files": 5,
+    "passed": 74
+  },
+  "host_lifecycle_tests": 12,
+  "go_tests": "go test ./service ./controller ./router -run Sub2API|LegacyChannelManagement -count=1: PASS",
+  "frontend_checks": {
+    "affected_lint": true,
+    "affected_format": true,
+    "typecheck": true,
+    "build": true,
+    "repository_wide_lint": "existing failures outside changed files"
+  },
+  "browser_e2e": "BLOCKED: in-app browser tabs crashed",
+  "production_changed": false,
+  "dns_created": true,
+  "ingress_updated": false,
+  "publication_blocker": "Windows administrator elevation cancelled",
+  "first_failures": [
+    "Candidate secure-cookie/trusted-URL mismatch rejected startup; corrected before acceptance.",
+    "Fixture username exceeded maximum length; shortened, original report retained.",
+    "Personal log URL trailing slash was rejected as redirect; corrected, original report retained."
+  ],
+  "limitations": [
+    "Native HTTPS login and ingress isolation not yet tested on published origin.",
+    "Another computer and browser rendering not verified.",
+    "No inference or financial regression rerun for this management-only candidate."
+  ],
+  "private_evidence_sha256": {
+    "candidate-e2e.json": "1f918828cee768e468dc9cc26a4d840c609ffed22adf18fc8a052000722f0c3d",
+    "candidate-e2e-second.json": "e5c9bf3bbd6ff7c1aabaf6ee8135fe5835af6a18003453a7357586c5f48e9895",
+    "candidate-e2e-third.json": "619bec0e51cbe89fa11f61ba52c00f64f60ded6af18d059e987cdcca7eddb2ea",
+    "candidate-snapshot.json": "182c1b43d6ae27bec578a7df4a203a72b8dea3e0285f3af6731f0e5219011226"
+  }
+}

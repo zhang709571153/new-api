@@ -405,11 +405,21 @@ export function useCommonLogsColumns(
             const channelChain = hasRetryChain
               ? useChannel.join(' → ')
               : undefined
-            const channelDisplay = log.channel_name
+            const supply = other?.admin_info?.sub2api
+            const accountLabel =
+              supply?.status === 'matched'
+                ? `${supply.account_name || t('Upstream account')} #${supply.account_id}`
+                : ''
+            const routeDisplay = log.channel_name
               ? `${log.channel_name} #${log.channel}`
               : `#${log.channel}`
+            const channelDisplay = [accountLabel, routeDisplay]
+              .filter(Boolean)
+              .join(' · ')
             const channelIdDisplay = `#${log.channel}`
-            const channelName = sensitiveVisible ? log.channel_name : '••••'
+            const channelName = sensitiveVisible
+              ? accountLabel || log.channel_name
+              : '••••'
             const multiKeyIndex = other?.admin_info?.multi_key_index
             const showMultiKeyIndex =
               other?.admin_info?.is_multi_key === true &&

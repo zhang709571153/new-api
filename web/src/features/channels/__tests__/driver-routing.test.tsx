@@ -23,7 +23,11 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Channels } from '..'
 import { getChannelOps, getSub2APIStatus } from '../api'
 
-vi.mock('../api', () => ({ getSub2APIStatus: vi.fn(), getChannelOps: vi.fn() }))
+vi.mock('../api', () => ({
+  getSub2APIStatus: vi.fn(),
+  getChannelOps: vi.fn(),
+  getSub2APIOverview: vi.fn().mockResolvedValue({ observed_at: '', pools: [] }),
+}))
 vi.mock('../components/channels-table', () => ({
   ChannelsTable: () => <div>Legacy channel editor</div>,
 }))
