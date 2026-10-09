@@ -3047,9 +3047,9 @@
     },
     {
       "path": "lab/sub2api_e2e/README.md",
-      "sha256": "62625f8fa449bd27c7c4a93248b19f96167ae36be026fc0d708513809d0cf858",
-      "source_sha256": "fbb00ef261b8539bf73b0270301bd6dc81538c3d0f4ab06a0549f0157f495095",
-      "bytes": 20211,
+      "sha256": "2cf71265b752f21e2587c8c5751f9fe3d6bf17044cd676da5926d5e52f393551",
+      "source_sha256": "9505f854e1dfc1660f97e1bc6c6f02993b554e9f6e9085b64731f7c2eb6f488a",
+      "bytes": 20450,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/README.md"
     },
@@ -3143,9 +3143,9 @@
     },
     {
       "path": "lab/sub2api_e2e/database_regression.py",
-      "sha256": "90defbf9a64109107b96305154e5a33f0b4288a6469f3406406a8d4ad3a3a4ab",
-      "source_sha256": "90defbf9a64109107b96305154e5a33f0b4288a6469f3406406a8d4ad3a3a4ab",
-      "bytes": 4177,
+      "sha256": "2bf90487e06deb9fea9684df556eb77ef0b713c8feb07738cebd2b3ab3689f54",
+      "source_sha256": "2bf90487e06deb9fea9684df556eb77ef0b713c8feb07738cebd2b3ab3689f54",
+      "bytes": 4600,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/database_regression.py"
     },
@@ -22967,7 +22967,7 @@
     }
   ],
   "publication_review": {
-    "checked_at_utc": "2026-10-09T13:55:40.393234+00:00",
+    "checked_at_utc": "2026-10-09T14:04:45.755496+00:00",
     "checks": {
       "file_hashes": true,
       "private_paths_excluded": true,
@@ -22981,6 +22981,7 @@
     "note": "Bounded source review and pattern scan; not a claim to prove absence of every possible secret. Public assets match already published release bytes.",
     "active_workflow_files": 0,
     "workflow_templates_preserved_count": 6,
-    "workflow_permission_requested": false
+    "workflow_permission_requested": false,
+    "receiving_machine_go_path": "Explicit --go argument or PATH; help/compile check passed, no runtime code changed"
   }
 }

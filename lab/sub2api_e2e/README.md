@@ -128,6 +128,9 @@ success chain and retained-response ownership tests remain separate gates.
 before creating any synthetic data. It reuses the repository's real database
 matrix for fresh startup, baseline-to-candidate upgrade, repeated startup,
 wallet/keys/ledger preservation and three team/funding regressions. Each test
+machine should pass `--go <verified-go.exe>` along with `--engines-root`; the
+runner also accepts Go from PATH. It fails before starting fixtures when no
+toolchain is available, rather than requiring the development host's path. Each test
 root gets its own empty database. MySQL/PostgreSQL fixture reuse initially failed
 the suite's empty-database guard; the first result is retained alongside the
 corrected run. No production database is read or copied. This tests installed

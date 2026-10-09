@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import sys
 
 from bootstrap_windows import ROOT, PRIVATE
@@ -21,8 +22,13 @@ def main():
     parser.add_argument('--baseline', type=Path, required=True)
     parser.add_argument('--candidate', type=Path, required=True)
     parser.add_argument('--engines-root', type=Path, required=True)
+    parser.add_argument('--go', type=Path, help='Go executable on the receiving machine; otherwise use PATH or the existing local fixture toolchain')
     parser.add_argument('--enrollment-only', action='store_true', help='Only the new read-only automatic enrollment root on three real databases')
     args = parser.parse_args()
+    go_path = args.go or shutil.which('go') or base.GO
+    base.GO = Path(go_path).resolve()
+    if not base.GO.is_file():
+        parser.error('Go executable is unavailable; pass --go with the verified toolchain path on this machine')
     baseline = args.baseline.resolve(strict=True)
     candidate = args.candidate.resolve(strict=True)
     expected = 'f729e2b8f2c631e1b804b7e6ef56397efbe76560c2e8fc6528f845c2eff4de20'
@@ -42,7 +48,7 @@ def main():
         candidate_sha256=hashlib.sha256(candidate.read_bytes()).hexdigest(),
         external_model_calls=0, production_changed=False, source='latest frozen business baseline plus Sub2API integration')
     matrix.report['command'] = ('python lab/sub2api_e2e/database_regression.py --baseline <frozen-release.exe> '
-        '--candidate <isolated-candidate.exe> --engines-root <local-portable-engines>'
+        '--candidate <isolated-candidate.exe> --engines-root <local-portable-engines> --go <verified-go.exe>'
         + (' --enrollment-only' if args.enrollment_only else ''))
     tests = ['TestWorkspaceFundingIsolation', 'TestWorkspaceFundingScopePermissions', 'TestWorkspaceTeamLifecycle']
     if args.enrollment_only:
