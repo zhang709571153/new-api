@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "403ceeb608012308b89ec68b2d241bca029f36e05175306101d4e5601a2c0842",
-      "source_sha256": "403ceeb608012308b89ec68b2d241bca029f36e05175306101d4e5601a2c0842",
-      "bytes": 15104,
+      "sha256": "2929415d3bfd060b484a614960acbfca6da4dbe434108e5727026362884bb952",
+      "source_sha256": "2929415d3bfd060b484a614960acbfca6da4dbe434108e5727026362884bb952",
+      "bytes": 16120,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "bbfd24452f0c394bdb7f8ebcf2df13ecd535a652c793c9501412968f92b2313c",
-      "source_sha256": "bbfd24452f0c394bdb7f8ebcf2df13ecd535a652c793c9501412968f92b2313c",
-      "bytes": 5903,
+      "sha256": "81bd3d763b4f1379435710e364254d93f19e5a6f26cbb0d87fbc08a4d0a7f00e",
+      "source_sha256": "81bd3d763b4f1379435710e364254d93f19e5a6f26cbb0d87fbc08a4d0a7f00e",
+      "bytes": 6332,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2516,6 +2516,14 @@
       "bytes": 12400,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/README.md"
+    },
+    {
+      "path": "deploy/sub2api/RELEASE-READINESS-20261010.md",
+      "sha256": "17c76c1e791bde343f2d2b2572b7fd2bd948ab2520e75e45cec039dea8921c46",
+      "source_sha256": "17c76c1e791bde343f2d2b2572b7fd2bd948ab2520e75e45cec039dea8921c46",
+      "bytes": 6409,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/RELEASE-READINESS-20261010.md"
     },
     {
       "path": "deploy/sub2api/SINGLECORE-CANDIDATE.md",
@@ -23521,41 +23529,6 @@
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T04:56:45.517088+00:00",
-    "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
-    "changed_or_added_count": 18,
-    "changed_or_added_paths": [
-      ".gitattributes",
-      "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "UPDATELOG.md",
-      "deploy/sub2api/FRONTEND-REUSE-20261010.md",
-      "deploy/sub2api/Prepare-SingleCore.ps1",
-      "deploy/sub2api/SINGLECORE-CANDIDATE.md",
-      "deploy/sub2api/singlecore-candidate.patch",
-      "deploy/sub2api/singlecore-source.json",
-      "deploy/sub2api/singlecore_http_smoke.py",
-      "deploy/sub2api/singlecore_migrate.py",
-      "deploy/sub2api/test_singlecore_migrate.py",
-      "deploy/sub2api/test_singlecore_migration_pg.py",
-      "lab/sub2api_e2e/frontend-reuse-20261010.json",
-      "lab/sub2api_e2e/singlecore-candidate-20261010.json",
-      "lab/sub2api_e2e/singlecore-profile-20261010.jpg",
-      "lab/sub2api_e2e/singlecore-subscription-error-20261010.jpg",
-      "lab/sub2api_e2e/singlecore-subscription-recovered-20261010.jpg"
-    ],
-    "checks": {
-      "changed_git_blob_hashes": true,
-      "private_runtime_values_excluded": true,
-      "private_runtime_files_excluded": true,
-      "local_document_links": 47,
-      "pinned_upstream_and_patch": true
-    },
-    "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
-    "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
-  },
-  "publication_review": {
-    "status": "PASS",
     "checked_at_utc": "2026-10-10T05:04:28.489248+00:00",
     "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
     "changed_or_added_count": 3,
@@ -23569,6 +23542,26 @@
       "private_runtime_values_excluded": true,
       "private_runtime_files_excluded": true,
       "local_document_links": 31,
+      "pinned_upstream_and_patch": true
+    },
+    "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
+    "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
+  },
+  "publication_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-10T08:03:16.765149+00:00",
+    "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
+    "changed_or_added_count": 3,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/RELEASE-READINESS-20261010.md"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 30,
       "pinned_upstream_and_patch": true
     },
     "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
@@ -23938,6 +23931,26 @@
         "private_runtime_values_excluded": true,
         "private_runtime_files_excluded": true,
         "local_document_links": 47,
+        "pinned_upstream_and_patch": true
+      },
+      "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
+      "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T05:04:28.489248+00:00",
+      "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
+      "changed_or_added_count": 3,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/SINGLECORE-CANDIDATE.md"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 31,
         "pinned_upstream_and_patch": true
       },
       "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",

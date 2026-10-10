@@ -4,6 +4,12 @@
 完整部署状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，接手入口见
 [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md)，开发过程见 [DEVLOG.md](DEVLOG.md)。
 
+## 2026-10-10 — 发布条件复核，未上线
+
+- 核实 HY2 开发验收通过，但生产 Tunnel 长测、恢复、无人值守和真实上游业务尚未验收。
+- 线上仍为 v3.10.0.1/旧代理；管理入口小版本可以独立推进，完整迁移版仍有功能阻断。
+- 新增[分阶段必要测试清单](deploy/sub2api/RELEASE-READINESS-20261010.md)，保留补测首错与检测器修正，未修改生产。
+
 ## 2026-10-10 — 单核心开发候选，未上线
 
 - 保留用户名登录、可选邮箱注册和独立昵称；旧密码/现用带前缀 Key 受控迁入。
