@@ -1,5 +1,10 @@
 # Local Sub2API deployment record
 
+**Latest network check, 2026-10-10 08:47 CST:** after the user's TW switch,
+both connectors automatically regained 4 connections. The observed path uses
+tw1 through the fallback selector; public pages, strict edge TLS and one real
+Codex stream passed. No extra restart or application deployment was performed.
+
 **Network incident, 2026-10-10 morning CST:** public access failed from 08:10
 to 08:23 while origin services stayed healthy. The observed tunnel traffic still
 used the us2 proxy; after the route changed to jp3, public access recovered.

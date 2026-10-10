@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "3f058cd217608630295232a31892d3af49f1b633f5e8ead2108c5945bd74ecea",
-      "source_sha256": "3f058cd217608630295232a31892d3af49f1b633f5e8ead2108c5945bd74ecea",
-      "bytes": 5958,
+      "sha256": "fd017dc296fbaebb3859ae0d7d2f6eaca04f995781d2e7db364fffecaee5b286",
+      "source_sha256": "fd017dc296fbaebb3859ae0d7d2f6eaca04f995781d2e7db364fffecaee5b286",
+      "bytes": 6461,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "cf8b3f263d4727520c77696b5613fe61536358c49d8860d0f93a1f86375b48c5",
-      "source_sha256": "cf8b3f263d4727520c77696b5613fe61536358c49d8860d0f93a1f86375b48c5",
-      "bytes": 10807,
+      "sha256": "ce71badb6659fa22738ded110b9cec938800c370fa41191597b0ff8fd84e5645",
+      "source_sha256": "ce71badb6659fa22738ded110b9cec938800c370fa41191597b0ff8fd84e5645",
+      "bytes": 11118,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "5a646a68f5feed897b5781ca7486b060814b1f8ed57756192f30c5f986c16669",
-      "source_sha256": "5a646a68f5feed897b5781ca7486b060814b1f8ed57756192f30c5f986c16669",
-      "bytes": 2741,
+      "sha256": "8129130f94495ef9c1ecc2c1c2f236395b504dcf88b1caddb4fc1528c700adbb",
+      "source_sha256": "8129130f94495ef9c1ecc2c1c2f236395b504dcf88b1caddb4fc1528c700adbb",
+      "bytes": 2931,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2463,9 +2463,9 @@
     },
     {
       "path": "deploy/sub2api/NETWORK-INCIDENT-20261010.md",
-      "sha256": "5d99d92fea415848cbf322ec814b21e665e2f74cf43f4a6c15ef4aebdde4e8f2",
-      "source_sha256": "5d99d92fea415848cbf322ec814b21e665e2f74cf43f4a6c15ef4aebdde4e8f2",
-      "bytes": 4792,
+      "sha256": "89ee27e4fa56dbc82869fe27ce321d29d8e4f0ae04bd15f59b3d8218a0b71bd7",
+      "source_sha256": "89ee27e4fa56dbc82869fe27ce321d29d8e4f0ae04bd15f59b3d8218a0b71bd7",
+      "bytes": 5670,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
     },
@@ -23403,26 +23403,25 @@
   },
   "publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T00:39:11.095837+00:00",
-    "review_scope": "Sanitized network incident, historical session comparison, bounded observation and deployment handoff notes. Documentation only.",
-    "changed_or_added_count": 5,
+    "checked_at_utc": "2026-10-10T00:47:43.348168+00:00",
+    "review_scope": "Sanitized TW switch automatic recovery verification; documentation only.",
+    "changed_or_added_count": 4,
     "changed_or_added_paths": [
       "DEVLOG.md",
       "UPDATELOG.md",
       "LIVE-DEPLOYMENT.md",
-      "HANDOFF-SUB2API.md",
       "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
     ],
     "checks": {
-      "all_manifest_git_blob_hashes": true,
-      "private_paths_excluded": true,
-      "go_inputs_unchanged_from_previous_verified_revision": true,
+      "changed_file_hashes": true,
+      "private_runtime_files_excluded": true,
+      "go_inputs_unchanged": true,
       "public_assets_unchanged": true,
       "local_document_links": true
     },
     "unexpected_credential_patterns": 0,
-    "deployment_status": "LIVE_V3_10_0_1_NETWORK_RECOVERED_PORTAL_CANDIDATE_UNPUBLISHED",
-    "note": "Bounded document scan is not proof of absence of all secrets; sampled network recovery is not long-term stability."
+    "deployment_status": "LIVE_V3_10_0_1_TW_RECOVERY_VERIFIED_PORTAL_UNPUBLISHED",
+    "note": "Initial test CA configuration failure preserved; strict validation and model success do not prove long-term stability."
   },
   "publication_review_history": [
     {
@@ -23638,6 +23637,29 @@
       "unexpected_credential_patterns": 0,
       "deployment_status": "CANDIDATE_ACCEPTED_NOT_PUBLISHED",
       "note": "Windows elevation cancelled. DNS created but native management ingress not loaded. Browser runtime crashed; no desktop or off-machine acceptance claim."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T00:39:11.095837+00:00",
+      "review_scope": "Sanitized network incident, historical session comparison, bounded observation and deployment handoff notes. Documentation only.",
+      "changed_or_added_count": 5,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "UPDATELOG.md",
+        "LIVE-DEPLOYMENT.md",
+        "HANDOFF-SUB2API.md",
+        "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
+      ],
+      "checks": {
+        "all_manifest_git_blob_hashes": true,
+        "private_paths_excluded": true,
+        "go_inputs_unchanged_from_previous_verified_revision": true,
+        "public_assets_unchanged": true,
+        "local_document_links": true
+      },
+      "unexpected_credential_patterns": 0,
+      "deployment_status": "LIVE_V3_10_0_1_NETWORK_RECOVERED_PORTAL_CANDIDATE_UNPUBLISHED",
+      "note": "Bounded document scan is not proof of absence of all secrets; sampled network recovery is not long-term stability."
     }
   ]
 }
