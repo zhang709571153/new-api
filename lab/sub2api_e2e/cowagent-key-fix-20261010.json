@@ -1,0 +1,68 @@
+{
+  "incident_date": "2026-10-10",
+  "status": "candidate_fix_verified_production_recovery_pending",
+  "production_key_configuration_or_ledger_modified": false,
+  "client_configuration_modified": false,
+  "first_failure": {
+    "beijing_time": "2026-10-10T20:57:45.712976+08:00",
+    "request_id": "eab346c9-7373-4346-a41c-588a976f85be",
+    "path": "/v1/responses",
+    "status_code": 503,
+    "error_code": "KEY_POLICY_UNAVAILABLE",
+    "error_type": "api_error",
+    "message": "Key policy is temporarily unavailable"
+  },
+  "affected_data_shape": {
+    "active_undeleted_non_team_unlimited_keys_with_negative_historical_remaining": 15,
+    "with_model_allowlist_enabled": 2,
+    "all_keys_observed_failing": false
+  },
+  "root_cause": "The legacy unlimited-key reader treated a negative historical remaining counter as current display availability, then rejected it as outside the supported range. Model-policy middleware called this reader before upstream dispatch even when model limits were disabled.",
+  "fix": {
+    "source": "backend/internal/repository/realyu_client_repo.go",
+    "change": "Only the non-team unlimited branch normalizes display availability with GREATEST(0, opening_remaining_quota).",
+    "preserved": [
+      "original historical database value",
+      "unlimited flag and accumulated usage",
+      "real wallet and subscription funding",
+      "finite native key quotas",
+      "current team/member/subscription availability",
+      "expiry and model allowlist enforcement"
+    ]
+  },
+  "verification": {
+    "real_isolated_postgresql_red": {
+      "expected_failure_reproduced": "legacy key quota outside supported range",
+      "unlimited_case_failed": 1,
+      "finite_and_team_cases_passed": 2,
+      "private_log_basename": "cowagent-key-pg-red-20261010T130606Z.log"
+    },
+    "real_isolated_postgresql_green": {
+      "passed": 3,
+      "failed": 0,
+      "covers": ["negative unlimited history without ledger mutation", "finite quota and exhaustion", "team zero cap, removed member and expired subscription"],
+      "private_log_basename": "cowagent-key-pg-green-20261010T130704Z.log"
+    },
+    "model_policy_middleware": {
+      "passed": 8,
+      "failed": 0,
+      "unlimited_disallowed_model_still_403": true,
+      "private_log_basename": "cowagent-key-policy-middleware-green.log"
+    },
+    "independent_source_review": "PASS; no new blocking issue found",
+    "before_real_client_config_get": {
+      "config_identity_matched_in_memory": true,
+      "key_check": {"status": 503, "request_id": "7c6f833b-c3dc-44b9-8a5b-50d1ea5eb424", "message": "Key inspection temporarily unavailable"},
+      "models": {"status": 503, "request_id": "0915f593-3988-4cd2-a40b-b5aed9f835b7", "error_code": "KEY_POLICY_UNAVAILABLE"},
+      "paid_requests_sent": 0,
+      "retries": 0,
+      "first_raw_failures_preserved_privately": true
+    },
+    "after_production_update": {
+      "status": "PENDING_ROOT_ACTIVE_NOTICE",
+      "required": ["exact new deployed version", "same client configuration key-check succeeds", "models succeeds with configured model", "one tiny real Responses request completes"],
+      "automatic_retries": false
+    }
+  },
+  "evidence_redaction": "No full key, email, user name, network address or customer ledger amounts are included. Raw first failures and credential-bearing configuration remain in private runtime storage."
+}

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+  "source_commit": "fa1c73d63cfc710f317f227340185ab6105ae531",
+  "patch_sha256": "20214e7ec9a21c18b621735d034250d2d0c1fd13a8e8cc15d5c6b625c9e69f1b",
+  "reconstructed_changed_files": 263,
+  "checked_at_utc": "2026-10-10T13:10:27.295045+00:00",
+  "method": "fresh pinned git archive; git apply --check; actual apply; all changed file hashes",
+  "network_used": false,
+  "build_repeated": false,
+  "production_modified": false,
+  "first_harness_attempt": "Git global core.autocrlf produced CRLF; retained failed directory; repeated with explicit false matching Prepare-SingleCore.ps1"
+}

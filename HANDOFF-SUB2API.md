@@ -1,4 +1,8 @@
-# RealYu / Sub2API 候选交接入口
+# RealYu / Sub2API 部署与迁移交接
+
+**21:24 CST 新增候选：** 客户人民币、管理直接进入、工作台和无限 Key 503 修复已完成隔离验收，等待 Windows 提权；生产仍为下述 `ws-owner`。参考[原生程序更新](deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md)、[币种合同](deploy/sub2api/SINGLECORE-CURRENCY-AND-ADMIN-20261010.md)、[旧 UX 全面恢复矩阵](deploy/sub2api/UX-PARITY-RECOVERY-20261010.md)。源码补丁是本轮已测试热修复，后续经营/工作台适配不因研究报告存在而视为已实现。
+
+**当前交接补充（20:40 CST）：** 新加坡网络和原生单核心已完成生产切换，r3 ACTIVE，公网模型/协议验收和 26 笔账务对账通过。先读[生产记录](deploy/sub2api/SINGLECORE-PRODUCTION-20261010.md)；迁机必须迁移 ACTIVE 后当前 PG 数据，不可重放 S0/S1 或恢复旧 SQLite。确认页/人民币更新准备中。下方保留此前候选交付时的证据边界。
 
 ## 本轮单核心交付（2026-10-10，文档冻结时未切生产）
 

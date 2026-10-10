@@ -1,0 +1,21 @@
+{
+  "operation_id": "native-cny-admin-20261010-r2",
+  "phase": "RECOVERED_SAME_NATIVE_AUTHORITY",
+  "phase_times": {
+    "DRAINING": 1791639023.4406679,
+    "STOPPING_NATIVE": 1791639023.7091956,
+    "RECOVERED_SAME_NATIVE_AUTHORITY": 1791639059.754987
+  },
+  "database_restored": false,
+  "old_legacy_services_started": false,
+  "first_failure": {
+    "phase": "STOPPING_NATIVE",
+    "type": "UpdateError",
+    "code": "SCM_OR_IDENTITY_CHECK_FAILED"
+  },
+  "maintenance_seconds": 36.314,
+  "confirmed_cause": "Windows PowerShell implicit exit code 1 after an expected Get-Process miss for an already-exited worker. Read-only reproduction: implicit=1, explicit=0.",
+  "fix": "Explicit exit 0 only after all terminating SCM/listener/ownership assertions finish. Added real Windows tests for expected absence and retained failure of a throwing identity assertion.",
+  "regression_tests": 13,
+  "public_recovered_version": "realyu-singlecore-v0.2.15-20261010-ws-owner"
+}

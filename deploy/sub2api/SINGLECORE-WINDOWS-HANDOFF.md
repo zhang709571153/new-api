@@ -1,6 +1,6 @@
 # RealYu 单核心迁移到另一台 Windows Server
 
-本文是另一台机器上 Codex 的部署交接入口，适用于 **已经完成单核心切换的 RealYu → 新 Windows Server**。整理日期：2026-10-10。本文编写时，本机生产切换流程仍在进行，最终结果未知；先读 [LIVE-DEPLOYMENT.md](../../LIVE-DEPLOYMENT.md) 和 [HANDOFF-SUB2API.md](../../HANDOFF-SUB2API.md) 的最新发布记录，再核对源机服务、运行文件哈希、数据库和私有 `authority-receipt.json`。Git 提交、候选测试或 UAC 启动都不等于生产已切换。
+本文是另一台机器上 Codex 的部署交接入口，适用于 **已经完成单核心切换的 RealYu → 新 Windows Server**。整理日期：2026-10-10。本机已于 20:30:20 r3 ACTIVE，公网模型/协议及账务验收通过；先读 [LIVE-DEPLOYMENT.md](../../LIVE-DEPLOYMENT.md) 和 [HANDOFF-SUB2API.md](../../HANDOFF-SUB2API.md) 的最新发布记录，再核对源机当前服务、运行文件哈希、数据库和私有 `authority-receipt.json`。首次切换已完成，此后应迁移当前 PG/Redis，不能拿初次 S0/S1 覆盖新增交易。后续程序更新见[原生更新教程](SINGLECORE-NATIVE-UPDATE.md)。
 
 **这不是一键迁机安装器。** 已有源码重建、同机切换和 SG 服务脚本可以复用，但新机器的运行依赖包、服务计划、私有资料传递、原生数据库恢复及最终切流需要按下述步骤准备、验证和留存回执。若源机还没有单核心 `ACTIVE` 证据，不要把旧 Sub2API 的影子库当成客户数据库恢复。
 

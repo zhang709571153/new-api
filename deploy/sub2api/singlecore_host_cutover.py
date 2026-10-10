@@ -272,7 +272,15 @@ def bounded_process(command,deadline,env=None,on_finish=None):
         if process.poll() is None:raise CutoverError("OWNED_WORKER_STILL_RUNNING")
         if on_finish:on_finish()
     if failed:raise CutoverError("BOUNDED_WORKER_DEADLINE_OR_INTERRUPTION")
-    if process.returncode:raise CutoverError("BOUNDED_WORKER_FAILED_PRIVATE_RECEIPTS_RETAINED")
+    if process.returncode:
+        # Workers already emit fixed public codes. Retain that diagnostic while
+        # refusing arbitrary stdout/stderr (which may contain private values).
+        try:failure=json.loads(output)
+        except Exception:failure={}
+        code=failure.get("code") if isinstance(failure,dict) and failure.get("status")=="BLOCKED" else None
+        if isinstance(code,str) and re.fullmatch(r"[A-Z0-9_]{1,160}",code):
+            raise CutoverError("WORKER_"+code)
+        raise CutoverError("BOUNDED_WORKER_FAILED_PRIVATE_RECEIPTS_RETAINED")
     try:result=json.loads(output)
     except Exception:raise CutoverError("BOUNDED_WORKER_INVALID_RESULT") from None
     if not isinstance(result,dict):raise CutoverError("BOUNDED_WORKER_INVALID_RESULT")
@@ -519,7 +527,9 @@ def run_cutover(plan,ops,clock=time.monotonic,sleep=time.sleep):
     stopped=False;opening=False
     if hasattr(ops,"set_deadline"):ops.set_deadline(deadline)
     def phase(name):
-        journal["phase"]=name;atomic_save(journal_path,journal)
+        journal["phase"]=name
+        journal.setdefault("phase_times_unix",{})[name]=time.time()
+        atomic_save(journal_path,journal)
     def budget():
         check_owned_gate(marker,operation)
         if clock()>=deadline:raise CutoverError("MAINTENANCE_BUDGET_EXCEEDED")
@@ -547,7 +557,11 @@ def run_cutover(plan,ops,clock=time.monotonic,sleep=time.sleep):
         open_owned_gate(marker,operation,run/"opened-maintenance.json")
         journal["opened"]=True;phase("ACTIVE")
         return journal
-    except BaseException:
+    except BaseException as failure:
+        # Keep the failing boundary even when recovery succeeds. Exception
+        # messages can contain private subprocess arguments or database values.
+        journal["first_failure"]={"phase":journal["phase"],"error_type":type(failure).__name__,
+            "code":str(failure) if isinstance(failure,CutoverError) and re.fullmatch(r"[A-Z0-9_]+",str(failure)) else "PRIVATE_OPERATION_FAILED"}
         if opening:
             journal["phase"]="FORWARD_RECOVERY_REQUIRED";atomic_save(journal_path,journal)
             raise CutoverError("FORWARD_RECOVERY_REQUIRED_NO_SQLITE_ROLLBACK") from None
@@ -599,7 +613,10 @@ class WindowsHost:
             clear_worker_sessions(self.cfg,application);self.worker_unconfirmed=False
         return bounded_process(command,self.deadline,env,finished)
     def ps(self,code):
-        result=subprocess.run(["powershell.exe","-NoProfile","-NonInteractive","-Command","$ErrorActionPreference='Stop'; "+code],
+        # PowerShell 5.1 otherwise emits localized service warnings in the OEM
+        # code page, which can fail UTF-8 decoding after a successful SCM stop.
+        prefix="$ErrorActionPreference='Stop'; [Console]::OutputEncoding=[Text.UTF8Encoding]::new($false); $OutputEncoding=[Console]::OutputEncoding; "
+        result=subprocess.run(["powershell.exe","-NoProfile","-NonInteractive","-Command",prefix+code],
                               capture_output=True,timeout=self.remaining(),creationflags=subprocess.CREATE_NO_WINDOW)
         if result.returncode:raise CutoverError("SCM_OPERATION_FAILED")
         return result.stdout.decode("utf-8-sig").strip()
@@ -659,7 +676,10 @@ class WindowsHost:
         result=import_customer_snapshot(self.plan,"s1")
         blockers=result["customers"]["activation_blockers"]
         acceptable={"REHEARSAL_ONLY_NO_ACTIVATION"}
-        with closing(sqlite3.connect((self.run/"s1.sqlite").as_uri()+"?mode=ro",uri=True)) as db:
+        # This is the completed hash-verified backup from import_customer_snapshot,
+        # never the live source. A plain WAL-mode read-only open can create an
+        # empty -wal and make the subsequent strict snapshot check reject it.
+        with closing(sqlite3.connect((self.run/"s1.sqlite").as_uri()+"?mode=ro&immutable=1",uri=True)) as db:
             db.execute("PRAGMA query_only=ON")
             pending,reviewed=inspect_reservations(db,self.plan.get("legacy_zero_reservation_archive"))
         if pending:raise CutoverError("S1_HAS_NEW_OR_UNREVIEWED_PENDING_RESERVATIONS")

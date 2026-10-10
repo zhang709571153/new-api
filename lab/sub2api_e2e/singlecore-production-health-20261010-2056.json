@@ -1,0 +1,180 @@
+{
+  "at": "2026-10-10T12:55:04.710954+00:00",
+  "requested_since": "2026-10-10T20:30:20.643000+08:00",
+  "new_probes": 0,
+  "model_calls": 0,
+  "health": {
+    "public-direct": {
+      "healthy": 146,
+      "total": 148,
+      "success_fraction": 0.9864864864864865,
+      "first_failure": {
+        "at": "2026-10-10T12:38:05.000981+00:00",
+        "http_status": null,
+        "curl_exit": 28,
+        "healthy": false,
+        "category": "timeout",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "fb76c195d8854fc88e80bd8ac8f09672",
+        "cf_ray": null
+      },
+      "last": {
+        "at": "2026-10-10T12:54:55.112022+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "d6e85e466434420ebd99f80f7de6c5a2",
+        "cf_ray": "a485c6c74ddf3edb-LHR"
+      }
+    },
+    "public-via-local-proxy": {
+      "healthy": 148,
+      "total": 148,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "last": {
+        "at": "2026-10-10T12:54:55.112022+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "716a71369873401aa7d02455df34e18f",
+        "cf_ray": "a485c6c5e8d177c5-HKG"
+      }
+    },
+    "backend": {
+      "healthy": 148,
+      "total": 148,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "last": {
+        "at": "2026-10-10T12:54:55.112022+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "05a58c75b726475184172d58e64fbb31",
+        "cf_ray": null
+      }
+    },
+    "bridge": {
+      "healthy": 148,
+      "total": 148,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "last": {
+        "at": "2026-10-10T12:54:55.112022+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "02759312ce4441c999ee16f81926fe5e",
+        "cf_ray": null
+      }
+    },
+    "tunnel-primary": {
+      "healthy": 148,
+      "total": 148,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "last": {
+        "at": "2026-10-10T12:54:55.112022+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": 4,
+        "identity_verified": true,
+        "probe_id": "5c770d1cc924475fb0bddf74d58a30a9",
+        "cf_ray": null
+      }
+    },
+    "tunnel-replica": {
+      "healthy": 148,
+      "total": 148,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "last": {
+        "at": "2026-10-10T12:54:55.112022+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": 4,
+        "identity_verified": true,
+        "probe_id": "9653452b756944ffbca9828c547246cc",
+        "cf_ray": null
+      }
+    }
+  },
+  "health_first": "2026-10-10T12:30:24.986777+00:00",
+  "health_last": "2026-10-10T12:54:55.112022+00:00",
+  "health_latest_age_seconds": 9.598932,
+  "max_health_interval_seconds": 10.035163,
+  "malformed_health_lines": 0,
+  "path": {
+    "sample_count": 38,
+    "all_eight_fixed_sg": true,
+    "first": "2026-10-10T12:30:50.439057+00:00",
+    "last": "2026-10-10T12:54:35.440649+00:00",
+    "last_age_seconds": 29.270305,
+    "max_interval_seconds": 47.490099,
+    "latest_two_same_flow_deltas": [
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 26286,
+        "download_delta": 2330
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      }
+    ]
+  },
+  "limits": [
+    "Existing complete-response health contracts, not model inference.",
+    "No new public exit or socket-owner probe; exact path based on existing observer.",
+    "Sampling bounds outage timing; this window alone cannot establish or disprove a recurring 20-minute fault or long-term SLA."
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "target": "http://127.0.0.1:29480",
+  "database": "realyu_singlecore_e2e",
+  "synthetic_only": true,
+  "expected_version": "realyu-singlecore-v0.2.15-20261010-cny-admin",
+  "production_modified": false,
+  "existing_browser_profiles_accessed": false,
+  "browser_downloaded": false,
+  "paid_model_called": false,
+  "source_code_changed": false,
+  "started_at": "2026-10-10T13:19:00.261Z",
+  "checks": [
+    {
+      "name": "isolated-fixture-disabled-upstream-and-cny7-preconditions",
+      "pass": true
+    },
+    {
+      "name": "owner-real-login-without-confirmation",
+      "pass": true
+    },
+    {
+      "name": "owner-workspace-label-version-and-promotion-entries-hidden",
+      "pass": true
+    },
+    {
+      "name": "owner-synthetic-nickname-and-team-scope",
+      "pass": true
+    },
+    {
+      "name": "owner-3usd-cap-is-21cny-and-1_75usd-cost-is-12_25cny",
+      "pass": true
+    },
+    {
+      "name": "real-owner-form-14cny-becomes-1000000quota-funds-unchanged",
+      "pass": true
+    },
+    {
+      "name": "real-owner-form-restores-21cny-and-all-funding-counters",
+      "pass": true
+    },
+    {
+      "name": "owner-filter-1usd-is-7cny-on-real-data",
+      "pass": true
+    },
+    {
+      "name": "member-real-login-without-confirmation",
+      "pass": true
+    },
+    {
+      "name": "member-workspace-label-version-and-promotion-entries-hidden",
+      "pass": true
+    },
+    {
+      "name": "member-synthetic-nickname-and-team-scope",
+      "pass": true
+    },
+    {
+      "name": "member-own-cny-usage-only-and-management-hidden",
+      "pass": true
+    },
+    {
+      "name": "member-admin-api-denied",
+      "pass": true
+    },
+    {
+      "name": "member-cross-team-denied",
+      "pass": true
+    },
+    {
+      "name": "member-other-person-usage-denied",
+      "pass": true
+    },
+    {
+      "name": "member-cap-write-denied",
+      "pass": true
+    },
+    {
+      "name": "member-admin-navigation-refused",
+      "pass": true
+    },
+    {
+      "name": "member-denials-preserve-role-cap-usedquota-and-owner-funds",
+      "pass": true
+    },
+    {
+      "name": "admin-real-login-without-confirmation",
+      "pass": true
+    },
+    {
+      "name": "admin-workspace-label-version-and-promotion-entries-hidden",
+      "pass": true
+    },
+    {
+      "name": "synthetic-admin-direct-/admin/dashboard",
+      "pass": true
+    },
+    {
+      "name": "synthetic-admin-direct-/admin/accounts",
+      "pass": true
+    },
+    {
+      "name": "synthetic-admin-direct-/admin/usage",
+      "pass": true
+    },
+    {
+      "name": "synthetic-admin-direct-/admin/users",
+      "pass": true
+    },
+    {
+      "name": "final-real-pg-funds-and-member-used-quota-equal-baseline",
+      "pass": true
+    },
+    {
+      "name": "no-admin-compliance-api-called-or-consent-created",
+      "pass": true
+    },
+    {
+      "name": "no-uncaught-javascript-errors",
+      "pass": true
+    },
+    {
+      "name": "no-unexpected-page-http-errors",
+      "pass": true
+    }
+  ],
+  "page_errors": [],
+  "network_failures": [],
+  "status": "PASS",
+  "count": 28,
+  "binary_sha256": "4cb44fe13cbf48793ae28b71175cb6f919454499688092d3516a7accf5686c0a",
+  "source_commit": "a184b4a63385e71347b80c2b59f34bce4605acfd"
+}

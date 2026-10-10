@@ -6,6 +6,7 @@ param(
     [Parameter(Mandatory=$true)][ValidateSet('Replica','Primary')][string]$Role,
     [ValidateSet('Apply','Rollback')][string]$Action='Apply',
     [switch]$ValidateOnly,
+    [switch]$VerifyOnly,
     [switch]$ReleaseOwnedGuardPause,
     [switch]$ReleaseOnly
 )
@@ -71,8 +72,10 @@ function Release-SgHy2OwnedPause($Config, $State, [string]$Mode, [switch]$CheckO
 
 $lock=$null
 $changed=$false
+$step='read-plan'
 try {
     $config=Read-SgHy2Plan $Plan $ExpectedPlanSha256
+    if($VerifyOnly -and ($Action -ne 'Apply' -or $ReleaseOnly)) {throw 'VerifyOnly requires Apply on an already changed role.'}
     if($ReleaseOnly) {
         if(-not $ValidateOnly) {
             Assert-SgHy2Administrator
@@ -90,6 +93,7 @@ try {
         throw 'The preserved original GOST service must be running before rollback.'
     }
     $roleName='tunnel-'+$Role.ToLowerInvariant()
+    $step='rolling-preflight'
     $serviceName='RealYuTunnel'+$Role
     $peerName=if($Role -eq 'Replica'){'RealYuTunnelPrimary'}else{'RealYuTunnelReplica'}
     $metrics=if($Role -eq 'Replica'){18432}else{20242}
@@ -107,12 +111,14 @@ try {
             throw 'Production manifest changed outside this operation; do not overwrite it.'
         }
     } else {
+        if($VerifyOnly) {throw 'VerifyOnly requires an existing owned rolling state.'}
         if($Action -ne 'Apply' -or $Role -ne 'Replica') {throw 'Start with Apply Replica.'}
         if((Get-SgHy2Hash $config.manifest_path) -ne $config.manifest_sha256 -or
            (Get-SgHy2Hash $config.guard_config) -ne $config.guard_config_sha256) {
             throw 'Production inputs changed after review; prepare a fresh plan.'
         }
     }
+    if($VerifyOnly -and $state.roles.$roleName -notin @('CHANGING','VERIFIED')) {throw 'VerifyOnly cannot select an untouched or rolled-back role.'}
     if($state -and $Action -eq 'Apply' -and $Role -eq 'Primary' -and $state.roles.'tunnel-replica' -ne 'VERIFIED') {
         throw 'Replica must pass before primary can switch.'
     }
@@ -178,6 +184,12 @@ try {
     $dependencies=if($Action -eq 'Apply'){
         @(@($state.original_dependencies.$roleName | Where-Object {$_ -ne 'RealYuEdgeProxy'}) + 'RealYuSgHy2EdgeProxy' | Sort-Object -Unique)
     }else{@($state.original_dependencies.$roleName)}
+    if($VerifyOnly) {
+        if((@($manifest.tunnel_edge_addrs_by_role.$roleName) -join ',') -ne ($targetEdges -join ',')) {throw 'The already changed role does not use the reviewed SG route.'}
+        $actualDependencies=@((Get-Service -Name $serviceName).RequiredServices | ForEach-Object {$_.Name} | Sort-Object)
+        if(($actualDependencies -join ',') -ne (($dependencies | Sort-Object) -join ',')) {throw 'The changed role dependency is not installed.'}
+    } else {
+    $step='change-selected-role'
     $state.roles.$roleName='CHANGING'
     Write-SgHy2Json $statePath $state
     $manifest.tunnel_edge_addrs_by_role.$roleName=$targetEdges
@@ -197,12 +209,15 @@ try {
     Write-SgHy2Json $statePath $state
     Set-TunnelDependency $serviceName $dependencies
     Restart-Service -Name $serviceName
+    }
+    $step='selected-readiness'
     $deadline=[DateTime]::UtcNow.AddSeconds(55)
     do {
         try {$selected=Assert-TunnelReady $serviceName $metrics @($targetEdges | ForEach-Object {[int]($_.Split(':')[-1])});break}
         catch {if([DateTime]::UtcNow -ge $deadline){throw};Start-Sleep -Seconds 1}
     } while($true)
     $peerAfter=$null
+    $step='peer-readiness'
     if($Action -eq 'Apply') {$peerAfter=Assert-TunnelReady $peerName $peerMetrics $peerEdges}
     else {
         try {$identity=Get-TunnelIdentity $peerName;$peerAfter=[pscustomobject]@{process_id=$identity.ProcessId;created=$identity.CreationDate.ToUniversalTime().ToString('o')}} catch {}
@@ -211,6 +226,7 @@ try {
         throw 'The peer connector changed during this operation; stop the rolling cutover.'
     }
     $evidence=$null
+    $step='sg-flow-evidence'
     if($Action -eq 'Apply') {
         $evidence=Get-SgHy2Evidence $config
         if(@($evidence.flows | Where-Object {
@@ -220,17 +236,33 @@ try {
     $public=@()
     $explicitProxy=if($Action -eq 'Apply'){'http://127.0.0.1:17897'}else{$state.original_guard.proxy}
     foreach($proxy in @('direct',$explicitProxy)) {
+        $step='public-status-'+$proxy
         $probe=[guid]::NewGuid().ToString('N')
         $args=@('-q','-sS','--fail','--max-time','15','--max-filesize','1048576','-H',('X-Realyu-Probe-Id: '+$probe))
         if($proxy -eq 'direct') {$args+=@('--noproxy','*')}else{$args+=@('--proxy',$proxy,'--noproxy','realyu.invalid')}
-        $body=& curl.exe @args 'https://api.realyu.fun/api/status' 2>$null
-        if($LASTEXITCODE -ne 0 -or ($body | ConvertFrom-Json).success -ne $true) {throw 'Public complete status body failed after the rolling stage.'}
-        $public+=@([pscustomobject]@{observer=$proxy;probe_id=$probe;complete_status_body=$true})
+        # Windows PowerShell decodes native stdout using the console code page.
+        # Keep the original HTTP bytes and decode JSON explicitly as UTF-8.
+        $bodyPath=Join-Path $config.operation_root ('public-status-'+$probe+'.body.private.json')
+        $headerPath=Join-Path $config.operation_root ('public-status-'+$probe+'.headers.private.txt')
+        $errorPath=Join-Path $config.operation_root ('public-status-'+$probe+'.stderr.private.txt')
+        $priorPreference=$ErrorActionPreference
+        try {
+            $ErrorActionPreference='Continue'
+            & curl.exe @args '--output' $bodyPath '--dump-header' $headerPath 'https://api.realyu.fun/api/status' 2>$errorPath
+            $curlExit=$LASTEXITCODE
+        } finally {$ErrorActionPreference=$priorPreference}
+        if($curlExit -ne 0) {throw 'Public complete status body failed after the rolling stage.'}
+        $body=Get-Content -LiteralPath $bodyPath -Raw -Encoding UTF8 | ConvertFrom-Json
+        if($body.success -ne $true) {throw 'Public complete status body failed after the rolling stage.'}
+        $public+=@([pscustomobject]@{observer=$proxy;probe_id=$probe;complete_status_body=$true;body_sha256=(Get-SgHy2Hash $bodyPath)})
     }
     $state.roles.$roleName=if($Action -eq 'Apply'){'VERIFIED'}else{'ROLLED_BACK'}
+    $step='write-verification-receipt'
     Write-SgHy2Json $statePath $state
-    Write-SgHy2Json (Join-Path $config.operation_root ($Action.ToLowerInvariant()+'-'+$Role.ToLowerInvariant()+'-receipt.json')) ([ordered]@{
+    $receiptName=if($VerifyOnly){'verify-'+$Role.ToLowerInvariant()+'-'+[guid]::NewGuid().ToString('N')+'-receipt.json'}else{$Action.ToLowerInvariant()+'-'+$Role.ToLowerInvariant()+'-receipt.json'}
+    Write-SgHy2Json (Join-Path $config.operation_root $receiptName) ([ordered]@{
         status=$state.roles.$roleName;at=[DateTime]::UtcNow.ToString('o');selected=$selected;
+        verification_only=[bool]$VerifyOnly;selected_service_restarted=(-not [bool]$VerifyOnly);
         peer_unchanged=$(if($peerBefore -and $peerAfter){$true}else{$null});
         evidence=$evidence;public=$public;acceptance_scope='SCM identity, route, edge traffic and complete status only; long SSE/model acceptance remains separate'
     })
@@ -239,6 +271,15 @@ try {
     }
     'Selected Tunnel stage completed. Review its private receipt before the next stage.'
 } catch {
+    $failure=$_
+    if(Get-Variable config -ErrorAction SilentlyContinue) {
+        try {
+            Write-SgHy2Json (Join-Path $config.operation_root ('rolling-error-'+$Role.ToLowerInvariant()+'-'+[guid]::NewGuid().ToString('N')+'.private.json')) @{
+                at=[DateTime]::UtcNow.ToString('o');step=$step;role=$Role;action=$Action;verification_only=[bool]$VerifyOnly;
+                error_type=$failure.Exception.GetType().Name;message=$failure.Exception.Message;script_stack=$failure.ScriptStackTrace
+            }
+        } catch {}
+    }
     if($changed) {
         [Console]::Error.WriteLine('Rolling stage failed after changing this role. The peer was not deliberately restarted. Keep the guard pause, inspect rolling-state.json, and run this role with -Action Rollback after verifying the expected hashes.')
     } else {[Console]::Error.WriteLine('Rolling preflight failed. No selected Tunnel change was applied by this invocation.')}

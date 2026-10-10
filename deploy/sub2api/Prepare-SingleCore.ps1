@@ -52,7 +52,50 @@ try {
             Invoke-Native corepack @('pnpm@9.15.9','exec','vitest','run','src/i18n/__tests__/localeKeyCompleteness.spec.ts')
             Invoke-Native corepack @('pnpm@9.15.9','exec','vue-tsc','-b')
             Invoke-Native corepack @('pnpm@9.15.9','exec','vite','build')
-            if ($Test) { Invoke-Native corepack @('pnpm@9.15.9','exec','vitest','run','src/utils/__tests__/branding.spec.ts','src/views/user/__tests__/PaymentResultView.spec.ts','src/views/auth/__tests__','src/components/user/profile/__tests__','src/components/modelPlaza/__tests__/PlazaGroupSection.spec.ts','src/components/modelPlaza/__tests__/ModelPlazaContent.realyu.spec.ts','src/components/modelPlaza/__tests__/PlazaModelPricingTable.spec.ts','src/views/user/__tests__/SubscriptionsView.loading.spec.ts','--maxWorkers=2','--minWorkers=1') }
+            if ($Test) {
+                # Profile money regressions are already included by the profile directory below.
+                $frontendRegressionTests = @(
+                    'src/utils/__tests__/branding.spec.ts'
+                    'src/views/user/__tests__/PaymentResultView.spec.ts'
+                    'src/views/auth/__tests__'
+                    'src/components/user/profile/__tests__'
+                    'src/components/modelPlaza/__tests__/PlazaGroupSection.spec.ts'
+                    'src/components/modelPlaza/__tests__/ModelPlazaContent.realyu.spec.ts'
+                    'src/components/modelPlaza/__tests__/PlazaModelPricingTable.spec.ts'
+                    'src/views/user/__tests__/SubscriptionsView.loading.spec.ts'
+                    'src/utils/__tests__/customerMoney.spec.ts'
+                    'src/views/user/__tests__/RealYuTeamsView.spec.ts'
+                    'src/views/user/__tests__/KeysView.spec.ts'
+                    'src/components/keys/__tests__/BulkEditKeysModal.spec.ts'
+                    'src/views/__tests__/KeyUsageView.spec.ts'
+                    'src/views/user/__tests__/RedeemView.spec.ts'
+                    'src/views/user/__tests__/PaymentView.spec.ts'
+                    'src/components/payment/__tests__/SubscriptionPlanCard.spec.ts'
+                    'src/views/admin/__tests__/RedeemView.batchUpdate.spec.ts'
+                    'src/views/admin/__tests__/SettingsView.spec.ts'
+                    'src/components/admin/usage/__tests__/UsageStatsCards.spec.ts'
+                    'src/components/admin/usage/__tests__/UsageTable.spec.ts'
+                    'src/components/admin/usage/__tests__/UserTokenRanking.spec.ts'
+                    'src/components/charts/__tests__/GroupDistributionChart.spec.ts'
+                    'src/components/charts/__tests__/ModelDistributionChart.spec.ts'
+                    'src/components/charts/__tests__/TokenUsageTrend.spec.ts'
+                    'src/components/user/dashboard/__tests__/UserDashboardStats.spec.ts'
+                    'src/views/admin/__tests__/DashboardView.spec.ts'
+                    'src/views/admin/__tests__/UsageView.spec.ts'
+                    'src/views/user/__tests__/UsageView.spec.ts'
+                    'src/components/admin/user/__tests__/UserBalanceModal.spec.ts'
+                    'src/components/admin/user/__tests__/UserCreateModal.spec.ts'
+                    'src/components/admin/user/__tests__/UserPlatformQuotaModal.spec.ts'
+                    'src/components/user/__tests__/UserPlatformQuotaCell.spec.ts'
+                    'src/components/user/__tests__/PlatformMoneyCells.spec.ts'
+                    'src/components/account/__tests__/AccountStatsModal.currency.spec.ts'
+                    'src/components/account/__tests__/AccountUsageCell.spec.ts'
+                    'src/__tests__/App.admin-entry.spec.ts'
+                    'src/router/__tests__/feature-access.spec.ts'
+                    'src/api/__tests__/client.spec.ts'
+                )
+                Invoke-Native corepack (@('pnpm@9.15.9','exec','vitest','run') + $frontendRegressionTests + @('--maxWorkers=2','--minWorkers=1'))
+            }
         } finally { Pop-Location }
         Push-Location (Join-Path $candidatePath 'backend')
         try {

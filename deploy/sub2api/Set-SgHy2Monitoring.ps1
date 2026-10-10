@@ -137,7 +137,7 @@ try {
         $firstError=Join-Path $config.operation_root 'monitor-first-error.json'
         if(-not (Test-Path -LiteralPath $firstError)) {
             Write-SgHy2Json $firstError @{at=[DateTime]::UtcNow.ToString('o');action=$Action;
-                error_type=$_.Exception.GetType().Name;error_stack=$_.ScriptStackTrace}
+                error_type=$_.Exception.GetType().Name;error_message=$_.Exception.Message;error_stack=$_.ScriptStackTrace}
         }
     }
     [Console]::Error.WriteLine('Monitoring update did not complete. Preserve the owned guard pause and inspect private monitor-state/backups; no API or Tunnel restart is performed by this script.')

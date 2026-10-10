@@ -1,12 +1,19 @@
 # Native single-core public acceptance
 
+2026-10-10 20:40 update: native production activation and actual public protocol
+checks completed on `realyu-singlecore-v0.2.15-20261010-ws-owner`; see
+[the bounded production report](singlecore-production-protocol-20261010.json).
+The later CNY/admin/unlimited-key update is a separate binary and must pass its
+own acceptance. Use `--expected-version <exact reviewed deployed version>`;
+never weaken the version check to run a candidate test against the old release.
+
 [`singlecore_production_acceptance.py`](singlecore_production_acceptance.py) is
 the bounded public test for the 2026-10-10 same-host deployment. It is offline by
 default. It is not the old SQLite-ledger acceptance script and does not provision
 test customers, change balances or retry failed model requests.
 
 Copy it into the private operation runtime directory before use. Its authority
-receipt is resolved relative to the script: `production-cutover-20261010/authority-receipt.json`.
+receipt is resolved relative to the script: `production-cutover-20261010-r3/authority-receipt.json`.
 The operator credential path and expected version are pinned in the source;
 review those for another host. The output must be a new subdirectory of this
 runtime. No private receipt, key, database or output belongs in Git.
@@ -54,9 +61,10 @@ denials, same-client CLI continuation, browser login/team/admin pages, actual
 SG path and sample freshness. Reboot/no-login recovery and long-term stability
 are not inferred from these model requests.
 
-On 2026-10-10 the script passed 20 offline contracts and four invalid-command
+At the earlier pre-activation checkpoint the script passed 20 offline contracts and four invalid-command
 checks. The public `--run` phase remained pending final core activation. A
 separate actual old-public CLI turn completed with an exact reply and exit 0;
 its local `gpt-6-luna` fallback-metadata warning was retained, and its conversation
 was saved privately for post-cutover resume. This is not a claim that native
-public acceptance or cross-cutover resume has already passed.
+public acceptance or cross-cutover resume at that checkpoint. Later results are
+linked at the beginning of this document; the initial evidence remains intact.

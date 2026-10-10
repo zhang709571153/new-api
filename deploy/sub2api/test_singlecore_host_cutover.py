@@ -9,6 +9,7 @@ import time
 import sqlite3
 import unittest
 from unittest.mock import patch
+from contextlib import nullcontext
 
 import singlecore_host_cutover as h
 
@@ -48,6 +49,13 @@ class PlanValidationTests(unittest.TestCase):
         host=object.__new__(h.WindowsHost);host.worker_unconfirmed=True
         host.financial_state=lambda:self.fail("must not proceed with another unconfirmed worker")
         with self.assertRaisesRegex(h.CutoverError,"EXIT_UNCONFIRMED"):host.verify_target_unchanged()
+
+    @unittest.skipUnless(os.name=="nt","Windows PowerShell 5.1 encoding contract")
+    def test_localized_warning_does_not_abort_successful_service_output(self):
+        host=object.__new__(h.WindowsHost);host.deadline=time.monotonic()+10
+        output=host.ps("Write-Warning ([char]0x8b66+[string][char]0x544a); 'ASCII_SENTINEL'")
+        self.assertIn("\u8b66\u544a",output)
+        self.assertIn("ASCII_SENTINEL",output)
 
 
 class FakeOps:
@@ -112,6 +120,40 @@ class LegacyExceptionTests(unittest.TestCase):
             with self.assertRaisesRegex(h.CutoverError,"LOG_EVIDENCE_CHANGED"):h.inspect_reservations(db,self.policy(row))
 
 
+class FinalSnapshotTests(unittest.TestCase):
+    def test_final_snapshot_reservation_check_does_not_create_wal_sidecars(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);snapshot=root/'s1.sqlite'
+            db=sqlite3.connect(snapshot)
+            db.execute('PRAGMA journal_mode=WAL')
+            db.execute('CREATE TABLE subscription_pre_consume_records(id INTEGER,status TEXT)')
+            db.commit();db.close()
+            digest=h.file_sha(snapshot)
+            price={key:{} for key in ('legacy_default_group_ratio','required_group','required_channel','rules','unmapped')}
+            (root/'price.json').write_text(json.dumps(price))
+            (root/'env.json').write_text('{}')
+            host=object.__new__(h.WindowsHost);host.run=root;host.cfg={}
+            host.plan={'source_sqlite':'unused-live-source','pricing_mapping':str(root/'price.json'),
+                       'native_manifest_entry':{'env_file':str(root/'env.json')},'legacy_scoped_admin_policy':{'synthetic':True}}
+            receipt={'snapshot_sha256':digest,'customers':{'activation_blockers':[]}}
+            def strict_role_read(path,sha):
+                self.assertEqual(digest,sha);self.assertEqual(digest,h.file_sha(path))
+                self.assertFalse(Path(str(path)+'-wal').exists())
+                self.assertFalse(Path(str(path)+'-shm').exists())
+                return {}
+            with patch.object(h.pricing,'read_legacy',return_value=price),patch.object(h,'import_customer_snapshot',return_value=receipt),patch.object(h,'target_connection',return_value=nullcontext(object())),patch.object(h.customers,'load_snapshot',side_effect=strict_role_read),patch.object(h,'verify_scoped_admin_policy',return_value={}):
+                self.assertEqual('exact',host._import_s1()['user_key_reconciliation'])
+            self.assertEqual(digest,h.file_sha(snapshot))
+
+    def test_failed_worker_keeps_only_a_validated_fixed_code(self):
+        command=[sys.executable,'-c',"import json,sys;print(json.dumps({'status':'BLOCKED','code':'SOURCE_SHA256_MISMATCH'}));sys.exit(2)"]
+        with self.assertRaisesRegex(h.CutoverError,'WORKER_SOURCE_SHA256_MISMATCH'):
+            h.bounded_process(command,time.monotonic()+5)
+        command=[sys.executable,'-c',"import json,sys;print(json.dumps({'status':'BLOCKED','code':'private-password-value'}));sys.exit(2)"]
+        with self.assertRaisesRegex(h.CutoverError,'^BOUNDED_WORKER_FAILED_PRIVATE_RECEIPTS_RETAINED$'):
+            h.bounded_process(command,time.monotonic()+5)
+
+
 class CutoverLifecycleTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
@@ -154,6 +196,15 @@ class CutoverLifecycleTests(unittest.TestCase):
         with self.assertRaisesRegex(h.CutoverError,"RECOVERY_BLOCKED"):self.run_cutover()
         self.assertTrue(self.marker.exists());self.assertNotIn("restore_old",self.ops.calls)
         self.assertEqual("BLOCKED_GATE_RETAINED",self.receipt()["phase"])
+
+    def test_recovered_error_keeps_first_phase_without_private_message(self):
+        self.ops.fail="stop_old"
+        with self.assertRaisesRegex(h.CutoverError,"CUTOVER_ABORTED"):self.run_cutover()
+        receipt=self.receipt()
+        self.assertEqual("STOPPING_OLD_WRITERS",receipt["first_failure"]["phase"])
+        self.assertEqual("RuntimeError",receipt["first_failure"]["error_type"])
+        self.assertNotIn("synthetic-private-secret",json.dumps(receipt))
+        self.assertIn("DRAINING",receipt["phase_times_unix"])
 
     def test_opening_unknown_result_is_forward_only_even_if_gate_still_exists(self):
         with patch.object(h,"open_owned_gate",side_effect=OSError("synthetic-private-secret")):

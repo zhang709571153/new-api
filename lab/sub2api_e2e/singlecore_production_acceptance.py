@@ -20,6 +20,7 @@ import io
 import json
 import os
 from pathlib import Path
+from types import SimpleNamespace
 import re
 import secrets
 import socket
@@ -32,7 +33,7 @@ from urllib.parse import quote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parent
-AUTHORITY = ROOT / "production-cutover-20261010" / "authority-receipt.json"
+AUTHORITY = ROOT / "production-cutover-20261010-r3" / "authority-receipt.json"
 KEY_FILE = Path(r"C:\srv\realyu-newapi-releases\20260924-provider-2bc6a0e3\.lab\credentials.json")
 BASE = "https://api.realyu.fun/v1"
 EXPECTED_VERSION = "realyu-singlecore-v0.2.15-20261010-ws-owner"
@@ -150,6 +151,40 @@ class ResponseAudit:
                        "delta_final_consistent": True, "completed_items_preserved": True}
 
 
+class WebSocketAudit(ResponseAudit):
+    """Codex WS may send a compact terminal response after completed items."""
+    def __init__(self):
+        super().__init__()
+        self.completed_items = {}
+
+    def accept(self, event):
+        super().accept(event)
+        if event.get("type") == "response.output_item.done":
+            index, item = event.get("output_index"), event["item"]
+            require(type(index) is int and index >= 0, "WS_DONE_INDEX_INVALID")
+            require(index not in self.completed_items, "WS_DONE_INDEX_DUPLICATE")
+            require(isinstance(item.get("id"), str) and bool(item["id"]), "WS_DONE_ID_MISSING")
+            require(item.get("status") in (None, "completed"), "WS_DONE_ITEM_INCOMPLETE")
+            self.completed_items[index] = item
+
+    def finish(self):
+        require(not self.errors, "UPSTREAM_FAILURE_EVENT")
+        require(len(self.completed) == 1, "COMPLETED_EVENT_COUNT")
+        terminal = self.completed[0]
+        compact = isinstance(terminal, dict) and terminal.get("output") == []
+        if compact:
+            require(bool(self.completed_items), "WS_COMPACT_COMPLETED_ITEMS_MISSING")
+            require(sorted(self.completed_items) == list(range(len(self.completed_items))), "WS_COMPLETED_ITEM_GAP")
+            # Do not alter the raw terminal event retained as evidence.
+            self.completed = [{**terminal, "output": [self.completed_items[i] for i in range(len(self.completed_items))]}]
+        try:
+            final, meta = super().finish()
+            return final, {**meta, "compact_terminal_output": compact,
+                           "output_reconstructed_from_done_items": compact}
+        finally:
+            self.completed = [terminal]
+
+
 class SSEAudit(ResponseAudit):
     def __init__(self):
         super().__init__()
@@ -216,10 +251,10 @@ def check_authority(value):
     require(isinstance(value, dict) and value.get("phase") == "ACTIVE" and value.get("opened") is True, "AUTHORITY_NOT_ACTIVE_OPENED")
 
 
-def check_status(value):
+def check_status(value, expected_version=EXPECTED_VERSION):
     require(isinstance(value, dict) and value.get("success") is True, "PUBLIC_STATUS_UNSUCCESSFUL")
     data = value.get("data", {})
-    require(data.get("version") == EXPECTED_VERSION, "PUBLIC_VERSION_MISMATCH")
+    require(data.get("version") == expected_version, "PUBLIC_VERSION_MISMATCH")
     require(data.get("engine") == "sub2api" and data.get("single_core") is True, "PUBLIC_ENGINE_NOT_SINGLECORE")
 
 
@@ -403,7 +438,7 @@ class Acceptance:
         self.report["production_files_read"] += 1
         self.report["authority_gate"] = "PASS"
         status, _ = self.request("public-status-gate", "GET", "/api/status", auth=False)
-        check_status(status)
+        check_status(status, self.args.expected_version)
         self.report["public_gate"] = "PASS"
         # Reading the operator key is intentionally AFTER both independent gates.
         credentials = json.loads(KEY_FILE.read_text(encoding="utf-8-sig"))
@@ -465,7 +500,7 @@ class Acceptance:
             for turn in range(2):
                 self.reserve()
                 started = time.monotonic()
-                audit = ResponseAudit()
+                audit = WebSocketAudit()
                 body = self.response_body("Remember " + marker + ". Reply only ACK." if turn == 0 else "Repeat the remembered marker exactly. No other text.")
                 body.pop("stream")
                 body["type"] = "response.create"
@@ -531,13 +566,13 @@ class Acceptance:
             return {"response_id": final["id"], "pdf_sha256": hashlib.sha256(data).hexdigest(), "exact_pdf_marker_match": True}
         if name == "web-search":
             body = self.response_body("Use web search to find the official OpenAI Codex CLI GitHub repository. Return its exact HTTPS URL and one brief fact with a source citation.", tokens=512)
-            body.update(tools=[{"type": "web_search"}], tool_choice="required", max_tool_calls=1)
+            body.update(tools=[{"type": "web_search"}], tool_choice="required")
             final, _ = self.request(name, "POST", "/v1/responses", body, sse=True)
             return {"response_id": final["id"], **check_search(final)}
         if name == "image-generation":
             from PIL import Image
             body = self.response_body("Generate one colorful illustration of a small fluffy white Bichon Frise dog dressed as an adventurer fighting hilichurls in the world of Genshin Impact. One complete illustration, no text.")
-            body.update(tools=[{"type": "image_generation", "quality": "low", "size": "1024x1024", "output_format": "png"}], tool_choice="required", max_tool_calls=1)
+            body.update(tools=[{"type": "image_generation", "quality": "low", "size": "1024x1024", "output_format": "png"}], tool_choice="required")
             final, _ = self.request(name, "POST", "/v1/responses", body, sse=True)
             calls = [item for item in final["output"] if item.get("type") == "image_generation_call"]
             require(len(calls) == 1 and calls[0].get("status") == "completed", "ONE_COMPLETED_IMAGE_CALL_REQUIRED")
@@ -660,6 +695,25 @@ def offline_self_test():
     require(parser.finish()[0] == final, "SELF_TEST_STREAM_FAILED")
     checked += 1
     rejected(lambda: ResponseAudit().finish(), "COMPLETED_EVENT_COUNT")
+    compact_events = json.loads(json.dumps(events))
+    compact_events[2]["output_index"] = 0
+    compact_events[-1]["response"]["output"] = []
+    ws = WebSocketAudit()
+    for event in compact_events:
+        ws.accept(event)
+    assembled, meta = ws.finish()
+    require(output_text(assembled) == "OK" and meta["compact_terminal_output"], "SELF_TEST_WS_COMPACT_FAILED")
+    require(compact_events[-1]["response"]["output"] == [], "SELF_TEST_WS_RAW_TERMINAL_MUTATED")
+    checked += 1
+    ws.deltas = ["WRONG"]
+    rejected(ws.finish, "DELTA_FINAL_TEXT_MISMATCH")
+    ws.deltas = ["OK"]
+    ws.completed_items = {}
+    rejected(ws.finish, "WS_COMPACT_COMPLETED_ITEMS_MISSING")
+    strict = ResponseAudit()
+    for event in compact_events:
+        strict.accept(event)
+    rejected(strict.finish, "FINAL_OUTPUT_EMPTY")
     parser = ResponseAudit()
     for event in events:
         parser.accept(event)
@@ -717,6 +771,7 @@ def offline_self_test():
     AUTHORITY = MemoryFile({"phase": "OPENING", "opened": False})
     KEY_FILE = MemoryFile({"api_key": "TEST_ONLY_NONSECRET_OPERATOR_VALUE"})
     harness = Acceptance.__new__(Acceptance)
+    harness.args = SimpleNamespace(expected_version=EXPECTED_VERSION)
     harness.report = {"production_files_read": 0}
     public = {"success": True, "data": {"version": EXPECTED_VERSION, "engine": "sub2api", "single_core": False}}
     harness.request = lambda *args, **kwargs: (public, {})
@@ -728,6 +783,10 @@ def offline_self_test():
         rejected(harness.production_gates, "PUBLIC_ENGINE_NOT_SINGLECORE")
         require(KEY_FILE.reads == 0, "SELF_TEST_KEY_READ_BEFORE_PUBLIC_GATE")
         public["data"]["single_core"] = True
+        harness.args.expected_version = "realyu-singlecore-different-review"
+        rejected(harness.production_gates, "PUBLIC_VERSION_MISMATCH")
+        require(KEY_FILE.reads == 0, "SELF_TEST_KEY_READ_BEFORE_EXACT_VERSION")
+        harness.args.expected_version = EXPECTED_VERSION
         harness.production_gates()
         require(KEY_FILE.reads == 1 and harness.gates_passed and harness.report["operator_key_read"], "SELF_TEST_GATED_KEY_READ_FAILED")
         checked += 1
@@ -741,6 +800,7 @@ def main():
     parser.add_argument("--output", required=True, type=Path, help="Fresh private output under this runtime; never reused")
     parser.add_argument("--cases", default=DEFAULT_CASES, help=",".join(CASES))
     parser.add_argument("--model", default="gpt-5.6-sol", choices=TEXT_MODELS)
+    parser.add_argument("--expected-version", default=EXPECTED_VERSION, help="Exact reviewed native version; never accepts any-version health")
     parser.add_argument("--proxy", choices=(SG_PROXY,), default=None, help="Omit for direct access; ambient proxy settings are always ignored")
     parser.add_argument("--budget-seconds", type=int, default=600)
     parser.add_argument("--request-timeout", type=int, default=180)
@@ -749,6 +809,7 @@ def main():
     parser.add_argument("--self-test", action="store_true", help="Run only offline parser/contracts; incompatible with --run")
     parser.add_argument("--run", action="store_true", help="Execute only after ACTIVE and exact public single-core gates")
     args = parser.parse_args()
+    require(re.fullmatch(r"realyu-singlecore-[a-zA-Z0-9._-]{5,100}", args.expected_version), "EXPECTED_NATIVE_VERSION_INVALID")
     selected = args.cases.split(",")
     require(bool(selected) and all(case in CASES for case in selected), "UNKNOWN_CASE_SELECTION")
     require(len(selected) == len(set(selected)), "DUPLICATE_CASE_SELECTION")
@@ -762,7 +823,7 @@ def main():
     dependencies = ["httpx"] + (["websockets"] if "websocket" in selected else []) + (["Pillow"] if "image-generation" in selected else [])
     for dependency in dependencies:
         versions[dependency] = importlib.metadata.version(dependency)
-    plan = {"status": "PREPARED", "target": BASE, "expected_version": EXPECTED_VERSION,
+    plan = {"status": "PREPARED", "target": BASE, "expected_version": args.expected_version,
             "proxy": args.proxy, "trust_ambient_proxy": False, "tls_verification": True,
             "cases_selected": selected, "model": args.model, "dependencies": versions,
             "maximum_model_requests": sum(REQUEST_COUNTS[case] for case in selected),
