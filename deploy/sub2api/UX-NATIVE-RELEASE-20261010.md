@@ -1,4 +1,81 @@
-# UX 原生发布接续（2026-10-10 22:31 CST）
+# RealYu 原生 UX 已发布（2026-10-10）
+
+北京时间 **23:13:51**，`realyu-singlecore-v0.2.15-20261010-ux` 已真实 ACTIVE，维护窗口
+**32.596 秒**。306/307 已应用，迁移历史 297→299；继续使用同一 PostgreSQL/Redis 和
+新加坡 SG-HY2，没有恢复数据库或启动旧 New API 服务。见[发布回执](../../lab/sub2api_e2e/ux-production-activation-20261010.json)。
+
+## 当前版本与迁机边界
+
+| 项目 | 已核验值 |
+| --- | --- |
+| 原生源码 | `93022254b98d9cdfbc36db8d7ef6007365a89b53` |
+| 上游 | Sub2API v0.2.15，固定 `f2669c8cf62555cd92389b3f55920e9e6e7c6ff2` |
+| binary SHA256 | `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081` |
+| 完整补丁 SHA256 | `12e80b9900afd22b15fc37d3e26b06567426c7e0578747bb2d978acf83b24678` |
+| binary | `C:\ProgramData\RealYu\singlecore-production-20261010\bin\20261010-ux-r1\sub2api.exe` |
+| env | `C:\ProgramData\RealYu\singlecore-production-20261010\config\api-env-ux-20261010-r1.json` |
+
+**下方历史 Activate-Ux 命令已经执行完成，不要再次运行。** 原计划绑定发布前 manifest、
+旧版本和数据库状态。后续更新需准备新计划；另一台 Windows Server 按[迁机交接](SINGLECORE-WINDOWS-HANDOFF.md)
+迁移当前 PG/Redis、身份与受保护凭据。禁止重新导入旧 SQLite/S0/S1，或用发布前备份覆盖后续业务交易。
+
+## 生产验收
+
+- [公网协议 7/7](../../lab/sub2api_e2e/ux-production-public-protocol-20261010.json)：模型目录、SSE、
+  非流式、PDF 真实内容、实际联网搜索及引用、同 socket 两轮续聊、函数工具往返。8 个模型请求，
+  保留请求 ID 和 CF-Ray，无自动重试。
+- [严格浏览器 19/19](../../lab/sub2api_e2e/public-browser-strict-20261010T152452Z.json)：旧用户名密码、
+  登录直接进入、管理员工作台/账号/用量/用户、真实团队与成员用量、CNY×7、工作台名称、版本与兑换入口隐藏、
+  Codex/WorkBuddy Windows/macOS 四种掩码命令预览。同源 HTTP 与脚本错误为 0，预期第三方拦截单列。
+- [CowAgent 原 Key](../../lab/sub2api_e2e/cowagent-ux-recovery-20261010.json)：原配置真实响应 `COWAGENT-OK`，
+  HTTP 200、一次资金结算、一次用量及去重记录，13 项检查通过。[同类 Key](../../lab/sub2api_e2e/cowagent-cohort-ux-production-20261010T151429Z.json)
+  中 12 把有效 Key 的身份与模型 24 次检查全部通过，3 个已禁用/删除身份仍正确拒绝。
+- [资金对账](../../lab/sub2api_e2e/ux-production-funding-reconciliation-20261010.json)：23:13:37–23:26:08，
+  14 个变化请求全部结算，差额、违规、未决预留为 0；首次快照中的一个并发预留自然完成后才报告 PASS。
+- [真实注册与商品预览 12/12](PUBLIC-SIGNUP-BROWSER-VERIFICATION.md)：23:36:51–23:37:33，仅注册一次，
+  用户名/昵称、无邮箱、自动一把个人 Key、零余额配置、团队 scope 不回退、六档商品及钱包方式、
+  九模型 USD 价目通过。测试用户及 Key 经正常 API 停用并由 PG/管理员接口复核，不删行、不充值、不下单、不调用模型。
+
+本次未再次调用图片模型；代码未变，实际比熊图片证据来自[此前单核心公网验收](SINGLECORE-PRODUCTION-20261010.md)。
+浏览器不代表四种桌面安装器已重新运行，也不代表 35 项旧 UX 全部完成。真实钱包扣款/履约仍以
+[隔离浏览器与 PG 15/15](UX-CANDIDATE-VALIDATION-20261010.md)为证，不能混称生产付款。
+
+## 品牌和首错
+
+[注册与六档商品配置](../../lab/sub2api_e2e/ux-production-catalog-settings-20261010.json)已读回：
+用户名注册、自动个人 Key、默认个人 group 2、个人钱包购买开启；Lite/Starter/Pro/Max/Ultra/Scale
+分别为 ¥98/198/398/698/1398/2598，28 天四周。商户实例为 0，余额充值关闭，不发注册欢迎资金。
+模型页启用，9 个既有模型保持 USD 报价及原价格，group 2 仍为专属，只向有权限的登录用户展示。
+首轮配置因原生空支付类型返回 `null` 而中止上架，保留首错；仅按明确合同归一化存在的 null/[]，
+17 项回归通过后，第二轮只执行六个商品上架 PUT，未重复改设置、未调用商户或创建订单。
+
+RealYu 名称、Logo、公网 base URL/frontend URL 已通过正常管理员 API 恢复，公共设置及实际 HTML 缓存读回通过，
+未写虚假确认记录或改客户余额。[品牌首错](../../lab/sub2api_e2e/ux-production-brand-20261010.json)保留：
+首次默认 Python UA 遭 Cloudflare 403（CF-Ray `a486939538fccd1d-LHR`），固定维护 UA 的受控对比成功，未改 WAF/网络。
+第二次写入触发原生禁用 OIDC 的 GET/保存缺省值不一致，两个 PKCE/ID-token 标志 true→false，严格检查阻止误报成功。
+正常 API 尝试恢复 true 被禁用分支忽略，未伪称恢复成功。OIDC 始终关闭；最终品牌通过且 false/false 被后续工具保留。
+将来启用 OIDC 前须显式配置和验证这两项。
+
+Cow 初次验证器把成功响应 `error:null` 当对象解析，误报 AttributeError。修复空值处理与证据保存顺序后，
+直接核对原响应和账本，没有重发付费请求。HTTP 跟踪 UUID 与资金流水 UUID、两种指纹分别有不同语义，
+通过授权身份、模型、完整 token 数和时间窗唯一关联；原始误报与复核错误保留。
+
+## 健康和后续缺口
+
+[完整采样窗口](../../lab/sub2api_e2e/ux-production-health-20261010.json)为 23:13:56–23:37:46：
+直接公网 142/144（98.61%），经代理公网、backend、bridge、两个 Tunnel 均 144/144。
+最大采样间隔 10.014 秒，复核时最新健康样本距今 6.84 秒；43 个路径样本全部为固定 SG 的八条连接，
+最大路径采样间隔 47.33 秒、最新距今 16.34 秒，最后相同连接的收发计数均有增量。
+
+现有采样在 23:15:36、23:21:36 记录两次直接公网无响应超时，见[首次失败及相邻采样](../../lab/sub2api_e2e/ux-production-direct-path-first-failures-20261010.json)。
+相邻采样与同期代理、源站、双 Tunnel 正常；不能认定为网站整体中断、未走代理或 20 分钟周期故障。
+继续复用现有观测，没有新增常驻探针；采样不构成长期 SLA。
+
+真实商户/ZPay 付款及退款、托管充值、团队首购/续费/升级/退款、管理员周订阅授予编辑、部分客户总览/趋势联动
+和日志 IP 隐私仍按[UX 矩阵](UX-PARITY-RECOVERY-20261010.md)保留。六档商品和用户名注册的配置流程见
+[目录恢复](RESTORE-CATALOG.md)与[设置工具](SINGLECORE-UX-SETTINGS.md)，不以钱包测试替代商户验收。
+
+## 以下为 22:31 的历史接续记录（已经执行，禁止重放）
 
 当前生产仍为 `realyu-singlecore-v0.2.15-20261010-ws-owner`，实际二进制 SHA256 为
 `0124bffafc6232702bb43b723f21d9999e88f89e2d37b8a8261925ee7981fad9`。完整 UX 候选已构建、

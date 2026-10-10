@@ -38,7 +38,8 @@ def main():
               "requests": [], "status": "RUNNING"}
 
     def call(method, path, payload=None, token=None, raw=False):
-        headers = {"Accept": "application/json", "Cache-Control": "no-cache"}
+        headers = {"Accept": "application/json", "Cache-Control": "no-cache",
+                   "User-Agent": "RealYu-Maintenance/1.0"}
         body = None
         if payload is not None:
             headers["Content-Type"] = "application/json"
@@ -76,7 +77,14 @@ def main():
         token = auth["access_token"]
         before = envelope(call("GET", "/api/v1/admin/settings", token=token))
         (out / "settings-before.private.json").write_text(json.dumps(before, ensure_ascii=False, indent=2), encoding="utf-8")
-        envelope(call("PUT", "/api/v1/admin/settings", BRAND, token))
+        # Carry the currently reported OIDC flags explicitly. Upstream honors
+        # these overrides only when OIDC is enabled; an unconfigured disabled
+        # provider can normalize read defaults on its first settings write.
+        # Keep the strict diff so such a change requires separate review.
+        preserved = {key: before[key] for key in
+            ("oidc_connect_use_pkce", "oidc_connect_validate_id_token")}
+        assert all(type(value) is bool for value in preserved.values())
+        envelope(call("PUT", "/api/v1/admin/settings", {**BRAND, **preserved}, token))
         after = envelope(call("GET", "/api/v1/admin/settings", token=token))
         (out / "settings-after.private.json").write_text(json.dumps(after, ensure_ascii=False, indent=2), encoding="utf-8")
         changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))

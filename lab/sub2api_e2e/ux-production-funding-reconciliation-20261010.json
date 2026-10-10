@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "before_at": "2026-10-10T23:13:37.232886+08:00",
+  "after_at": "2026-10-10T23:26:08.042649+08:00",
+  "changed_requests": 14,
+  "selected_key_request_statuses": {
+    "settled": 8
+  },
+  "concurrent_other_key_request_statuses": {
+    "settled": 6
+  },
+  "checks": {
+    "key_quota_used": 109,
+    "key_quota_vs_native_actual_cost": 109,
+    "member_period_used": 63,
+    "subscription_used": 10,
+    "subscription_weekly": 10,
+    "wallet": 66
+  },
+  "limitations": [
+    "No paid requests were generated or replayed.",
+    "One key can have concurrent callers; selected-key totals are not an exact test-run attribution.",
+    "Administrative credits, purchases and non-managed usage require separate attribution if residuals exist.",
+    "A missing asynchronous log is pending; repeat after against the same before file to retain the first result.",
+    "Native USD numeric precision is retained exactly. Fractional opening quota is observed, never rounded or rejected during capture.",
+    "This observes database settlement and dedup state; it does not prove upstream usage with no submitted funding record was durably recorded."
+  ],
+  "kind": "ux-production-postrelease-funding-reconciliation",
+  "read_only": true,
+  "paid_requests_sent_by_audit": 0,
+  "violations": 0,
+  "unexplained_financial_changes": 0,
+  "pending": 0,
+  "initial_result": {
+    "status": "PENDING",
+    "after_at": "2026-10-10T23:22:43.738335+08:00",
+    "changed_requests": 14,
+    "violations": 0,
+    "residuals": 0,
+    "pending": 1,
+    "preserved": true,
+    "explanation": "One concurrent request was still reserved; it naturally settled before the second read-only snapshot. No request was replayed or altered."
+  },
+  "before_snapshot_sha256": "58a4dc9a2b5cdb55b84335ed2249fbdb11cf3ee271a5f3ee9671ca377e728a82",
+  "after_snapshot_sha256": "098642733a9d98769b0ab287ae6e8859104a667ca8e3c41bbdcdf5c862d2d26a",
+  "private_first_report_sha256": "96d01653f24850f6d0f888ee4bbc07312abd42d660b47870aaabf4042204122b",
+  "private_final_report_sha256": "1e3b9edb6a83521da26ebaddc1ebe8d1ba975bfbc17621510bc31cc30c8c30a5",
+  "native_fractional_quota_observation_count": 0,
+  "audit_scope": "All scoped keys, payer wallets, subscriptions, member periods and native key cost counters in one repeatable-read snapshot. The selected key had 8 settled acceptance requests; other keys include concurrent normal traffic and the original Cow request."
+}

@@ -1,0 +1,169 @@
+{
+  "final_status": "PASS_WITH_DORMANT_OIDC_DEFAULT_NORMALIZATION_RECORDED",
+  "runs": [
+    {
+      "started_at": "2026-10-10T15:14:38.463697+00:00",
+      "target": "https://api.realyu.fun",
+      "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "changed_fields": [],
+      "acknowledgement_submitted": false,
+      "ledger_modified": false,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/status",
+          "status": 403,
+          "cf_ray": "a486939538fccd1d-LHR",
+          "request_id": null
+        }
+      ],
+      "status": "FAIL",
+      "first_failure": {
+        "type": "ValueError",
+        "code": "HTTP_403"
+      }
+    },
+    {
+      "started_at": "2026-10-10T15:18:15.304284+00:00",
+      "target": "https://api.realyu.fun",
+      "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "changed_fields": [
+        "api_base_url",
+        "frontend_url",
+        "oidc_connect_use_pkce",
+        "oidc_connect_validate_id_token",
+        "site_logo",
+        "site_name",
+        "site_subtitle"
+      ],
+      "acknowledgement_submitted": false,
+      "ledger_modified": false,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/status",
+          "status": 200,
+          "cf_ray": "a48698be3dc97753-LHR",
+          "request_id": "7480c063-3298-4523-b2e2-507b5345f79c"
+        },
+        {
+          "method": "POST",
+          "path": "/api/v1/auth/login",
+          "status": 200,
+          "cf_ray": "a48698ce292c318f-LHR",
+          "request_id": "49139a7f-11ec-4eb6-898d-b9a220c6a6d1"
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/admin/settings",
+          "status": 200,
+          "cf_ray": "a48698dd2f2abeae-LHR",
+          "request_id": "c8902353-d12b-4dfd-80cb-bf6d3bfaeabf"
+        },
+        {
+          "method": "PUT",
+          "path": "/api/v1/admin/settings",
+          "status": 200,
+          "cf_ray": "a48698ed7afe90ba-LHR",
+          "request_id": "30ab67da-15e5-45dd-a937-079d6b44f564"
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/admin/settings",
+          "status": 200,
+          "cf_ray": "a48698f7a82d540e-LHR",
+          "request_id": "86f4f54f-6cfd-4f47-9228-73ecd7e02d5f"
+        }
+      ],
+      "status": "FAIL",
+      "first_failure": {
+        "type": "AssertionError",
+        "code": "UNRELATED_SETTINGS_CHANGED"
+      }
+    },
+    {
+      "started_at": "2026-10-10T15:22:01.147682+00:00",
+      "target": "https://api.realyu.fun",
+      "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "changed_fields": [],
+      "acknowledgement_submitted": false,
+      "ledger_modified": false,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/status",
+          "status": 200,
+          "cf_ray": "a4869e41fc84a56d-LHR",
+          "request_id": "340c4466-8699-4118-938e-5d8446681f9f"
+        },
+        {
+          "method": "POST",
+          "path": "/api/v1/auth/login",
+          "status": 200,
+          "cf_ray": "a4869e4ea9834194-LHR",
+          "request_id": "a87729f3-162a-4224-96a0-2c961987421a"
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/admin/settings",
+          "status": 200,
+          "cf_ray": "a4869e56a9d4df34-LHR",
+          "request_id": "7caf1c0e-3927-43fc-8f2a-3fdc9b3d97be"
+        },
+        {
+          "method": "PUT",
+          "path": "/api/v1/admin/settings",
+          "status": 200,
+          "cf_ray": "a4869e6b4dcf1520-LHR",
+          "request_id": "d23f8ea5-bbe2-4590-92e2-44194c443533"
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/admin/settings",
+          "status": 200,
+          "cf_ray": "a4869e7d38f849f8-LHR",
+          "request_id": "6c8b94e7-d132-4859-8acd-8b9558fb0a0a"
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/settings/public",
+          "status": 200,
+          "cf_ray": "a4869e8f6ba8946d-LHR",
+          "request_id": "5ebbcf77-9972-4795-b887-52bd4769f233"
+        },
+        {
+          "method": "GET",
+          "path": "/login",
+          "status": 200,
+          "cf_ray": "a4869e9dd8c90e2d-LHR",
+          "request_id": "fc305ed6-463c-4d74-9e4d-b295db9d1620"
+        }
+      ],
+      "status": "PASS",
+      "public_and_html_cache_refreshed": true
+    }
+  ],
+  "first_failure_preserved": true,
+  "diagnosis": {
+    "first_http_403": "Default Python-urllib UA was rejected; a controlled same-URL check with RealYu-Maintenance/1.0 returned 200. No WAF or network settings changed.",
+    "first_write": "Five brand fields were applied, but readback also changed two dormant OIDC defaults and failed the strict unrelated-change assertion.",
+    "oidc_fields": [
+      "oidc_connect_use_pkce",
+      "oidc_connect_validate_id_token"
+    ],
+    "oidc_before": [
+      true,
+      true
+    ],
+    "oidc_after": [
+      false,
+      false
+    ],
+    "oidc_enabled_throughout": false,
+    "source_reason": "Native GET missing-value compatibility defaults differ from OIDCSecurityWriteDefaults. Disabled OIDC ignores pointer overrides and stores the legacy false defaults on settings PUT.",
+    "restore_attempt": "A normal API PUT of true/true while OIDC stayed disabled did not change those fields. The failed assertion and before/after snapshots were retained privately.",
+    "final_verification": "Brand, public settings and HTML cache passed on r3; OIDC remains disabled and unchanged false/false.",
+    "future_enable_requirement": "Before enabling OIDC, explicitly configure and verify PKCE and ID-token validation. No active OIDC login was weakened."
+  },
+  "sensitive_settings_uploaded": false
+}

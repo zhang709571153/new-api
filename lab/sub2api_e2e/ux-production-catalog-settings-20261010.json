@@ -1,0 +1,226 @@
+{
+  "status": "PASS",
+  "catalog_restore": {
+    "identity": {
+      "target": "https://api.realyu.fun",
+      "version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "catalogue_sha256": "b2e27cb66d51b662406f518206d7eeff1c4b9cda419163f8cc93147432674b68",
+      "group_id": 2
+    },
+    "plans": {
+      "2": {
+        "native_id": 1,
+        "phase": "VERIFIED_OFF_SALE"
+      },
+      "3": {
+        "native_id": 2,
+        "phase": "VERIFIED_OFF_SALE"
+      },
+      "4": {
+        "native_id": 3,
+        "phase": "VERIFIED_OFF_SALE"
+      },
+      "5": {
+        "native_id": 4,
+        "phase": "VERIFIED_OFF_SALE"
+      },
+      "6": {
+        "native_id": 5,
+        "phase": "VERIFIED_OFF_SALE"
+      },
+      "7": {
+        "native_id": 6,
+        "phase": "VERIFIED_OFF_SALE"
+      }
+    },
+    "status": "STAGED_OFF_SALE_PAYMENT_UNCHANGED",
+    "first_failure": null
+  },
+  "settings_attempts": [
+    {
+      "version": 1,
+      "status": "FAILED_REVIEW_RECEIPT_NO_AUTOMATIC_ROLLBACK",
+      "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "catalogue_sha256": "b2e27cb66d51b662406f518206d7eeff1c4b9cda419163f8cc93147432674b68",
+      "writes_attempted": [
+        {
+          "method": "PUT",
+          "route": "/api/v1/admin/settings"
+        }
+      ],
+      "plans_published": [],
+      "first_failure": "SETTINGS_READBACK_MISMATCH",
+      "target": "https://api.realyu.fun",
+      "settings_before_sha256": "52848c88937be2d0724fbe02873d70b575de97f7e35e720e803f98ad02d340ff",
+      "safe_settings_before": {
+        "registration_enabled": false,
+        "realyu_username_registration_enabled": null,
+        "realyu_signup_personal_group_id": null,
+        "payment_enabled": false,
+        "payment_balance_disabled": false,
+        "payment_enabled_types": null,
+        "payment_visible_method_alipay_enabled": false,
+        "payment_visible_method_wxpay_enabled": false,
+        "subscription_enabled": true,
+        "model_plaza_enabled": false,
+        "oidc_connect_use_pkce": false,
+        "oidc_connect_validate_id_token": false
+      },
+      "settings_patch": {
+        "registration_enabled": true,
+        "realyu_username_registration_enabled": true,
+        "realyu_signup_personal_group_id": 2,
+        "payment_enabled": true,
+        "payment_balance_disabled": true,
+        "payment_enabled_types": [],
+        "payment_visible_method_alipay_enabled": false,
+        "payment_visible_method_wxpay_enabled": false,
+        "subscription_enabled": true,
+        "model_plaza_enabled": true,
+        "oidc_connect_use_pkce": false,
+        "oidc_connect_validate_id_token": false
+      },
+      "merchant_instances": 0,
+      "native_plan_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "oidc_enabled": false,
+      "oidc_note": "Disabled OIDC has stored false/false; different unconfigured GET defaults are not modified here.",
+      "settings_changed_keys": [
+        "model_plaza_enabled",
+        "payment_balance_disabled",
+        "payment_enabled",
+        "realyu_signup_personal_group_id",
+        "realyu_username_registration_enabled",
+        "registration_enabled"
+      ],
+      "settings_after_sha256": "7208a5c1080a300bbc4e37b3cee172d429893661e1ba7d5d917557cece37f64d"
+    },
+    {
+      "version": 1,
+      "status": "VERIFIED_SETTINGS_AND_PERSONAL_CATALOGUE",
+      "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "catalogue_sha256": "b2e27cb66d51b662406f518206d7eeff1c4b9cda419163f8cc93147432674b68",
+      "writes_attempted": [
+        {
+          "method": "PUT",
+          "route": "/api/v1/admin/payment/plans/1"
+        },
+        {
+          "method": "PUT",
+          "route": "/api/v1/admin/payment/plans/2"
+        },
+        {
+          "method": "PUT",
+          "route": "/api/v1/admin/payment/plans/3"
+        },
+        {
+          "method": "PUT",
+          "route": "/api/v1/admin/payment/plans/4"
+        },
+        {
+          "method": "PUT",
+          "route": "/api/v1/admin/payment/plans/5"
+        },
+        {
+          "method": "PUT",
+          "route": "/api/v1/admin/payment/plans/6"
+        }
+      ],
+      "plans_published": [
+        {
+          "source_plan_id": 2,
+          "native_plan_id": 1
+        },
+        {
+          "source_plan_id": 3,
+          "native_plan_id": 2
+        },
+        {
+          "source_plan_id": 4,
+          "native_plan_id": 3
+        },
+        {
+          "source_plan_id": 5,
+          "native_plan_id": 4
+        },
+        {
+          "source_plan_id": 6,
+          "native_plan_id": 5
+        },
+        {
+          "source_plan_id": 7,
+          "native_plan_id": 6
+        }
+      ],
+      "first_failure": null,
+      "target": "https://api.realyu.fun",
+      "settings_before_sha256": "7208a5c1080a300bbc4e37b3cee172d429893661e1ba7d5d917557cece37f64d",
+      "safe_settings_before": {
+        "registration_enabled": true,
+        "realyu_username_registration_enabled": true,
+        "realyu_signup_personal_group_id": 2,
+        "payment_enabled": true,
+        "payment_balance_disabled": true,
+        "payment_enabled_types": null,
+        "payment_visible_method_alipay_enabled": false,
+        "payment_visible_method_wxpay_enabled": false,
+        "subscription_enabled": true,
+        "model_plaza_enabled": true,
+        "oidc_connect_use_pkce": false,
+        "oidc_connect_validate_id_token": false
+      },
+      "settings_patch": {
+        "registration_enabled": true,
+        "realyu_username_registration_enabled": true,
+        "realyu_signup_personal_group_id": 2,
+        "payment_enabled": true,
+        "payment_balance_disabled": true,
+        "payment_enabled_types": [],
+        "payment_visible_method_alipay_enabled": false,
+        "payment_visible_method_wxpay_enabled": false,
+        "subscription_enabled": true,
+        "model_plaza_enabled": true,
+        "oidc_connect_use_pkce": false,
+        "oidc_connect_validate_id_token": false
+      },
+      "merchant_instances": 0,
+      "native_plan_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "oidc_enabled": false,
+      "oidc_note": "Disabled OIDC has stored false/false; different unconfigured GET defaults are not modified here.",
+      "settings_changed_keys": [],
+      "settings_after_sha256": "7208a5c1080a300bbc4e37b3cee172d429893661e1ba7d5d917557cece37f64d",
+      "model_plaza_visible_group_count": 1,
+      "model_plaza_visible_model_count": 9,
+      "for_sale_count": 6
+    }
+  ],
+  "first_failure_retained": true,
+  "serialization_diagnosis": "Native empty EnabledTypes serializes as present JSON null. Match only present null or [] for this one empty field; absent, nonempty and other types remain errors. All other fields compare unchanged.",
+  "live_registration": {
+    "username_password": true,
+    "email_required": false,
+    "personal_group_id": 2,
+    "automatic_personal_key": true,
+    "welcome_funds": false
+  },
+  "live_purchase_scope": "Six 28-day personal plans, existing wallet only; no merchant providers or balance topup.",
+  "model_prices": "Existing 9 model prices in USD; group2 stays exclusive, visible only to authorized logged-in users.",
+  "limitations": [
+    "No production payment order was submitted by this configuration operation.",
+    "Wallet fulfilment was verified on isolated candidate HTTP/browser/PostgreSQL; real merchant payment remains unverified.",
+    "Multi-API settings and plan publication are not transactional; first failure is retained, not automatically rolled back."
+  ]
+}

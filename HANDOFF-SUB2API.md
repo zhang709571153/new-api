@@ -1,6 +1,13 @@
 # RealYu / Sub2API 部署与迁移交接
 
-**22:31 CST 执行状态：** 完整 UX 已推送 ce6131，本轮 Windows UAC 返回取消，尚未上线。使用[本机接续入口](deploy/sub2api/UX-NATIVE-RELEASE-20261010.md)，不要执行旧 r2/r3 热修计划；新机器仍按独立 Windows 交接步骤准备。
+**2026-10-10 23:13:51 CST 最新：完整 UX 已发布并完成公网核心验收。** 当前为
+`realyu-singlecore-v0.2.15-20261010-ux`，源码 `93022254`，维护 32.596 秒；306/307 已应用。
+默认 `singlecore-source.json` 对应本次真实生产版本，完整补丁和逐文件哈希可重建。
+见[当前发布与首错](deploy/sub2api/UX-NATIVE-RELEASE-20261010.md)、[Windows Server 交接](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)。
+迁机必须取得当前 PG/Redis 和私有凭据，不能使用 S0/S1、旧 SQLite 或发布前快照覆盖新增交易。
+此处下方保留此前交付阶段，旧“未上线”描述均有时间，不代表当前状态。
+
+**22:31 CST 执行状态：** 完整 UX 已推送 `ace6131`，本轮 Windows UAC 返回取消，尚未上线。使用[本机接续入口](deploy/sub2api/UX-NATIVE-RELEASE-20261010.md)，不要执行旧 r2/r3 热修计划；新机器仍按独立 Windows 交接步骤准备。
 
 **22:24 CST 最新交付：UX 候选通过，生产仍为 `ws-owner`。** 默认 `singlecore-source.json` / `singlecore-candidate.patch` 已更新为源码 `93022254b98d9cdfbc36db8d7ef6007365a89b53` 的完整 UX 版；前端 737 项、隔离真实浏览器/HTTP/PG 15/15 通过。工作台一键配置、自动个人 Key、团队分区/昵称/排序、个人钱包购套餐与管理员配置均已实现，详见[候选验收](deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md)。
 

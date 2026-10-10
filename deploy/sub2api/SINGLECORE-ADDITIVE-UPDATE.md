@@ -1,4 +1,10 @@
-# 306/307 原生增量发布入口（审查及预检通过，未用于生产）
+# 306/307 原生增量发布入口（2026-10-10 已用于生产）
+
+23:13:51 CST，UX 更新已真实 ACTIVE，维护窗口 32.596 秒。306/307 事务应用完成，
+历史迁移 297→299；同一 PostgreSQL 权威保持，未恢复数据库、未启动旧业务服务。
+真实 SCM 发布通过，见[回执](../../lab/sub2api_e2e/ux-production-activation-20261010.json)
+和[最新发布说明](UX-NATIVE-RELEASE-20261010.md)。以下预检记录有明确时间；已完成的计划
+不得再次执行，新的更新必须以当前版本、manifest、数据库和交易状态重新准备。
 
 `singlecore_additive_update.py` 是已 ACTIVE 单核心的专用增量发布器，复用
 `singlecore_native_update.Host/run_update` 和 `release_control`。不修改既有热修入口，
@@ -60,7 +66,7 @@ python.exe -B .\singlecore_additive_update.py --plan C:\private\additive\plan.js
 或历史 schema 漂移、结构不完整，均拒绝降级并保留维护门等待前向修复。
 开门后的新业务写不能靠旧数据库备份撤回。旧 New API/供给影子服务始终不启动。
 
-## 候选验证与限制
+## 发布前验证与限制
 
 测试使用 `test_singlecore_additive_update.py` 的 fakes 和独立
 `127.0.0.1:29490/realyu_auth_e2e` 临时随机 schema；没有迁移生产。
@@ -87,6 +93,7 @@ python.exe -B -m unittest test_singlecore_native_update test_singlecore_additive
 真实生产只读预检通过，迁移仍为 297 项，306/307 尚未应用，订单/发放表尚不存在。
 计划 SHA256 为 `acaabad7f18893cdf6aa1b1921b7cf8a993a7cd2d4465050274b51e88db9064a`。
 
-本入口尚未经历真实 SCM 发布/故障恢复。30–60 秒是排空等待预算，不是总维护窗的硬上限；
-最终时间以回执为准。该计划仅适用于已核验的本机状态，接手时重新固定私有计划，
+本入口于 23:13:51 完成真实 SCM 发布，实际维护 32.596 秒；增量失败后的真实生产恢复未演练，
+其恢复分支仍以隔离测试为证。30–60 秒是排空预算，不是总维护窗硬上限。
+该计划仅适用于当次核验的本机状态，接手时重新固定私有计划，
 不能复用旧热修的 `database_migrations=false` 计划，也不能把测试通过记作生产上线。

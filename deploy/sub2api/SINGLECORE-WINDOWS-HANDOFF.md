@@ -1,6 +1,13 @@
 # RealYu 单核心迁移到另一台 Windows Server
 
-本文是另一台机器上 Codex 的部署交接入口，适用于 **已经完成单核心切换的 RealYu → 新 Windows Server**。整理日期：2026-10-10。本机已于 20:30:20 r3 ACTIVE，公网模型/协议及账务验收通过；先读 [LIVE-DEPLOYMENT.md](../../LIVE-DEPLOYMENT.md) 和 [HANDOFF-SUB2API.md](../../HANDOFF-SUB2API.md) 的最新发布记录，再核对源机当前服务、运行文件哈希、数据库和私有 `authority-receipt.json`。首次切换已完成，此后应迁移当前 PG/Redis，不能拿初次 S0/S1 覆盖新增交易。后续无 schema 更新见[原生更新教程](SINGLECORE-NATIVE-UPDATE.md)；UX 306/307 使用[增量教程](SINGLECORE-ADDITIVE-UPDATE.md)。当前默认重建输入为完整 UX 候选，冻结 CNY-only 另存 `singlecore-cny-admin-source.json`；重建时显式核对版本，不以 Git 最新候选推断运行版本。原生 PG 的[一致快照恢复验证](POSTGRES-PRE306-BACKUP-20261010.md)和[旧套餐目录恢复](RESTORE-CATALOG.md)已具备可复核工具，后者默认下架、不启用商户、不发放资金。
+**23:13:51 CST 最新状态：** 当前已是 `realyu-singlecore-v0.2.15-20261010-ux`，源码 `93022254`，
+binary SHA256 `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081`，306/307 已实际应用。
+默认完整补丁对应此真实生产版；客户库已有 299 项迁移，不能用发布前 297 项备份代替迁机时的新快照。
+品牌、注册/个人 Key、六档商品、钱包与模型页的当前配置也在同一 PG，迁机应原样保留，
+**不要重放目录创建或本机的已完成服务计划**。参见[最新 UX 发布](UX-NATIVE-RELEASE-20261010.md)。
+下文最初 20:30 的切换记录说明起点，版本状态以本段和最新回执为准。
+
+本文是另一台机器上 Codex 的部署交接入口，适用于 **已经完成单核心切换的 RealYu → 新 Windows Server**。整理日期：2026-10-10。本机已于 20:30:20 r3 ACTIVE，公网模型/协议及账务验收通过；先读 [LIVE-DEPLOYMENT.md](../../LIVE-DEPLOYMENT.md) 和 [HANDOFF-SUB2API.md](../../HANDOFF-SUB2API.md) 的最新发布记录，再核对源机当前服务、运行文件哈希、数据库和私有 `authority-receipt.json`。首次切换已完成，此后应迁移当前 PG/Redis，不能拿初次 S0/S1 覆盖新增交易。后续无 schema 更新见[原生更新教程](SINGLECORE-NATIVE-UPDATE.md)；UX 306/307 使用[增量教程](SINGLECORE-ADDITIVE-UPDATE.md)。当前默认重建输入为完整 UX 发布版，冻结 CNY-only 另存 `singlecore-cny-admin-source.json`；重建时显式核对版本，不以 Git 最新候选推断运行版本。原生 PG 的[一致快照恢复验证](POSTGRES-PRE306-BACKUP-20261010.md)和[旧套餐目录恢复](RESTORE-CATALOG.md)已具备可复核工具，后者默认下架、不启用商户、不发放资金。
 
 **这不是一键迁机安装器。** 已有源码重建、同机切换和 SG 服务脚本可以复用，但新机器的运行依赖包、服务计划、私有资料传递、原生数据库恢复及最终切流需要按下述步骤准备、验证和留存回执。若源机还没有单核心 `ACTIVE` 证据，不要把旧 Sub2API 的影子库当成客户数据库恢复。
 

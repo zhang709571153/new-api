@@ -1,0 +1,357 @@
+{
+  "target": "https://api.realyu.fun",
+  "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "started_at": "2026-10-10T15:24:52.355Z",
+  "kind": "real-public-independent-headless-browser",
+  "existing_user_browser_accessed": false,
+  "paid_model_called": false,
+  "admin_acknowledgement_submitted": false,
+  "customer_mutations_sent": false,
+  "screenshots_private_only": true,
+  "preflight_requests": [
+    {
+      "method": "GET",
+      "path": "/api/status",
+      "status": 200,
+      "cf_ray": "a486a2723a30196c-LHR",
+      "request_id": "10574edf-71a6-45d6-974d-aff31f05a4f5"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/settings/public",
+      "status": 200,
+      "cf_ray": "a486a2799a0c196c-LHR",
+      "request_id": "4baae61b-aed4-42d5-a93e-976f7a60a0f3"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/settings",
+      "status": 401,
+      "cf_ray": "a486a27edd87196c-LHR",
+      "request_id": "6039c799-9845-49a7-82ea-6c4b3c3c22be"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/users",
+      "status": 401,
+      "cf_ray": "a486a285b9683da9-LHR",
+      "request_id": "da6d1b6f-c02c-43fd-ab72-5b5ed2acd4f4"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/pages",
+      "status": 401,
+      "cf_ray": "a486a2891dc5196c-LHR",
+      "request_id": "77a4f49f-b3b5-432d-8471-546fa2e1e55f"
+    }
+  ],
+  "checks": [
+    {
+      "name": "exact-new-native-build-before-credential-entry",
+      "pass": true
+    },
+    {
+      "name": "public-brand-settings-match-explicit-seed",
+      "pass": true
+    },
+    {
+      "name": "explicit-cny-display-rate-public-contract",
+      "pass": true
+    },
+    {
+      "name": "anonymous-admin-and-page-api-denied-401",
+      "pass": true
+    },
+    {
+      "name": "old-username-password-login-directly-to-native-console",
+      "pass": true
+    },
+    {
+      "name": "real-native-admin-and-team-menu-with-loaded-realyu-logo",
+      "pass": true
+    },
+    {
+      "name": "workbench-label-and-hidden-version-promotion-navigation",
+      "pass": true
+    },
+    {
+      "name": "/admin/dashboard-native-data-and-page-render",
+      "pass": true
+    },
+    {
+      "name": "workspace-codex-workbuddy-four-masked-command-previews",
+      "pass": true
+    },
+    {
+      "name": "/admin/accounts-native-data-and-page-render",
+      "pass": true
+    },
+    {
+      "name": "/admin/usage-native-data-and-page-render",
+      "pass": true
+    },
+    {
+      "name": "/admin/users-native-data-and-page-render",
+      "pass": true
+    },
+    {
+      "name": "real-team-usage-cny-matches-native-usd-times-rate",
+      "pass": true
+    },
+    {
+      "name": "real-team-members-nicknames-and-native-usage-rendered",
+      "pass": true
+    },
+    {
+      "name": "confirmation-gate-absent-throughout-console-navigation",
+      "pass": true
+    },
+    {
+      "name": "no-uncaught-javascript-errors",
+      "pass": true
+    },
+    {
+      "name": "no-same-origin-http-errors",
+      "pass": true
+    },
+    {
+      "name": "no-unexpected-console-errors",
+      "pass": true
+    },
+    {
+      "name": "no-business-write-or-force-refresh-attempts",
+      "pass": true
+    }
+  ],
+  "network_failures": [],
+  "page_errors": [],
+  "blocked_requests": [
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    }
+  ],
+  "console_errors": [
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.cloudflareinsights.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "checkout.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.cloudflareinsights.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "checkout.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.cloudflareinsights.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "checkout.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.cloudflareinsights.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "checkout.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.cloudflareinsights.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "checkout.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.cloudflareinsights.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "static.airwallex.com",
+      "line": 0
+    },
+    {
+      "type": "error",
+      "classification": "blocked-request",
+      "source_host": "checkout.airwallex.com",
+      "line": 0
+    }
+  ],
+  "console_warnings": [],
+  "routes": [
+    {
+      "route": "/admin/dashboard",
+      "api_status": 200,
+      "rendered": true
+    },
+    {
+      "route": "/admin/accounts",
+      "api_status": 200,
+      "rendered": true
+    },
+    {
+      "route": "/admin/usage",
+      "api_status": 200,
+      "rendered": true
+    },
+    {
+      "route": "/admin/users",
+      "api_status": 200,
+      "rendered": true
+    },
+    {
+      "route": "/teams",
+      "api_status": 200,
+      "rendered": true
+    }
+  ],
+  "boundaries": [
+    "No production customer mutation or payment test",
+    "Ordinary-user denial is covered by isolated fixture and actual route/JWT regression, not another production user login",
+    "Native model plaza is disabled; its real-browser pricing table is not claimed as verified"
+  ],
+  "actual_version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "browser_version": "153.0.4234.46",
+  "team_observation": {
+    "available_team_count": 3,
+    "rendered_member_count": 4,
+    "usage_row_count": 25,
+    "interval_has_usage": true
+  },
+  "finished_at": "2026-10-10T15:26:07.429Z",
+  "passed": 19,
+  "failed": 0,
+  "private_screenshot_count": 5
+}

@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "446fd0fbd70de2fe9f0447fe71905dcc6e196404256af68a4fa1f85a8e3f9d5d",
-      "source_sha256": "446fd0fbd70de2fe9f0447fe71905dcc6e196404256af68a4fa1f85a8e3f9d5d",
-      "bytes": 31439,
+      "sha256": "d349e0b5081978a87beb855e0497977c221baca0ccec47e4887e0842ef8d7a5d",
+      "source_sha256": "d349e0b5081978a87beb855e0497977c221baca0ccec47e4887e0842ef8d7a5d",
+      "bytes": 33579,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "bbdf5e02b4c7344359bbf2fee45daaa9ae4c34ef9cc87770c77707f1cb11c350",
-      "source_sha256": "bbdf5e02b4c7344359bbf2fee45daaa9ae4c34ef9cc87770c77707f1cb11c350",
-      "bytes": 13513,
+      "sha256": "f129ec226e043f2b9774d44adecf144111cea5175da81e0fb84c1fb016309546",
+      "source_sha256": "f129ec226e043f2b9774d44adecf144111cea5175da81e0fb84c1fb016309546",
+      "bytes": 14199,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "6f0793db76a2050ca14480081c9a27b7dcb68d72bd637a63bdff53c19a60d30c",
-      "source_sha256": "6f0793db76a2050ca14480081c9a27b7dcb68d72bd637a63bdff53c19a60d30c",
-      "bytes": 14925,
+      "sha256": "086e0bcf740e4853106fa49cf2203253dd190957a9ff5f1f9fa644b8acbed51c",
+      "source_sha256": "086e0bcf740e4853106fa49cf2203253dd190957a9ff5f1f9fa644b8acbed51c",
+      "bytes": 15823,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "8fe5dd041062f5237e9c93c687410faf4df104496f2f63c6cb3d32394e05a4c9",
-      "source_sha256": "8fe5dd041062f5237e9c93c687410faf4df104496f2f63c6cb3d32394e05a4c9",
-      "bytes": 12576,
+      "sha256": "4c3bcda71e6eec5f3682e4b27be40375f60f1455944e7ded9d1483277460130e",
+      "source_sha256": "4c3bcda71e6eec5f3682e4b27be40375f60f1455944e7ded9d1483277460130e",
+      "bytes": 13771,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2423,9 +2423,9 @@
     },
     {
       "path": "deploy/sub2api/Apply-NativeBrand.py",
-      "sha256": "7cf49c241898a5017ed64f74f0af5f49d2f4d46408b47d2d2113417643a6bb78",
-      "source_sha256": "7cf49c241898a5017ed64f74f0af5f49d2f4d46408b47d2d2113417643a6bb78",
-      "bytes": 5124,
+      "sha256": "2697fc040af01e5db32c94aa25316935929ea6cd87c184840e3302030011faa1",
+      "source_sha256": "2697fc040af01e5db32c94aa25316935929ea6cd87c184840e3302030011faa1",
+      "bytes": 5700,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/Apply-NativeBrand.py"
     },
@@ -2542,6 +2542,22 @@
       "source_path": "deploy/sub2api/POSTGRES-PRE306-BACKUP-20261010.md"
     },
     {
+      "path": "deploy/sub2api/PUBLIC-SIGNUP-BROWSER-VERIFICATION.md",
+      "sha256": "0b3e29af627db00e5bd32fbf487f6fc146e22799c90e223b027bf568ce9fc439",
+      "source_sha256": "0b3e29af627db00e5bd32fbf487f6fc146e22799c90e223b027bf568ce9fc439",
+      "bytes": 5476,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/PUBLIC-SIGNUP-BROWSER-VERIFICATION.md"
+    },
+    {
+      "path": "deploy/sub2api/PUBLIC-UX-BROWSER-ACCEPTANCE-20261010.md",
+      "sha256": "caf9796db55bb6fe29afde290c97516ef8b3481fcc1f7643981377218568c44a",
+      "source_sha256": "caf9796db55bb6fe29afde290c97516ef8b3481fcc1f7643981377218568c44a",
+      "bytes": 4372,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/PUBLIC-UX-BROWSER-ACCEPTANCE-20261010.md"
+    },
+    {
       "path": "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md",
       "sha256": "52e4a763051749b9557649bff8e376876b4b31f1bb2f8c7d0f6836c60927c175",
       "source_sha256": "52e4a763051749b9557649bff8e376876b4b31f1bb2f8c7d0f6836c60927c175",
@@ -2575,9 +2591,9 @@
     },
     {
       "path": "deploy/sub2api/RESTORE-CATALOG.md",
-      "sha256": "9e6b6b5edb94836c9c0cfe50700f8f03b07102e3b01ad847205ef75ca26b67bc",
-      "source_sha256": "9e6b6b5edb94836c9c0cfe50700f8f03b07102e3b01ad847205ef75ca26b67bc",
-      "bytes": 2834,
+      "sha256": "39dde86429b10bb2492d3a83a0df00946aa298876134e5c98ff00549d8eb434c",
+      "source_sha256": "39dde86429b10bb2492d3a83a0df00946aa298876134e5c98ff00549d8eb434c",
+      "bytes": 3537,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/RESTORE-CATALOG.md"
     },
@@ -2599,9 +2615,9 @@
     },
     {
       "path": "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md",
-      "sha256": "f7f4e8920360241666fb36aaab026121f19376f9e7213d2bffa06919b66cbcb3",
-      "source_sha256": "f7f4e8920360241666fb36aaab026121f19376f9e7213d2bffa06919b66cbcb3",
-      "bytes": 6498,
+      "sha256": "c06f7372c9d897aab38981df4b75d7eb0db7e43ac0dfb90983042c299d159730",
+      "source_sha256": "c06f7372c9d897aab38981df4b75d7eb0db7e43ac0dfb90983042c299d159730",
+      "bytes": 7090,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md"
     },
@@ -2639,9 +2655,9 @@
     },
     {
       "path": "deploy/sub2api/SINGLECORE-PRODUCTION-20261010.md",
-      "sha256": "ef8f362039236864e31c9aba2f1db5095f757143a3227ad5f6b34dcf3ec48942",
-      "source_sha256": "ef8f362039236864e31c9aba2f1db5095f757143a3227ad5f6b34dcf3ec48942",
-      "bytes": 7995,
+      "sha256": "c05547364591589fcd8faf10a5e295ab6f3fd3ce511a97d7e0c3b715d4c62ac5",
+      "source_sha256": "c05547364591589fcd8faf10a5e295ab6f3fd3ce511a97d7e0c3b715d4c62ac5",
+      "bytes": 8294,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-PRODUCTION-20261010.md"
     },
@@ -2654,10 +2670,18 @@
       "source_path": "deploy/sub2api/SINGLECORE-SUPPLY-PRICING.md"
     },
     {
+      "path": "deploy/sub2api/SINGLECORE-UX-SETTINGS.md",
+      "sha256": "ed47e63ff7d32642e9778a11dd97c277e4de6dc86243bd8a413d8bcf41b67611",
+      "source_sha256": "ed47e63ff7d32642e9778a11dd97c277e4de6dc86243bd8a413d8bcf41b67611",
+      "bytes": 9031,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/SINGLECORE-UX-SETTINGS.md"
+    },
+    {
       "path": "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
-      "sha256": "dd5d9b0648cc0d8952035e08acb968bd86f5635534d2f63b993c70c7162ec3ee",
-      "source_sha256": "dd5d9b0648cc0d8952035e08acb968bd86f5635534d2f63b993c70c7162ec3ee",
-      "bytes": 28316,
+      "sha256": "d009b778243040254a81b1c49b029478833c76cd74125f11ef09fe70b578e909",
+      "source_sha256": "d009b778243040254a81b1c49b029478833c76cd74125f11ef09fe70b578e909",
+      "bytes": 29017,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md"
     },
@@ -2703,17 +2727,17 @@
     },
     {
       "path": "deploy/sub2api/UX-NATIVE-RELEASE-20261010.md",
-      "sha256": "6de4c037c6409ac58b6d54fb91d2863af960e63f4e799f4e44aa24b824feb88b",
-      "source_sha256": "6de4c037c6409ac58b6d54fb91d2863af960e63f4e799f4e44aa24b824feb88b",
-      "bytes": 4349,
+      "sha256": "7bbae765b2de6cd555a0010e443732ec15f6906c00beb27a06dc51c1c3d2af43",
+      "source_sha256": "7bbae765b2de6cd555a0010e443732ec15f6906c00beb27a06dc51c1c3d2af43",
+      "bytes": 11128,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/UX-NATIVE-RELEASE-20261010.md"
     },
     {
       "path": "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
-      "sha256": "6f3af74d8f5a1ca91079bb3c9dd77927dbfeb4d9eee2711ed592a4dde0347dd9",
-      "source_sha256": "6f3af74d8f5a1ca91079bb3c9dd77927dbfeb4d9eee2711ed592a4dde0347dd9",
-      "bytes": 28660,
+      "sha256": "1bbce9b0da86ca9470e609b844d154b4fe5d6165cde227dcb79db7b1e9a94ef9",
+      "source_sha256": "1bbce9b0da86ca9470e609b844d154b4fe5d6165cde227dcb79db7b1e9a94ef9",
+      "bytes": 29309,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md"
     },
@@ -2967,9 +2991,9 @@
     },
     {
       "path": "deploy/sub2api/restore_native_catalog.py",
-      "sha256": "37980cfc247f4589144fce05996ee63357197c5b668752edf1c0723777124940",
-      "source_sha256": "37980cfc247f4589144fce05996ee63357197c5b668752edf1c0723777124940",
-      "bytes": 9539,
+      "sha256": "ca430f9ccbad0cab6aeefae4632ff82eb90b3f9e7859387a5e2ce4d4cb33062e",
+      "source_sha256": "ca430f9ccbad0cab6aeefae4632ff82eb90b3f9e7859387a5e2ce4d4cb33062e",
+      "bytes": 9598,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/restore_native_catalog.py"
     },
@@ -3047,9 +3071,9 @@
     },
     {
       "path": "deploy/sub2api/singlecore-source.json",
-      "sha256": "8e850e01b00eb2ed364b42b4f01da6390bd64aefc56ca9c4a15de24fe73da9f9",
-      "source_sha256": "8e850e01b00eb2ed364b42b4f01da6390bd64aefc56ca9c4a15de24fe73da9f9",
-      "bytes": 59282,
+      "sha256": "26a1d2f96200cec52a8f661b000cbe059c45784357c5e980e3807610ac470ae1",
+      "source_sha256": "26a1d2f96200cec52a8f661b000cbe059c45784357c5e980e3807610ac470ae1",
+      "bytes": 59331,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore-source.json"
     },
@@ -3116,6 +3140,14 @@
       "bytes": 15192,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore_supply.py"
+    },
+    {
+      "path": "deploy/sub2api/singlecore_ux_settings.py",
+      "sha256": "98f6c287bc141125b92883500c8254f9b784d67561a61f34ef8883b734e0b842",
+      "source_sha256": "98f6c287bc141125b92883500c8254f9b784d67561a61f34ef8883b734e0b842",
+      "bytes": 20574,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore_ux_settings.py"
     },
     {
       "path": "deploy/sub2api/snapshot_sqlite.py",
@@ -3252,6 +3284,14 @@
       "bytes": 10056,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/test_singlecore_supply.py"
+    },
+    {
+      "path": "deploy/sub2api/test_singlecore_ux_settings.py",
+      "sha256": "2c711bc457550317eab1b36b701335e7835b75424b754c59a1c9908861d4bd79",
+      "source_sha256": "2c711bc457550317eab1b36b701335e7835b75424b754c59a1c9908861d4bd79",
+      "bytes": 17676,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_singlecore_ux_settings.py"
     },
     {
       "path": "deploy/sub2api/test_snapshot_sqlite.py",
@@ -3862,12 +3902,28 @@
       "source_path": "lab/sub2api_e2e/codex_cli.py"
     },
     {
+      "path": "lab/sub2api_e2e/cowagent-cohort-ux-production-20261010T151429Z.json",
+      "sha256": "af0d116d56c2bd4974dad4b1e314e1c12cbc5a8d271ba22c04233c48d2d145d4",
+      "source_sha256": "af0d116d56c2bd4974dad4b1e314e1c12cbc5a8d271ba22c04233c48d2d145d4",
+      "bytes": 12192,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/cowagent-cohort-ux-production-20261010T151429Z.json"
+    },
+    {
       "path": "lab/sub2api_e2e/cowagent-key-fix-20261010.json",
       "sha256": "138e8fb65c97abbd9d73a7bb1e99fed6dcd5c35d3ae47e591a15e3f687f1e074",
       "source_sha256": "138e8fb65c97abbd9d73a7bb1e99fed6dcd5c35d3ae47e591a15e3f687f1e074",
       "bytes": 3388,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/cowagent-key-fix-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/cowagent-ux-recovery-20261010.json",
+      "sha256": "3f5d2cf484ef8250e7072f1ad83d5aef5e8d47e4bcb8d3cc8e3ca1fc1816707c",
+      "source_sha256": "3f5d2cf484ef8250e7072f1ad83d5aef5e8d47e4bcb8d3cc8e3ca1fc1816707c",
+      "bytes": 3104,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/cowagent-ux-recovery-20261010.json"
     },
     {
       "path": "lab/sub2api_e2e/credit-watch-summary.json",
@@ -4263,9 +4319,9 @@
     },
     {
       "path": "lab/sub2api_e2e/probe_cowagent_native_recovery.py",
-      "sha256": "fc796f13d9aa74131fb9e2639537a2d4d5a94a657823c73370837f4db3cda4a1",
-      "source_sha256": "fc796f13d9aa74131fb9e2639537a2d4d5a94a657823c73370837f4db3cda4a1",
-      "bytes": 6376,
+      "sha256": "794cbce670e3ccd59e2fac3dc103722ca8fb57becd2b3adadb610c814632c87c",
+      "source_sha256": "794cbce670e3ccd59e2fac3dc103722ca8fb57becd2b3adadb610c814632c87c",
+      "bytes": 6646,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/probe_cowagent_native_recovery.py"
     },
@@ -4276,6 +4332,30 @@
       "bytes": 5552,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/production-audit-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/production-headless-browser-strict-check.cjs",
+      "sha256": "2448a05bfa36c7bf47bd506e1a365084e14245b9e32a9b3fad677828a7a9410f",
+      "source_sha256": "2448a05bfa36c7bf47bd506e1a365084e14245b9e32a9b3fad677828a7a9410f",
+      "bytes": 20776,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/production-headless-browser-strict-check.cjs"
+    },
+    {
+      "path": "lab/sub2api_e2e/production-signup-browser-check.cjs",
+      "sha256": "68e206464b70fc7ef6d687c9b2aaa60e9015915d8e4101a98f99f6ab261d18d6",
+      "source_sha256": "68e206464b70fc7ef6d687c9b2aaa60e9015915d8e4101a98f99f6ab261d18d6",
+      "bytes": 22739,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/production-signup-browser-check.cjs"
+    },
+    {
+      "path": "lab/sub2api_e2e/production-signup-readonly-db.py",
+      "sha256": "fb874d19591955320cf4fb4831d18ef41d06567276a392423f5d54e6a5137306",
+      "source_sha256": "fb874d19591955320cf4fb4831d18ef41d06567276a392423f5d54e6a5137306",
+      "bytes": 7813,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/production-signup-readonly-db.py"
     },
     {
       "path": "lab/sub2api_e2e/production_funding_audit.py",
@@ -4300,6 +4380,22 @@
       "bytes": 3133,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/provision_mock.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/public-browser-strict-20261010T152452Z.json",
+      "sha256": "6253f1f85ef47fc13bd3e66d232b8e7c11c07bb52dd67537bb15518911579187",
+      "source_sha256": "6253f1f85ef47fc13bd3e66d232b8e7c11c07bb52dd67537bb15518911579187",
+      "bytes": 8734,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/public-browser-strict-20261010T152452Z.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/public-signup-browser-20261010T153651Z.json",
+      "sha256": "243d3e08aa54be61649abdf506fb143f48630aa2918e5b3291bb85870228a0b7",
+      "source_sha256": "243d3e08aa54be61649abdf506fb143f48630aa2918e5b3291bb85870228a0b7",
+      "bytes": 5994,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/public-signup-browser-20261010T153651Z.json"
     },
     {
       "path": "lab/sub2api_e2e/real-chain-features-summary.json",
@@ -4724,6 +4820,62 @@
       "bytes": 35754,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/ux-parity-browser-e2e.cjs"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-production-activation-20261010.json",
+      "sha256": "c71946bca42ef049c49b2cf4fe7bb716029ad96899cff511b5b034557007f9be",
+      "source_sha256": "c71946bca42ef049c49b2cf4fe7bb716029ad96899cff511b5b034557007f9be",
+      "bytes": 1590,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-production-activation-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-production-brand-20261010.json",
+      "sha256": "3c5958a17d207d49d7b73dd991d0125ec3eae0d995a9b598fb5a17f6c0b1205b",
+      "source_sha256": "3c5958a17d207d49d7b73dd991d0125ec3eae0d995a9b598fb5a17f6c0b1205b",
+      "bytes": 5694,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-production-brand-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-production-catalog-settings-20261010.json",
+      "sha256": "e0d4507b0d30077fe5d36986bd7881dc4bae4de7e6f4736a92a67cf469de4ec3",
+      "source_sha256": "e0d4507b0d30077fe5d36986bd7881dc4bae4de7e6f4736a92a67cf469de4ec3",
+      "bytes": 7573,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-production-catalog-settings-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-production-direct-path-first-failures-20261010.json",
+      "sha256": "a7e1f93389200b44a28d2ea35b8617f1f231676ecfa774254a6acdefee692ac4",
+      "source_sha256": "a7e1f93389200b44a28d2ea35b8617f1f231676ecfa774254a6acdefee692ac4",
+      "bytes": 3877,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-production-direct-path-first-failures-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-production-funding-reconciliation-20261010.json",
+      "sha256": "14d89a47eebfb1d944d670940b759ea322110f7fba917f5e56a9fc7b7999e7cd",
+      "source_sha256": "14d89a47eebfb1d944d670940b759ea322110f7fba917f5e56a9fc7b7999e7cd",
+      "bytes": 2456,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-production-funding-reconciliation-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-production-health-20261010.json",
+      "sha256": "50df05581c23b1099ef916a82ed71f2bbd4a3137c17cdda23e7fb42253ba9ac6",
+      "source_sha256": "50df05581c23b1099ef916a82ed71f2bbd4a3137c17cdda23e7fb42253ba9ac6",
+      "bytes": 5777,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-production-health-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-production-public-protocol-20261010.json",
+      "sha256": "2e40e808e72856dbb734e043482611e49d8fe0af14c53f437c64571524c7acda",
+      "source_sha256": "2e40e808e72856dbb734e043482611e49d8fe0af14c53f437c64571524c7acda",
+      "bytes": 7019,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-production-public-protocol-20261010.json"
     },
     {
       "path": "lab/sub2api_e2e/ux-release-uac-cancel-20261010.json",
@@ -24153,59 +24305,6 @@
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T14:26:44.647409+00:00",
-    "review_scope": "Native Sub2API UX candidate including CNY/admin/CowAgent corrections, atomic managed signup and personal keys, key scopes, team metadata and usage, wallet purchase idempotency, source rebuild, 306/307-only updater, verified PG snapshot restore, catalog restoration, and Windows deployment handoff.",
-    "changed_or_added_count": 36,
-    "changed_or_added_paths": [
-      ".gitattributes",
-      "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "LIVE-DEPLOYMENT.md",
-      "UPDATELOG.md",
-      "deploy/sub2api/POSTGRES-PRE306-BACKUP-20261010.md",
-      "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md",
-      "deploy/sub2api/Prepare-SingleCore.ps1",
-      "deploy/sub2api/RESTORE-CATALOG.md",
-      "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md",
-      "deploy/sub2api/SINGLECORE-CANDIDATE.md",
-      "deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md",
-      "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
-      "deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md",
-      "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
-      "deploy/sub2api/legacy-catalog-20261010.json",
-      "deploy/sub2api/restore_native_catalog.py",
-      "deploy/sub2api/signup-acceptance-20261010/README.md",
-      "deploy/sub2api/signup-acceptance-20261010/acceptance.json",
-      "deploy/sub2api/singlecore-candidate.patch",
-      "deploy/sub2api/singlecore-cny-admin-source.json",
-      "deploy/sub2api/singlecore-cny-admin.patch",
-      "deploy/sub2api/singlecore-source.json",
-      "deploy/sub2api/singlecore_additive_update.py",
-      "deploy/sub2api/singlecore_pg_backup.py",
-      "deploy/sub2api/test_restore_native_catalog.py",
-      "deploy/sub2api/test_singlecore_additive_update.py",
-      "deploy/sub2api/test_singlecore_pg_backup.py",
-      "lab/sub2api_e2e/catalog-restore-http-20261010.json",
-      "lab/sub2api_e2e/health-before-ux-release-20261010.json",
-      "lab/sub2api_e2e/postgres-pre306-backup-20261010.json",
-      "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-ux.json",
-      "lab/sub2api_e2e/ux-browser-fixture-ops.py",
-      "lab/sub2api_e2e/ux-candidate-validation-20261010.json",
-      "lab/sub2api_e2e/ux-parity-browser-20261010.json",
-      "lab/sub2api_e2e/ux-parity-browser-e2e.cjs"
-    ],
-    "checks": {
-      "changed_git_blob_hashes": true,
-      "private_runtime_values_excluded": true,
-      "private_runtime_files_excluded": true,
-      "local_document_links": 151,
-      "pinned_upstream_and_patch": true
-    },
-    "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",
-    "note": "See LIVE-DEPLOYMENT.md for the actual live binary. UX candidate has 737 frontend tests and 15 real browser/HTTP/PG acceptance cases; its production update is not yet confirmed. The earlier live core has real public PDF/search/image, WS, CLI resume and ledger evidence. Real merchant payment/refund, team first purchase/renewal/upgrade, installed desktop E2E, unattended reboot and long-term SLA are not claimed."
-  },
-  "publication_review": {
-    "status": "PASS",
     "checked_at_utc": "2026-10-10T14:32:06.298636+00:00",
     "review_scope": "Native Sub2API UX candidate including CNY/admin/CowAgent corrections, atomic managed signup and personal keys, key scopes, team metadata and usage, wallet purchase idempotency, source rebuild, 306/307-only updater, verified PG snapshot restore, catalog restoration, and Windows deployment handoff.",
     "changed_or_added_count": 6,
@@ -24226,6 +24325,56 @@
     },
     "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",
     "note": "See LIVE-DEPLOYMENT.md for the actual live binary. UX candidate has 737 frontend tests and 15 real browser/HTTP/PG acceptance cases; its production update is not yet confirmed. The earlier live core has real public PDF/search/image, WS, CLI resume and ledger evidence. Real merchant payment/refund, team first purchase/renewal/upgrade, installed desktop E2E, unattended reboot and long-term SLA are not claimed."
+  },
+  "publication_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-10T15:40:14.765142+00:00",
+    "review_scope": "Published native Sub2API UX: actual SCM/306/307 activation, public protocol and browser acceptance, original CowAgent key recovery and funding reconciliation, username signup and default personal key, six personal wallet plans and USD model price page, preserved first errors, source rebuild, and Windows deployment handoff.",
+    "changed_or_added_count": 33,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/Apply-NativeBrand.py",
+      "deploy/sub2api/PUBLIC-SIGNUP-BROWSER-VERIFICATION.md",
+      "deploy/sub2api/PUBLIC-UX-BROWSER-ACCEPTANCE-20261010.md",
+      "deploy/sub2api/RESTORE-CATALOG.md",
+      "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md",
+      "deploy/sub2api/SINGLECORE-PRODUCTION-20261010.md",
+      "deploy/sub2api/SINGLECORE-UX-SETTINGS.md",
+      "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
+      "deploy/sub2api/UX-NATIVE-RELEASE-20261010.md",
+      "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
+      "deploy/sub2api/restore_native_catalog.py",
+      "deploy/sub2api/singlecore-source.json",
+      "deploy/sub2api/singlecore_ux_settings.py",
+      "deploy/sub2api/test_singlecore_ux_settings.py",
+      "lab/sub2api_e2e/cowagent-cohort-ux-production-20261010T151429Z.json",
+      "lab/sub2api_e2e/cowagent-ux-recovery-20261010.json",
+      "lab/sub2api_e2e/probe_cowagent_native_recovery.py",
+      "lab/sub2api_e2e/production-headless-browser-strict-check.cjs",
+      "lab/sub2api_e2e/production-signup-browser-check.cjs",
+      "lab/sub2api_e2e/production-signup-readonly-db.py",
+      "lab/sub2api_e2e/public-browser-strict-20261010T152452Z.json",
+      "lab/sub2api_e2e/public-signup-browser-20261010T153651Z.json",
+      "lab/sub2api_e2e/ux-production-activation-20261010.json",
+      "lab/sub2api_e2e/ux-production-brand-20261010.json",
+      "lab/sub2api_e2e/ux-production-catalog-settings-20261010.json",
+      "lab/sub2api_e2e/ux-production-direct-path-first-failures-20261010.json",
+      "lab/sub2api_e2e/ux-production-funding-reconciliation-20261010.json",
+      "lab/sub2api_e2e/ux-production-health-20261010.json",
+      "lab/sub2api_e2e/ux-production-public-protocol-20261010.json"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 187,
+      "pinned_upstream_and_patch": true
+    },
+    "deployment_status": "NATIVE_SINGLECORE_UX_ACTIVE_SINGAPORE_HY2_PUBLICLY_ACCEPTED",
+    "note": "UX became ACTIVE at 2026-10-10 23:13:51 CST after 32.596 seconds of maintenance. Production protocol 7/7, readonly browser 19/19, one zero-funded public signup/browser/cleanup 12/12, and 14 settled funding requests with no residuals passed. Candidate wallet fulfillment has separate real HTTP/browser/PG evidence; no production wallet or merchant transaction was generated by this update. Source frontend has 737 tests. First direct-path timeouts and harness/default-serialization errors remain recorded. Real merchant payment/refund, team first purchase/renewal/upgrade, installed desktop E2E, unattended reboot and long-term SLA are not claimed."
   },
   "publication_review_history": [
     {
@@ -24814,6 +24963,29 @@
         "private_runtime_values_excluded": true,
         "private_runtime_files_excluded": true,
         "local_document_links": 151,
+        "pinned_upstream_and_patch": true
+      },
+      "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",
+      "note": "See LIVE-DEPLOYMENT.md for the actual live binary. UX candidate has 737 frontend tests and 15 real browser/HTTP/PG acceptance cases; its production update is not yet confirmed. The earlier live core has real public PDF/search/image, WS, CLI resume and ledger evidence. Real merchant payment/refund, team first purchase/renewal/upgrade, installed desktop E2E, unattended reboot and long-term SLA are not claimed."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T14:32:06.298636+00:00",
+      "review_scope": "Native Sub2API UX candidate including CNY/admin/CowAgent corrections, atomic managed signup and personal keys, key scopes, team metadata and usage, wallet purchase idempotency, source rebuild, 306/307-only updater, verified PG snapshot restore, catalog restoration, and Windows deployment handoff.",
+      "changed_or_added_count": 6,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/UX-NATIVE-RELEASE-20261010.md",
+        "lab/sub2api_e2e/ux-release-uac-cancel-20261010.json"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 114,
         "pinned_upstream_and_patch": true
       },
       "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",

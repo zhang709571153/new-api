@@ -1,0 +1,124 @@
+{
+  "scope": "First two existing-collector direct-path failures after UX activation; later full-window summary is separate.",
+  "new_probes": 0,
+  "model_calls": 0,
+  "events": [
+    {
+      "at": "2026-10-10T15:15:36.055485+00:00",
+      "first_failure": {
+        "target": "public-direct",
+        "probe_id": "6f6e897e13324d0a8d3349e3751f1763",
+        "healthy": false,
+        "http_status": null,
+        "cf_error": null,
+        "category": "timeout",
+        "curl_exit": 28,
+        "duration_ms": 4047,
+        "failure_stage": "tcp_connect",
+        "transport_error_signatures": [
+          "timeout"
+        ]
+      },
+      "previous_sample": "2026-10-10T15:15:26.047131+00:00",
+      "next_healthy_sample": "2026-10-10T15:15:46.047537+00:00",
+      "concurrent_other_paths": [
+        {
+          "target": "public-via-local-proxy",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "2488db79aa9f48489612de1ca35c35a7",
+          "cf_ray": "a48694d82f1a3e44-SIN"
+        },
+        {
+          "target": "backend",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "8c1433f49c914b539cf222133407f853"
+        },
+        {
+          "target": "bridge",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "0ed4c80f490b4bd79134e48e18b17e32"
+        },
+        {
+          "target": "tunnel-primary",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "87fa22d818934475840e0ef9956e81b2",
+          "ready_connections": 4,
+          "identity_verified": true
+        },
+        {
+          "target": "tunnel-replica",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "1c43b7f007f84b4ab70cf1fad85fa6a2",
+          "ready_connections": 4,
+          "identity_verified": true
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T15:21:36.082964+00:00",
+      "first_failure": {
+        "target": "public-direct",
+        "probe_id": "a20eb82b90ee40858337fde72a8c29cc",
+        "healthy": false,
+        "http_status": null,
+        "cf_error": null,
+        "category": "timeout",
+        "curl_exit": 28,
+        "duration_ms": 8047,
+        "failure_stage": "waiting_first_byte",
+        "transport_error_signatures": [
+          "timeout"
+        ]
+      },
+      "previous_sample": "2026-10-10T15:21:26.076043+00:00",
+      "next_healthy_sample": "2026-10-10T15:21:46.089925+00:00",
+      "concurrent_other_paths": [
+        {
+          "target": "public-via-local-proxy",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "c195e1dc994d491fa4a9e9731bd992cc",
+          "cf_ray": "a4869da36f121372-HKG"
+        },
+        {
+          "target": "backend",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "cd9be45368f44ff386226a8e303c355a"
+        },
+        {
+          "target": "bridge",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "71f55ef606194d0cb11e16df73b61354"
+        },
+        {
+          "target": "tunnel-primary",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "9a977ac5a8004b388586d3ce5793a7af",
+          "ready_connections": 4,
+          "identity_verified": true
+        },
+        {
+          "target": "tunnel-replica",
+          "healthy": true,
+          "http_status": 200,
+          "probe_id": "c722466a038e4c918741a19838dde4dd",
+          "ready_connections": 4,
+          "identity_verified": true
+        }
+      ]
+    }
+  ],
+  "conclusion": "Both direct-only timeouts have healthy adjacent samples and concurrent proxy/origin/tunnel checks. Evidence does not establish a site-wide outage or a missing-proxy/20-minute fault.",
+  "limits": [
+    "Sampling does not establish exact outage duration.",
+    "No CF-Ray was returned by either failed direct request."
+  ]
+}

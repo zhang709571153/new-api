@@ -1,5 +1,13 @@
 # Local Sub2API deployment record
 
+**2026-10-10 23:13:51 CST：完整 UX 已 ACTIVE。** 当前实际版本为 `realyu-singlecore-v0.2.15-20261010-ux`，
+源码 `93022254b98d9cdfbc36db8d7ef6007365a89b53`、binary SHA256 `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081`。
+维护 32.596 秒，306/307 已应用到原 PG（297→299），未恢复数据库或启动旧服务，SG-HY2 路径保持。
+公网协议 7/7、严格浏览器 19/19、Cow 原 Key 实际回复及单次结算、14 请求账务零差额已通过。
+工作台、四种配置命令、团队/用量与管理员详细页、CNY×7、隐藏版本/兑换及取消确认门均有实际公网页面证据。
+品牌、注册/目录配置及仍未完成的经营能力见[本次发布](deploy/sub2api/UX-NATIVE-RELEASE-20261010.md)。
+下方 UAC 取消与候选记录均为历史；不要再次运行已经完成的 Activate-Ux 或旧 CNY-only 计划。
+
 **2026-10-10 22:31 CST：完整 UX 的 UAC 返回取消，发布未执行。** 新 operation 没有执行日志或 ACTIVE 回执，schema 保持 297 项；取消后再次只读预检通过。线上仍为 ws-owner、维护门开放，既有六路径最近各 30/30。正常管理员命令及后续真实验收见[接续说明](deploy/sub2api/UX-NATIVE-RELEASE-20261010.md)。
 
 **2026-10-10 22:24 CST：UX 候选准备完成，未执行生产更新。** 当前实际服务仍为 `realyu-singlecore-v0.2.15-20261010-ws-owner`，SCM 正常，入口 maintenance=false。r3 UAC 返回取消，无 update receipt；r2 已恢复的事实不变。默认源码交接已推进到 UX 候选 `93022254b98d9cdfbc36db8d7ef6007365a89b53`，新二进制 SHA `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081`，前端 737 项及隔离浏览器 15/15 通过；这些不是生产验收。部署须使用[306/307 增量更新](deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md)，两个旧热修计划不得套用。生产备份在独立数据库恢复核对 120 表/51,028 行/297 迁移通过，完整备份保留私有。

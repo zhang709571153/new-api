@@ -1,0 +1,239 @@
+{
+  "status": "PASS",
+  "target": "https://api.realyu.fun/v1",
+  "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "model": "gpt-6.1-sol",
+  "started_at": "2026-10-10T15:18:47.701058+00:00",
+  "finished_at": "2026-10-10T15:19:29.367138+00:00",
+  "seconds": 41.657,
+  "cases_selected": [
+    "catalog",
+    "responses-stream",
+    "responses-nonstream",
+    "pdf-inline",
+    "web-search",
+    "websocket",
+    "tool-roundtrip"
+  ],
+  "dependencies": {
+    "httpx": "0.28.1",
+    "websockets": "17.2"
+  },
+  "automatic_retries": 0,
+  "model_requests_attempted": 8,
+  "maximum_model_requests": 8,
+  "text_max_output_tokens": 128,
+  "search_max_output_tokens": 512,
+  "tls_verification": true,
+  "trust_ambient_proxy": false,
+  "websocket_connections": 1,
+  "image_requests_maximum": 0,
+  "cases": [
+    {
+      "name": "catalog",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:49.769881+00:00",
+      "seconds": 0.484,
+      "catalog_count": 9,
+      "published_text_models_present": [
+        "gpt-6-astra",
+        "gpt-6.1-sol",
+        "gpt-6-sol",
+        "gpt-6-luna",
+        "gpt-5.6-sol",
+        "gpt-5.6-terra",
+        "gpt-5.6-luna",
+        "gpt-5.5"
+      ],
+      "image_model_present": true
+    },
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:50.261586+00:00",
+      "seconds": 4.281,
+      "delta_final_consistent": true,
+      "exact_marker_match": true
+    },
+    {
+      "name": "responses-nonstream",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:54.545982+00:00",
+      "seconds": 3.984,
+      "delta_final_consistent": null,
+      "exact_marker_match": true
+    },
+    {
+      "name": "pdf-inline",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:58.531699+00:00",
+      "seconds": 3.688,
+      "pdf_sha256": "280685b8caabfb2613151bcf269def26ce84a0a3c7dadf20570639d38fd27238",
+      "exact_pdf_marker_match": true
+    },
+    {
+      "name": "web-search",
+      "status": "PASS",
+      "at": "2026-10-10T15:19:02.228017+00:00",
+      "seconds": 9.25,
+      "actual_search_calls": 1,
+      "valid_citation_urls": 2,
+      "expected_official_url_present": true
+    },
+    {
+      "name": "websocket",
+      "status": "PASS",
+      "at": "2026-10-10T15:19:11.472547+00:00",
+      "seconds": 9.562,
+      "same_socket_continuation": true,
+      "handshake_status": 101
+    },
+    {
+      "name": "tool-roundtrip",
+      "status": "PASS",
+      "at": "2026-10-10T15:19:21.031216+00:00",
+      "seconds": 8.329,
+      "actual_function_call": true,
+      "function_result_used": true
+    }
+  ],
+  "requests": [
+    {
+      "name": "public-status-gate",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:47.774831+00:00",
+      "method": "GET",
+      "path": "/api/status",
+      "http_status": 200,
+      "bytes": 153,
+      "body_complete": true,
+      "probe_id": "20e5167db92fb529000f72b124415c66",
+      "cf_ray": "a4869988592493fa-LHR",
+      "request_id": "a10de99c-a1a7-487a-b263-21c188e14cde",
+      "automatic_retries": 0
+    },
+    {
+      "name": "catalog",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:49.769881+00:00",
+      "method": "GET",
+      "path": "/v1/models",
+      "http_status": 200,
+      "bytes": 1125,
+      "body_complete": true,
+      "probe_id": "c9fa6893cacec71be36dd431df7fae75",
+      "cf_ray": "a48699923a0693fa-LHR",
+      "request_id": "daefb549-58f8-467c-a109-7d87d5ee0bce",
+      "automatic_retries": 0
+    },
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:50.261586+00:00",
+      "method": "POST",
+      "path": "/v1/responses",
+      "http_status": 200,
+      "bytes": 76158,
+      "body_complete": true,
+      "probe_id": "5fdb02a2d16bf8766a83225f95e49b2d",
+      "cf_ray": "a48699954cf293fa-LHR",
+      "request_id": "02820c41-5c26-4b7c-b5f0-948cec8ed542",
+      "automatic_retries": 0
+    },
+    {
+      "name": "responses-nonstream",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:54.545982+00:00",
+      "method": "POST",
+      "path": "/v1/responses",
+      "http_status": 200,
+      "bytes": 24183,
+      "body_complete": true,
+      "probe_id": "c66819bf1a5f1d131148d9803c8e3cca",
+      "cf_ray": "a48699b01cd693fa-LHR",
+      "request_id": "69257b1e-e01b-4bc0-b6e9-053eb16a5af0",
+      "automatic_retries": 0
+    },
+    {
+      "name": "pdf-inline",
+      "status": "PASS",
+      "at": "2026-10-10T15:18:58.533039+00:00",
+      "method": "POST",
+      "path": "/v1/responses",
+      "http_status": 200,
+      "bytes": 76327,
+      "body_complete": true,
+      "probe_id": "524972a7d369cfde30aace9f6a3f60a8",
+      "cf_ray": "a48699c8fd0393fa-LHR",
+      "request_id": "6dde9c0a-4cd2-46a8-8fd0-ac236c2acc12",
+      "automatic_retries": 0
+    },
+    {
+      "name": "web-search",
+      "status": "PASS",
+      "at": "2026-10-10T15:19:02.228017+00:00",
+      "method": "POST",
+      "path": "/v1/responses",
+      "http_status": 200,
+      "bytes": 89738,
+      "body_complete": true,
+      "probe_id": "67e5a0fc33c677dc86c6687b812fac8a",
+      "cf_ray": "a48699e0190693fa-LHR",
+      "request_id": "b8be1759-86a8-4895-a664-43fec8a4febc",
+      "automatic_retries": 0
+    },
+    {
+      "name": "websocket-turn-1",
+      "status": "PASS",
+      "http_status": 101,
+      "bytes": 8092,
+      "probe_id": "d6d3c5c58dd09d7dbef74557abf6aefd",
+      "cf_ray": "a4869a1d9966a696-LHR",
+      "request_id": "1bce7ce8-b2a6-402c-8865-2db66d2ba6e5"
+    },
+    {
+      "name": "websocket-turn-2",
+      "status": "PASS",
+      "http_status": 101,
+      "bytes": 12450,
+      "probe_id": "d6d3c5c58dd09d7dbef74557abf6aefd",
+      "cf_ray": "a4869a1d9966a696-LHR",
+      "request_id": "1bce7ce8-b2a6-402c-8865-2db66d2ba6e5"
+    },
+    {
+      "name": "tool-roundtrip-call",
+      "status": "PASS",
+      "at": "2026-10-10T15:19:21.031216+00:00",
+      "method": "POST",
+      "path": "/v1/responses",
+      "http_status": 200,
+      "bytes": 76221,
+      "body_complete": true,
+      "probe_id": "b0c9f706e12db6a51dd1d346bec69488",
+      "cf_ray": "a4869a585879d1f9-LHR",
+      "request_id": "657b01d2-2501-4448-8353-46242bd6c9d6",
+      "automatic_retries": 0
+    },
+    {
+      "name": "tool-roundtrip-result",
+      "status": "PASS",
+      "at": "2026-10-10T15:19:25.170635+00:00",
+      "method": "POST",
+      "path": "/v1/responses",
+      "http_status": 200,
+      "bytes": 78114,
+      "body_complete": true,
+      "probe_id": "842699d56c4bedd9c667a1971648a842",
+      "cf_ray": "a4869a6f7f6cd1f9-LHR",
+      "request_id": "c67acdf1-8c31-42ab-ba01-65e2dd3c14e1",
+      "automatic_retries": 0
+    }
+  ],
+  "first_failure": null,
+  "financial_evidence": "ux-production-funding-reconciliation-20261010.json",
+  "limits": [
+    "This run used the public API with the existing operator key, not an installed Codex/WorkBuddy desktop.",
+    "No image request in this UX update; earlier production image acceptance is separate.",
+    "Response bodies, response IDs, credentials and user identities remain private."
+  ]
+}

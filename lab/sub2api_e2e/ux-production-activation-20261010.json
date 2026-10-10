@@ -1,0 +1,38 @@
+{
+  "status": "ACTIVE",
+  "version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "source_commit": "93022254b98d9cdfbc36db8d7ef6007365a89b53",
+  "binary_sha256": "88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081",
+  "plan_sha256": "acaabad7f18893cdf6aa1b1921b7cf8a993a7cd2d4465050274b51e88db9064a",
+  "phase_times_utc": {
+    "DRAINING": "2026-10-10T15:13:19.177277+00:00",
+    "STOPPING_NATIVE": "2026-10-10T15:13:19.239080+00:00",
+    "STARTING_NATIVE": "2026-10-10T15:13:43.824912+00:00",
+    "VERIFIED_PRIVATE": "2026-10-10T15:13:51.770231+00:00",
+    "ACTIVE": "2026-10-10T15:13:51.773240+00:00"
+  },
+  "maintenance_seconds": 32.596,
+  "database_restored": false,
+  "old_legacy_services_started": false,
+  "database_migrations": true,
+  "reviewed_migrations": {
+    "306_realyu_managed_purchases.sql": "0399b87f731f3511f42ca973f44014cf96ae9a28336a99889ffff3f92ab30bd5",
+    "307_realyu_team_member_nicknames.sql": "deb1deaaccae541d7b5cf5dda6cb098eeaf3598fe3227700b3d4c955ebe37c16"
+  },
+  "schema": {
+    "applied": [
+      "306_realyu_managed_purchases.sql",
+      "307_realyu_team_member_nicknames.sql"
+    ],
+    "snapshots": 0,
+    "grants": 0,
+    "complete": true
+  },
+  "additive_schema_retained": true,
+  "payment_enabled_by_update": false,
+  "limits": [
+    "SCM activation receipt plus binary hash; public and browser acceptance are separate evidence files.",
+    "Snapshot counts are at activation and must not be treated as current customer counts.",
+    "Do not replay the completed activation or overwrite current PostgreSQL with S0/S1 or old SQLite."
+  ]
+}

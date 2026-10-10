@@ -91,7 +91,8 @@ def main():
     http = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     token = None
     def call(method, route, value=None):
-        headers = {"Accept": "application/json", "Cache-Control": "no-store"}
+        headers = {"Accept": "application/json", "Cache-Control": "no-store",
+                   "User-Agent": "RealYu-Maintenance/1.0"}
         if token:
             headers["Authorization"] = "Bearer " + token
         body = None

@@ -57,8 +57,11 @@ def request(label,path,body=None,authenticated=True):
         raw=response.read()
         private=out/(label+'.private.json')
         private.write_bytes(raw)
+        (out/(label+'-http.json')).write_text(json.dumps({'status':response.status,
+            'request_id':response.headers.get('x-request-id'),'cf_ray':response.headers.get('cf-ray'),
+            'body_sha256':hashlib.sha256(raw).hexdigest()}),encoding='utf-8')
         data=json.loads(raw)
-        error=data.get('error',{}) if isinstance(data,dict) else {}
+        error=(data.get('error') or {}) if isinstance(data,dict) else {}
         record={'name':label,'status':response.status,'request_id':response.headers.get('x-request-id'),
             'cf_ray':response.headers.get('cf-ray'),'body_sha256':hashlib.sha256(raw).hexdigest(),
             'error_code':error.get('code') or (data.get('code') if isinstance(data.get('code'),str) else data.get('reason')),

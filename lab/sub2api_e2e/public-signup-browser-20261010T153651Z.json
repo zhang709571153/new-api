@@ -1,0 +1,238 @@
+{
+  "target": "https://api.realyu.fun",
+  "started_at": "2026-10-10T15:36:51.181Z",
+  "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "kind": "one-public-synthetic-signup-browser",
+  "registration_attempts": 1,
+  "created_users": 1,
+  "existing_customer_mutated": false,
+  "database_readonly": true,
+  "rows_deleted": false,
+  "funds_seeded": false,
+  "purchase_submitted": false,
+  "paid_model_called": false,
+  "retries": 0,
+  "existing_browser_accessed": false,
+  "admin_acknowledgement_submitted": false,
+  "checks": [
+    {
+      "name": "live-version-brand-registration-payment-model-settings",
+      "pass": true
+    },
+    {
+      "name": "new-random-synthetic-identity-absent-before-registration",
+      "pass": true
+    },
+    {
+      "name": "cleanup-authority-confirmed-before-creating-test-user",
+      "pass": true
+    },
+    {
+      "name": "one-no-email-username-nickname-registration-to-workbench",
+      "pass": true
+    },
+    {
+      "name": "exactly-one-personal-key-no-wallet-grants-subscriptions-orders-or-team",
+      "pass": true
+    },
+    {
+      "name": "zero-balance-configuration-available-team-scope-empty-without-fallback",
+      "pass": true
+    },
+    {
+      "name": "six-published-managed-personal-plans-real-purchase-page",
+      "pass": true
+    },
+    {
+      "name": "wallet-option-visible-without-submitting-purchase",
+      "pass": true
+    },
+    {
+      "name": "new-user-nine-authorized-models-reference-pricing-usd",
+      "pass": true
+    },
+    {
+      "name": "read-only-preview-left-zero-funds-orders-grants-and-usage",
+      "pass": true
+    },
+    {
+      "name": "no-unexpected-browser-errors",
+      "pass": true
+    },
+    {
+      "name": "cleanup-exact-new-key-inactive-user-disabled-no-delete",
+      "pass": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/status",
+      "status": 200,
+      "cf_ray": "a486b3fbdc91ef3e-LHR",
+      "request_id": "e998dfc1-efe2-4c83-94ca-27e06127513f"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/settings/public",
+      "status": 200,
+      "cf_ray": "a486b403dc60ef3e-LHR",
+      "request_id": "f8d8a1ac-455d-42d4-ba5a-95886eb4ae63"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200,
+      "cf_ray": "a486b40b2c92ef3e-LHR",
+      "request_id": "40ef185b-bda4-4065-b704-1d93d8af6ece"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/register",
+      "status": 200,
+      "cf_ray": "a486b463dee39c38-SIN",
+      "request_id": "c87bfbbc-aa0a-495b-998b-bec0be530767"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/keys",
+      "status": 200,
+      "cf_ray": "a486b484bd6c7660-SEA",
+      "request_id": "2d3f4a15-a82b-4acf-a9b7-9a556f433967"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/users/:id",
+      "status": 200,
+      "cf_ray": "a486b4dbac97cda1-LHR",
+      "request_id": "1251a84f-149d-4509-b245-d3d9f6d3cc6d"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/keys/:id",
+      "status": 200,
+      "cf_ray": "a486b4e2a85bcda1-LHR",
+      "request_id": "80e8ab83-9141-4201-a7f1-9d7938a9c807"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/admin/users/:id",
+      "status": 200,
+      "cf_ray": "a486b4e61a1ccda1-LHR",
+      "request_id": "243e1fa5-dd30-47d7-bc8f-5b845c1fd35d"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/users/:id/api-keys",
+      "status": 200,
+      "cf_ray": "a486b4f2286ccda1-LHR",
+      "request_id": "2c7d27d9-13c6-4643-9c44-9b1ada356124"
+    }
+  ],
+  "blocked_requests": [
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.cloudflareinsights.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "static.airwallex.com",
+      "reason": "outside_target_origin"
+    },
+    {
+      "host": "checkout.airwallex.com",
+      "reason": "outside_target_origin"
+    }
+  ],
+  "network_errors": [],
+  "page_errors": [],
+  "console_errors": [
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    },
+    {
+      "classification": "blocked-request"
+    }
+  ],
+  "cleanup": {
+    "attempted": true,
+    "user_disabled": true,
+    "key_inactive": true
+  },
+  "boundaries": [
+    "No merchant or wallet transaction submitted",
+    "Only the one newly generated synthetic identity may be changed"
+  ],
+  "browser_version": "153.0.4234.46",
+  "finished_at": "2026-10-10T15:37:33.028Z",
+  "passed": 12,
+  "failed": 0,
+  "database_verification": {
+    "readonly": true,
+    "identity_matches": true,
+    "source_user_id_null": true,
+    "signup_source": "realyu_username",
+    "user_status": "disabled",
+    "key_status": "inactive",
+    "key_count": 1,
+    "personal_scope": true,
+    "zero_balance": true,
+    "zero_key_usage": true,
+    "counts": {
+      "team_memberships": 0,
+      "owned_teams": 0,
+      "stock_subscriptions": 0,
+      "managed_subscriptions": 0,
+      "orders": 0,
+      "funding_requests": 0,
+      "usage_logs": 0,
+      "purchase_grants": 0
+    }
+  },
+  "private_evidence_exported": false,
+  "private_screenshot_count": 4
+}

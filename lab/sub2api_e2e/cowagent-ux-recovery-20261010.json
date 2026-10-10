@@ -1,0 +1,56 @@
+{
+  "attribution_method": "Unique authenticated trace key+actor, response model/full input-output-cache token counts, completion window; HTTP UUID and generated funding UUID are distinct.",
+  "checks": {
+    "actor_payer_team_match_key_scope": true,
+    "billing_dedup_fingerprint_present": true,
+    "exact_expected_text": true,
+    "integer_funding_split_valid": true,
+    "one_billing_dedup_record": true,
+    "one_funding_record": true,
+    "one_native_http_success": true,
+    "one_usage_log": true,
+    "response_completed": true,
+    "response_error_is_null": true,
+    "settled_once": true,
+    "unique_trace_key_actor_model_usage_and_time_match": true,
+    "usage_actor_and_exact_charge_match": true
+  },
+  "first_failure_boundary": "Original harness attempted .get on response error:null. Its failure remains unchanged. A first independent direct-UUID lookup also failed because HTTP trace IDs and generated funding IDs differ; that report is retained and superseded only by the explicit correlation checks in this result.",
+  "first_failure_retained": true,
+  "kind": "cowagent-original-configuration-existing-request-verification",
+  "limitations": [
+    "One original-configuration API request, not complete desktop UI acceptance or a stability SLA.",
+    "Funding request_fingerprint is the reservation payload marker; billing dedup fingerprint includes final command/cost fields. They are not required to equal. The first verifier incorrectly compared them; its failed report is retained. This verification checks one nonempty SHA256 dedup entry and exact usage/funding amounts, not a reimplementation of the billing fingerprint formula.",
+    "No replay, credit, refund, account change or ledger mutation was performed."
+  ],
+  "matched_funding_id_sha256": "4f54352a26e242539b0277171689001f6655344543fd3ae1fc4022da8dc924fb",
+  "native_log_observations": [
+    {
+      "http_status": 200,
+      "line_sha256": "7de2747f8cc765cff47d7db32d2c2a9a7ba93981214e551cd50689fbf249b4fe",
+      "method": "POST",
+      "path": "/v1/responses"
+    }
+  ],
+  "original_harness_result_sha256": "8f1cebce90bbe39dd54ae6da288e7f17194d1717ef215a4c1d78b0ea9193023e",
+  "paid_requests_sent_by_this_verification": 0,
+  "read_only": true,
+  "request_id_sha256": "2f0fbdc1356b2ed637109eba1246501a3bda7af67afb9fc662ff34bedd9fad97",
+  "schema": 1,
+  "source_response_sha256": "c482a0b38101f529bc3a49d645185c73b874479c543eaad9be0adfa6af1cd5b0",
+  "status": "PASS",
+  "verified_at": "2026-10-10 15:26:46.662075+00",
+  "retained_first_verifier_results": [
+    {
+      "status": "FAIL",
+      "sha256": "525a1303dff590c99ce593505463cb1e9589ad0de4c2b9be39fda7a8d449d8ae",
+      "reason": "Verifier initially assumed HTTP request UUID was the persisted funding UUID; no direct match."
+    },
+    {
+      "status": "FAIL",
+      "sha256": "0b68e57665e7f23aadbd53de92a325de953a189fdd0d712ac14e1c5f55a5bc12",
+      "reason": "Verifier initially compared fingerprints with different reservation and final-command meanings."
+    }
+  ],
+  "funding_reconciliation_report": "ux-production-funding-reconciliation-20261010.json"
+}

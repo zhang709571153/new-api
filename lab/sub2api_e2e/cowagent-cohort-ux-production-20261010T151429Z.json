@@ -1,0 +1,355 @@
+{
+  "acceptance": "ELIGIBLE_KEYS_PASS_WITH_EXPECTED_OWNER_REJECTIONS",
+  "started_at": "2026-10-10T15:14:29.410970+00:00",
+  "finished_at": "2026-10-10T15:14:30.477622+00:00",
+  "reviewed_at": "2026-10-10T15:15:02.807423+00:00",
+  "version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "binary_sha256": "88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081",
+  "scope": "production native localhost API on port 18301; GET key-check and models",
+  "readonly": true,
+  "paid_model_calls": 0,
+  "automatic_retries": 0,
+  "keys_modified": false,
+  "cohort_definition": "active non-deleted non-team legacy unlimited keys with negative opening remaining quota",
+  "cohort_count": 15,
+  "eligible_keys_passed": 12,
+  "expected_owner_rejections": 3,
+  "unexpected_failures": 0,
+  "http_requests": 30,
+  "http_200": 24,
+  "http_401_expected": 6,
+  "http_503": 0,
+  "original_script_success_flag": false,
+  "original_flag_explanation": "First-pass harness requires all 15 to be accepted; it intentionally preserves false for rejected owners. Independent read-only PG review confirms the three authorization rejections.",
+  "historical_defect": {
+    "status": 503,
+    "code": "KEY_POLICY_UNAVAILABLE",
+    "first_request_id": "eab346c9-7373-4346-a41c-588a976f85be",
+    "observed_after_update": false
+  },
+  "first_after_update_rejection": {
+    "status": 401,
+    "error_code": "INVALID_API_KEY",
+    "request_id": "0542e9e6-61f8-4b68-9f0f-3ab7bfd88f09",
+    "body_sha256": "5a897c59cfc7a0eb4e568778c36a946a0f31b4a4d3cae82459422271dc9f50c6"
+  },
+  "expected_rejection_review": [
+    {
+      "label": "cohort-05",
+      "owner_state": "deleted",
+      "first_error": {
+        "status": 401,
+        "error_code": "INVALID_API_KEY",
+        "request_id": "0542e9e6-61f8-4b68-9f0f-3ab7bfd88f09",
+        "body_sha256": "5a897c59cfc7a0eb4e568778c36a946a0f31b4a4d3cae82459422271dc9f50c6"
+      },
+      "requests": [
+        {
+          "name": "cohort-05-key-check",
+          "status": 401,
+          "error_code": "INVALID_API_KEY",
+          "request_id": "0542e9e6-61f8-4b68-9f0f-3ab7bfd88f09",
+          "body_sha256": "5a897c59cfc7a0eb4e568778c36a946a0f31b4a4d3cae82459422271dc9f50c6"
+        },
+        {
+          "name": "cohort-05-models",
+          "status": 401,
+          "error_code": "INVALID_API_KEY",
+          "request_id": "bb415ce2-72c5-4cb2-b6f9-84a286798f74",
+          "body_sha256": "5a897c59cfc7a0eb4e568778c36a946a0f31b4a4d3cae82459422271dc9f50c6"
+        }
+      ],
+      "classification": "EXPECTED_AUTHORIZATION_REJECTION_CONFIRMED"
+    },
+    {
+      "label": "cohort-07",
+      "owner_state": "disabled",
+      "first_error": {
+        "status": 401,
+        "error_code": "USER_INACTIVE",
+        "request_id": "293d30fe-b47c-4c0b-b472-cb43c8351aa2",
+        "body_sha256": "43a5c1fb876e422c7a3e9330bb12a6f932a086a94420ebe5e2c1a13da8c5e9ad"
+      },
+      "requests": [
+        {
+          "name": "cohort-07-key-check",
+          "status": 401,
+          "error_code": "USER_INACTIVE",
+          "request_id": "293d30fe-b47c-4c0b-b472-cb43c8351aa2",
+          "body_sha256": "43a5c1fb876e422c7a3e9330bb12a6f932a086a94420ebe5e2c1a13da8c5e9ad"
+        },
+        {
+          "name": "cohort-07-models",
+          "status": 401,
+          "error_code": "USER_INACTIVE",
+          "request_id": "ae0df6cd-75b0-4e54-abf4-32a3fe531e8c",
+          "body_sha256": "43a5c1fb876e422c7a3e9330bb12a6f932a086a94420ebe5e2c1a13da8c5e9ad"
+        }
+      ],
+      "classification": "EXPECTED_AUTHORIZATION_REJECTION_CONFIRMED"
+    },
+    {
+      "label": "cohort-09",
+      "owner_state": "deleted",
+      "first_error": {
+        "status": 401,
+        "error_code": "INVALID_API_KEY",
+        "request_id": "b99d4e5c-fa2a-40d2-9d5b-239bb05de13a",
+        "body_sha256": "5a897c59cfc7a0eb4e568778c36a946a0f31b4a4d3cae82459422271dc9f50c6"
+      },
+      "requests": [
+        {
+          "name": "cohort-09-key-check",
+          "status": 401,
+          "error_code": "INVALID_API_KEY",
+          "request_id": "b99d4e5c-fa2a-40d2-9d5b-239bb05de13a",
+          "body_sha256": "5a897c59cfc7a0eb4e568778c36a946a0f31b4a4d3cae82459422271dc9f50c6"
+        },
+        {
+          "name": "cohort-09-models",
+          "status": 401,
+          "error_code": "INVALID_API_KEY",
+          "request_id": "86284c06-7317-4f99-91d5-93c61f5af890",
+          "body_sha256": "5a897c59cfc7a0eb4e568778c36a946a0f31b4a4d3cae82459422271dc9f50c6"
+        }
+      ],
+      "classification": "EXPECTED_AUTHORIZATION_REJECTION_CONFIRMED"
+    }
+  ],
+  "eligible_checks": [
+    {
+      "label": "cohort-01",
+      "requests": [
+        {
+          "name": "cohort-01-key-check",
+          "status": 200,
+          "request_id": "358b3dae-224a-43b9-a99c-c8c8949720da",
+          "body_sha256": "d0d2732150c7dea4f9462fef4f9f5e546c6b8744a5ed5c256ed0c80dd81dfbbf",
+          "model_count": null
+        },
+        {
+          "name": "cohort-01-models",
+          "status": 200,
+          "request_id": "30e25453-92d6-4f3b-83d8-558bdfa7e774",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-02",
+      "requests": [
+        {
+          "name": "cohort-02-key-check",
+          "status": 200,
+          "request_id": "7b198af6-08b2-43bc-8408-015d99cca1e9",
+          "body_sha256": "7abc5ac06c15f42f0f949e6c85e6bc53fe13400f03d08e01ea7babcfdc594b28",
+          "model_count": null
+        },
+        {
+          "name": "cohort-02-models",
+          "status": 200,
+          "request_id": "0348c406-24b6-408b-b4df-b6d9cead1e8e",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-03",
+      "requests": [
+        {
+          "name": "cohort-03-key-check",
+          "status": 200,
+          "request_id": "d21cdaa7-15b0-437e-af4b-7091c97a4da1",
+          "body_sha256": "12a7c7fe65abb9900cf7fd79da855e6ece29ff930af282652f74b193bb7a3169",
+          "model_count": null
+        },
+        {
+          "name": "cohort-03-models",
+          "status": 200,
+          "request_id": "02681acf-47cc-4df0-b94b-930300aec236",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-04",
+      "requests": [
+        {
+          "name": "cohort-04-key-check",
+          "status": 200,
+          "request_id": "bd28fc51-928b-4b63-bfd5-d3088ebd0649",
+          "body_sha256": "78f4d19f72bf14623dcd36ddfc7235ff4624e7edaf03642d701f86eb1dd35031",
+          "model_count": null
+        },
+        {
+          "name": "cohort-04-models",
+          "status": 200,
+          "request_id": "b83410fb-0e89-44d0-9cca-abc6d4626a32",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-06",
+      "requests": [
+        {
+          "name": "cohort-06-key-check",
+          "status": 200,
+          "request_id": "b0e12613-5046-4a1e-95a9-91217bdf435a",
+          "body_sha256": "061c1ef61e8a890863b41b855e15ff7ebd5b189e4d41c63320fa64b1a1575d5f",
+          "model_count": null
+        },
+        {
+          "name": "cohort-06-models",
+          "status": 200,
+          "request_id": "8f22691e-06ea-44f6-b76f-42e98630e9c5",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-08",
+      "requests": [
+        {
+          "name": "cohort-08-key-check",
+          "status": 200,
+          "request_id": "9b9dbfb4-12af-47ef-b2a6-7148c35835ce",
+          "body_sha256": "159d69a6410dc4c15ee9fc50d8f1034582d1f34d63d8a58577f0089d32715ea1",
+          "model_count": null
+        },
+        {
+          "name": "cohort-08-models",
+          "status": 200,
+          "request_id": "a91b9338-c388-4e92-bd81-34d1a6f92daa",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-10",
+      "requests": [
+        {
+          "name": "cohort-10-key-check",
+          "status": 200,
+          "request_id": "d2e4a8db-dd53-446b-aa59-ecad053be151",
+          "body_sha256": "45170e4726f9c20b45a71c6aae6b750b2a71d6282a28b4eb3bb18526b7792f93",
+          "model_count": null
+        },
+        {
+          "name": "cohort-10-models",
+          "status": 200,
+          "request_id": "260fbb3e-b661-4d0b-9614-af3e2cb5e823",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-11",
+      "requests": [
+        {
+          "name": "cohort-11-key-check",
+          "status": 200,
+          "request_id": "56ad34a0-354f-42af-9e5f-0520711f9564",
+          "body_sha256": "431cfe650986c700d39499e92645baea8ede991b552a618b605ebfc77158da76",
+          "model_count": null
+        },
+        {
+          "name": "cohort-11-models",
+          "status": 200,
+          "request_id": "09ede4d9-db4e-4054-9524-3842058e8674",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-12",
+      "requests": [
+        {
+          "name": "cohort-12-key-check",
+          "status": 200,
+          "request_id": "1e8ae028-e1d7-4c4f-8128-5ad25f6b3194",
+          "body_sha256": "d7b78911e3f9d99fb63d6713f52ab275f1c7fe98d8bc0938373227d793cc24d3",
+          "model_count": null
+        },
+        {
+          "name": "cohort-12-models",
+          "status": 200,
+          "request_id": "25f7a54e-5e35-468f-bec3-a1cb303243bd",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-13",
+      "requests": [
+        {
+          "name": "cohort-13-key-check",
+          "status": 200,
+          "request_id": "65d8e648-5e10-45eb-9ac4-58809c429239",
+          "body_sha256": "5009cf9da1134717406e4f1e5ef3fdf54419b4b426879636daf03d1669c02a36",
+          "model_count": null
+        },
+        {
+          "name": "cohort-13-models",
+          "status": 200,
+          "request_id": "5e850b37-6764-4082-9579-12d1d74ebdbe",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-14",
+      "requests": [
+        {
+          "name": "cohort-14-key-check",
+          "status": 200,
+          "request_id": "bcdcda28-8ec9-4a50-8b03-f0e8a921e72b",
+          "body_sha256": "bf62496ce7b4a2052367c36700c0dbc3e0ac821eb86061b0126d93229e886092",
+          "model_count": null
+        },
+        {
+          "name": "cohort-14-models",
+          "status": 200,
+          "request_id": "9908bb44-e1c1-4b73-abb1-e801a4ba65d5",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    },
+    {
+      "label": "cohort-15",
+      "requests": [
+        {
+          "name": "cohort-15-key-check",
+          "status": 200,
+          "request_id": "4116cd75-4a32-434c-b218-b277f2f3129c",
+          "body_sha256": "70a7ef519895be29b701b8733271f2d56b0699e671e39dccc00474ae27dc2d74",
+          "model_count": null
+        },
+        {
+          "name": "cohort-15-models",
+          "status": 200,
+          "request_id": "10e71844-5ac9-4f73-9a51-bd3f0c2d83a9",
+          "body_sha256": "a2c2d1088da5dc50f3c39e33b9bab33a640ac632f6ed820cc207dc6f5c129ede",
+          "model_count": 9
+        }
+      ]
+    }
+  ],
+  "first_evidence_preserved": "runtime/cowagent-cohort-recovery-20261010T151429.410230Z",
+  "limitations": [
+    "No paid inference request in this cohort check",
+    "Local native path only; public browser acceptance is separate",
+    "Deleted or disabled owners were not reactivated for testing"
+  ]
+}

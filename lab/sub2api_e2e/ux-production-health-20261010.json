@@ -1,0 +1,209 @@
+{
+  "at": "2026-10-10T15:37:52.994040+00:00",
+  "requested_since": "2026-10-10T15:13:52+00:00",
+  "new_probes": 0,
+  "model_calls": 0,
+  "health": {
+    "public-direct": {
+      "healthy": 142,
+      "total": 144,
+      "success_fraction": 0.9861111111111112,
+      "first_failure": {
+        "at": "2026-10-10T15:15:36.055485+00:00",
+        "http_status": null,
+        "curl_exit": 28,
+        "healthy": false,
+        "category": "timeout",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "6f6e897e13324d0a8d3349e3751f1763",
+        "cf_ray": null
+      },
+      "failures": [
+        {
+          "at": "2026-10-10T15:15:36.055485+00:00",
+          "http_status": null,
+          "curl_exit": 28,
+          "healthy": false,
+          "category": "timeout",
+          "ready_connections": null,
+          "identity_verified": null,
+          "probe_id": "6f6e897e13324d0a8d3349e3751f1763",
+          "cf_ray": null
+        },
+        {
+          "at": "2026-10-10T15:21:36.082964+00:00",
+          "http_status": null,
+          "curl_exit": 28,
+          "healthy": false,
+          "category": "timeout",
+          "ready_connections": null,
+          "identity_verified": null,
+          "probe_id": "a20eb82b90ee40858337fde72a8c29cc",
+          "cf_ray": null
+        }
+      ],
+      "last": {
+        "at": "2026-10-10T15:37:46.151120+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "2ea22adf4914486492b0a120753d5a2d",
+        "cf_ray": "a486b5548fc1c5eb-LHR"
+      }
+    },
+    "public-via-local-proxy": {
+      "healthy": 144,
+      "total": 144,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "failures": [],
+      "last": {
+        "at": "2026-10-10T15:37:46.151120+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "f9742d89eec34fcb89697ea91d600751",
+        "cf_ray": "a486b5533c45e358-NRT"
+      }
+    },
+    "backend": {
+      "healthy": 144,
+      "total": 144,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "failures": [],
+      "last": {
+        "at": "2026-10-10T15:37:46.151120+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "7f55bdcea08343709043788386b98387",
+        "cf_ray": null
+      }
+    },
+    "bridge": {
+      "healthy": 144,
+      "total": 144,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "failures": [],
+      "last": {
+        "at": "2026-10-10T15:37:46.151120+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": null,
+        "identity_verified": null,
+        "probe_id": "d7c8d322f7cc4e7b8cf1f6690ab1e265",
+        "cf_ray": null
+      }
+    },
+    "tunnel-primary": {
+      "healthy": 144,
+      "total": 144,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "failures": [],
+      "last": {
+        "at": "2026-10-10T15:37:46.151120+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": 4,
+        "identity_verified": true,
+        "probe_id": "7c85a6674329462a9e2451e9fef88ae7",
+        "cf_ray": null
+      }
+    },
+    "tunnel-replica": {
+      "healthy": 144,
+      "total": 144,
+      "success_fraction": 1.0,
+      "first_failure": null,
+      "failures": [],
+      "last": {
+        "at": "2026-10-10T15:37:46.151120+00:00",
+        "http_status": 200,
+        "curl_exit": 0,
+        "healthy": true,
+        "category": "healthy",
+        "ready_connections": 4,
+        "identity_verified": true,
+        "probe_id": "cd9056f5e76e4bb89661663443fdccc7",
+        "cf_ray": null
+      }
+    }
+  },
+  "health_first": "2026-10-10T15:13:56.036215+00:00",
+  "health_last": "2026-10-10T15:37:46.151120+00:00",
+  "health_latest_age_seconds": 6.84292,
+  "max_health_interval_seconds": 10.013843,
+  "malformed_health_lines": 0,
+  "path": {
+    "sample_count": 43,
+    "all_eight_fixed_sg": true,
+    "first": "2026-10-10T15:14:01.328960+00:00",
+    "last": "2026-10-10T15:37:36.650404+00:00",
+    "last_age_seconds": 16.343636,
+    "max_interval_seconds": 47.329195,
+    "latest_two_same_flow_deltas": [
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 289723,
+        "download_delta": 13533
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 234,
+        "download_delta": 234
+      },
+      {
+        "same_flow": true,
+        "upload_delta": 1117,
+        "download_delta": 502954
+      }
+    ]
+  },
+  "limits": [
+    "Existing complete-response health contracts, not model inference.",
+    "No new public exit or socket-owner probe; exact path based on existing observer.",
+    "Sampling bounds outage timing; this window alone cannot establish or disprove a recurring 20-minute fault or long-term SLA."
+  ]
+}
