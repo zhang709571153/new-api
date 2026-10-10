@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-10-10T23:02:17.522Z",
+  "environment": "production",
+  "facts": {
+    "canonical": "https://api.realyu.fun/docs?lang=en",
+    "h1": "Connect in a few simple steps",
+    "lang": "en",
+    "scrollWidth": 382,
+    "tabLabels": [
+      "Codex",
+      "WorkBuddy",
+      "Windows",
+      "macOS"
+    ],
+    "title": "Connect in a few simple steps · RealYu API",
+    "url": "https://api.realyu.fun/docs?lang=en",
+    "width": 390
+  },
+  "checks": [
+    "Chinese homepage rendered with real public model prices",
+    "English language selection changed page",
+    "English 390x844 homepage rendered",
+    "Documentation navigation preserved English locale",
+    "Codex/WorkBuddy and Windows/macOS tabs visible",
+    "English docs has no horizontal document overflow"
+  ],
+  "first_tool_failures": [
+    {
+      "stage": "createBrowserTab",
+      "result": "30s timeout; created tab found in inventory"
+    },
+    {
+      "stage": "getTab",
+      "result": "30s timeout; documented tabs.get recovered binding; later DOM snapshot succeeded"
+    }
+  ],
+  "limits": [
+    "No physical mobile device",
+    "Postrelease browser sampled public pages; full authenticated browser matrix was candidate acceptance"
+  ],
+  "screenshots": [
+    "home-zh-desktop.png",
+    "docs-en-mobile.png"
+  ]
+}

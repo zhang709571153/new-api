@@ -1,0 +1,233 @@
+{
+  "started_at": "2026-10-10T22:55:20.727596+00:00",
+  "status": "PASS",
+  "production_mutations": false,
+  "model_requests": 0,
+  "rows": [
+    {
+      "path": "/api/status",
+      "route": "direct",
+      "at": "2026-10-10T22:55:20.766947+00:00",
+      "http_status": 200,
+      "bytes": 154,
+      "body_sha256": "fa3a481f1be846466da93c7fb8605272407d862fb6f926e8b0d9658da69786f5",
+      "cf_ray": "a489364e89d75d03-SEA",
+      "status": "PASS"
+    },
+    {
+      "path": "/home?lang=zh",
+      "route": "direct",
+      "at": "2026-10-10T22:55:20.766947+00:00",
+      "http_status": 200,
+      "bytes": 8379,
+      "body_sha256": "f5fa6d89a293afc879dbe2132c25d55e6e84198bcfc56e9f04d86d07edefe5eb",
+      "cf_ray": "a489364e9fb1a336-SEA",
+      "status": "PASS"
+    },
+    {
+      "path": "/home?lang=en",
+      "route": "direct",
+      "at": "2026-10-10T22:55:20.768200+00:00",
+      "http_status": 200,
+      "bytes": 8377,
+      "body_sha256": "b9db0b614ec4f5c23fc6c0c73bb085fcb4d03b02059c9c36984361abe284e2f9",
+      "cf_ray": "a489364eac1d75b0-SEA",
+      "status": "PASS"
+    },
+    {
+      "path": "/docs?lang=en",
+      "route": "direct",
+      "at": "2026-10-10T22:55:20.768200+00:00",
+      "http_status": 200,
+      "bytes": 9347,
+      "body_sha256": "3f788a7607b9c3a03f53eb89950ae6af44d3fb548fcc9f501298004d92bb5531",
+      "cf_ray": "a489364e2855def1-SEA",
+      "status": "PASS"
+    },
+    {
+      "path": "/pricing?lang=zh",
+      "route": "direct",
+      "at": "2026-10-10T22:55:21.589600+00:00",
+      "http_status": 200,
+      "bytes": 8301,
+      "body_sha256": "a491a6bff59033fcee7f5b3fe0e5fba653a706d2aa41e0f756b545ae9e5007e7",
+      "cf_ray": "a48936532db5ebab-SEA",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/public-models",
+      "route": "direct",
+      "at": "2026-10-10T22:55:21.644739+00:00",
+      "http_status": 200,
+      "bytes": 3330,
+      "body_sha256": "3d99264759d3a737259e430c8f852869984629f414b64a60d09e4b5ffc83db38",
+      "cf_ray": "a4893653ada7d571-SEA",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/status",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:21.684761+00:00",
+      "http_status": 200,
+      "bytes": 154,
+      "body_sha256": "fa3a481f1be846466da93c7fb8605272407d862fb6f926e8b0d9658da69786f5",
+      "cf_ray": "a4893651f8aff938-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/home?lang=zh",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:21.696518+00:00",
+      "http_status": 200,
+      "bytes": 8379,
+      "body_sha256": "3ab358789d1dc98dc5d2b860ead51fe224de4703630f35fd70c4d5ad7a60c9ce",
+      "cf_ray": "a48936521c6cfd33-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/home?lang=en",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:21.976310+00:00",
+      "http_status": 200,
+      "bytes": 8377,
+      "body_sha256": "9329e5abbd32f2defa91ad5b6203ac6d3543709cfd36611b0a184805d4097dc6",
+      "cf_ray": "a4893653d9b4938e-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/docs?lang=en",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:22.030585+00:00",
+      "http_status": 200,
+      "bytes": 9347,
+      "body_sha256": "a7029ef9ac423896e9701124317c79952ff1126675172776ae7d722228768ac6",
+      "cf_ray": "a4893654cca9820d-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/pricing?lang=zh",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:22.334838+00:00",
+      "http_status": 200,
+      "bytes": 8301,
+      "body_sha256": "18fa352d006e9da4a005bb4bd11323ad51d1bf5c15ca083a6e9f0067daf62aee",
+      "cf_ray": "a489365648f6ce89-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/public-models",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:22.480005+00:00",
+      "http_status": 200,
+      "bytes": 3330,
+      "body_sha256": "3d99264759d3a737259e430c8f852869984629f414b64a60d09e4b5ffc83db38",
+      "cf_ray": "a48936573a8d40f5-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:22.945045+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138",
+      "cf_ray": "a489365a1cd6ddfc-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage/summary?scope=platform",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:23.290586+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138",
+      "cf_ray": "a489365c1d7987f5-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/auth/login",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:23.633806+00:00",
+      "http_status": 200,
+      "bytes": 1228,
+      "body_sha256": "d98afa0f76ee33ed5807f76451e92e5d4c8d74339cbb914ad6bc8692bfb6591d",
+      "cf_ray": "a489365e28412fbd-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage/summary?scope=platform",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:23.969147+00:00",
+      "http_status": 200,
+      "bytes": 992,
+      "body_sha256": "ceb824d1585a64310258421bc9f37548fbed9428b3c6815a9f35a209bf09bc98",
+      "cf_ray": "a489366078f67d50-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage?scope=platform&page_size=10",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:24.388205+00:00",
+      "http_status": 200,
+      "bytes": 4587,
+      "body_sha256": "d363ab7f9f9ad7aa581bb6ff5f32d018dc1b31a153c4b139c387d45efe9faf48",
+      "cf_ray": "a4893663194cfd29-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage?scope=platform&model=UX2-NONEXISTENT-MODEL-20261011",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:24.870324+00:00",
+      "http_status": 200,
+      "bytes": 630,
+      "body_sha256": "b3a7b39228ab6199660d664bab92b63b2e2f51ce9aa8fcdc6ed650554ae26927",
+      "cf_ray": "a48936661925ff8f-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage/summary?scope=self",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:25.224751+00:00",
+      "http_status": 200,
+      "bytes": 920,
+      "body_sha256": "7262aa8260952119572ba6600054b1de99e782f5a7c6ba6a8fd1aa41fc1b8b7f",
+      "cf_ray": "a48936685deeab43-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage/summary?scope=personal",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:25.586223+00:00",
+      "http_status": 200,
+      "bytes": 919,
+      "body_sha256": "3fda7d999b3f7fa54f5de13c7a60e15f5a40d554fc6682e5b81f45414d307d8b",
+      "cf_ray": "a489366a9d91c4af-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage?scope=self&user_id=1",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:25.937334+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6",
+      "cf_ray": "a489366cccecce4b-SIN",
+      "status": "PASS"
+    },
+    {
+      "path": "/api/v1/realyu/usage?scope=platform&team_id=1",
+      "route": "proxy",
+      "at": "2026-10-10T22:55:26.279613+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6",
+      "cf_ray": "a489366ea81d6bb2-SIN",
+      "status": "PASS"
+    }
+  ],
+  "legacy_visible_requests": 31291,
+  "archive_complete": true,
+  "counts_reconcile": true,
+  "raw_customer_records_exported": false,
+  "ended_at": "2026-10-10T22:55:26.582098+00:00"
+}

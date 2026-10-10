@@ -1,0 +1,110 @@
+{
+  "status": "ACTIVE_HISTORY_IMPORTED_ACCEPTANCE_PASS",
+  "recorded_at_utc": "2026-10-10T23:04:30.926649+00:00",
+  "version": "realyu-singlecore-v0.2.15-20261011-ux2",
+  "source_commit": "f98d4b6c56f0f56a5d08dbd351c8a4af6ab6a3b7",
+  "binary_sha256": "aef7b287ba4fdea3dca6590cc10bedf1e5ed8b90be639bde4d01cbc60001453c",
+  "plan_sha256": "25de1b40c95d54288d77fe259e9aeb43452c1469a2127ab354de160c440a311f",
+  "operation_id": "native-ux2-20261011-r3",
+  "maintenance_started_cst": "2026-10-11T06:50:55.411067+08:00",
+  "active_at_cst": "2026-10-11T06:51:29.353406+08:00",
+  "maintenance_seconds": 33.94233846664429,
+  "deployment": {
+    "schema_migrations": 300,
+    "migration_added": "308_realyu_usage_history.sql",
+    "database_restored": false,
+    "old_legacy_services_started": false,
+    "network_configuration_changed": false,
+    "session": 0,
+    "service_account": "LocalService"
+  },
+  "history": {
+    "status": "PASS",
+    "idempotent_replay": true,
+    "counts": {
+      "source_consume_rows": 31295,
+      "self_rows": 6713,
+      "personal_rows": 6703,
+      "unknown_scope_rows": 10,
+      "deleted_actor_rows": 58,
+      "detail_rows": 31291,
+      "existing_team_rows": 24520,
+      "quarantined_rows": 4
+    },
+    "source_totals": {
+      "input_tokens": 2981030783,
+      "output_tokens": 12287707,
+      "cost_quota": 215328928
+    },
+    "manifest_sha256": "decf388b4beb04d93914d0746bdacdd5147db7751a6342ddf41a424af5d3394a",
+    "archive_complete_over_public_api": true,
+    "platform_visible_legacy_records": 31291,
+    "fact_only_writes": true,
+    "replayed_billing": false,
+    "private_individual_rows_published": false
+  },
+  "public_http": {
+    "status": "PASS",
+    "checks": 22,
+    "report": "ux2-production-http-20261011.json"
+  },
+  "protocol": {
+    "status": "PASS",
+    "expected_version": "realyu-singlecore-v0.2.15-20261011-ux2",
+    "model": "gpt-5.6-sol",
+    "automatic_retries": 0,
+    "model_requests_attempted": 3,
+    "started_at": "2026-10-10T22:53:29.022093+00:00",
+    "finished_at": "2026-10-10T22:53:36.931454+00:00",
+    "cases": [
+      {
+        "name": "catalog",
+        "status": "PASS",
+        "seconds": 0.188
+      },
+      {
+        "name": "responses-stream",
+        "status": "PASS",
+        "seconds": 2.953
+      },
+      {
+        "name": "websocket",
+        "status": "PASS",
+        "seconds": 4.359
+      }
+    ]
+  },
+  "funding": {
+    "status": "PASS",
+    "before_at": "2026-10-11T06:52:54.425187+08:00",
+    "after_at": "2026-10-11T06:53:59.199619+08:00",
+    "changed_requests": 5,
+    "selected_key_request_statuses": {
+      "settled": 3
+    },
+    "concurrent_other_key_request_statuses": {
+      "settled": 2
+    },
+    "selected_key_settled_quota": 225,
+    "violations": 0,
+    "unexplained_changes": 0,
+    "pending": 0
+  },
+  "browser": {
+    "status": "PASS",
+    "scope": "Public production Chinese desktop and English 390x844 pages; full authenticated browser matrix passed on identical candidate binary",
+    "report": "ux2-production-browser-20261011.json",
+    "control_timeouts_preserved": true
+  },
+  "first_failures_preserved": [
+    "01:23 UAC NOT_STARTED before release",
+    "Browser creation/binding control timeouts; existing created tab recovered with documented API"
+  ],
+  "limitations": [
+    "Browser narrow viewport is not physical Safari/Android",
+    "This UX2 release sampled SSE and same-socket WebSocket continuation; PDF/search/image/tool calls were previously accepted on UX and not repeated here",
+    "No real merchant or desktop installer acceptance this run",
+    "Sampled post-release observation is not a long-term SLA",
+    "Current full database migration set is 300; 307-only backup runner must not be reused without a separately reviewed 308-capable entry"
+  ]
+}
