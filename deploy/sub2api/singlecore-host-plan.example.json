@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "operation_id": "singlecore-reviewed-cutover-20261010",
+  "installation_id": "realyu-singlecore-production-20261010",
+  "source_sqlite": "C:/private/source/new-api.db",
+  "source_supply_config": "C:/private/source/runtime-private.json",
+  "target_config": "C:/private/runtime/singlecore-target.json",
+  "runtime_directory": "C:/private/runtime/singlecore-reviewed-cutover-20261010",
+  "maintenance_marker": "C:/private/source/release-maintenance.json",
+  "manifest_path": "C:/private/source/service-manifest.json",
+  "legacy_credentials": "C:/private/source/credentials.json",
+  "legacy_version": "REPLACE_WITH_READ_ONLY_VERIFIED_LIVE_VERSION",
+  "native_version": "REPLACE_WITH_FROZEN_NATIVE_VERSION",
+  "native_manifest_entry": {
+    "exe": "C:/private/release/sub2api.exe",
+    "env_file": "C:/private/runtime/singlecore-env.json",
+    "working_dir": "C:/private/runtime/native",
+    "sha": "REPLACE_WITH_SHA256"
+  },
+  "history_importer_path": "C:/private/source/deploy/realyu/import_team_history.py",
+  "pricing_mapping": "C:/private/runtime/pricing.json",
+  "pricing_mapping_sha256": "REPLACE_WITH_CANONICAL_MAPPING_SHA256",
+  "target_group_id": 2,
+  "proxy_overrides": {
+    "1": {"protocol": "http", "host": "127.0.0.1", "port": 17897, "username": "", "password": ""}
+  },
+  "gateway_base_url": "http://127.0.0.1:18300",
+  "bridge_status_url": "http://127.0.0.1:18302/",
+  "maintenance_budget_seconds": 120,
+  "verified_files": {
+    "C:/private/release/sub2api.exe": "REPLACE_WITH_SHA256",
+    "C:/private/runtime/singlecore-env.json": "REPLACE_WITH_SHA256",
+    "C:/private/runtime/singlecore-target.json": "REPLACE_WITH_SHA256",
+    "C:/private/source/deploy/realyu/import_team_history.py": "REPLACE_WITH_SHA256",
+    "C:/private/runtime/pricing.json": "REPLACE_WITH_SHA256",
+    "C:/private/source/deploy/sub2api/singlecore_host_cutover.py": "REPLACE_WITH_SHA256",
+    "C:/private/source/deploy/sub2api/singlecore_migrate.py": "REPLACE_WITH_SHA256",
+    "C:/private/source/deploy/sub2api/singlecore_supply.py": "REPLACE_WITH_SHA256",
+    "C:/private/source/deploy/sub2api/singlecore_pricing.py": "REPLACE_WITH_SHA256",
+    "C:/private/source/deploy/sub2api/snapshot_sqlite.py": "REPLACE_WITH_SHA256"
+  }
+}

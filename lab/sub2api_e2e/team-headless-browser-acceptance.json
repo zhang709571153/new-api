@@ -1,0 +1,104 @@
+{
+  "target": "http://127.0.0.1:29480",
+  "database": "realyu_singlecore_e2e",
+  "synthetic_only": true,
+  "existing_browser_profiles_accessed": false,
+  "downloaded_browser": false,
+  "source_code_changed": false,
+  "production_modified": false,
+  "headless": true,
+  "executable": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+  "checks": [
+    {
+      "name": "owner-real-form-login",
+      "pass": true
+    },
+    {
+      "name": "owner-team-selection-and-nickname-rendered",
+      "pass": true
+    },
+    {
+      "name": "owner-management-controls-cap-and-full-team-usage",
+      "pass": true
+    },
+    {
+      "name": "owner-ui-member-filter-fetches-and-renders-real-data",
+      "pass": true
+    },
+    {
+      "name": "member-real-form-login",
+      "pass": true
+    },
+    {
+      "name": "member-team-selection-and-nickname-rendered",
+      "pass": true
+    },
+    {
+      "name": "member-ui-is-read-scoped-to-own-usage-and-hides-management",
+      "pass": true
+    },
+    {
+      "name": "admin-real-form-login",
+      "pass": true
+    },
+    {
+      "name": "native-admin-first-use-gate-visible-not-accepted",
+      "pass": true
+    }
+  ],
+  "page_errors": [],
+  "network_failures": [
+    {
+      "identity": "admin",
+      "path": "/api/v1/admin/payment/config",
+      "status": 423
+    },
+    {
+      "identity": "admin",
+      "path": "/api/v1/admin/settings",
+      "status": 423
+    },
+    {
+      "identity": "admin",
+      "path": "/api/v1/admin/system/check-updates",
+      "status": 423
+    }
+  ],
+  "screenshots": [
+    "C:\\srv\\realyu-singlecore-dev\\runtime\\screenshots\\team-browser-2026-10-10T11-22-00-483Z\\synthetic-owner-team.png",
+    "C:\\srv\\realyu-singlecore-dev\\runtime\\screenshots\\team-browser-2026-10-10T11-22-00-483Z\\synthetic-owner-filtered.png",
+    "C:\\srv\\realyu-singlecore-dev\\runtime\\screenshots\\team-browser-2026-10-10T11-22-00-483Z\\synthetic-member-team.png",
+    "C:\\srv\\realyu-singlecore-dev\\runtime\\screenshots\\team-browser-2026-10-10T11-22-00-483Z\\synthetic-admin-gate.png"
+  ],
+  "browser_version": "153.0.4234.46",
+  "blocked_external_hosts_owner": [
+    "static.airwallex.com",
+    "checkout.airwallex.com"
+  ],
+  "passed": 9,
+  "failed": 0,
+  "blocked_external_hosts_member": [
+    "static.airwallex.com",
+    "checkout.airwallex.com"
+  ],
+  "blocked_external_hosts_admin": [
+    "static.airwallex.com",
+    "checkout.airwallex.com"
+  ],
+  "screenshots_visually_reviewed": true,
+  "native_admin_acknowledgement_created": false,
+  "verification_scope": "Installed Edge headless with fresh test-only profiles; real Vue rendering, form login and same-origin backend data; no existing user browser/profile",
+  "payment_sdk_requests_deliberately_blocked": true,
+  "visual_findings": [
+    {
+      "priority": "P2",
+      "field": "weekly_reset_at",
+      "current_zh_label": "本周起始时间",
+      "observed_semantics": "Future weekly reset timestamp",
+      "suggested_zh_label": "下次重置时间",
+      "source_modified": false,
+      "blocks_release": false
+    }
+  ],
+  "source_readme_not_modified_this_task": true
+}

@@ -4,6 +4,31 @@
 完整部署状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，接手入口见
 [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md)，开发过程见 [DEVLOG.md](DEVLOG.md)。
 
+## 2026-10-10 — 单核心功能与真实上游候选验证，未切生产
+
+- 新增原生团队页面与完整 owner/member 操作：成员状态和周限额、邀请轮换、加入/离开、
+  自身/团队用量、日期/模型筛选、分页统计和离队历史。跨团队、跨成员及角色提升检查由后端执行。
+- 保留原生管理员后台；旧 role10 只取得受限团队管理，未获得全站管理员权限。
+  候选 HTTP 57 项通过，3 项停在原生管理员首次确认 gate；未代管理员确认，已补独立 headless Edge 浏览器 9/9 通过，未访问用户既有浏览器资料。
+- 真实 SG 上游的文本、PDF、联网搜索、图片工具调用完整完成；包括 SCM 安装后复核，独立账务样本 9 条结算、1 条零额拒绝退款且归属有效。
+  Codex CLI 在同 URL/同 home 跨旧、新隔离 origin 恢复成功，无需重新运行安装器；尚非生产或完整桌面验收。
+- 独立 headless SG Tunnel 的首次两路 120 秒完整流、正文与并发检查通过。
+  旧桌面 7897 四连接同时中断及首次 SSE 失败仍保留。19:22 已安装 SG SCM，Session 0 和 SG 出口通过；无人登录重启与生产切换尚未验证。
+- WS ctx_pool/http_bridge 的归属 ID 接线已修复并重建，真实两轮续聊和两模式共10个回归通过。旧支付人工 inbox/自动履约、异常 WS 耐久结算、
+  工具附加费、14 个价格向量各 1 quota 微差及 role10 部分旧权限仍为已知 P1，未隐藏为“全部兼容”。
+- 新增[跨库切换教程](deploy/sub2api/SINGLECORE-HOST-CUTOVER.md)、
+  [原生服务入口](deploy/sub2api/service_entry_singlecore.py)和
+  [SG 独立服务交接](deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md)。开门后只允许向前恢复，
+  不能用旧 SQLite 覆盖新交易。已修复最终 SG 代理被覆盖、迁移操作取消与 Redis 旧状态检查，
+  最终 65 项定向测试通过（6 项真实 PG）；默认尝试 90 秒并预留 30 秒恢复，异常未确认时仍保留维护门。
+  实际生产版本仍以上次已发布桥接记录为准。
+
+### 本轮生产发布进度（19:42 CST，尚未激活）
+
+独立客户 PG/S0 与 SG 服务已准备。第二阶段 Windows UAC 取消，正在等待合并发布命令的系统执行；
+核心、客户权威和生产 Tunnel 路径尚未切换。新增[Windows Server 迁机教程](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)
+及[完整 launcher/bridge 运行源码](deploy/sub2api/host-runtime/README.md)。原生启动不再依赖旧程序和凭据文件，12 项相关回归通过。
+
 ## 2026-10-10 — 发布条件复核，未上线
 
 - 核实 HY2 开发验收通过，但生产 Tunnel 长测、恢复、无人值守和真实上游业务尚未验收。

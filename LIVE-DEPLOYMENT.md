@@ -1,5 +1,13 @@
 # Local Sub2API deployment record
 
+**Single-core preparation, 2026-10-10 19:42 CST:** the separate customer PG
+database/S0 and Singapore SCM services are installed. SG exit and a real
+upstream request passed. The application authority and production Tunnel paths
+are still the bridge baseline below: the second Windows elevation was cancelled,
+and no native ACTIVE receipt exists. The operator has a single reviewed command
+for the remaining rolling network change and core activation. This is not a
+single-core release declaration. See the [Windows migration handoff](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md).
+
 **Latest network check, 2026-10-10 08:47 CST:** after the user's TW switch,
 both connectors automatically regained 4 connections. The observed path uses
 tw1 through the fallback selector; public pages, strict edge TLS and one real

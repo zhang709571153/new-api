@@ -1,0 +1,185 @@
+{
+  "status": "sg_services_installed_production_tunnel_routes_not_switched",
+  "date": "2026-10-10",
+  "production_changed": true,
+  "paid_requests": 1,
+  "package": {
+    "private_plan": "C:\\srv\\realyu-singlecore-dev\\runtime\\sg-hy2-service-20261010-r2\\plan.json",
+    "plan_sha256": "080df8e6c1f4d7aaf26eb194215e6232af6acc91267906794c7a67d9a5552f67",
+    "mihomo_version": "v1.19.32",
+    "mihomo_sha256": "0b54ea7b10e26f6ca628b49e77c13ad9b2587b23393a5b715769cbaeed012af6",
+    "unit_tests": {
+      "passed": 3,
+      "failed": 0
+    },
+    "powershell_parse": {
+      "passed": 5,
+      "failed": 0
+    },
+    "atomic_json_replace": "passed on private file",
+    "wrong_plan_hash": "rejected before service mutation",
+    "install_validate_only": "passed before monitor script additions; final shared plan-integrity validation passed. Full installer preflight is intentionally not repeated while root owns temporary port 17897.",
+    "headless_package": {
+      "sg_exit": "verified 43.160.230.142",
+      "gost_edge_tls": {
+        "passed": 4,
+        "failed": 0,
+        "certificate_verification": true
+      },
+      "temporary_listeners_closed": true,
+      "production_manifest_unchanged": true
+    },
+    "first_failures_and_corrections": [
+      "Preparation initially rejected mismatched expected edge ordering; aligned with the verified production manifest without changing it.",
+      "Windows PowerShell Start-Process returned no usable ExitCode for the config-check path; switched that short check to bounded System.Diagnostics.Process.",
+      "File.Replace null backup argument bound to an empty path in PowerShell 5.1; use a unique backup path and delete only that exact temporary backup.",
+      "Empty Mihomo connections can be JSON null; preserve empty flow evidence without dereferencing null under StrictMode.",
+      "Initial edge TLS fixture used generic OS trust/SNI; switched to h2.cftunnel.com with the existing official cloudflared CA. Verification remains enabled.",
+      "Manual staged-collector validation initially used the Windows GBK default while reading UTF-8; reran with explicit UTF-8, verified exact single-value replacements, and wrote the plan only after all staged inputs passed.",
+      "Final test replay initially used Python environments without PyYAML: 2 roots passed and 1 failed to import yaml. A cached PyYAML 6.0.3 wheel was installed only in the private operation test-deps directory; the final 3-root run passed. No production interpreter changed."
+    ],
+    "not_run": [
+      "no-login boot",
+      "service crash recovery",
+      "production rolling switch",
+      "production rolling rollback",
+      "production monitor apply",
+      "production monitor rollback"
+    ],
+    "final_plan_integrity": "passed, including 7 package artifacts and 4 deployment scripts",
+    "unit_test_environment": {
+      "python": "C:\\srv\\realyu-singlecore-dev\\runtime\\venv\\Scripts\\python.exe",
+      "PYTHONPATH": "C:\\srv\\realyu-singlecore-dev\\runtime\\sg-hy2-service-20261010-r2\\test-deps",
+      "PyYAML": "6.0.3",
+      "command": "python.exe -B -m unittest -v test_sg_hy2_package.py",
+      "exit_code": 0,
+      "log": "C:\\srv\\realyu-singlecore-dev\\runtime\\sg-hy2-service-20261010-r2\\unit-final.log"
+    },
+    "monitor_staging": {
+      "targets": 3,
+      "guard_changed_fields": [
+        "proxy",
+        "proxy_config_path"
+      ],
+      "collector_exact_proxy_replacements": 2,
+      "collectors_ast_valid": true,
+      "production_files_changed": false,
+      "runtime_apply_or_rollback": "NOT_RUN"
+    }
+  },
+  "headless_tunnel": {
+    "evidence_directory": "C:\\srv\\realyu-observability\\incidents\\sg-hy2-headless-e2e-20261010-1844",
+    "transport": "Cloudflared HTTP2 -> GOST 22420-22423 -> dedicated Mihomo 17897 -> SG-HY2",
+    "hostname": "sg-hy2-e2e-1010-184245-078f79.realyu.fun",
+    "tunnel_id": "c82725d4-1cc8-40f0-9299-80ff1b84c2dc",
+    "connector_id": "c060e5af-fa2f-452f-874b-b4a732563f69",
+    "body_tests": {
+      "passed": 6,
+      "total": 6
+    },
+    "parallel_tests": {
+      "passed": 4,
+      "total": 4
+    },
+    "sse": [
+      {
+        "observer": "direct",
+        "passed": true,
+        "retries": 0,
+        "events": 13,
+        "duration_seconds": 121.703,
+        "cf_ray": "a48505cbcb96614f-LHR",
+        "probe_id": "0d2ded8a68a04c269b7b81157dac5903"
+      },
+      {
+        "observer": "explicit-proxy-17897",
+        "passed": true,
+        "retries": 0,
+        "events": 13,
+        "duration_seconds": 120.406,
+        "cf_ray": "a48505c70d3fce0e-SIN",
+        "probe_id": "79bd6588d8d74ce4ba28de927285dc8f"
+      }
+    ],
+    "path_samples": {
+      "count": 25,
+      "interval_seconds": 5,
+      "all_native_four": true,
+      "same_four_flow_ids": true,
+      "all_four_positive_upload_download_deltas": true
+    },
+    "cleanup": {
+      "first_attempt": "stopped with ValueError while cloud connection records had not yet reached zero; preserved separately",
+      "completed_at": "2026-10-10T10:46:28.095743+00:00",
+      "cloud_zero_confirmed_before_delete": true,
+      "owned_dns_deleted": true,
+      "owned_tunnel_deleted": true,
+      "credential_removed": true,
+      "owned_processes_stopped": true,
+      "owned_listeners_closed": true
+    },
+    "limit": "Short transport fixture only. No 65-minute headless soak, paid upstream inference, single-core application acceptance, or unattended SCM boot claim."
+  },
+  "desktop_7897_first_failure_preserved": {
+    "evidence_directory": "C:\\srv\\realyu-observability\\incidents\\sg-hy2-cutover-20261010-181714",
+    "lost_all_four_edges_at": "2026-10-10T18:18:57+08:00",
+    "reregistered_at": "2026-10-10T18:19:01+08:00",
+    "direct": {
+      "passed": false,
+      "duration_seconds": 76.437,
+      "error": "TimeoutError",
+      "cf_ray": "a484e09cca509451-LHR"
+    },
+    "explicit_proxy_7897": {
+      "passed": false,
+      "duration_seconds": 70.406,
+      "events": 7,
+      "error": "EOF before complete stream",
+      "cf_ray": "a484e097b869fd40-SIN"
+    },
+    "root_cause": "Not uniquely established. No local core restart or reload evidence; missing candidate GOST and remote SG server logs. The later headless success does not erase this first failure."
+  },
+  "temporary_core_transferred_to_root": {
+    "receipt": "C:\\srv\\realyu-singlecore-dev\\runtime\\sg-hy2-service-20261010-r2\\root-owned-core-receipt.json",
+    "ownership": "root release operator",
+    "mixed_port": 17897,
+    "controller_port": 17898,
+    "scope": "Temporary headless Session 1 core for upstream E2E. Stop the receipt-matching process before SCM installation. Not a deployed service."
+  },
+  "pre_installation_status": "candidate_only_not_installed_or_switched",
+  "existing_production_tunnel_routes_changed": false,
+  "paid_requests_scope": "One isolated native text check after SCM installation; separate broader model acceptance is recorded in singlecore-upstream-e2e-20261010.json.",
+  "installed_services": {
+    "status": "INSTALLED",
+    "at": "2026-10-10T11:22:47.0058444Z",
+    "plan_sha256": "080df8e6c1f4d7aaf26eb194215e6232af6acc91267906794c7a67d9a5552f67",
+    "services": [
+      "RealYuSgHy2",
+      "RealYuSgHy2EdgeProxy"
+    ],
+    "session_id": 0,
+    "verified_exit_location": "SG",
+    "production_tunnel_routes_changed": false,
+    "reboot_without_login": "NOT_RUN",
+    "real_upstream_text_complete": true,
+    "native_customer_db_scope": "isolated"
+  },
+  "desktop_7897_experiment_final": {
+    "duration_minutes": 65,
+    "direct": {
+      "passed": 65,
+      "total": 65
+    },
+    "proxy_7897": {
+      "passed": 64,
+      "total": 65
+    },
+    "all_four_ready_samples": 63,
+    "total_samples": 65,
+    "strict_status": "failed_or_incomplete",
+    "first_sse_failures_retained": true,
+    "owned_temporary_resources_cleaned": true,
+    "cleanup_first_error_retained": true,
+    "not_new_headless_scm_production_acceptance": true
+  }
+}

@@ -414,6 +414,17 @@ class ImportContractTests(unittest.TestCase):
             self.run_import(config=target_config(group_mapping={}))
         self.assertEqual([], self.target.connect_calls)
 
+    def test_staging_cluster_exception_is_exact_and_cannot_target_shadow_database(self):
+        config=target_config(mode="staging",port=28490,database=migrate.STAGING_DATABASE,
+                             installation_id=migrate.STAGING_INSTALLATION,user=migrate.STAGING_ROLE)
+        migrate.validate_target(config)
+        for changed in ({"database":"sub2api_production"},{"database":"realyu_other_candidate"},
+                        {"user":"sub2api_app"},{"installation_id":"other-installation"},
+                        {"port":29490},{"host":"localhost"}):
+            with self.subTest(changed=changed),self.assertRaises(migrate.MigrationError):
+                migrate.validate_target({**config,**changed})
+        self.assertEqual([],self.target.connect_calls)
+
     def test_active_or_different_installation_rejected_before_writes(self):
         for state in ((INSTALLATION, "active"), ("different-installation", "staging")):
             with self.subTest(state=state):

@@ -4,6 +4,81 @@
 每次改动记录目标、实际变更、测试结果、部署状态和未解决项。凭据、客户内容及
 原始生产日志保留在私有目录，禁止写入本日志或 Git。
 
+## 2026-10-10 — 单核心团队、真实上游与 SG-HY2 发布准备（候选，未切生产）
+
+- 目标：在原域名、原客户端配置和旧 Key 可继续使用的前提下，由 Sub2API 单核心承接
+  RealYu 客户与资金；首版使用原生 Vue 管理界面，保留 RealYu Logo/配色和必要团队功能。
+  本轮已获发布授权；本条冻结时尚未执行生产单核心切换，既有桥接生产结论不能代替新版本验收。
+- 团队已从“仅迁入数据”推进到原生 API/UI：owner 可管理授权团队、成员状态、周限额、邀请，
+  查看成员/模型/日期筛选的分页用量及离队历史；member 仅可查看自身团队用量，加入/离开
+  同步处理团队 Key，加入默认额度为零。修改 cap 不重置已用、不向个人钱包转账；个人消费排除。
+  原生管理员账号/用量/仪表盘保留；旧 role10 仅保留受限团队管理，不升级为全站 admin。
+- 团队交付实际验证：22 项前端定向测试、6 根真实 PostgreSQL 团队测试、4 根 HTTP 合同测试；
+  历史导入 6 项合同和 5 项真实 PG 测试。运行候选的 60 项 HTTP 检查中 57 PASS，
+  另 3 项返回原生管理员首次使用确认 gate，未伪造确认，也未计为通过。
+  该 HTTP 产物 SHA256 为 `89e9dee04e007abdae2e260f3b40cc51a45e7591b1d697004ab2d6e22eba5981`。
+  当时 IAB/Chrome 工具不可用；后续独立 headless Edge 的 9/9 页面验收已完成，见下方追加证据。
+- 隔离候选经独立 SG-HY2 17897 调用真实上游：短文本、PDF 内容读取、联网搜索和图片工具
+  均返回完整结果；搜索与图片分别确认 `web_search_call`、`image_generation_call`，不能用
+  普通文本成功代替工具执行。对应耗时约 6.031/5.391/7.594/36.859 秒。
+  加上 SG SCM 安装后的真实文本复核，独立账务记录确认 9 条 funding 均 settled、1 条零额拒绝记录 refunded、usage 归属有效；这组隔离测试未修改生产客户数据库。
+  这证明该候选实际调用和归属，不代表所有计价类别与旧站已完全等价。
+- Codex CLI 保持同一固定本地 URL、同一 CLI home，先经旧 origin 发起，再切候选 origin
+  执行 resume：两步精确回答、退出码 0、无 error event、未运行安装器。该测试使用真实上游，
+  属于隔离 origin 切换，尚非已安装桌面或生产域名的全量无缝验收。
+- WS 首次真实测试取得 101 握手和第一轮完整回答，第二轮被 1008 拒绝。定位到 RealYu 新增
+  归属校验未接入原生 `ctx_pool` / `http_bridge` 的两处 ResponseID 路径，以两行映射修复，
+  未重写原生 WS。最终二进制真实两轮均精确回答，10 个两模式权限回归通过；
+  两轮资金记录 settled，首次 1008 拒绝仍保留。
+- SG 独立 headless 路径首次两条 120 秒 SSE 均完整收到 13 个事件，另有 6/6 正文、4/4 并发；
+  25 次路径采样中四条边缘连接 ID 保持、收发均增长。临时 Tunnel/DNS/测试进程已清理。
+  原桌面 7897 路径 18:18:57 四边同时断开、70.406 秒 EOF/76.437 秒超时仍保留；后来的
+  headless 成功不能唯一归因或抹去首错。19:22 已安装独立 SG SCM，Session 0 服务及真实 SG
+  出口复核通过；无人登录重启、服务崩溃恢复与生产滚动仍未执行。旧实验 65 轮为直连 65/65、
+  桌面代理 64/65，严格总结果仍 failed_or_incomplete；实验资源已精确清理，首错保留。
+- 部署实现新增[跨数据库切换器](deploy/sub2api/SINGLECORE-HOST-CUTOVER.md)和
+  [原生服务入口](deploy/sub2api/service_entry_singlecore.py)：新客户 PG 权威与旧影子库分开，
+  S1 逐主体对账，冻结旧写者后移交最终凭据；Redis 只允许剩余 TTL 的响应 affinity，旧 owner/
+  auth/账务缓存不整体迁入。先写 OPENING，再开维护门；此后只允许向前恢复，禁止直接回旧 SQLite。
+  总预算 120 秒，其中正常尝试 90 秒、预留 30 秒恢复；若退出或恢复不能确认，保留维护门并报告，
+  不承诺异常时必然在 120 秒内恢复服务。
+- 部署 review 三项修复已在冻结代码核对：S0/S1 强制应用已审阅 SG 代理并回读账号绑定；
+  长导入/管理读取使用受控子进程，总预算到期结束自有进程树，并确认带本次 operation 标识的
+  PG 会话退出后才允许恢复；Redis 首次 stage 要求空 DB，activate 只允许合法且有 TTL 的 affinity。
+  未确认退出则禁止恢复，不 FLUSH 未知 Redis。61 项定向测试通过，含真实 PG 未提交事务取消后
+  会话/新增行均为零。切换器冻结 SHA256 为 `e227368a40cfcd7d3cd292ebc22dd4b888f9b314a00f06a15ec9b094868b0a5e`；
+  后续精确归档旧零额记录及 role10 团队权限核对已通过，最终65项测试（6项真实PG）通过。
+  最终切换器 SHA `2be35382dbb8beafa80958e1cc0bb47c6d807357395a5ac85a8cc16030daa497`。
+  本条确认候选代码与测试，SCM 真实核心切换仍未执行。
+  [SG 服务交接](deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md)提供独立 SCM、逐连接器切换及现有监控跟随；
+  保留旧路径回退，滚动仍可能结束所选连接器上已有的流。
+- 首错记录：SG 包准备/测试曾有边缘顺序、短进程退出码、PowerShell 原子替换参数、空连接集合、
+  TLS 信任库、UTF-8 读取和 PyYAML 环境错误，修正后 3 根 Python 测试、5 个 PowerShell 解析与
+  私有计划哈希检查通过。细项见[脱敏网络验证](deploy/sub2api/SG-HY2-VALIDATION-20261010.json)。
+- 已知 P1：旧支付回调仅验签后持久 inbox，`pending_review` 需人工对账，尚无旧订单自动履约；
+  WS 在终止事件前断开时的耐久结算/待对账恢复仍需加固；图片与搜索等工具附加费尚未由 Token
+  价卡覆盖。4950 个合成价格向量中 14 个存在 1 quota 微差，保留差异，不宣称完全等价。
+  role10 的旧全局用户/个人资金管理未恢复；新支付/退款与真实商户 E2E 也不由上述模型测试替代。
+- 证据索引（本条仅收录脱敏结论，原始结果不随 Git）：`team-final-handoff.md`、
+  `team-live-http-acceptance.json`、`singlecore-real-{text,pdf,search,image}-result.json`、
+  `codex-resume-cutover-result.json`、`real-upstream-ledger-result.json`。
+
+后续增加真实 headless Edge 9/9 浏览器验收，JS pageerror=0；使用新建测试 profile，
+负责人筛选和成员权限渲染通过，管理员原生确认提示保留。
+[浏览器证据](lab/sub2api_e2e/team-headless-browser-acceptance.json)。
+原生产与候选对纯 HTTP `previous_response_id` 的 OAuth 请求均返回同一400：这是原生已有边界，
+不把签名迁移测试的失败伪称成功；Codex完整历史续聊与原生WS两轮已真实通过。
+
+### 本轮生产发布进度（19:42 CST，尚未激活）
+
+新客户 PG 独立库及 S0 已准备；旧线上程序、客户权威和 Tunnel 路径仍保持。第二次 Windows
+UAC 返回用户取消，尚无 launcher-stage / network / ACTIVE 回执。已给出合并网络及核心切换的
+管理员命令，等待系统执行；不把 SG 服务安装等同于核心上线。启动器和透明转发 12 项回归通过。
+原生 API 与 bridge 启动分支均不读取旧 New API credentials/exe/SQLite。
+[完整运行源码映射](deploy/sub2api/host-runtime/README.md)和
+[Windows Server 迁机交接](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)已补齐。
+实际核心激活及公网验收完成后，再同步 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)。
+
 ## 2026-10-10 — HY2 与新版本发布条件复核（未发布）
 
 - 读取 VPN 与故障抢修会话及落盘报告：HY2 已通过开发网络/短时连接验证，65 分钟

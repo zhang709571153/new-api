@@ -1,7 +1,8 @@
 """Inspect/import a consistent RealYu SQLite snapshot into an isolated Sub2API.
 
-Rehearsal only: this command cannot activate traffic, change source data, or
-import into a production endpoint. Private input includes passwords and keys;
+Rehearsal by default; an explicitly pinned, separate staging database may share
+the production PG cluster. This command never activates traffic or source data.
+Private input includes passwords and keys;
 only anonymous counts, hashes and blocker codes are printed or returned.
 """
 from __future__ import annotations
@@ -20,6 +21,9 @@ import sys
 
 QUOTA_PER_USD = 500_000
 MAX_QUOTA = 9_007_199_254_740_991
+STAGING_DATABASE = "realyu_singlecore_20261010_candidate"
+STAGING_INSTALLATION = "realyu-singlecore-production-20261010"
+STAGING_ROLE = "realyu_singlecore_owner_20261010"
 TABLES = (
     "users", "tokens", "workspace_teams", "workspace_team_accounts",
     "workspace_members", "workspace_personal_keys", "workspace_invites",
@@ -214,9 +218,15 @@ def inspect(tables, source_sha):
 
 
 def validate_target(config):
-    if config.get("mode") != "rehearsal" or config.get("host") not in ("127.0.0.1", "::1"):
+    if config.get("mode") not in ("rehearsal", "staging") or config.get("host") not in ("127.0.0.1", "::1"):
         raise MigrationError("ONLY_EXPLICIT_LOOPBACK_REHEARSAL_TARGETS_ALLOWED")
-    if type(config.get("port")) is not int or config["port"] in (5432, 28490) or not (1024 < config["port"] < 65536):
+    if config["mode"] == "staging":
+        if (type(config.get("port")) is not int or config["port"] != 28490
+                or config.get("database") != STAGING_DATABASE
+                or config.get("installation_id") != STAGING_INSTALLATION
+                or config.get("user") != STAGING_ROLE):
+            raise MigrationError("ONLY_PINNED_SEPARATE_STAGING_DATABASE_ALLOWED")
+    elif type(config.get("port")) is not int or config["port"] in (5432, 28490) or not (1024 < config["port"] < 65536):
         raise MigrationError("TARGET_PORT_NOT_ISOLATED")
     if not re.fullmatch(r"realyu_[a-z0-9_]*(?:e2e|rehearsal|candidate)[a-z0-9_]*", config.get("database", "")):
         raise MigrationError("TARGET_DATABASE_NOT_ISOLATED")
@@ -393,6 +403,7 @@ def apply_snapshot(tables, source_sha, config, operation_id):
                 if actual != (row["used_quota"], row["opening_used_quota"]):
                     raise MigrationError("MEMBER_PERIOD_RECONCILIATION_FAILED")
             receipt = {**plan, "operation_id": operation_id, "mapping_sha256": mapping_hash,
+                       "mode": config["mode"],
                        "status": "STAGED", "idempotent_replay": False, "activated": False,
                        "native_defaults_granted": 0, "user_and_key_reconciliation": "exact", "team_entitlement_period_reconciliation": "exact"}
             conn.execute("INSERT INTO realyu_migration_runs(operation_id,source_sha256,mapping_sha256,receipt) VALUES(%s,%s,%s,%s)", (operation_id, source_sha, mapping_hash, Jsonb(receipt)))

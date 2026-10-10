@@ -1,6 +1,63 @@
 # RealYu / Sub2API 候选交接入口
 
-2026-10-10 当前主机已发布 `realyu-sub2api-v3.10.0.1-20261010`，公网确认新版本。13 类功能、8 个文本模型、8 项 HTTP/WS 身份隔离检查、Codex 0.162.0 对话/恢复及 20 项账务核对通过；两套上游续期凭据已迁入 Sub2API，并实际刷新成功。Sub2API、PostgreSQL、免费 Redis 和 worker 已作为 Windows 服务运行。首次切换的回退与修复证据保留，完整状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md) 和 [公网验收报告](lab/sub2api_e2e/release-public-20261010.json)。用户选择的新 token 计费适用于 native Images，既有 Responses 图片工具口径不变。另一台机器仍按独立 Windows 部署和验收流程接手。
+## 本轮单核心交付（2026-10-10，文档冻结时未切生产）
+
+用户已授权本机发布；授权不等于完成。新候选固定 Sub2API v0.2.15 加 RealYu 移植，
+目标是单核心承接客户与供给，保留原域名、旧 Key、用户名/昵称及团队权益，首版复用原生前端。
+已有生产桥接系统和本轮候选必须分别验收；下面旧版公网结果不能用于证明新单核心已上线。
+
+按以下顺序接手，不能直接运行旧同 SQLite 的 `host_cutover.py` 做全迁：
+
+1. [单核心重建](deploy/sub2api/SINGLECORE-CANDIDATE.md)：使用冻结上游、补丁和逐文件哈希；
+   该文档早期未完成项的本轮进展以本入口与 [DEVLOG.md](DEVLOG.md)最新条目为准。
+2. [供给与价格迁移](deploy/sub2api/SINGLECORE-SUPPLY-PRICING.md)：客户资金来自 RealYu 源账本，
+   原 Sub2API 影子用户与内部授信不是客户余额；供给账号、组和代理 ID 保留，实际价卡单独对账。
+3. [跨数据库切换](deploy/sub2api/SINGLECORE-HOST-CUTOVER.md)：S0 演练、最终 S1、冻结旧写者、
+   最终凭据与选择性 affinity、开门和向前恢复。默认 120 秒总预算分为 90 秒尝试和 30 秒恢复预留；
+   目标已有业务写或已进入 OPENING 后，不能自动回到旧 SQLite。
+4. [原生 SCM 服务入口](deploy/sub2api/service_entry_singlecore.py)：只替换 RealYuApi 的原生分支，
+   透明 bridge、入口地址、PG/Redis 与监控契约继续保留。原生环境/数据库权威不合要求时拒绝启动。
+5. [SG 独立服务与滚动切换](deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md)：独立 headless Mihomo、
+   GOST、逐连接器切换和已有监控跟随；不依赖登录后的 Clash Verge，不新增常驻探针。
+6. [Windows Server 迁机交接](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)：源机 ACTIVE 后
+   使用原生 PG 备份恢复，保留身份、团队资金、Redis 有效续聊状态和单一 OAuth 刷新者；
+   [launcher/bridge 运行包](deploy/sub2api/host-runtime/README.md)给出全部 Python 源码、安装映射和哈希。
+
+本轮候选已取得的证据：
+
+- owner/member 团队管理、限额、邀请、加入/离开、用量与历史已经接入原生 API/UI；
+  60 项运行 HTTP 检查中 57 PASS、3 项为原生管理员首次使用确认 gate。保留该原生流程，
+  未伪造确认；随后用独立 headless Edge 完成真实页面登录、团队筛选和权限渲染，9/9通过、JS错误0。
+- 真实 SG 上游文本、PDF、搜索、图片工具完整通过；含 SCM 复核的9条独立资金结算及1条零额拒绝退款样本归属有效。
+  同一 CLI URL/home 跨旧、新隔离 origin 的 Codex resume 精确通过，未运行安装器；
+  这不是生产域名、所有旧会话或已安装桌面的验收承诺。
+- 独立 headless SG 首次两条 120 秒 SSE 完整通过，25 次采样保持四连接及收发增长。
+  [脱敏网络记录](deploy/sub2api/SG-HY2-VALIDATION-20261010.json)同时保留旧桌面 7897 的首次失败；
+  尚未证明无人登录启动、崩溃恢复或长期稳定。
+- WS `ctx_pool`/`http_bridge` 新归属 ID 的两处漏接已修复；最终构建真实两轮续聊通过，
+  两模式10个回归及两轮资金结算通过，保留首次1008失败。源码提交 `5c506e193ee6668cea0bae751ec3f9cccda138fd`。
+
+切换前及后续明确保留的 P1：旧订单回调只保证验签后的持久 inbox，`pending_review` 需人工对账，
+不等于自动履约；异常终止 WS 的耐久结算需加固；旧图片/搜索工具附加费未由 Token 价卡覆盖，
+4950 个合成价向量中 14 个各差 1 quota；旧 role10 只保留受限团队管理，其全局用户/个人资金
+管理未等价恢复。真实商户支付/退款尚待验收；浏览器独立结果已记录。最终 S1 保留 SG 代理、长导入取消并
+确认子进程/PG 会话退出、目标 Redis 拒绝不明状态三个部署 review 项已在冻结代码核对，65 项
+定向测试通过（6项真实PG）；该结果不代替真实 SCM 切换或恢复验收。
+
+私有证据仅取匿名结论写入 Git：`team-final-handoff.md`、`team-live-http-acceptance.json`、
+`singlecore-real-{text,pdf,search,image}-result.json`、`codex-resume-cutover-result.json`、
+`real-upstream-ledger-result.json`。不上传原始请求、客户记录、凭据、数据库、完整 Redis 或私有快照。
+
+### 本轮生产发布结果（由主发布流程补录）
+
+19:42 CST：独立客户 PG/S0 与 SG SCM 已准备；生产核心和 Tunnel 路径尚未切换。第二次
+Windows UAC 取消，等待给出的合并管理员命令执行。必须取得 ACTIVE/S1 对账以及公网功能、
+账务和 SG 真实路径验收，才能更新为已发布。后续同步 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)、
+[DEVLOG.md](DEVLOG.md)及 [UPDATELOG.md](UPDATELOG.md)，保留首错和向前恢复边界。
+
+## 既有桥接生产基线与历史交接
+
+2026-10-10 当前主机既有桥接版本为 `realyu-sub2api-v3.10.0.1-20261010`，该版本已获得公网确认。13 类功能、8 个文本模型、8 项 HTTP/WS 身份隔离检查、Codex 0.162.0 对话/恢复及 20 项账务核对通过；两套上游续期凭据已迁入 Sub2API，并实际刷新成功。Sub2API、PostgreSQL、免费 Redis 和 worker 已作为 Windows 服务运行。首次切换的回退与修复证据保留，完整状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md) 和 [公网验收报告](lab/sub2api_e2e/release-public-20261010.json)。用户选择的新 token 计费适用于 native Images，既有 Responses 图片工具口径不变。以下是该桥接系统的历史交接信息；另一台机器仍按独立 Windows 部署和验收流程接手。
 
 **首次交接时的冻结说明（历史记录，后续本机授权和状态以上方 LIVE 文档为准）：** 当时授权覆盖隔离开发、测试、候选打包及迁移准备。
 不要替换线上程序、路由、数据库或凭据，不要重启线上服务，不要切换域名、
@@ -47,7 +104,7 @@ git rev-parse HEAD
    [完整冒烟清单](lab/sub2api_e2e/portable/checklist.json)：每项分别记录
    PASS、FAIL、BLOCKED、NOT_RUN；源码支持、健康检查和模拟上游不替代真实功能验收。
 
-本候选基于已发布的 `realyu-provider-v3.9.2.22-20261008` 冻结源码，
+历史桥接候选基于已发布的 `realyu-provider-v3.9.2.22-20261008` 冻结源码，
 采用 Sub2API `v0.2.15`。原有 New API / QuantumNous 版权、许可和项目标识保留。
 RealYu 保留客户、团队、权限、套餐和账务；Sub2API 管理上游账号与池。
 
@@ -56,7 +113,7 @@ Git 交接只包含审查后的源码、构建输入、公开下载资源、合�
 不进入 Git。迁移这些私有数据必须使用另外的受保护传输和校验过程。
 代码分支推送不代表已部署，也不代表允许切流。
 
-构建应使用仓库锁文件和同一提交。先构建 `web/`，再构建根目录 RealYu 和
+历史桥接构建使用仓库锁文件和同一提交。先构建 `web/`，再构建根目录 RealYu 和
 `cmd/sub2api-prewarm`；精确步骤见部署文档。任何公开验收结论都须对应报告中的
 二进制 SHA256，不能把旧二进制通过的结果直接标成后续改版已通过。
 

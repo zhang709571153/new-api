@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "source_base": "deploy/sub2api",
+  "contains_secrets": false,
+  "files": [
+    {
+      "source": "service_entry_singlecore.py",
+      "destination": "<service-base>/service_entry.py",
+      "sha256": "ab76d843de6a808a34a10cd0f52b2bce0f8aeb7fb89506500dc83758e05ae208"
+    },
+    {
+      "source": "host-runtime/job_guard.py",
+      "destination": "<service-base>/job_guard.py",
+      "sha256": "8fadd5059a138c0657a64e561994065a01591aedbfdb9d9b3791b951ef357c6b"
+    },
+    {
+      "source": "host-runtime/service_identity.py",
+      "destination": "<service-base>/service_identity.py",
+      "sha256": "4edc717d1e53a6954f846285956777fea693fbef66efe3449f50c18cf20fb407"
+    },
+    {
+      "source": "edge_proxy.py",
+      "destination": "<edge-root>/lab/image_bridge.py",
+      "sha256": "9801d8f7371195f39f13c0e9d51eb0d36f0ea89042bb0fa44274b7dfcabcebd6"
+    },
+    {
+      "source": "bridge_observability.py",
+      "destination": "<edge-root>/lab/bridge_observability.py",
+      "sha256": "c93ffc0b238d439e329abdab102ecf6acc38fb3783c7d0c12088f12e9147e491"
+    },
+    {
+      "source": "release_control.py",
+      "destination": "<edge-root>/lab/release_control.py",
+      "sha256": "5e01cd3a7ddaaeea940e19771b0406ff4ccd065045f5275ff9ea2ed75fec42c5"
+    }
+  ]
+}

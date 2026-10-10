@@ -1,0 +1,205 @@
+{
+  "at_scope": "2026-10-10 isolated native customer database with real Singapore upstream; production cutover not claimed",
+  "tools": {
+    "text": {
+      "status": 200,
+      "ok": true,
+      "complete": true,
+      "events": 18,
+      "bytes": 74565,
+      "seconds": 6.031,
+      "probe_id": "9dc17c051ddf4a05b43cca09a93e187f",
+      "required_text_found": true,
+      "required_tool": null,
+      "tool_items": 0,
+      "output_types": [
+        "message"
+      ]
+    },
+    "pdf": {
+      "status": 200,
+      "ok": true,
+      "complete": true,
+      "events": 16,
+      "bytes": 73629,
+      "seconds": 5.391,
+      "probe_id": "cda9cde915ed4cc892eca6e9ecf94f30",
+      "required_text_found": true,
+      "required_tool": null,
+      "tool_items": 0,
+      "output_types": [
+        "message"
+      ]
+    },
+    "search": {
+      "status": 200,
+      "ok": true,
+      "complete": true,
+      "events": 20,
+      "bytes": 76728,
+      "seconds": 7.594,
+      "probe_id": "bef1b4aa774b4bac90fea2fcc1dae329",
+      "required_text_found": true,
+      "required_tool": "web_search_call",
+      "tool_items": 1,
+      "output_types": [
+        "web_search_call",
+        "message"
+      ]
+    },
+    "image": {
+      "status": 200,
+      "ok": true,
+      "complete": true,
+      "events": 13,
+      "bytes": 6443757,
+      "seconds": 36.859,
+      "probe_id": "c5b5a10fb37a4f0fbec769e143def7bc",
+      "required_text_found": null,
+      "required_tool": "image_generation_call",
+      "tool_items": 1,
+      "output_types": [
+        "image_generation_call",
+        "message"
+      ]
+    },
+    "text_after_scm_install": {
+      "status": 200,
+      "ok": true,
+      "complete": true,
+      "events": 18,
+      "bytes": 74577,
+      "seconds": 3.437,
+      "probe_id": "bddee361678a4f7899d86d81ee6dd2af",
+      "request_id": "83535831-17e3-4d9f-91c2-40d0070fa9c1",
+      "required_text_found": true
+    }
+  },
+  "codex_resume": {
+    "results": [
+      {
+        "step": "old_start",
+        "ok": true,
+        "exit_code": 0,
+        "seconds": 5.797,
+        "probe_id": "54802d5f182a456f8892eba525b47743",
+        "same_client_url": true,
+        "same_cli_home": true,
+        "installer_run": false,
+        "error_events": 0,
+        "exact_answer": true,
+        "http_calls": [
+          {
+            "origin_port": 18301,
+            "status": 200,
+            "path": "/v1/responses"
+          }
+        ]
+      },
+      {
+        "step": "new_resume",
+        "ok": true,
+        "exit_code": 0,
+        "seconds": 5.313,
+        "probe_id": "7c292ca5b1f64d14b60f595733da2f21",
+        "same_client_url": true,
+        "same_cli_home": true,
+        "installer_run": false,
+        "error_events": 0,
+        "exact_answer": true,
+        "http_calls": [
+          {
+            "origin_port": 18301,
+            "status": 200,
+            "path": "/v1/responses"
+          },
+          {
+            "origin_port": 29481,
+            "status": 200,
+            "path": "/v1/responses"
+          }
+        ]
+      }
+    ],
+    "real_upstream": true,
+    "production_cutover": false,
+    "test_scope": "operator CLI session crosses old/new origin behind fixed local URL; not installed desktop acceptance"
+  },
+  "websocket_fixed": {
+    "handshake_status": 101,
+    "ok": true,
+    "production_cutover": false,
+    "real_upstream": true,
+    "turns": [
+      {
+        "completed": true,
+        "events": 12,
+        "exact_answer": true,
+        "ok": true,
+        "seconds": 2.0982027,
+        "turn": 1
+      },
+      {
+        "completed": true,
+        "events": 20,
+        "exact_answer": true,
+        "ok": true,
+        "seconds": 1.4302867,
+        "turn": 2
+      }
+    ]
+  },
+  "ledger": {
+    "funding": [
+      [
+        "refunded",
+        1,
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "settled",
+        9,
+        "5468",
+        "0",
+        "5468",
+        "0"
+      ]
+    ],
+    "usage": [
+      [
+        "gpt-5.6-sol",
+        8,
+        16163,
+        316,
+        "0.0107900000"
+      ],
+      [
+        "gpt-6-luna",
+        1,
+        11561,
+        16,
+        "0.0001460000"
+      ]
+    ],
+    "attribution_valid": true,
+    "production_customer_database_changed": false
+  },
+  "first_ws_failure": {
+    "handshake": 101,
+    "first_turn_ok": true,
+    "second_turn_close": 1008,
+    "cause": "RealYu owner binding omitted native ctx_pool/http_bridge ResponseID mapping",
+    "retained": true
+  },
+  "http_previous_response_id": {
+    "old_status": 400,
+    "new_status": 400,
+    "same_reason": "subscription OAuth accounts do not support HTTP previous_response_id; existing restriction; full-history Codex resume and native WS continuation passed"
+  },
+  "first_failures_retained": true,
+  "retries_used_to_erase_failure": false,
+  "secrets_or_customer_content_included": false
+}
