@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "created_at_utc": "2026-10-10T04:46:18.9466803Z",
+  "scope": "isolated-frontend-candidate",
+  "source_baseline": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+  "reused_handoff_commit": "93357b11481e7dd7c1811870c455968151d23474",
+  "units": [
+    {
+      "name": "RealYu model presentation",
+      "status": "implemented",
+      "changes_upstream_ids": false,
+      "changes_prices": false
+    },
+    {
+      "name": "Native subscription loading outcomes",
+      "status": "implemented",
+      "includes_migrated_team_funding_display": false
+    }
+  ],
+  "checks": {
+    "vitest": {
+      "status": "PASS",
+      "files": 4,
+      "tests": 58,
+      "added_tests": 14,
+      "first_attempt": "PASS",
+      "log": "frontend-history-tests-first.log",
+      "duration_seconds": 13.87
+    },
+    "vue_tsc": {
+      "status": "PASS",
+      "log": "frontend-history-typecheck-first.log"
+    },
+    "eslint": {
+      "status": "PASS",
+      "log": "frontend-history-lint-first.log"
+    },
+    "git_diff_check": "PASS"
+  },
+  "commands": [
+    "corepack pnpm@9.15.9 exec vitest run src/components/modelPlaza/__tests__/PlazaModelPricingTable.spec.ts src/components/modelPlaza/__tests__/PlazaGroupSection.spec.ts src/components/modelPlaza/__tests__/ModelPlazaContent.realyu.spec.ts src/views/user/__tests__/SubscriptionsView.loading.spec.ts",
+    "corepack pnpm@9.15.9 exec vue-tsc -b",
+    "corepack pnpm@9.15.9 exec eslint <ten owned source and test files>"
+  ],
+  "real_browser_e2e": {
+    "status": "PARTIAL_PASS",
+    "scope": "native subscriptions failure/retry/recovery on rebuilt isolated candidate; synthetic account only",
+    "model_catalogue": "NOT_RUN in browser; covered by component tests",
+    "screenshots": [
+      "singlecore-subscription-error-20261010.jpg",
+      "singlecore-subscription-recovered-20261010.jpg"
+    ]
+  },
+  "real_upstream_calls": 0,
+  "real_payment_calls": 0,
+  "production_modified": false,
+  "deployed": false,
+  "full_build": "PASS via Prepare-SingleCore.ps1; 26 files / 265 frontend tests; TypeScript / Vite / Go embed passed",
+  "files": [
+    {
+      "path": "frontend/src/utils/realyuModelCatalog.ts",
+      "sha256": "cc8490b68553b53b5bb3f3174298db503833438efea6349267cbc25e96bf2304"
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/PlazaModelPricingTable.vue",
+      "sha256": "ad41d04073c1c1a27029f19e52da474987c5fa8154cdbf8e17203d4e5282d350"
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/PlazaGroupSection.vue",
+      "sha256": "2299c01871063d29f73f33f6593144d3f2f86f76e64df856cbd8988aa808a748"
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/ModelPlazaContent.vue",
+      "sha256": "321ea2549fda4eb714ef9bfea288da92610c0ff8458fec7887dbe03c7bad8c57"
+    },
+    {
+      "path": "frontend/src/api/subscriptions.ts",
+      "sha256": "fbd6a8a4bcdc8c32c680ec4a86423edb8b1550092b1ec7db363f06d1edd24201"
+    },
+    {
+      "path": "frontend/src/views/user/SubscriptionsView.vue",
+      "sha256": "006d4a87bf3ac6abdf587ffb6e1444fb4253bed21f353447e818a9778036efc7"
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/__tests__/PlazaModelPricingTable.spec.ts",
+      "sha256": "19529e1c78d8d4e787f7a1cf4a6e3544a0f75cef17b486b48a186ba099b83954"
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/__tests__/PlazaGroupSection.spec.ts",
+      "sha256": "faae2e0ee6082f530eb10b36f4fcad53b64b8cef6f820b3c1d0292e3313d6b55"
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/__tests__/ModelPlazaContent.realyu.spec.ts",
+      "sha256": "c00aeb032c45d4b2c12eaf69fde23ed644c77958a5bad2043c7053ed987b2159"
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/SubscriptionsView.loading.spec.ts",
+      "sha256": "6b37736eb98a3a6e7a941b6db6c7c33031d22c6a8fa396fad19d799bae75815a"
+    }
+  ]
+}

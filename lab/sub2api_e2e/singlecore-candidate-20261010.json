@@ -1,0 +1,457 @@
+{
+  "format": 1,
+  "generated_utc": "2026-10-10T04:55:57.802912+00:00",
+  "status": "ISOLATED_DEVELOPMENT_CANDIDATE_PASSED_BOUNDED_CHECKS_NOT_DEPLOYABLE_FOR_ALL_TRAFFIC",
+  "upstream": {
+    "repository": "https://github.com/Wei-Shaw/sub2api.git",
+    "tag": "v0.2.15",
+    "commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2"
+  },
+  "patch_sha256": "a0b2696276272430dce3ca363c50bdad096112002b8ed10cbb8a15b80db0f406",
+  "source_files": 117,
+  "production": {
+    "published": false,
+    "services_restarted": false,
+    "configuration_modified": false,
+    "database_modified": false,
+    "routes_or_nodes_changed": false,
+    "paid_model_calls": 0,
+    "real_payments": 0
+  },
+  "candidate": {
+    "ports": {
+      "postgres": 29490,
+      "redis": 29479,
+      "http": 29480
+    },
+    "bind": "127.0.0.1",
+    "funding_default_enabled": false,
+    "native_schema_tables": 112,
+    "binary_sha256": "b1c077ceef3982d317ecc1a945de7482eefe92e554ea5aab68b11e57fc62f344"
+  },
+  "snapshot": {
+    "source_sha256": "f209b73f8652eda6869053b5f38db91149e9a84bc780dfdbb7d13209aa92e364",
+    "counts": {
+      "users": 65,
+      "tokens": 111,
+      "workspace_teams": 3,
+      "workspace_team_accounts": 3,
+      "workspace_members": 34,
+      "workspace_personal_keys": 64,
+      "workspace_invites": 3,
+      "workspace_member_weekly_usages": 60,
+      "user_subscriptions": 10,
+      "subscription_plans": 7,
+      "billing_orders": 16,
+      "subscription_orders": 0,
+      "subscription_pre_consume_records": 19398,
+      "workspace_funding_migrations": 2,
+      "workspace_member_opening_receipts": 1
+    },
+    "importable_keys": 109,
+    "archived_orphan_tombstones": 2,
+    "activation_blockers": [
+      {
+        "code": "SOURCE_UNSETTLED_RESERVATIONS",
+        "count": 4
+      },
+      {
+        "code": "OLD_PAYMENT_CALLBACK_TAKEOVER_REQUIRED",
+        "count": 12
+      },
+      {
+        "code": "LEGACY_SCOPED_ADMINS_REQUIRE_ROLE_MAPPING",
+        "count": 2
+      },
+      {
+        "code": "REHEARSAL_ONLY_NO_ACTIVATION"
+      }
+    ],
+    "native_defaults_granted": 0,
+    "user_and_key_reconciliation": "exact",
+    "team_entitlement_period_reconciliation": "exact"
+  },
+  "verified": [
+    {
+      "name": "clean-source-reconstruction-build",
+      "status": "PASS",
+      "patch_files_verified": 117,
+      "kind": "fresh official upstream fetch at pinned commit; patch apply and every changed file hash verified; native Windows script",
+      "frontend_test_files": 26,
+      "frontend_tests": 265,
+      "i18n_tests": 3,
+      "go_nonempty_test_packages": 6,
+      "go_repository_selection": "no matching unit tests; separate real PG tests are recorded below",
+      "outputs": [
+        "sub2api.exe",
+        "resources/model-pricing",
+        "singlecore-source.json"
+      ]
+    },
+    {
+      "name": "native-identity-postgres",
+      "status": "PASS",
+      "root_tests": 1,
+      "kind": "real dedicated PostgreSQL schema; migration 300, preserved identity login, nickname isolation"
+    },
+    {
+      "name": "migration-unit",
+      "status": "PASS",
+      "tests": 38,
+      "kind": "synthetic SQLite + recording DB API; not network E2E"
+    },
+    {
+      "name": "native-schema-postgres-migration",
+      "status": "PASS",
+      "tests": 6,
+      "kind": "real isolated PostgreSQL, full native schema, read-only source snapshot",
+      "cases": [
+        "exact reconciliation",
+        "replay no-op and input conflict",
+        "absolute S1",
+        "transaction rollback",
+        "active phase reject",
+        "business reservation reject"
+      ]
+    },
+    {
+      "name": "new-username-overwrite-protection",
+      "status": "PASS",
+      "kind": "real isolated PostgreSQL",
+      "result": "TARGET_HAS_UNMAPPED_CUSTOMERS_OR_INTERNAL_CREDIT after HTTP synthetic account registration"
+    },
+    {
+      "name": "funding-and-key-enrollment",
+      "status": "PASS",
+      "root_tests": 13,
+      "kind": "real isolated PostgreSQL, minimal native fixture plus real migration 301 and Ent create",
+      "cases": [
+        "personal/subscription/mixed funding",
+        "team actor/payer isolation",
+        "concurrent cap exhaustion",
+        "atomic dedup and rollback",
+        "period rollover",
+        "disabled payer admission",
+        "transactional key scope enrollment",
+        "missing scope fail closed"
+      ]
+    },
+    {
+      "name": "native-stock-settlement-regression",
+      "status": "PASS",
+      "root_tests": 3,
+      "kind": "real isolated PostgreSQL"
+    },
+    {
+      "name": "local-native-http",
+      "status": "PASS",
+      "checks": 23,
+      "kind": "real loopback HTTP with native application and PostgreSQL; no upstream model or merchant acceptance",
+      "results": [
+        {
+          "check": "candidate-health",
+          "status": "PASS"
+        },
+        {
+          "check": "username-registration-enabled",
+          "status": "PASS"
+        },
+        {
+          "check": "username-register-without-email",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "username-password-login",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "independent-display-name-and-no-email-required",
+          "status": "PASS"
+        },
+        {
+          "check": "update-nickname-retains-login-name",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "original-login-after-nickname-change",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "nickname-is-not-login-alias",
+          "status": "PASS",
+          "http_status": 401
+        },
+        {
+          "check": "registration-cannot-self-elevate",
+          "status": "PASS",
+          "http_status": 403
+        },
+        {
+          "check": "duplicate-username-rejected",
+          "status": "PASS",
+          "http_status": 409
+        },
+        {
+          "check": "native-key-creation",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "new-key-check-with-zero-wallet",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "new-key-automatically-enrolled-as-personal",
+          "status": "PASS"
+        },
+        {
+          "check": "username-registration-persisted-without-bonus",
+          "status": "PASS"
+        },
+        {
+          "check": "imported-personal-and-team-fixtures-present",
+          "status": "PASS"
+        },
+        {
+          "check": "personal-key-check",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "integer-usage-contract-personal",
+          "status": "PASS"
+        },
+        {
+          "check": "team-key-check",
+          "status": "PASS",
+          "http_status": 200
+        },
+        {
+          "check": "integer-usage-contract-team",
+          "status": "PASS"
+        },
+        {
+          "check": "key-inspection-does-not-reserve-or-charge",
+          "status": "PASS"
+        },
+        {
+          "check": "anonymous-key-check-rejected",
+          "status": "PASS",
+          "http_status": 401
+        },
+        {
+          "check": "embedded-brand-favicon",
+          "status": "PASS"
+        },
+        {
+          "check": "brand-logo-readable",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "name": "funding-cyber-and-pricing",
+      "status": "PASS",
+      "new_scenarios": 28,
+      "related_root_regressions": 188,
+      "kind": "mock/fixture unit tests, not actual upstream refusals"
+    },
+    {
+      "name": "zpay-provider",
+      "status": "PASS",
+      "root_tests": 6,
+      "kind": "synthetic protocol, signature/redirect/cancellation/body cases; no merchant acceptance"
+    },
+    {
+      "name": "model-policy-and-key-check",
+      "status": "PASS",
+      "model_policy_root_tests": 6,
+      "model_policy_subcases": 54,
+      "key_check_cases": 7,
+      "kind": "local unit tests, including default image model and integer JSON shape"
+    },
+    {
+      "name": "chat-partial-cyber-real-handler-regression",
+      "status": "PASS",
+      "kind": "real Gin handler/forwarder with synthetic transport; not paid upstream",
+      "fixed_caller": "one settlement submission",
+      "old_caller": "two submissions; regression fails as expected",
+      "fixture": "truncated raw Chat stream without authoritative usage; positive token cases covered by separate lifecycle fixtures"
+    },
+    {
+      "name": "browser-identity-and-nickname",
+      "status": "PASS",
+      "kind": "real in-app browser against isolated application, synthetic account only",
+      "cases": [
+        "username login without email",
+        "profile shows stable login and independent nickname",
+        "nickname edit saved",
+        "logout",
+        "login again using original username"
+      ],
+      "screenshot": "singlecore-profile-20261010.jpg"
+    },
+    {
+      "name": "historical-frontend-port",
+      "status": "PASS",
+      "tests": 58,
+      "test_files": 4,
+      "new_tests": 14,
+      "kind": "component tests plus TypeScript and ESLint; scope does not include migrated team funding display",
+      "details": "frontend-reuse-20261010.json"
+    },
+    {
+      "name": "browser-subscription-failure-recovery",
+      "status": "PASS",
+      "kind": "real browser against rebuilt executable; only isolated local app stopped/restarted",
+      "cases": [
+        "successful empty subscription response",
+        "connection refusal displays persistent load failure instead of empty state",
+        "retry after local backend recovery restores correct empty state"
+      ],
+      "screenshots": [
+        "singlecore-subscription-error-20261010.jpg",
+        "singlecore-subscription-recovered-20261010.jpg"
+      ]
+    }
+  ],
+  "private_logs": [
+    {
+      "file": "migration-unit-final.log",
+      "sha256": "d52ef74da551cd7cb8d7dfa40a42b3d4ca279b8295978870eb72741fa19fc03d",
+      "passed_root_tests": 0,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "migration-pg-test-first.log",
+      "sha256": "8b7ffb1efb11a4017d8e6792ffc57b8ede4e466f9aa1d87e7a1f0572cb6fa813",
+      "passed_root_tests": 0,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "migration-pg-test-retry.log",
+      "sha256": "6a2eb1add87302d44ae8fb3eefb0e40a5a99ceb17db79303ff0e6ab87a6a91de",
+      "passed_root_tests": 0,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-payer-admission-test.log",
+      "sha256": "df942ae7f0a08adf8e86b3044a2d9a7ef053b7fb829de35a4bee807e557d827f",
+      "passed_root_tests": 13,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-native-pg-final.log",
+      "sha256": "7c6f8f9c567678662ee4604e69ffc1d1068db3272b92f43dbc7e8d44d4b28793",
+      "passed_root_tests": 0,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-cyber-pricing-final.log",
+      "sha256": "28a908819bdf6972902df09ddca85b4c6df642a4346b45eaf4e1f0e3b48663c5",
+      "passed_root_tests": 2,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-cyber-pricing-regression.log",
+      "sha256": "eab9584d600a4e9a66981f146f5c24864349d37ff872d0a929bd29f526e54507",
+      "passed_root_tests": 188,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-followup-independent-final.log",
+      "sha256": "d297622e61c5390e7fcb64b6deede7e6cc07ee2b3fb2817ccc6cd8da8e6d50fe",
+      "passed_root_tests": 0,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-chat-cyber-caller-red-proof.log",
+      "sha256": "a70b50ecd9325c90b768385b52edd2e27ccc0e94e0ffbefc498e16ab7f31c281",
+      "passed_root_tests": 1,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-chat-cyber-caller-second.log",
+      "sha256": "c5a81eb3b1c6ce37dcad6cadeb59924790416531b7bfb4b88d2960b55c9a2455",
+      "passed_root_tests": 1,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-chat-cyber-caller-green-final.log",
+      "sha256": "9fc4d1ffa7729d03411f97e8cc7fc6ccbed7adc374c131135e935478711a9be4",
+      "passed_root_tests": 0,
+      "failed_root_tests": 1,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-chat-cyber-caller-green-final2.log",
+      "sha256": "05e841e7bb5a0b06c73a3133858bc56976f4251a08c064805f8f42a499ec26e4",
+      "passed_root_tests": 1,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "funding-chat-cyber-caller-red-final.log",
+      "sha256": "62930d36a502570bbb5a326ac8063d253a26e0d1525128834194a2482c69884d",
+      "passed_root_tests": 0,
+      "failed_root_tests": 1,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "auth-pg-final.log",
+      "sha256": "f52a49d6fe964035ec18a62cfd0f28d772863ebb5930b566ebf5cdb384a2dd0e",
+      "passed_root_tests": 1,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "zpay-final.log",
+      "sha256": "ba20b1d523ea2a4bfa65f2e56d68404358d9edceb670f1fbbdee22b8f2d08042",
+      "passed_root_tests": 0,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    },
+    {
+      "file": "prepare-singlecore-first.log",
+      "sha256": "13a30a367cc7586336e4e98b4e0a48ee3a960e8c43779da91ec677ca7e9d1e34",
+      "passed_root_tests": 0,
+      "failed_root_tests": 0,
+      "scope": "private local log retained; contents not exported"
+    }
+  ],
+  "first_failures_preserved": [
+    "Direct dependency downloads failed; resolved using the existing proxy and system CA, without disabling TLS verification.",
+    "Redis MSYS2 rejected C:/ config path; /cygdrive/c/ path and authenticated local runtime checks succeeded.",
+    "Initial SQL fixture omitted required funding columns; fixture corrected and six PostgreSQL tests passed.",
+    "Initial source import rejected historical orphan tombstones; now archives their hashes without restoring ownership.",
+    "Frontend TS6307 include boundary fixed; generated TS build files moved into ignored node_modules cache.",
+    "Initial HTTP test tried decoding PNG as JSON; binary handling fixed, separate retry report retained.",
+    "Independent review caught omitted Chat Completions cyber caller. First fixture falsely passed old code because usage marked a terminal frame. Corrected fixture reaches real partial/error path, old code submits two bills and fails; fixed code submits one and passes.",
+    "Browser first crashed/timed out; later local browser login/profile/relogin and subscription recovery succeeded. First browser failures retained.",
+    "First binary replacement encountered a Windows executable lock, so that smoke was explicitly excluded from rebuilt-binary acceptance. Process exit was awaited, SHA256 verified before starting the new binary. First bootstrap connection refusal retained; final 23 checks passed only after readiness."
+  ],
+  "not_accepted": [
+    "Full browser/device/admin acceptance remains incomplete; browser acceptance is limited to synthetic username login, nickname edit, logout/relogin and native subscription failure/recovery. Model catalogue order is component-tested only.",
+    "Real upstream Codex/PDF/search/image/WS and interrupted-stream acceptance were not run for this single-core candidate.",
+    "Real ZPay merchant payment, callback, fulfillment and refund were not run.",
+    "Legacy scoped role10, pending payment callbacks, old response state, team management UI and purchase wiring remain integration gates.",
+    "Durable final-usage replay/crash reconciliation and WS per-turn funding remain release gates.",
+    "Cross-database final write barrier, authoritative cutover and rollback after new transactions were not implemented or rehearsed."
+  ],
+  "privacy": "Only aggregate counts, hashes, protocol contracts and synthetic test outcomes are exported. Private DBs, account identities, key values, password hashes and raw runtime logs are excluded."
+}

@@ -4,6 +4,17 @@
 完整部署状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，接手入口见
 [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md)，开发过程见 [DEVLOG.md](DEVLOG.md)。
 
+## 2026-10-10 — 单核心开发候选，未上线
+
+- 保留用户名登录、可选邮箱注册和独立昵称；旧密码/现用带前缀 Key 受控迁入。
+- 完成资金、团队作用域、只读 Key 检查、模型权限、工作区 HTTP 续聊隔离及演练导入的第一阶段实现。
+- RealYu Logo/浅深蓝色与 ZPay 协议适配已加入原生 Sub2API；生产仍保持现有桥接版。
+- 首批[历史前端需求移植](deploy/sub2api/FRONTEND-REUSE-20261010.md)：模型推荐顺序与展示名、
+  订阅加载失败/无订阅分离和显式重试；模型 ID 和计价保持原生。
+- [Windows 重建/演练教程](deploy/sub2api/SINGLECORE-CANDIDATE.md)包含完整补丁与固定源码清单；
+  [验证记录](lab/sub2api_e2e/singlecore-candidate-20261010.json)分别记录通过项和未执行验收。
+- 尚不满足全量无缝切换：WS、旧支付/续聊状态、可恢复计费任务、团队操作界面与最终跨库切换仍是门槛。
+
 ## 2026-10-10 — 完整迁移方案复核，未变更线上功能
 
 - 三组独立review支持Sub2API单核心方向；首版界面仅复用RealYu Logo/配色及必要业务操作。

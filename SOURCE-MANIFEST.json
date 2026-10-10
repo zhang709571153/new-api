@@ -175,9 +175,9 @@
     },
     {
       "path": ".gitattributes",
-      "sha256": "92d2189a893afd63a16d821d472941d1b5be5ba6f5caf4220523eadf9e41c47f",
-      "source_sha256": "1dab29f6cdec3e808af0018938cf7bb3fb8c5066b573b31285ee83a31fa103ca",
-      "bytes": 1069,
+      "sha256": "9fb638e6a01b6d80ca7c48a985fa0764c34760163d4333e9966db2d82a97b576",
+      "source_sha256": "9fb638e6a01b6d80ca7c48a985fa0764c34760163d4333e9966db2d82a97b576",
+      "bytes": 1294,
       "git_mode": "100644",
       "source_path": ".gitattributes"
     },
@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "aec1c0999b3fafcb64a5ac61e74d087482f5fa56ae1db0877d9a55298415a47e",
-      "source_sha256": "aec1c0999b3fafcb64a5ac61e74d087482f5fa56ae1db0877d9a55298415a47e",
-      "bytes": 10728,
+      "sha256": "edbdecb70f589953b09b313de1c3a8d90cd9c64683f3e489b2365c428008e071",
+      "source_sha256": "edbdecb70f589953b09b313de1c3a8d90cd9c64683f3e489b2365c428008e071",
+      "bytes": 14116,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "c8f684e312ed12563fb53a2c5c03f21b0ff6221fd25b4df04fc80718115ef6f9",
-      "source_sha256": "c8f684e312ed12563fb53a2c5c03f21b0ff6221fd25b4df04fc80718115ef6f9",
-      "bytes": 5867,
+      "sha256": "becd80cf9a412fc4b702d4d9c77c2578a30a13ae821f3fa35f254ef481ddf219",
+      "source_sha256": "becd80cf9a412fc4b702d4d9c77c2578a30a13ae821f3fa35f254ef481ddf219",
+      "bytes": 6415,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "69fb464ded33a6fa608abb949652653843384e2c4422ba3e48fa7570cae8acd5",
-      "source_sha256": "69fb464ded33a6fa608abb949652653843384e2c4422ba3e48fa7570cae8acd5",
-      "bytes": 4612,
+      "sha256": "8b53067bc448811e649125b1de2617ba40fea93d64433814dfbe3548a2013b0c",
+      "source_sha256": "8b53067bc448811e649125b1de2617ba40fea93d64433814dfbe3548a2013b0c",
+      "bytes": 5590,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2438,6 +2438,14 @@
       "source_path": "deploy/sub2api/EDGE-MIGRATION.md"
     },
     {
+      "path": "deploy/sub2api/FRONTEND-REUSE-20261010.md",
+      "sha256": "2026160de8ff38bb2518646f18e62622faf4381ad7f6cb410b82c1e64f55007e",
+      "source_sha256": "2026160de8ff38bb2518646f18e62622faf4381ad7f6cb410b82c1e64f55007e",
+      "bytes": 9229,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/FRONTEND-REUSE-20261010.md"
+    },
+    {
       "path": "deploy/sub2api/Inspect-WindowsHost.ps1",
       "sha256": "02dc39d7450ad6cdc93b74b6248a742fcc7e02522d5b73ca987e6a2730cb364e",
       "source_sha256": "02dc39d7450ad6cdc93b74b6248a742fcc7e02522d5b73ca987e6a2730cb364e",
@@ -2494,12 +2502,28 @@
       "bytes": 22523
     },
     {
+      "path": "deploy/sub2api/Prepare-SingleCore.ps1",
+      "sha256": "22bde1242b010f99e22fbb0c33a56b9f2d92c11ac967eff50e966c160b72ee43",
+      "source_sha256": "22bde1242b010f99e22fbb0c33a56b9f2d92c11ac967eff50e966c160b72ee43",
+      "bytes": 5588,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/Prepare-SingleCore.ps1"
+    },
+    {
       "path": "deploy/sub2api/README.md",
       "sha256": "880a7df029ecf136bb1436d2252a34eab418c9269d1027d6181b684a0db3230f",
       "source_sha256": "880a7df029ecf136bb1436d2252a34eab418c9269d1027d6181b684a0db3230f",
       "bytes": 12400,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/README.md"
+    },
+    {
+      "path": "deploy/sub2api/SINGLECORE-CANDIDATE.md",
+      "sha256": "cf59d22503bfb33acf9a33143ce9d024db8b150c5d067322f3d4744ccc15c416",
+      "source_sha256": "cf59d22503bfb33acf9a33143ce9d024db8b150c5d067322f3d4744ccc15c416",
+      "bytes": 13710,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/SINGLECORE-CANDIDATE.md"
     },
     {
       "path": "deploy/sub2api/admin-ingress.example.yml",
@@ -2710,6 +2734,38 @@
       "bytes": 14989
     },
     {
+      "path": "deploy/sub2api/singlecore-candidate.patch",
+      "sha256": "a0b2696276272430dce3ca363c50bdad096112002b8ed10cbb8a15b80db0f406",
+      "source_sha256": "a0b2696276272430dce3ca363c50bdad096112002b8ed10cbb8a15b80db0f406",
+      "bytes": 561270,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore-candidate.patch"
+    },
+    {
+      "path": "deploy/sub2api/singlecore-source.json",
+      "sha256": "c65e25cda831b82931370c7beba569f15131f39136f39591353cea96f99051d9",
+      "source_sha256": "c65e25cda831b82931370c7beba569f15131f39136f39591353cea96f99051d9",
+      "bytes": 22053,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore-source.json"
+    },
+    {
+      "path": "deploy/sub2api/singlecore_http_smoke.py",
+      "sha256": "368f4aec4978a4d623c8515654497a1de950a059c213fd4a9e590301c00180f3",
+      "source_sha256": "368f4aec4978a4d623c8515654497a1de950a059c213fd4a9e590301c00180f3",
+      "bytes": 8589,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore_http_smoke.py"
+    },
+    {
+      "path": "deploy/sub2api/singlecore_migrate.py",
+      "sha256": "3481eeb5718d4e9b36ed35cd1ff07a2664af3fdd35014644c976566a2ea56d0a",
+      "source_sha256": "3481eeb5718d4e9b36ed35cd1ff07a2664af3fdd35014644c976566a2ea56d0a",
+      "bytes": 30850,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore_migrate.py"
+    },
+    {
       "path": "deploy/sub2api/snapshot_sqlite.py",
       "sha256": "ea06ca75c3223ec7ee11d43062187340dfd2bf5c974b4965eb60303d638fbd9c",
       "source_sha256": "ea06ca75c3223ec7ee11d43062187340dfd2bf5c974b4965eb60303d638fbd9c",
@@ -2756,6 +2812,22 @@
       "sha256": "4375107101b9fd261bcc29ac27b63b207a890d59ecab5b1e0af121a442af94d3",
       "bytes": 2782,
       "git_mode": "100644"
+    },
+    {
+      "path": "deploy/sub2api/test_singlecore_migrate.py",
+      "sha256": "bfaf03a1a175b36715062c70b6b60c4a0a0ed48c703ee15d6b3b0428cba8373a",
+      "source_sha256": "bfaf03a1a175b36715062c70b6b60c4a0a0ed48c703ee15d6b3b0428cba8373a",
+      "bytes": 34410,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_singlecore_migrate.py"
+    },
+    {
+      "path": "deploy/sub2api/test_singlecore_migration_pg.py",
+      "sha256": "4d501584d4079174cde2a71ad452ec491627639eb5141852ac1f6537b9162ede",
+      "source_sha256": "4d501584d4079174cde2a71ad452ec491627639eb5141852ac1f6537b9162ede",
+      "bytes": 5685,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_singlecore_migration_pg.py"
     },
     {
       "path": "deploy/sub2api/test_snapshot_sqlite.py",
@@ -3446,6 +3518,14 @@
       "source_path": "lab/sub2api_e2e/environment-summary.json"
     },
     {
+      "path": "lab/sub2api_e2e/frontend-reuse-20261010.json",
+      "sha256": "c607308b0e5514138eb1b2760c64693c93b0656f917465b6d970a61b33b616ce",
+      "source_sha256": "c607308b0e5514138eb1b2760c64693c93b0656f917465b6d970a61b33b616ce",
+      "bytes": 3817,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/frontend-reuse-20261010.json"
+    },
+    {
       "path": "lab/sub2api_e2e/latest-cli-stream-failure.json",
       "sha256": "a15446cacd5789b3e8e9c5c341344eea99bb98fa9fa8470f5328b2bea5c52c3e",
       "source_sha256": "e789820770b0fe2fb02549f8d045050fb77f8a15ed65cfa325b3d63cd533f8aa",
@@ -3932,6 +4012,38 @@
       "bytes": 3164,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/runtime-retention.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/singlecore-candidate-20261010.json",
+      "sha256": "f50ce5f07a9a1c13f0361258bf472051749661342e4ddc6492912bcc37c349c6",
+      "source_sha256": "f50ce5f07a9a1c13f0361258bf472051749661342e4ddc6492912bcc37c349c6",
+      "bytes": 16792,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/singlecore-candidate-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/singlecore-profile-20261010.jpg",
+      "sha256": "9d661e02650bbe4a29c28526471977e7be9a9b21945e70907ce00529be5a3c88",
+      "source_sha256": "9d661e02650bbe4a29c28526471977e7be9a9b21945e70907ce00529be5a3c88",
+      "bytes": 56584,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/singlecore-profile-20261010.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/singlecore-subscription-error-20261010.jpg",
+      "sha256": "882bb7136fa4ddf5b25911266fa5db13dcc48a3623ac9d78c4f5abbe9b9dd2e7",
+      "source_sha256": "882bb7136fa4ddf5b25911266fa5db13dcc48a3623ac9d78c4f5abbe9b9dd2e7",
+      "bytes": 28680,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/singlecore-subscription-error-20261010.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/singlecore-subscription-recovered-20261010.jpg",
+      "sha256": "3ece641915e3d3a8fff02f4ed6ce1e1c85a938f13ecba2eac57f956e700737c3",
+      "source_sha256": "3ece641915e3d3a8fff02f4ed6ce1e1c85a938f13ecba2eac57f956e700737c3",
+      "bytes": 31858,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/singlecore-subscription-recovered-20261010.jpg"
     },
     {
       "path": "lab/sub2api_e2e/stock-chain-summary.json",
@@ -23408,24 +23520,6 @@
   ],
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
-    "checked_at_utc": "2026-10-09T14:04:45.755496+00:00",
-    "checks": {
-      "file_hashes": true,
-      "private_paths_excluded": true,
-      "compiled_inputs_match_validated_export": true,
-      "public_assets_exact": true
-    },
-    "reviewed_synthetic_or_parser_findings": 19,
-    "unexpected_credential_patterns": 0,
-    "git_ancestry_included": false,
-    "public_asset_count": 38,
-    "note": "Bounded source review and pattern scan; not a claim to prove absence of every possible secret. Public assets match already published release bytes.",
-    "active_workflow_files": 0,
-    "workflow_templates_preserved_count": 6,
-    "workflow_permission_requested": false,
-    "receiving_machine_go_path": "Explicit --go argument or PATH; help/compile check passed, no runtime code changed"
-  },
-  "publication_review": {
     "status": "PASS",
     "checked_at_utc": "2026-10-10T02:09:17.158111+00:00",
     "review_scope": "Three independent migration reviews synthesized with code cross-checks, a read-only live version check, and minimal frontend scope; no migration executed.",
@@ -23450,6 +23544,41 @@
     "unexpected_credential_patterns": 0,
     "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_SINGLE_CORE_MIGRATION_NOT_IMPLEMENTED",
     "note": "P0 findings block a future migration, not evidence of new production incidents. New migration tests, UI acceptance, payments and cutover remain unrun."
+  },
+  "publication_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-10T04:56:45.517088+00:00",
+    "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
+    "changed_or_added_count": 18,
+    "changed_or_added_paths": [
+      ".gitattributes",
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/FRONTEND-REUSE-20261010.md",
+      "deploy/sub2api/Prepare-SingleCore.ps1",
+      "deploy/sub2api/SINGLECORE-CANDIDATE.md",
+      "deploy/sub2api/singlecore-candidate.patch",
+      "deploy/sub2api/singlecore-source.json",
+      "deploy/sub2api/singlecore_http_smoke.py",
+      "deploy/sub2api/singlecore_migrate.py",
+      "deploy/sub2api/test_singlecore_migrate.py",
+      "deploy/sub2api/test_singlecore_migration_pg.py",
+      "lab/sub2api_e2e/frontend-reuse-20261010.json",
+      "lab/sub2api_e2e/singlecore-candidate-20261010.json",
+      "lab/sub2api_e2e/singlecore-profile-20261010.jpg",
+      "lab/sub2api_e2e/singlecore-subscription-error-20261010.jpg",
+      "lab/sub2api_e2e/singlecore-subscription-recovered-20261010.jpg"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 47,
+      "pinned_upstream_and_patch": true
+    },
+    "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
+    "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
   },
   "publication_review_history": [
     {
@@ -23758,6 +23887,32 @@
       "unexpected_credential_patterns": 0,
       "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_PAYMENT_MIGRATION_NOT_ACCEPTED",
       "note": "Invalid-identity responses are not authenticated payment acceptance. First probes retained; no payment orders, payments or refunds executed."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T02:09:17.158111+00:00",
+      "review_scope": "Three independent migration reviews synthesized with code cross-checks, a read-only live version check, and minimal frontend scope; no migration executed.",
+      "changed_or_added_count": 6,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "UPDATELOG.md",
+        "HANDOFF-SUB2API.md",
+        "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
+        "deploy/sub2api/MIGRATION-REVIEW-20261010.md",
+        "deploy/sub2api/research-20261010.json"
+      ],
+      "checks": {
+        "changed_file_hashes": true,
+        "private_runtime_files_excluded": true,
+        "go_inputs_unchanged": true,
+        "public_assets_unchanged": true,
+        "local_document_links": true,
+        "pinned_sub2api_source_links": true,
+        "consolidated_cutover_sequence_rereviewed": true
+      },
+      "unexpected_credential_patterns": 0,
+      "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_SINGLE_CORE_MIGRATION_NOT_IMPLEMENTED",
+      "note": "P0 findings block a future migration, not evidence of new production incidents. New migration tests, UI acceptance, payments and cutover remain unrun."
     }
   ]
 }
