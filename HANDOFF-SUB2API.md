@@ -13,6 +13,10 @@
 - [原版平台对照与单核心迁移研究](deploy/sub2api/PLATFORM-COMPARISON-20261010.md)
   区分 New API/Sub2API 原生能力和 RealYu 自研业务；建议以 Sub2API 单核心为目标，
   尚未实施。下方部署教程仍对应当前桥接系统，不能按研究目标假定全迁已经完成。
+- [单核心迁移的三组独立审查](deploy/sub2api/MIGRATION-REVIEW-20261010.md)
+  固定首版仅最小品牌适配、客户功能优先的范围，并列出身份/权益/Key续聊/支付/跨库切换
+  五组阻断与验收顺序。旧 host_cutover.py 仅处理同客户SQLite的桥接升级，不能直接
+  执行客户全迁；目标账本产生新交易后不可直接回切旧SQLite。
 - [管理入口部署教程](deploy/sub2api/ADMIN-PORTAL.md)说明渠道账号分布、真实用量
   归属、独立 HTTPS 原生后台、现有系统升级与验收命令。
 - [10 月 10 日公网中断记录](deploy/sub2api/NETWORK-INCIDENT-20261010.md)说明

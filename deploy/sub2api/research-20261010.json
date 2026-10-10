@@ -271,5 +271,94 @@
       "full refund",
       "partial refund only where the channel supports it"
     ]
+  },
+  "independent_migration_review": {
+    "recorded_at_utc": "2026-10-10T02:04:08.897733+00:00",
+    "source_revision": "c9146b18dc1b01cadce696e894078319b299cc6b",
+    "sub2api_revision": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+    "review_scopes": [
+      "customer identity, funds and feature contracts",
+      "single-writer cutover and recovery",
+      "native frontend branding and client contracts"
+    ],
+    "private_review_receipts": [
+      {
+        "file": "business-review.md",
+        "sha256": "535a9e8d341e450dc0fcb49b7f822ca6ea602d7decdaa6fd02ee1d342a07cedc"
+      },
+      {
+        "file": "cutover-review.md",
+        "sha256": "5ec1e5acaa3cd1642629162518f1f8b9877c5925cd09b57c21f7a59ea084d92a"
+      },
+      {
+        "file": "frontend-review.md",
+        "sha256": "6170f5bddf6e6c2a4af4431cca2f3ef85475b7aa7a62c95dec8ef22aa3f2c8b3"
+      }
+    ],
+    "public_report": "deploy/sub2api/MIGRATION-REVIEW-20261010.md",
+    "direction": "Sub2API single core with the required RealYu business rules",
+    "frontend_scope": "Reuse native pages, existing RealYu logo and theme; add only necessary identity, team, currency and legacy-client adaptations.",
+    "implementation_complete": false,
+    "new_migration_e2e_run": false,
+    "cutover_authorized_by_this_review": false,
+    "production_actions": false,
+    "critical_before_cutover": [
+      "legacy username and Argon2id/bcrypt login",
+      "customer balances, instance entitlements, team funding and member caps",
+      "old public keys and per-member retained response authorization",
+      "old payment orders and callback ownership",
+      "cross-database import, write fencing and authority transition"
+    ],
+    "anonymous_identity_aggregate": {
+      "enabled_undeleted": 51,
+      "without_email": 51,
+      "argon2id": 49,
+      "bcrypt": 1,
+      "empty_password": 1,
+      "queried_cst": "2026-10-10 09:51"
+    },
+    "anonymous_entitlement_aggregate": {
+      "active_instances": 7,
+      "duration_28d": 6,
+      "duration_30d": 1,
+      "source": "workspace_admin",
+      "paid_purchase_instances": 0,
+      "queried_cst": "2026-10-10 09:54"
+    },
+    "live_version_observation": {
+      "observed_at_cst": "2026-10-10 09:52",
+      "backend": "realyu-sub2api-v3.10.0.1-20261010",
+      "bridge": "realyu-sub2api-v3.10.0.1-20261010",
+      "public": "realyu-sub2api-v3.10.0.1-20261010",
+      "core_services_running": true,
+      "scope": "Read-only version/status snapshot; not a new model/client E2E."
+    },
+    "compatibility_targets": [
+      "same public hostname and API base",
+      "retain existing full API keys and client setup",
+      "retain account credentials and entitlements",
+      "one customer ledger and one upstream refresh owner"
+    ],
+    "explicit_boundaries": [
+      "browser login sessions may need reauthentication",
+      "WebSocket TCP connections reconnect",
+      "cutover duration requires rehearsal",
+      "retained upstream state remains subject to expiration",
+      "after target business writes, preserve PostgreSQL authority unless audited reverse migration is implemented"
+    ],
+    "corrections": [
+      "Current type59 pricing must be measured directly; the type57 actual-tier override is not the type59 baseline.",
+      "Import historical entitlement instances; the current 28-day catalog does not describe every existing instance.",
+      "Normal account creation can hash the input and grant default entitlements; use controlled import semantics."
+    ],
+    "consolidation_review": {
+      "checked_at_utc": "2026-10-10T02:09:17.158111+00:00",
+      "reviewer_scope": "Second cutover review of the consolidated implementation sequence",
+      "changes_applied": [
+        "Stop projection and internal credit workers and disable their automatic restart before customer authority transfer; retirement is only later cleanup.",
+        "On pre-authority abort, retain and return already-acknowledged durable payment notifications to the old sole consumer before reopening the old entrypoint."
+      ],
+      "result": "Plan corrections applied; no implementation or cutover acceptance claimed."
+    }
   }
 }

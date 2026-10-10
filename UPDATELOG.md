@@ -4,6 +4,14 @@
 完整部署状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，接手入口见
 [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md)，开发过程见 [DEVLOG.md](DEVLOG.md)。
 
+## 2026-10-10 — 完整迁移方案复核，未变更线上功能
+
+- 三组独立review支持Sub2API单核心方向；首版界面仅复用RealYu Logo/配色及必要业务操作。
+- [迁移审查](deploy/sub2api/MIGRATION-REVIEW-20261010.md)明确老账号、权益、旧Key和续聊、
+  支付订单、跨库切换五组上线前阻断；新增开发顺序、无缝边界及可验证的验收清单。
+- 目标是客户端保留域名/Key/配置；浏览器可重新登录，WS需重连，切换窗口以演练为准。
+- 仍未实施单核心迁移。当前生产保持v3.10.0.1桥接版本，现有部署命令不是全迁命令。
+
 ## 2026-10-10 — ZPay 支付兼容核查，未变更线上功能
 
 - 确认 Sub2API 内置 EasyPay 明确列出 ZPay；无需新造完整支付系统。

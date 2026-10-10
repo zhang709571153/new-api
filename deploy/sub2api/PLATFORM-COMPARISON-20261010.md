@@ -14,6 +14,10 @@
 2. RealYu 自研的团队、资金与套餐规则：属于移植工作，不属于原版 New API 的独占优势；
 3. 客户数据、旧 Key 和历史会话兼容：属于一次性迁移与验收工作。
 
+后续三组独立复核及具体开发/切换合同见 [迁移审查](MIGRATION-REVIEW-20261010.md)。
+该复核新增了旧用户名/Argon2id、默认权益副作用、历史订阅实例与迟到支付等具体缺口；
+选型成立不代表现在已具备直接切流条件。
+
 ## 固定版本与证据等级
 
 | 对象 | 本轮检查的准确版本 |
@@ -119,8 +123,8 @@ Sub2API v0.2.15 则直接修复了 OAuth 历史回放 `web_search_call`、加密
 | 要迁的内容 | 目标实现方向 | 不应携带的冗余 |
 | --- | --- | --- |
 | 团队资金、成员周 cap、个人/团队作用域、owner 管理 | 把既有业务规则接入 Sub 原生用户、Key、订阅和一次结算事务；按实际调用成员保留会话隔离 | 不搬整个 New API relay/渠道/刷新体系 |
-| 28 天/4 周权益、个人套餐溢出钱包、团队禁止溢出、既有报价 | 对照 Sub 日/周/月窗口、同组续期、余额/订阅选路，仅实现不能等价配置的业务差异 | 不再保留另一套同时扣费的客户账本 |
-| 当前文本、native Images 与 Responses 图片工具费率 | 优先映射原生价卡，覆盖 cache、上游实际 tier、图像 token、工具附加费、单位和舍入 | 不因现状使用表达式而默认重写完整表达式引擎 |
+| 既有实例权益、个人套餐溢出钱包、团队禁止溢出、既有报价 | 保留原始起止/重置/已用/总量；包含28天目录之外的30天历史实例；原生同组续期不是期初导入 | 不再保留另一套同时扣费的客户账本 |
+| 当前文本、native Images 与 Responses 图片工具费率 | 优先映射原生价卡，按当前type59实际路径核对cache、请求/出站/返回及收费tier、图像token、工具费、单位和舍入 | 不因现状使用表达式而默认重写完整表达式引擎 |
 | 用户、旧 Key、余额/当期已用、订单和历史审计 | 一次性迁移并逐项对账；历史记录可保留可追溯只读归档 | 不把内部 Sub 影子用户的预算当作客户钱款或赠金 |
 | `resp_ry1_` 旧响应 ID、namespace 和主体映射 | 限定过渡兼容；旧续接仍验证成员/团队归属，新会话使用目标规范 | 不因一段兼容逻辑永久保留整个旧网关 |
 | 品牌页面、下载地址、安装器和指南 | 使用 Sub 原生前端，迁必要页面或静态同域资源，保留客户端 URL 契约和应保留的许可署名 | 不把两套用户中心/支付/管理后台再次拼成长期双系统 |
@@ -129,7 +133,7 @@ Sub2API v0.2.15 则直接修复了 OAuth 历史回放 `web_search_call`、加密
 
 Sub 原生 group 代表路由/准入/价格/订阅分组，不是组织资金主体。不能简单把一个团队变成一个 Sub user、成员变成多个 Key：原生同一 user 的不同 Key 可共享 response continuation 归属，这与当前成员隔离合同不同。既然用户要求保留定制业务，正确工作是移植该合同，而不是丢掉它或据此否定全迁。
 
-旧 Key 不必预设全部更换：Sub 支持受格式和长度约束的 `custom_key`，需要验证前缀、冲突和归属。两边使用兼容密码哈希的可能性不等于已有迁移工具；Sub 官方创建用户 API 不接受现成 password_hash。本轮没有找到 New API 用户/余额/套餐/历史的一键导入器，上游 account import 不是客户迁移。
+旧 Key 不必预设全部更换：Sub 支持受格式和长度约束的 `custom_key`，需要验证前缀、冲突和归属。后续独立复核已确认当前启用未删用户全无邮箱，绝大多数密码为 Argon2id；Sub 原生邮箱登录且仅 bcrypt，须增加用户名和哈希兼容。普通创建用户 API 不接受现成 password_hash，还可能触发默认余额/订阅，不能当迁移器。本轮没有找到 New API 用户/余额/套餐/历史的一键导入器，上游 account import 不是客户迁移。
 
 来源：[Sub 用户/资金 schema](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/ent/schema/user.go)、[分组语义](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/docs/COMPOSITE_GROUPS.md)、[同用户 Key 的续接边界](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/internal/service/openai_gateway_response_handling.go#L1438-L1454)、[Key 创建](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/internal/service/api_key_service.go)、[套餐续期](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/internal/service/subscription_service.go)、[订阅窗口](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/internal/service/user_subscription.go)。
 
@@ -150,7 +154,7 @@ Sub 原生 group 代表路由/准入/价格/订阅分组，不是组织资金主
 
 以下是将来开发/演练的验收项，本轮状态均为未执行；不是要求再次确认已有研究权限。
 
-1. **一个账本、一笔扣费**：同一真实 usage 在当前价卡与目标价卡重放，覆盖缓存、Fast 实际 tier、图像 token、工具费及失败/中断；核对单位/精度/舍入。当前 CNY 展示、quota 与目标 USD 数值不能直接等值复制。
+1. **一个账本、一笔扣费**：同一真实 usage 在当前价卡与目标价卡重放，覆盖缓存、当前type59的Fast收费规则、图像token、工具费及失败/中断；核对单位/精度/舍入。type57按实际tier覆盖的逻辑不能直接视为现网type59合同。当前CNY展示、quota与目标USD数值不能直接等值复制。
 2. **现有团队合同保留**：共享订阅只扣一次；成员 cap 不生成新资金；个人钱包/团队资金不串用；退组/解散后的在途结算仍落到原资金主体。并发耗尽、退款和重复回调要有事务与幂等验证。
 3. **身份与续聊连续**：旧 Key、个人/团队切换、禁用/过期、跨用户及跨成员拒绝；HTTP/SSE/WS 的旧响应 ID 和新会话均验证。登录迁移、重新认证、凭据存储按目标安全模型处理，不迁移活动登录 cookie 充当身份绑定。
 4. **客户数据可核对**：开账余额、套餐当前周期剩余、订单/退款/赠金、历史日志分别核对；停止旧侧新写入并排空在途请求后做最终增量迁移。禁止用旧备份覆盖切换后的新交易。

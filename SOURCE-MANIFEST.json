@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "a00c89b358e45971a7b15b57b04fbb4e7d3965206eb5bc1de091f965496d0f16",
-      "source_sha256": "a00c89b358e45971a7b15b57b04fbb4e7d3965206eb5bc1de091f965496d0f16",
-      "bytes": 8924,
+      "sha256": "aec1c0999b3fafcb64a5ac61e74d087482f5fa56ae1db0877d9a55298415a47e",
+      "source_sha256": "aec1c0999b3fafcb64a5ac61e74d087482f5fa56ae1db0877d9a55298415a47e",
+      "bytes": 10728,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "7100683e55adb973475cecd5b4ac4a72ee11a5055e089420e9ae8717241e7c68",
-      "source_sha256": "7100683e55adb973475cecd5b4ac4a72ee11a5055e089420e9ae8717241e7c68",
-      "bytes": 5469,
+      "sha256": "c8f684e312ed12563fb53a2c5c03f21b0ff6221fd25b4df04fc80718115ef6f9",
+      "source_sha256": "c8f684e312ed12563fb53a2c5c03f21b0ff6221fd25b4df04fc80718115ef6f9",
+      "bytes": 5867,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "d91f4c9dcc8e875f4d8e97647c77cac36c661287e974d70425f0056c6d4f4a06",
-      "source_sha256": "d91f4c9dcc8e875f4d8e97647c77cac36c661287e974d70425f0056c6d4f4a06",
-      "bytes": 3972,
+      "sha256": "69fb464ded33a6fa608abb949652653843384e2c4422ba3e48fa7570cae8acd5",
+      "source_sha256": "69fb464ded33a6fa608abb949652653843384e2c4422ba3e48fa7570cae8acd5",
+      "bytes": 4612,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2454,6 +2454,14 @@
       "source_path": "deploy/sub2api/Install-HostRelease.ps1"
     },
     {
+      "path": "deploy/sub2api/MIGRATION-REVIEW-20261010.md",
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/MIGRATION-REVIEW-20261010.md",
+      "sha256": "f36627be87915bd92576e76ad4d12868dc31106984eedb062110a406256b1ebd",
+      "source_sha256": "f36627be87915bd92576e76ad4d12868dc31106984eedb062110a406256b1ebd",
+      "bytes": 18468
+    },
+    {
       "path": "deploy/sub2api/NATIVE-WINDOWS.md",
       "sha256": "94670bf230f9c2e02101d3815da3832e26f8b9aa8cd023e9970437c0af16fb49",
       "source_sha256": "94670bf230f9c2e02101d3815da3832e26f8b9aa8cd023e9970437c0af16fb49",
@@ -2481,9 +2489,9 @@
       "path": "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
       "git_mode": "100644",
       "source_path": "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
-      "sha256": "19b82d7077d13a49af2359a753a66a929d360a557e202406e82ace211c024eb4",
-      "source_sha256": "19b82d7077d13a49af2359a753a66a929d360a557e202406e82ace211c024eb4",
-      "bytes": 21956
+      "sha256": "a2be642a6b916d0a38aea3a6251be3aa8b35dc6b06c5aeefce38ecb5ebe7e6f6",
+      "source_sha256": "a2be642a6b916d0a38aea3a6251be3aa8b35dc6b06c5aeefce38ecb5ebe7e6f6",
+      "bytes": 22523
     },
     {
       "path": "deploy/sub2api/README.md",
@@ -2697,9 +2705,9 @@
       "path": "deploy/sub2api/research-20261010.json",
       "git_mode": "100644",
       "source_path": "deploy/sub2api/research-20261010.json",
-      "sha256": "971fd75578ee31eb575be341b22f7a5227fdbf4c355f788d1c9a6a7d3723a083",
-      "source_sha256": "971fd75578ee31eb575be341b22f7a5227fdbf4c355f788d1c9a6a7d3723a083",
-      "bytes": 10842
+      "sha256": "6317de02cd2a6bea90ffdaae43f92323404dd0b81b4c5dfd67e0f79604a04f99",
+      "source_sha256": "6317de02cd2a6bea90ffdaae43f92323404dd0b81b4c5dfd67e0f79604a04f99",
+      "bytes": 14989
     },
     {
       "path": "deploy/sub2api/snapshot_sqlite.py",
@@ -23419,13 +23427,15 @@
   },
   "publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T01:47:04.087960+00:00",
-    "review_scope": "ZPay documentation/source comparison and synthetic invalid-identity order lookup summary; documents only.",
-    "changed_or_added_count": 4,
+    "checked_at_utc": "2026-10-10T02:09:17.158111+00:00",
+    "review_scope": "Three independent migration reviews synthesized with code cross-checks, a read-only live version check, and minimal frontend scope; no migration executed.",
+    "changed_or_added_count": 6,
     "changed_or_added_paths": [
       "DEVLOG.md",
       "UPDATELOG.md",
+      "HANDOFF-SUB2API.md",
       "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
+      "deploy/sub2api/MIGRATION-REVIEW-20261010.md",
       "deploy/sub2api/research-20261010.json"
     ],
     "checks": {
@@ -23433,11 +23443,13 @@
       "private_runtime_files_excluded": true,
       "go_inputs_unchanged": true,
       "public_assets_unchanged": true,
-      "local_document_links": true
+      "local_document_links": true,
+      "pinned_sub2api_source_links": true,
+      "consolidated_cutover_sequence_rereviewed": true
     },
     "unexpected_credential_patterns": 0,
-    "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_PAYMENT_MIGRATION_NOT_ACCEPTED",
-    "note": "Invalid-identity responses are not authenticated payment acceptance. First probes retained; no payment orders, payments or refunds executed."
+    "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_SINGLE_CORE_MIGRATION_NOT_IMPLEMENTED",
+    "note": "P0 findings block a future migration, not evidence of new production incidents. New migration tests, UI acceptance, payments and cutover remain unrun."
   },
   "publication_review_history": [
     {
@@ -23724,6 +23736,28 @@
       "unexpected_credential_patterns": 0,
       "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_SINGLE_CORE_MIGRATION_RECOMMENDED_NOT_IMPLEMENTED",
       "note": "Capabilities are source-reviewed, not deployment acceptance. Sanitized aggregates do not identify paying customers or certify successful requests. Bounded pattern scanning is not a guarantee of absence of every secret."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T01:47:04.087960+00:00",
+      "review_scope": "ZPay documentation/source comparison and synthetic invalid-identity order lookup summary; documents only.",
+      "changed_or_added_count": 4,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
+        "deploy/sub2api/research-20261010.json"
+      ],
+      "checks": {
+        "changed_file_hashes": true,
+        "private_runtime_files_excluded": true,
+        "go_inputs_unchanged": true,
+        "public_assets_unchanged": true,
+        "local_document_links": true
+      },
+      "unexpected_credential_patterns": 0,
+      "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_PAYMENT_MIGRATION_NOT_ACCEPTED",
+      "note": "Invalid-identity responses are not authenticated payment acceptance. First probes retained; no payment orders, payments or refunds executed."
     }
   ]
 }
