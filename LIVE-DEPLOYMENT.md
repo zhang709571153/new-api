@@ -1,5 +1,7 @@
 # Local Sub2API deployment record
 
+**2026-10-10 22:31 CST：完整 UX 的 UAC 返回取消，发布未执行。** 新 operation 没有执行日志或 ACTIVE 回执，schema 保持 297 项；取消后再次只读预检通过。线上仍为 ws-owner、维护门开放，既有六路径最近各 30/30。正常管理员命令及后续真实验收见[接续说明](deploy/sub2api/UX-NATIVE-RELEASE-20261010.md)。
+
 **2026-10-10 22:24 CST：UX 候选准备完成，未执行生产更新。** 当前实际服务仍为 `realyu-singlecore-v0.2.15-20261010-ws-owner`，SCM 正常，入口 maintenance=false。r3 UAC 返回取消，无 update receipt；r2 已恢复的事实不变。默认源码交接已推进到 UX 候选 `93022254b98d9cdfbc36db8d7ef6007365a89b53`，新二进制 SHA `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081`，前端 737 项及隔离浏览器 15/15 通过；这些不是生产验收。部署须使用[306/307 增量更新](deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md)，两个旧热修计划不得套用。生产备份在独立数据库恢复核对 120 表/51,028 行/297 迁移通过，完整备份保留私有。
 
 **2026-10-10 21:32 CST：第一次原生更新已恢复旧版，修正后的 r3 等待 UAC。** r2 在 `STOPPING_NATIVE` 触发失败，维护门 21:30:23–21:30:59，约 36.314 秒，自动恢复同一 PG 权威上的 `ws-owner`，公网复核恢复。已只读复现 PowerShell 在确认旧进程不存在时隐式返回 1，发布器增加完成校验后的显式成功码；13 项测试通过，真实所有权异常仍失败。首次错误与恢复阶段见[回执摘要](lab/sub2api_e2e/singlecore-cny-first-update-20261010.json)。没有恢复 SQLite 或更改网络。r3 使用同一已通过[28 项隔离浏览器检查](lab/sub2api_e2e/singlecore-cny-isolated-browser-20261010.json)的冻结二进制；下列源码与运行版本区分仍有效。

@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "42d594af16cef5c5e9bc9a9243b84027699275965dec453c50f1e2c301bf5cbd",
-      "source_sha256": "42d594af16cef5c5e9bc9a9243b84027699275965dec453c50f1e2c301bf5cbd",
-      "bytes": 30866,
+      "sha256": "446fd0fbd70de2fe9f0447fe71905dcc6e196404256af68a4fa1f85a8e3f9d5d",
+      "source_sha256": "446fd0fbd70de2fe9f0447fe71905dcc6e196404256af68a4fa1f85a8e3f9d5d",
+      "bytes": 31439,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "86ce2849a9e6ab11e8ad088c980321360b9ecaffa6461eb4a802f10f69354ed7",
-      "source_sha256": "86ce2849a9e6ab11e8ad088c980321360b9ecaffa6461eb4a802f10f69354ed7",
-      "bytes": 13239,
+      "sha256": "bbdf5e02b4c7344359bbf2fee45daaa9ae4c34ef9cc87770c77707f1cb11c350",
+      "source_sha256": "bbdf5e02b4c7344359bbf2fee45daaa9ae4c34ef9cc87770c77707f1cb11c350",
+      "bytes": 13513,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "b2d942ee116c1c4724e0d424858458a1dd7f83710f533e28439d71db6f890a20",
-      "source_sha256": "b2d942ee116c1c4724e0d424858458a1dd7f83710f533e28439d71db6f890a20",
-      "bytes": 14549,
+      "sha256": "6f0793db76a2050ca14480081c9a27b7dcb68d72bd637a63bdff53c19a60d30c",
+      "source_sha256": "6f0793db76a2050ca14480081c9a27b7dcb68d72bd637a63bdff53c19a60d30c",
+      "bytes": 14925,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "bc4b9c46b0803943249b523f0a73432df94c5f5002976961a910d3428c2bce96",
-      "source_sha256": "bc4b9c46b0803943249b523f0a73432df94c5f5002976961a910d3428c2bce96",
-      "bytes": 12242,
+      "sha256": "8fe5dd041062f5237e9c93c687410faf4df104496f2f63c6cb3d32394e05a4c9",
+      "source_sha256": "8fe5dd041062f5237e9c93c687410faf4df104496f2f63c6cb3d32394e05a4c9",
+      "bytes": 12576,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2702,6 +2702,14 @@
       "source_path": "deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md"
     },
     {
+      "path": "deploy/sub2api/UX-NATIVE-RELEASE-20261010.md",
+      "sha256": "6de4c037c6409ac58b6d54fb91d2863af960e63f4e799f4e44aa24b824feb88b",
+      "source_sha256": "6de4c037c6409ac58b6d54fb91d2863af960e63f4e799f4e44aa24b824feb88b",
+      "bytes": 4349,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/UX-NATIVE-RELEASE-20261010.md"
+    },
+    {
       "path": "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
       "sha256": "6f3af74d8f5a1ca91079bb3c9dd77927dbfeb4d9eee2711ed592a4dde0347dd9",
       "source_sha256": "6f3af74d8f5a1ca91079bb3c9dd77927dbfeb4d9eee2711ed592a4dde0347dd9",
@@ -4716,6 +4724,14 @@
       "bytes": 35754,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/ux-parity-browser-e2e.cjs"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-release-uac-cancel-20261010.json",
+      "sha256": "1455d574cc042c40004da07dad6cd38c6f2c8bb5363b7dcae5c31eb64ab163c8",
+      "source_sha256": "1455d574cc042c40004da07dad6cd38c6f2c8bb5363b7dcae5c31eb64ab163c8",
+      "bytes": 5722,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-release-uac-cancel-20261010.json"
     },
     {
       "path": "lab/sub2api_e2e/validation-summary.json",
@@ -24137,58 +24153,6 @@
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T13:42:28.997171+00:00",
-    "review_scope": "Native Sub2API production cutover, SG path, native-only follow-up release, CNY/admin entry and CowAgent unlimited-key correction, source rebuild, deployment runbooks and bounded production evidence.",
-    "changed_or_added_count": 35,
-    "changed_or_added_paths": [
-      "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "LIVE-DEPLOYMENT.md",
-      "UPDATELOG.md",
-      "deploy/sub2api/Apply-NativeBrand.py",
-      "deploy/sub2api/Invoke-SingleCoreRelease.ps1",
-      "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md",
-      "deploy/sub2api/Prepare-SingleCore.ps1",
-      "deploy/sub2api/SINGLECORE-CURRENCY-AND-ADMIN-20261010.md",
-      "deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md",
-      "deploy/sub2api/SINGLECORE-PRODUCTION-20261010.md",
-      "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
-      "deploy/sub2api/Set-SgHy2Monitoring.ps1",
-      "deploy/sub2api/Switch-SgHy2Tunnel.ps1",
-      "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
-      "deploy/sub2api/singlecore-candidate.patch",
-      "deploy/sub2api/singlecore-source.json",
-      "deploy/sub2api/singlecore_host_cutover.py",
-      "deploy/sub2api/singlecore_native_update.py",
-      "deploy/sub2api/test_singlecore_host_cutover.py",
-      "deploy/sub2api/test_singlecore_native_update.py",
-      "lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md",
-      "lab/sub2api_e2e/cowagent-key-fix-20261010.json",
-      "lab/sub2api_e2e/probe_cowagent_native_recovery.py",
-      "lab/sub2api_e2e/production_funding_audit.py",
-      "lab/sub2api_e2e/singlecore-cny-first-update-20261010.json",
-      "lab/sub2api_e2e/singlecore-cny-isolated-browser-20261010.json",
-      "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-cny-admin.json",
-      "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010.json",
-      "lab/sub2api_e2e/singlecore-production-health-20261010-2056.json",
-      "lab/sub2api_e2e/singlecore-production-health-20261010-2057.json",
-      "lab/sub2api_e2e/singlecore-production-protocol-20261010.json",
-      "lab/sub2api_e2e/singlecore_existing_health_window.py",
-      "lab/sub2api_e2e/singlecore_production_acceptance.py",
-      "lab/sub2api_e2e/test_production_funding_audit.py"
-    ],
-    "checks": {
-      "changed_git_blob_hashes": true,
-      "private_runtime_values_excluded": true,
-      "private_runtime_files_excluded": true,
-      "local_document_links": 129,
-      "pinned_upstream_and_patch": true
-    },
-    "deployment_status": "NATIVE_SINGLECORE_ACTIVE_SINGAPORE_HY2",
-    "note": "See LIVE-DEPLOYMENT.md for the actual live binary and acceptance. Native production activation and real public PDF/search/image, WS continuation, CLI resume and funding reconciliation have evidence. Merchant purchase/refund, unattended reboot and long-term SLA are not claimed."
-  },
-  "publication_review": {
-    "status": "PASS",
     "checked_at_utc": "2026-10-10T14:26:44.647409+00:00",
     "review_scope": "Native Sub2API UX candidate including CNY/admin/CowAgent corrections, atomic managed signup and personal keys, key scopes, team metadata and usage, wallet purchase idempotency, source rebuild, 306/307-only updater, verified PG snapshot restore, catalog restoration, and Windows deployment handoff.",
     "changed_or_added_count": 36,
@@ -24235,6 +24199,29 @@
       "private_runtime_values_excluded": true,
       "private_runtime_files_excluded": true,
       "local_document_links": 151,
+      "pinned_upstream_and_patch": true
+    },
+    "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",
+    "note": "See LIVE-DEPLOYMENT.md for the actual live binary. UX candidate has 737 frontend tests and 15 real browser/HTTP/PG acceptance cases; its production update is not yet confirmed. The earlier live core has real public PDF/search/image, WS, CLI resume and ledger evidence. Real merchant payment/refund, team first purchase/renewal/upgrade, installed desktop E2E, unattended reboot and long-term SLA are not claimed."
+  },
+  "publication_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-10T14:32:06.298636+00:00",
+    "review_scope": "Native Sub2API UX candidate including CNY/admin/CowAgent corrections, atomic managed signup and personal keys, key scopes, team metadata and usage, wallet purchase idempotency, source rebuild, 306/307-only updater, verified PG snapshot restore, catalog restoration, and Windows deployment handoff.",
+    "changed_or_added_count": 6,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/UX-NATIVE-RELEASE-20261010.md",
+      "lab/sub2api_e2e/ux-release-uac-cancel-20261010.json"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 114,
       "pinned_upstream_and_patch": true
     },
     "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",
@@ -24778,6 +24765,59 @@
       },
       "deployment_status": "NATIVE_SINGLECORE_ACTIVE_SINGAPORE_HY2",
       "note": "See LIVE-DEPLOYMENT.md for the actual live binary and acceptance. Native production activation and real public PDF/search/image, WS continuation, CLI resume and funding reconciliation have evidence. Merchant purchase/refund, unattended reboot and long-term SLA are not claimed."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T14:26:44.647409+00:00",
+      "review_scope": "Native Sub2API UX candidate including CNY/admin/CowAgent corrections, atomic managed signup and personal keys, key scopes, team metadata and usage, wallet purchase idempotency, source rebuild, 306/307-only updater, verified PG snapshot restore, catalog restoration, and Windows deployment handoff.",
+      "changed_or_added_count": 36,
+      "changed_or_added_paths": [
+        ".gitattributes",
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/POSTGRES-PRE306-BACKUP-20261010.md",
+        "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md",
+        "deploy/sub2api/Prepare-SingleCore.ps1",
+        "deploy/sub2api/RESTORE-CATALOG.md",
+        "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md",
+        "deploy/sub2api/SINGLECORE-CANDIDATE.md",
+        "deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md",
+        "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
+        "deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md",
+        "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
+        "deploy/sub2api/legacy-catalog-20261010.json",
+        "deploy/sub2api/restore_native_catalog.py",
+        "deploy/sub2api/signup-acceptance-20261010/README.md",
+        "deploy/sub2api/signup-acceptance-20261010/acceptance.json",
+        "deploy/sub2api/singlecore-candidate.patch",
+        "deploy/sub2api/singlecore-cny-admin-source.json",
+        "deploy/sub2api/singlecore-cny-admin.patch",
+        "deploy/sub2api/singlecore-source.json",
+        "deploy/sub2api/singlecore_additive_update.py",
+        "deploy/sub2api/singlecore_pg_backup.py",
+        "deploy/sub2api/test_restore_native_catalog.py",
+        "deploy/sub2api/test_singlecore_additive_update.py",
+        "deploy/sub2api/test_singlecore_pg_backup.py",
+        "lab/sub2api_e2e/catalog-restore-http-20261010.json",
+        "lab/sub2api_e2e/health-before-ux-release-20261010.json",
+        "lab/sub2api_e2e/postgres-pre306-backup-20261010.json",
+        "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-ux.json",
+        "lab/sub2api_e2e/ux-browser-fixture-ops.py",
+        "lab/sub2api_e2e/ux-candidate-validation-20261010.json",
+        "lab/sub2api_e2e/ux-parity-browser-20261010.json",
+        "lab/sub2api_e2e/ux-parity-browser-e2e.cjs"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 151,
+        "pinned_upstream_and_patch": true
+      },
+      "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",
+      "note": "See LIVE-DEPLOYMENT.md for the actual live binary. UX candidate has 737 frontend tests and 15 real browser/HTTP/PG acceptance cases; its production update is not yet confirmed. The earlier live core has real public PDF/search/image, WS, CLI resume and ledger evidence. Real merchant payment/refund, team first purchase/renewal/upgrade, installed desktop E2E, unattended reboot and long-term SLA are not claimed."
     }
   ]
 }

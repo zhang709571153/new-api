@@ -1,0 +1,195 @@
+{
+  "at_utc": "2026-10-10T14:32:05.060810+00:00",
+  "status": "UAC_CANCELLED_NO_EXECUTION",
+  "operation": "native-ux-20261010-r1",
+  "production_version": "realyu-singlecore-v0.2.15-20261010-ws-owner",
+  "activation_receipt_exists": false,
+  "activation_log_exists": false,
+  "plan_sha256": "acaabad7f18893cdf6aa1b1921b7cf8a993a7cd2d4465050274b51e88db9064a",
+  "repeated_readonly_preflight": "PASS",
+  "migrations_applied": [],
+  "production_changed": false,
+  "health": {
+    "at": "2026-10-10T14:31:06.075340+00:00",
+    "requested_since": "2026-10-10T14:26:00+00:00",
+    "new_probes": 0,
+    "model_calls": 0,
+    "health": {
+      "public-direct": {
+        "healthy": 30,
+        "total": 30,
+        "success_fraction": 1.0,
+        "first_failure": null,
+        "failures": [],
+        "last": {
+          "at": "2026-10-10T14:30:55.683214+00:00",
+          "http_status": 200,
+          "curl_exit": 0,
+          "healthy": true,
+          "category": "healthy",
+          "ready_connections": null,
+          "identity_verified": null,
+          "probe_id": "1ae35f590e2d4e3d94690c674848091c",
+          "cf_ray": "a4865369fdeead2d-SEA"
+        }
+      },
+      "public-via-local-proxy": {
+        "healthy": 30,
+        "total": 30,
+        "success_fraction": 1.0,
+        "first_failure": null,
+        "failures": [],
+        "last": {
+          "at": "2026-10-10T14:30:55.683214+00:00",
+          "http_status": 200,
+          "curl_exit": 0,
+          "healthy": true,
+          "category": "healthy",
+          "ready_connections": null,
+          "identity_verified": null,
+          "probe_id": "735691c0cffa418fbb68feb3695bf9ff",
+          "cf_ray": "a486536848bfcdd9-SIN"
+        }
+      },
+      "backend": {
+        "healthy": 30,
+        "total": 30,
+        "success_fraction": 1.0,
+        "first_failure": null,
+        "failures": [],
+        "last": {
+          "at": "2026-10-10T14:30:55.683214+00:00",
+          "http_status": 200,
+          "curl_exit": 0,
+          "healthy": true,
+          "category": "healthy",
+          "ready_connections": null,
+          "identity_verified": null,
+          "probe_id": "4e5329e480444fba9bf3577367b62cdf",
+          "cf_ray": null
+        }
+      },
+      "bridge": {
+        "healthy": 30,
+        "total": 30,
+        "success_fraction": 1.0,
+        "first_failure": null,
+        "failures": [],
+        "last": {
+          "at": "2026-10-10T14:30:55.683214+00:00",
+          "http_status": 200,
+          "curl_exit": 0,
+          "healthy": true,
+          "category": "healthy",
+          "ready_connections": null,
+          "identity_verified": null,
+          "probe_id": "5baa3fa514a94f22b7699977ad5da241",
+          "cf_ray": null
+        }
+      },
+      "tunnel-primary": {
+        "healthy": 30,
+        "total": 30,
+        "success_fraction": 1.0,
+        "first_failure": null,
+        "failures": [],
+        "last": {
+          "at": "2026-10-10T14:30:55.683214+00:00",
+          "http_status": 200,
+          "curl_exit": 0,
+          "healthy": true,
+          "category": "healthy",
+          "ready_connections": 4,
+          "identity_verified": true,
+          "probe_id": "05940cf857f64780aa54dc4bdc0aba0c",
+          "cf_ray": null
+        }
+      },
+      "tunnel-replica": {
+        "healthy": 30,
+        "total": 30,
+        "success_fraction": 1.0,
+        "first_failure": null,
+        "failures": [],
+        "last": {
+          "at": "2026-10-10T14:30:55.683214+00:00",
+          "http_status": 200,
+          "curl_exit": 0,
+          "healthy": true,
+          "category": "healthy",
+          "ready_connections": 4,
+          "identity_verified": true,
+          "probe_id": "e9de34791f3844d3ac646ed67d50cc38",
+          "cf_ray": null
+        }
+      }
+    },
+    "health_first": "2026-10-10T14:26:05.644181+00:00",
+    "health_last": "2026-10-10T14:30:55.683214+00:00",
+    "health_latest_age_seconds": 10.392126,
+    "max_health_interval_seconds": 10.016555,
+    "malformed_health_lines": 0,
+    "path": {
+      "sample_count": 8,
+      "all_eight_fixed_sg": true,
+      "first": "2026-10-10T14:26:22.183501+00:00",
+      "last": "2026-10-10T14:30:44.367041+00:00",
+      "last_age_seconds": 21.708299,
+      "max_interval_seconds": 47.150819,
+      "latest_two_same_flow_deltas": [
+        {
+          "same_flow": true,
+          "upload_delta": 234,
+          "download_delta": 234
+        },
+        {
+          "same_flow": true,
+          "upload_delta": 20372,
+          "download_delta": 1334
+        },
+        {
+          "same_flow": true,
+          "upload_delta": 234,
+          "download_delta": 234
+        },
+        {
+          "same_flow": true,
+          "upload_delta": 234,
+          "download_delta": 234
+        },
+        {
+          "same_flow": true,
+          "upload_delta": 234,
+          "download_delta": 234
+        },
+        {
+          "same_flow": true,
+          "upload_delta": 234,
+          "download_delta": 234
+        },
+        {
+          "same_flow": true,
+          "upload_delta": 234,
+          "download_delta": 234
+        },
+        {
+          "same_flow": true,
+          "upload_delta": 234,
+          "download_delta": 234
+        }
+      ]
+    },
+    "limits": [
+      "Existing complete-response health contracts, not model inference.",
+      "No new public exit or socket-owner probe; exact path based on existing observer.",
+      "Sampling bounds outage timing; this window alone cannot establish or disprove a recurring 20-minute fault or long-term SLA."
+    ]
+  },
+  "financial_readonly": {
+    "status": "NO_NEW_REQUESTS",
+    "changed_requests": 0,
+    "violations": [],
+    "unexplained_financial_changes": [],
+    "pending": []
+  }
+}

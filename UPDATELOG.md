@@ -1,5 +1,9 @@
 # RealYu / Sub2API 更新日志
 
+## 2026-10-10 22:31 — 完整候选已交付，系统提权未完成
+
+Git ce6131 已在远端核对。完整 UX 计划等待正常 Windows 管理员执行；本轮 UAC 取消，没有发布。生产继续运行 ws-owner，完整候选通过结果保持有效，参见[接续说明](deploy/sub2api/UX-NATIVE-RELEASE-20261010.md)。
+
 ## 2026-10-10 22:24 — 完整 UX 候选验收完成，尚未发布
 
 `realyu-singlecore-v0.2.15-20261010-ux` 恢复工作台一键配置、个人/团队 Key 分区、注册自动 Key、团队昵称与用量排序、个人钱包购买及管理员套餐配置；包含 CNY 展示和 CowAgent 无限 Key 修复。前端 737 项、真实浏览器/HTTP/PG 15/15 通过，购买重复请求仅扣款并履约一次。六档旧套餐的下架恢复与重入已在隔离候选通过。源码、重建补丁、备份/增量发布工具及[Windows 交接](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)已补齐。
