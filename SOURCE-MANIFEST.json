@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "edbdecb70f589953b09b313de1c3a8d90cd9c64683f3e489b2365c428008e071",
-      "source_sha256": "edbdecb70f589953b09b313de1c3a8d90cd9c64683f3e489b2365c428008e071",
-      "bytes": 14116,
+      "sha256": "403ceeb608012308b89ec68b2d241bca029f36e05175306101d4e5601a2c0842",
+      "source_sha256": "403ceeb608012308b89ec68b2d241bca029f36e05175306101d4e5601a2c0842",
+      "bytes": 15104,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "8b53067bc448811e649125b1de2617ba40fea93d64433814dfbe3548a2013b0c",
-      "source_sha256": "8b53067bc448811e649125b1de2617ba40fea93d64433814dfbe3548a2013b0c",
-      "bytes": 5590,
+      "sha256": "bbfd24452f0c394bdb7f8ebcf2df13ecd535a652c793c9501412968f92b2313c",
+      "source_sha256": "bbfd24452f0c394bdb7f8ebcf2df13ecd535a652c793c9501412968f92b2313c",
+      "bytes": 5903,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2519,9 +2519,9 @@
     },
     {
       "path": "deploy/sub2api/SINGLECORE-CANDIDATE.md",
-      "sha256": "cf59d22503bfb33acf9a33143ce9d024db8b150c5d067322f3d4744ccc15c416",
-      "source_sha256": "cf59d22503bfb33acf9a33143ce9d024db8b150c5d067322f3d4744ccc15c416",
-      "bytes": 13710,
+      "sha256": "558f4f87fc8d5348c95a585043bbd60a3b6533c8924f06c42f762256f0033bd3",
+      "source_sha256": "558f4f87fc8d5348c95a585043bbd60a3b6533c8924f06c42f762256f0033bd3",
+      "bytes": 16237,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-CANDIDATE.md"
     },
@@ -23521,32 +23521,6 @@
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T02:09:17.158111+00:00",
-    "review_scope": "Three independent migration reviews synthesized with code cross-checks, a read-only live version check, and minimal frontend scope; no migration executed.",
-    "changed_or_added_count": 6,
-    "changed_or_added_paths": [
-      "DEVLOG.md",
-      "UPDATELOG.md",
-      "HANDOFF-SUB2API.md",
-      "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
-      "deploy/sub2api/MIGRATION-REVIEW-20261010.md",
-      "deploy/sub2api/research-20261010.json"
-    ],
-    "checks": {
-      "changed_file_hashes": true,
-      "private_runtime_files_excluded": true,
-      "go_inputs_unchanged": true,
-      "public_assets_unchanged": true,
-      "local_document_links": true,
-      "pinned_sub2api_source_links": true,
-      "consolidated_cutover_sequence_rereviewed": true
-    },
-    "unexpected_credential_patterns": 0,
-    "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_SINGLE_CORE_MIGRATION_NOT_IMPLEMENTED",
-    "note": "P0 findings block a future migration, not evidence of new production incidents. New migration tests, UI acceptance, payments and cutover remain unrun."
-  },
-  "publication_review": {
-    "status": "PASS",
     "checked_at_utc": "2026-10-10T04:56:45.517088+00:00",
     "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
     "changed_or_added_count": 18,
@@ -23575,6 +23549,26 @@
       "private_runtime_values_excluded": true,
       "private_runtime_files_excluded": true,
       "local_document_links": 47,
+      "pinned_upstream_and_patch": true
+    },
+    "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
+    "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
+  },
+  "publication_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-10T05:04:28.489248+00:00",
+    "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
+    "changed_or_added_count": 3,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/SINGLECORE-CANDIDATE.md"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 31,
       "pinned_upstream_and_patch": true
     },
     "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
@@ -23913,6 +23907,41 @@
       "unexpected_credential_patterns": 0,
       "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_SINGLE_CORE_MIGRATION_NOT_IMPLEMENTED",
       "note": "P0 findings block a future migration, not evidence of new production incidents. New migration tests, UI acceptance, payments and cutover remain unrun."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T04:56:45.517088+00:00",
+      "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
+      "changed_or_added_count": 18,
+      "changed_or_added_paths": [
+        ".gitattributes",
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/FRONTEND-REUSE-20261010.md",
+        "deploy/sub2api/Prepare-SingleCore.ps1",
+        "deploy/sub2api/SINGLECORE-CANDIDATE.md",
+        "deploy/sub2api/singlecore-candidate.patch",
+        "deploy/sub2api/singlecore-source.json",
+        "deploy/sub2api/singlecore_http_smoke.py",
+        "deploy/sub2api/singlecore_migrate.py",
+        "deploy/sub2api/test_singlecore_migrate.py",
+        "deploy/sub2api/test_singlecore_migration_pg.py",
+        "lab/sub2api_e2e/frontend-reuse-20261010.json",
+        "lab/sub2api_e2e/singlecore-candidate-20261010.json",
+        "lab/sub2api_e2e/singlecore-profile-20261010.jpg",
+        "lab/sub2api_e2e/singlecore-subscription-error-20261010.jpg",
+        "lab/sub2api_e2e/singlecore-subscription-recovered-20261010.jpg"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 47,
+        "pinned_upstream_and_patch": true
+      },
+      "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
+      "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
     }
   ]
 }

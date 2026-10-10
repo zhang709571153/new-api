@@ -14,6 +14,8 @@
 - [Windows 重建/演练教程](deploy/sub2api/SINGLECORE-CANDIDATE.md)包含完整补丁与固定源码清单；
   [验证记录](lab/sub2api_e2e/singlecore-candidate-20261010.json)分别记录通过项和未执行验收。
 - 尚不满足全量无缝切换：WS、旧支付/续聊状态、可恢复计费任务、团队操作界面与最终跨库切换仍是门槛。
+- 管理员/团队复核：原生详细后台保留；团队 owner 成员用量与旧 role10 的权限映射仍待完成。
+  已补充[必须保留的界面及权限验收合同](deploy/sub2api/SINGLECORE-CANDIDATE.md#8-管理员详情与团队可见性必须保留)，不将数据导入误报为功能可用。
 
 ## 2026-10-10 — 完整迁移方案复核，未变更线上功能
 
