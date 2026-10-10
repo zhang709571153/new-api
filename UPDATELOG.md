@@ -4,6 +4,14 @@
 完整部署状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，接手入口见
 [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md)，开发过程见 [DEVLOG.md](DEVLOG.md)。
 
+## 2026-10-10 — 平台选型研究，未变更线上功能
+
+- 完成原版 New API / Sub2API、相关上游与 fork 的源码对照，另列 RealYu 定制业务
+  和数据迁移范围。建议方向为 Sub2API 单核心加必要业务移植，尚未实施全迁。
+- [完整研究](deploy/sub2api/PLATFORM-COMPARISON-20261010.md)包含当前真实使用项、
+  原生能力差异、可退休的桥接组件和将来需要的验收；不是已完成迁移或稳定性保证。
+- 本轮没有服务重启、客户资金变更、域名切换或程序发布。
+
 ## 2026-10-10 上午 — 公网访问恢复，网络观察进行中
 
 - 08:47 复核：用户切换 TW 后主副自动恢复 4+4；实际走 tw1，首页和真实

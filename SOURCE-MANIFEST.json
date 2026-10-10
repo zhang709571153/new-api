@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "fd017dc296fbaebb3859ae0d7d2f6eaca04f995781d2e7db364fffecaee5b286",
-      "source_sha256": "fd017dc296fbaebb3859ae0d7d2f6eaca04f995781d2e7db364fffecaee5b286",
-      "bytes": 6461,
+      "sha256": "016a730954199ee43845b5bd7da1a0fa23f60b710fef30516ccb4039e5a7b883",
+      "source_sha256": "016a730954199ee43845b5bd7da1a0fa23f60b710fef30516ccb4039e5a7b883",
+      "bytes": 8054,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "e513cfd8df4d3d70fc749edb48e54ac8645267ab21e5802b0933e6b26479e03c",
-      "source_sha256": "e513cfd8df4d3d70fc749edb48e54ac8645267ab21e5802b0933e6b26479e03c",
-      "bytes": 5157,
+      "sha256": "7100683e55adb973475cecd5b4ac4a72ee11a5055e089420e9ae8717241e7c68",
+      "source_sha256": "7100683e55adb973475cecd5b4ac4a72ee11a5055e089420e9ae8717241e7c68",
+      "bytes": 5469,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "8129130f94495ef9c1ecc2c1c2f236395b504dcf88b1caddb4fc1528c700adbb",
-      "source_sha256": "8129130f94495ef9c1ecc2c1c2f236395b504dcf88b1caddb4fc1528c700adbb",
-      "bytes": 2931,
+      "sha256": "12e54d1d8cf75026ff1eb5056e47de8617873862126d81eb47ddc12de72551d8",
+      "source_sha256": "12e54d1d8cf75026ff1eb5056e47de8617873862126d81eb47ddc12de72551d8",
+      "bytes": 3493,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2478,6 +2478,14 @@
       "source_path": "deploy/sub2api/New-NativeCandidate.ps1"
     },
     {
+      "path": "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
+      "sha256": "d3886752c3bafa4df72015da2e1d4a6fbe25fc2d4b0ede086004743d98e82e93",
+      "source_sha256": "d3886752c3bafa4df72015da2e1d4a6fbe25fc2d4b0ede086004743d98e82e93",
+      "bytes": 18863
+    },
+    {
       "path": "deploy/sub2api/README.md",
       "sha256": "880a7df029ecf136bb1436d2252a34eab418c9269d1027d6181b684a0db3230f",
       "source_sha256": "880a7df029ecf136bb1436d2252a34eab418c9269d1027d6181b684a0db3230f",
@@ -2684,6 +2692,14 @@
       "bytes": 2145,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/release_control.py"
+    },
+    {
+      "path": "deploy/sub2api/research-20261010.json",
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/research-20261010.json",
+      "sha256": "33fa6ccaed74d1f9b847c0ce2a6dfce112d65a8e83753316d2251ec306879af4",
+      "source_sha256": "33fa6ccaed74d1f9b847c0ce2a6dfce112d65a8e83753316d2251ec306879af4",
+      "bytes": 7482
     },
     {
       "path": "deploy/sub2api/snapshot_sqlite.py",
@@ -23403,25 +23419,29 @@
   },
   "publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T00:47:43.348168+00:00",
-    "review_scope": "Sanitized TW switch automatic recovery verification; documentation only.",
-    "changed_or_added_count": 4,
+    "checked_at_utc": "2026-10-10T01:32:08.297677+00:00",
+    "review_scope": "Pinned stock New API/Sub2API capability and lineage research; custom business port scope; documentation only.",
+    "changed_or_added_count": 5,
     "changed_or_added_paths": [
       "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
       "UPDATELOG.md",
-      "LIVE-DEPLOYMENT.md",
-      "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
+      "deploy/sub2api/PLATFORM-COMPARISON-20261010.md",
+      "deploy/sub2api/research-20261010.json"
     ],
     "checks": {
-      "changed_file_hashes": true,
-      "private_runtime_files_excluded": true,
-      "go_inputs_unchanged": true,
-      "public_assets_unchanged": true,
-      "local_document_links": true
+      "changed_git_blob_hashes": true,
+      "local_document_links": 29,
+      "pinned_source_paths_exist": 20,
+      "independent_source_section_reviews": 2,
+      "no_production_mutation": true,
+      "no_model_calls": true,
+      "no_new_e2e_claim": true,
+      "private_runtime_files_excluded": true
     },
     "unexpected_credential_patterns": 0,
-    "deployment_status": "LIVE_V3_10_0_1_TW_RECOVERY_VERIFIED_PORTAL_UNPUBLISHED",
-    "note": "Initial test CA configuration failure preserved; strict validation and model success do not prove long-term stability."
+    "deployment_status": "LIVE_V3_10_0_1_UNCHANGED_SINGLE_CORE_MIGRATION_RECOMMENDED_NOT_IMPLEMENTED",
+    "note": "Capabilities are source-reviewed, not deployment acceptance. Sanitized aggregates do not identify paying customers or certify successful requests. Bounded pattern scanning is not a guarantee of absence of every secret."
   },
   "publication_review_history": [
     {
@@ -23660,6 +23680,28 @@
       "unexpected_credential_patterns": 0,
       "deployment_status": "LIVE_V3_10_0_1_NETWORK_RECOVERED_PORTAL_CANDIDATE_UNPUBLISHED",
       "note": "Bounded document scan is not proof of absence of all secrets; sampled network recovery is not long-term stability."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T00:47:43.348168+00:00",
+      "review_scope": "Sanitized TW switch automatic recovery verification; documentation only.",
+      "changed_or_added_count": 4,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "UPDATELOG.md",
+        "LIVE-DEPLOYMENT.md",
+        "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
+      ],
+      "checks": {
+        "changed_file_hashes": true,
+        "private_runtime_files_excluded": true,
+        "go_inputs_unchanged": true,
+        "public_assets_unchanged": true,
+        "local_document_links": true
+      },
+      "unexpected_credential_patterns": 0,
+      "deployment_status": "LIVE_V3_10_0_1_TW_RECOVERY_VERIFIED_PORTAL_UNPUBLISHED",
+      "note": "Initial test CA configuration failure preserved; strict validation and model success do not prove long-term stability."
     }
   ]
 }

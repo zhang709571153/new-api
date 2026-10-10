@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "kind": "platform_research_not_migration_acceptance",
+  "checked_date_cst": "2026-10-10",
+  "scope": "Stock upstream comparison; RealYu custom business separately inventoried.",
+  "versions": {
+    "new_api_release": {
+      "tag": "v1.0.0-rc.42",
+      "commit": "6370b29424168039e94d40d610191e7d2e65dbf4"
+    },
+    "new_api_main": "1d4328e97417a043a161a0dd30a5b129be3ace49",
+    "sub2api_release": {
+      "tag": "v0.2.15",
+      "commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2"
+    },
+    "sub2api_main": "3a6fd1c9db07203ca308aaba69e502bc1f35b307",
+    "sub2api_main_delta": "VERSION only",
+    "realyu_source": "9ed6bd9a1587730dc4b809a678b5244b81db369c"
+  },
+  "representative_source_comparison": [
+    {
+      "path": "relay/channel/codex/adaptor.go",
+      "sha256": {
+        "main": "6b668f414cea31fed44eb5cc2e56ddbbb618e64977f575b2bb0bb647c092113e",
+        "rc42": "6b668f414cea31fed44eb5cc2e56ddbbb618e64977f575b2bb0bb647c092113e",
+        "realyu": "8411cd1f49ec848469836a7e6ca1776710e4a5d5b3fe6c0e1663e9f50d189101"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": false
+    },
+    {
+      "path": "service/codex_credential_refresh_task.go",
+      "sha256": {
+        "main": "c6b2af230579c54dda83fe3ccce975a3f1beeac8ec2272f074e8f44bb35b9936",
+        "rc42": "15f3c56af052398a5e0b0cca712e9718fa023347fcd82962f86491c558098e47",
+        "realyu": "d2240197b8b7be3a4b2bad1b6c5e7dc50ebccd7b5850ad832be23c43b535f831"
+      },
+      "main_rc42_equal": false,
+      "realyu_rc42_equal": false
+    },
+    {
+      "path": "service/codex_credential_refresh.go",
+      "sha256": {
+        "main": "3acfe6e31f874c193c43bb1ad3723276656575c578e914201f5d0b4884dfc7cc",
+        "rc42": "3acfe6e31f874c193c43bb1ad3723276656575c578e914201f5d0b4884dfc7cc",
+        "realyu": "3acfe6e31f874c193c43bb1ad3723276656575c578e914201f5d0b4884dfc7cc"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": true
+    },
+    {
+      "path": "service/codex_oauth.go",
+      "sha256": {
+        "main": "2fa9502facc6d26d994709e86c38154d79d0e5cb22551cfd3c04d17408b6c06c",
+        "rc42": "2fa9502facc6d26d994709e86c38154d79d0e5cb22551cfd3c04d17408b6c06c",
+        "realyu": "68503bc675d6fc898ffaf612c3c566433d147bd9e401d5fcd52a32485ee30b5e"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": false
+    },
+    {
+      "path": "service/codex_wham_usage.go",
+      "sha256": {
+        "main": "dc106aa3c7671a2cd179ea008830bde7532d5cd9a24d1d5dc4d783fa991a01b5",
+        "rc42": "dc106aa3c7671a2cd179ea008830bde7532d5cd9a24d1d5dc4d783fa991a01b5",
+        "realyu": "dc106aa3c7671a2cd179ea008830bde7532d5cd9a24d1d5dc4d783fa991a01b5"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": true
+    },
+    {
+      "path": "controller/responses_websocket.go",
+      "sha256": {
+        "main": "c9820ae55f4f52867e21cb0262416d0c6806c20e078ae7fed9720b5ff2793755",
+        "rc42": "752f6bbbd99d65c3a1184a77be44272401ac58eb36944e358f369282ea989781",
+        "realyu": "fa0ef3db6b9f061c728104501000c3e9c45640951218563ea55ed1746d1c86d6"
+      },
+      "main_rc42_equal": false,
+      "realyu_rc42_equal": false
+    },
+    {
+      "path": "relay/channel/sub2api/adaptor.go",
+      "sha256": {
+        "main": "e3f7098abdf1c50a6f2575dd659ada47f32f9b28619916d5037ae1f40de680c7",
+        "rc42": "e3f7098abdf1c50a6f2575dd659ada47f32f9b28619916d5037ae1f40de680c7",
+        "realyu": "0a94d2ebc7c1a95bde3405e7f199e169a2679be8373d9da11239f981306aa7c5"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": false
+    },
+    {
+      "path": "relay/channel/newapi/adaptor.go",
+      "sha256": {
+        "main": "ad7302b742072b1a07430d43eb47863da946d46c8cf147a8106ad40e9382ef0e",
+        "rc42": "ad7302b742072b1a07430d43eb47863da946d46c8cf147a8106ad40e9382ef0e",
+        "realyu": "ad7302b742072b1a07430d43eb47863da946d46c8cf147a8106ad40e9382ef0e"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": true
+    },
+    {
+      "path": "relay/channel/openai/relay_responses.go",
+      "sha256": {
+        "main": "dc778cf30c852b96ea99db3a49e707e932a5f474086a8e88c09fae195065023a",
+        "rc42": "40edba4b08ea7636882fcd486cf844c4361281d5d3193018cc911a51bf6a538d",
+        "realyu": "7d11f07f37fdb38fd6b5e758ed9a918843aa9e0036423efb4355824f50989a85"
+      },
+      "main_rc42_equal": false,
+      "realyu_rc42_equal": false
+    },
+    {
+      "path": "relay/channel/openai/relay_image.go",
+      "sha256": {
+        "main": "dcbe9d184b8e52334b85c25d5aee092db37aa2a9cb9d351f5cf74afbba344119",
+        "rc42": "c4f23794050c3a26ea3cd5b980deac39cbe0ec0052ffc3c69f66adbb8c409b41",
+        "realyu": "c4f23794050c3a26ea3cd5b980deac39cbe0ec0052ffc3c69f66adbb8c409b41"
+      },
+      "main_rc42_equal": false,
+      "realyu_rc42_equal": true
+    },
+    {
+      "path": "relaykit/dto/openai_request.go",
+      "sha256": {
+        "main": "1ac54b0dcd10639ade2a03f519481aab7895608117ddeeceae65d4758985069d",
+        "rc42": "1ac54b0dcd10639ade2a03f519481aab7895608117ddeeceae65d4758985069d",
+        "realyu": "c7a7f5ad3455be447fd36d6507bbadcb52b22ae6d28baad90af0245abb3d5db8"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": false
+    },
+    {
+      "path": "router/relay-router.go",
+      "sha256": {
+        "main": "1cb64c4051878dc60d5137fbfc959ded8cde268ded25426582cc063b4dce5cb8",
+        "rc42": "1cb64c4051878dc60d5137fbfc959ded8cde268ded25426582cc063b4dce5cb8",
+        "realyu": "afe0b79254debae3bc085b3ac197a4721859dba4dcaf81b7e832e54aa0733bf9"
+      },
+      "main_rc42_equal": true,
+      "realyu_rc42_equal": false
+    }
+  ],
+  "production_aggregate": {
+    "asof_utc": "2026-10-10T01:23:37.093763+00:00",
+    "query_mode": "SQLite URI mode=ro; PRAGMA query_only=ON",
+    "active_supply_channel_types": [
+      59
+    ],
+    "teams_with_independent_funding": 3,
+    "team_membership_rows": 34,
+    "nonowner_members_with_positive_weekly_caps": 31,
+    "active_team_subscriptions_no_wallet_overflow": 3,
+    "active_personal_subscriptions_with_wallet_overflow": 4,
+    "text_model_expressions": 8,
+    "time_rule_expressions": 0,
+    "passkey_credentials": 0,
+    "two_factor_records": 0,
+    "oauth_bindings": 0,
+    "last24h_ordinary_role_team_usage_records": 3915,
+    "last24h_ordinary_role_team_actors": 23,
+    "last24h_ordinary_role_personal_usage_records": 780,
+    "last24h_ordinary_role_personal_actors": 9,
+    "usage_caveat": "Consumption records are not proof of successful completions, unique humans, external payment settlement, or paying-customer counts."
+  },
+  "method": [
+    "Official pinned source and release/PR status",
+    "Canonical Git blob comparison; flattened RealYu handoff history is not an upstream merge base",
+    "Anonymized read-only production feature inventory",
+    "Independent source review of New API and Sub2API sections"
+  ],
+  "not_run": [
+    "New model inference or paid calls",
+    "Standalone migration implementation",
+    "New E2E or load test",
+    "Production binary hash re-verification",
+    "Authentication compliance audit",
+    "Target-machine restore"
+  ],
+  "mutations": {
+    "production_configuration": false,
+    "customer_data": false,
+    "service_restart": false,
+    "deployment": false
+  },
+  "recommendation": "Sub2API single core with scoped RealYu business port; current bridge remains until migration acceptance.",
+  "privacy": "No user names, emails, passwords, API keys, transaction amounts or raw customer records included."
+}

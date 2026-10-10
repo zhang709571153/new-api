@@ -10,6 +10,9 @@
 
 - [开发日志](DEVLOG.md)记录决策、验证、首个失败和未完成项；
   [更新日志](UPDATELOG.md)区分源码、候选和实际发布状态。
+- [原版平台对照与单核心迁移研究](deploy/sub2api/PLATFORM-COMPARISON-20261010.md)
+  区分 New API/Sub2API 原生能力和 RealYu 自研业务；建议以 Sub2API 单核心为目标，
+  尚未实施。下方部署教程仍对应当前桥接系统，不能按研究目标假定全迁已经完成。
 - [管理入口部署教程](deploy/sub2api/ADMIN-PORTAL.md)说明渠道账号分布、真实用量
   归属、独立 HTTPS 原生后台、现有系统升级与验收命令。
 - [10 月 10 日公网中断记录](deploy/sub2api/NETWORK-INCIDENT-20261010.md)说明
