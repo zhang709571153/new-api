@@ -22,6 +22,8 @@
 6. [Windows Server 迁机交接](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)：源机 ACTIVE 后
    使用原生 PG 备份恢复，保留身份、团队资金、Redis 有效续聊状态和单一 OAuth 刷新者；
    [launcher/bridge 运行包](deploy/sub2api/host-runtime/README.md)给出全部 Python 源码、安装映射和哈希。
+7. [生产公网验收](lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md)：固定 ACTIVE/版本校验、
+   PDF/搜索/图片/WS/模型测试及独立账务、浏览器和路径验收边界；默认离线，保留首错。
 
 本轮候选已取得的证据：
 

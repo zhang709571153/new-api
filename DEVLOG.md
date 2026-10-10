@@ -79,6 +79,12 @@ UAC 返回用户取消，尚无 launcher-stage / network / ACTIVE 回执。已�
 [Windows Server 迁机交接](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)已补齐。
 实际核心激活及公网验收完成后，再同步 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)。
 
+上线后[公网严格验收脚本](lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md)已交付，默认离线，
+20 项离线合同及 4 项非法参数拒绝通过；ACTIVE 与公网新版本均成立后才读取操作员 Key。
+正式域名旧版 CLI 首轮于 19:46 完整返回、退出码 0、精确 ACK，无实际工具调用/重试；
+本地 CLI 缺 `gpt-6-luna` 元数据的警告使首个严格检测失败，原结果保留，独立分类为开轮前
+本地 warning。会话已私有保存，跨生产切换 resume 尚未执行，不计为新核心公网通过。
+
 ## 2026-10-10 — HY2 与新版本发布条件复核（未发布）
 
 - 读取 VPN 与故障抢修会话及落盘报告：HY2 已通过开发网络/短时连接验证，65 分钟

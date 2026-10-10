@@ -28,6 +28,7 @@
 独立客户 PG/S0 与 SG 服务已准备。第二阶段 Windows UAC 取消，正在等待合并发布命令的系统执行；
 核心、客户权威和生产 Tunnel 路径尚未切换。新增[Windows Server 迁机教程](deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md)
 及[完整 launcher/bridge 运行源码](deploy/sub2api/host-runtime/README.md)。原生启动不再依赖旧程序和凭据文件，12 项相关回归通过。
+新增[生产公网验收工具](lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md)，默认离线、零重试、首错保留；尚未执行新核心公网测试。
 
 ## 2026-10-10 — 发布条件复核，未上线
 

@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "58e9ffe17bb147c889822c6eaa8449f76232b72b1af12dddcd8196276edecdf7",
-      "source_sha256": "58e9ffe17bb147c889822c6eaa8449f76232b72b1af12dddcd8196276edecdf7",
-      "bytes": 23795,
+      "sha256": "4a6d506d3ed5cb879a7a9db47bc7fa403618051326124094ba654ae4ac93164f",
+      "source_sha256": "4a6d506d3ed5cb879a7a9db47bc7fa403618051326124094ba654ae4ac93164f",
+      "bytes": 24370,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "cb92eef073933dfe8d353b7087dcbf92b52eb73871175563d601fb9481d07656",
-      "source_sha256": "cb92eef073933dfe8d353b7087dcbf92b52eb73871175563d601fb9481d07656",
-      "bytes": 11490,
+      "sha256": "23bf6b5b7aed4efb90a4475b8de7f57c42a7becc4e28a7540a0f3cad298934a3",
+      "source_sha256": "23bf6b5b7aed4efb90a4475b8de7f57c42a7becc4e28a7540a0f3cad298934a3",
+      "bytes": 11713,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "2e3a5ce8697cc58e1683b08c1ccff6f8deeab838c21618fcf471e5c5eb2305de",
-      "source_sha256": "2e3a5ce8697cc58e1683b08c1ccff6f8deeab838c21618fcf471e5c5eb2305de",
-      "bytes": 8940,
+      "sha256": "d099048217202fb465dfbb2e315f8542d09a65555fb1c3a64801f455a7b666c3",
+      "source_sha256": "d099048217202fb465dfbb2e315f8542d09a65555fb1c3a64801f455a7b666c3",
+      "bytes": 9103,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -3582,6 +3582,14 @@
       "git_mode": "100644"
     },
     {
+      "path": "lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md",
+      "sha256": "fef9ddf5203fd6015ca454272a2f0b44bb93cc07bcc58a92d22e3a8b9b1f5336",
+      "source_sha256": "fef9ddf5203fd6015ca454272a2f0b44bb93cc07bcc58a92d22e3a8b9b1f5336",
+      "bytes": 3965,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md"
+    },
+    {
       "path": "lab/sub2api_e2e/acceptance-gaps.json",
       "sha256": "ea28d051f1acf1b38c234f0d52e62c6b314dcc9888ba3474f3e33d0c577dd978",
       "source_sha256": "be1ae9ff365f41a7d78bf66f32e9073124b4dea93c8813c9fdf2dad754982da9",
@@ -4284,6 +4292,14 @@
       "bytes": 4867,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/singlecore-upstream-e2e-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/singlecore_production_acceptance.py",
+      "sha256": "ea672bfa9ad435c42f6177c5bd8effb0c73a0f19ddd92669551d2463bb3dd52b",
+      "source_sha256": "ea672bfa9ad435c42f6177c5bd8effb0c73a0f19ddd92669551d2463bb3dd52b",
+      "bytes": 42948,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/singlecore_production_acceptance.py"
     },
     {
       "path": "lab/sub2api_e2e/stock-chain-summary.json",
@@ -23777,26 +23793,6 @@
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T08:03:16.765149+00:00",
-    "review_scope": "Isolated Sub2API single-core source candidate, historical frontend port, reproduction scripts and bounded evidence; no production publication.",
-    "changed_or_added_count": 3,
-    "changed_or_added_paths": [
-      "DEVLOG.md",
-      "UPDATELOG.md",
-      "deploy/sub2api/RELEASE-READINESS-20261010.md"
-    ],
-    "checks": {
-      "changed_git_blob_hashes": true,
-      "private_runtime_values_excluded": true,
-      "private_runtime_files_excluded": true,
-      "local_document_links": 30,
-      "pinned_upstream_and_patch": true
-    },
-    "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
-    "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
-  },
-  "publication_review": {
-    "status": "PASS",
     "checked_at_utc": "2026-10-10T11:42:59.851261+00:00",
     "review_scope": "Sub2API native customer/team core, Windows runtime sources, pinned SG/core cutover tools, migration handoff and bounded evidence. SG services and S0 prepared; core not activated.",
     "changed_or_added_count": 39,
@@ -23846,6 +23842,28 @@
       "private_runtime_values_excluded": true,
       "private_runtime_files_excluded": true,
       "local_document_links": 104,
+      "pinned_upstream_and_patch": true
+    },
+    "deployment_status": "SG_SCM_INSTALLED_S0_STAGED_NATIVE_ACTIVATION_WAITING_WINDOWS_ELEVATION",
+    "note": "Real upstream PDF/search/image, WS continuation and CLI cross-origin resume passed in isolated native customer state. Production core activation/public acceptance, real merchant acceptance and reboot/long-term stability are not claimed."
+  },
+  "publication_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-10T11:49:48.826997+00:00",
+    "review_scope": "Sub2API native customer/team core, Windows runtime sources, pinned SG/core cutover tools, migration handoff and bounded evidence. SG services and S0 prepared; core not activated.",
+    "changed_or_added_count": 5,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "UPDATELOG.md",
+      "lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md",
+      "lab/sub2api_e2e/singlecore_production_acceptance.py"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 72,
       "pinned_upstream_and_patch": true
     },
     "deployment_status": "SG_SCM_INSTALLED_S0_STAGED_NATIVE_ACTIVATION_WAITING_WINDOWS_ELEVATION",
@@ -24259,6 +24277,62 @@
       },
       "deployment_status": "ISOLATED_SINGLE_CORE_CANDIDATE_ONLY_FULL_MIGRATION_GATES_REMAIN",
       "note": "Scoped checks and tests do not prove full migration, real merchant acceptance, paid-model success or long-term stability."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T11:42:59.851261+00:00",
+      "review_scope": "Sub2API native customer/team core, Windows runtime sources, pinned SG/core cutover tools, migration handoff and bounded evidence. SG services and S0 prepared; core not activated.",
+      "changed_or_added_count": 39,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/Install-SgHy2Service.ps1",
+        "deploy/sub2api/Install-SingleCoreHostStage.ps1",
+        "deploy/sub2api/Invoke-SingleCoreRelease.ps1",
+        "deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md",
+        "deploy/sub2api/SG-HY2-VALIDATION-20261010.json",
+        "deploy/sub2api/SINGLECORE-HOST-CUTOVER.md",
+        "deploy/sub2api/SINGLECORE-SUPPLY-PRICING.md",
+        "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
+        "deploy/sub2api/Set-SgHy2Monitoring.ps1",
+        "deploy/sub2api/SgHy2.Common.ps1",
+        "deploy/sub2api/Switch-SgHy2Tunnel.ps1",
+        "deploy/sub2api/Test-SgHy2Package.ps1",
+        "deploy/sub2api/host-runtime/README.md",
+        "deploy/sub2api/host-runtime/job_guard.py",
+        "deploy/sub2api/host-runtime/service_identity.py",
+        "deploy/sub2api/host-runtime/source-manifest.json",
+        "deploy/sub2api/service_entry_singlecore.py",
+        "deploy/sub2api/sg_hy2_package.py",
+        "deploy/sub2api/sg_hy2_tls_probe.py",
+        "deploy/sub2api/singlecore-candidate.patch",
+        "deploy/sub2api/singlecore-host-plan.example.json",
+        "deploy/sub2api/singlecore-source.json",
+        "deploy/sub2api/singlecore_host_cutover.py",
+        "deploy/sub2api/singlecore_migrate.py",
+        "deploy/sub2api/singlecore_pricing.py",
+        "deploy/sub2api/singlecore_supply.py",
+        "deploy/sub2api/test_service_entry_singlecore.py",
+        "deploy/sub2api/test_sg_hy2_package.py",
+        "deploy/sub2api/test_singlecore_host_cutover.py",
+        "deploy/sub2api/test_singlecore_migrate.py",
+        "deploy/sub2api/test_singlecore_pricing.py",
+        "deploy/sub2api/test_singlecore_supply.py",
+        "lab/sub2api_e2e/singlecore-upstream-e2e-20261010.json",
+        "lab/sub2api_e2e/team-headless-browser-acceptance.json",
+        "lab/sub2api_e2e/team-live-http-acceptance.json"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 104,
+        "pinned_upstream_and_patch": true
+      },
+      "deployment_status": "SG_SCM_INSTALLED_S0_STAGED_NATIVE_ACTIVATION_WAITING_WINDOWS_ELEVATION",
+      "note": "Real upstream PDF/search/image, WS continuation and CLI cross-origin resume passed in isolated native customer state. Production core activation/public acceptance, real merchant acceptance and reboot/long-term stability are not claimed."
     }
   ]
 }
