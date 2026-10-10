@@ -1,5 +1,9 @@
 # Local Sub2API deployment record
 
+**提权结果补充（2026-10-11 01:23 CST）：** Windows 提权未成功启动发布，未产生 UX2 ACTIVE 回执；重新只读预检通过，现网 schema 仍299、历史归档为空。线上没有被这次候选更新。请使用已给出的管理员终端命令完成系统提权，之后才能核对实际发布、正式归档和公网验收。
+
+**2026-10-11 UX2：候选已验收，尚待 Windows UAC 执行。** 最终源码 `f98d4b6`、r5 SHA `aef7b287ba4fdea3dca6590cc10bedf1e5ed8b90be639bde4d01cbc60001453c`；源码383文件、HTTP51/51、中英桌面/窄屏实测已通过。生产仍为下述20261010-ux、schema299，不能将本轮候选视作上线。当前发布入口是[308增量更新](deploy/sub2api/UX2-RELEASE-20261011.md)，旧 r1/r2 计划已因候选原路径移存而失效。
+
 **2026-10-10 23:13:51 CST：完整 UX 已 ACTIVE。** 当前实际版本为 `realyu-singlecore-v0.2.15-20261010-ux`，
 源码 `93022254b98d9cdfbc36db8d7ef6007365a89b53`、binary SHA256 `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081`。
 维护 32.596 秒，306/307 已应用到原 PG（297→299），未恢复数据库或启动旧服务，SG-HY2 路径保持。

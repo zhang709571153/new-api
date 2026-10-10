@@ -1,0 +1,784 @@
+{
+  "status": "PASS_WITH_RESOLVED_FIRST_FAILURES",
+  "version": "realyu-singlecore-v0.2.15-20261011-ux2",
+  "sourceCommit": "f98d4b6c56f0f56a5d08dbd351c8a4af6ab6a3b7",
+  "finalSha256": "aef7b287ba4fdea3dca6590cc10bedf1e5ed8b90be639bde4d01cbc60001453c",
+  "checks": [
+    {
+      "name": "r2-owner-en-desktop-light",
+      "url": "http://127.0.0.1:29481/teams",
+      "canonical": null,
+      "dark": false,
+      "heading": "E2E Team A Verified",
+      "height": 1000,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r2-owner-en-mobile-light",
+      "url": "http://127.0.0.1:29481/teams",
+      "canonical": null,
+      "dark": false,
+      "heading": "E2E Team A Verified",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r2-owner-zh-mobile-light",
+      "url": "http://127.0.0.1:29481/teams",
+      "canonical": null,
+      "dark": false,
+      "heading": "E2E Team A Verified",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r2-owner-zh-desktop-light",
+      "url": "http://127.0.0.1:29481/teams",
+      "canonical": null,
+      "dark": false,
+      "heading": "E2E Team A Verified",
+      "height": 1000,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "owner-no-join-and-member-usage-filter",
+      "passed": true
+    },
+    {
+      "name": "r2-owner-usage-zh-desktop-light",
+      "url": "http://127.0.0.1:29481/usage",
+      "canonical": null,
+      "dark": false,
+      "heading": "调用记录",
+      "height": 1000,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1440,
+      "unmaskedKey": false,
+      "width": 1440,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r2-owner-usage-zh-mobile-dark",
+      "url": "http://127.0.0.1:29481/usage",
+      "canonical": null,
+      "dark": true,
+      "heading": "调用记录",
+      "height": 800,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 352,
+      "unmaskedKey": false,
+      "width": 352,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-usage-zh-mobile-dark",
+      "url": "http://127.0.0.1:29481/usage",
+      "canonical": null,
+      "dark": true,
+      "heading": "调用记录",
+      "height": 800,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 352,
+      "unmaskedKey": false,
+      "width": 352,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-usage-en-mobile-light",
+      "url": "http://127.0.0.1:29481/usage",
+      "canonical": null,
+      "dark": false,
+      "heading": "Usage records",
+      "height": 800,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 352,
+      "unmaskedKey": false,
+      "width": 352,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "usage-filter-empty-and-primary-button",
+      "passed": true,
+      "button": {
+        "background": "rgb(0, 114, 177)",
+        "foreground": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "name": "r3-usage-en-desktop-light",
+      "url": "http://127.0.0.1:29481/usage",
+      "canonical": null,
+      "dark": false,
+      "heading": "Usage records",
+      "height": 1000,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1440,
+      "unmaskedKey": false,
+      "width": 1440,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-usage-zh-desktop-detail",
+      "url": "http://127.0.0.1:29481/usage",
+      "canonical": null,
+      "dark": false,
+      "heading": "调用记录",
+      "height": 1000,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1440,
+      "unmaskedKey": false,
+      "width": 1440,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-admin-zh-desktop-light",
+      "url": "http://127.0.0.1:29481/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "一键配置",
+      "height": 1000,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-admin-overview-zh-desktop-light",
+      "url": "http://127.0.0.1:29481/admin/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "使用概览",
+      "height": 1000,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1440,
+      "unmaskedKey": false,
+      "width": 1440,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-admin-en-desktop-details",
+      "url": "http://127.0.0.1:29481/admin/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "Usage overview",
+      "height": 1000,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-admin-en-mobile-details",
+      "url": "http://127.0.0.1:29481/admin/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "Usage overview",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-admin-zh-mobile-dark",
+      "url": "http://127.0.0.1:29481/admin/dashboard",
+      "canonical": null,
+      "dark": true,
+      "heading": "使用概览",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-admin-accounts-zh-mobile-dark",
+      "url": "http://127.0.0.1:29481/admin/accounts",
+      "canonical": null,
+      "dark": true,
+      "heading": "",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "admin-actor-filter-80",
+      "passed": true
+    },
+    {
+      "name": "r3-admin-actor-filter-zh-mobile",
+      "url": "http://127.0.0.1:29481/admin/usage",
+      "canonical": null,
+      "dark": true,
+      "heading": "全部调用记录",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "admin-native-diagnostics-available",
+      "passed": true
+    },
+    {
+      "name": "r3-home-zh-mobile-dark",
+      "url": "http://127.0.0.1:29481/home",
+      "canonical": "https://api.realyu.fun/home",
+      "dark": true,
+      "heading": "让 AI，\n触手可及。",
+      "height": 844,
+      "lang": "zh-CN",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-home-en-mobile-light",
+      "url": "http://127.0.0.1:29481/home?lang=en",
+      "canonical": "https://api.realyu.fun/home?lang=en",
+      "dark": false,
+      "heading": "AI, within reach.",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-home-en-desktop-light",
+      "url": "http://127.0.0.1:29481/home?lang=en",
+      "canonical": "https://api.realyu.fun/home?lang=en",
+      "dark": false,
+      "heading": "AI, within reach.",
+      "height": 1000,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-home-zh-desktop-light",
+      "url": "http://127.0.0.1:29481/home?lang=zh",
+      "canonical": "https://api.realyu.fun/home",
+      "dark": false,
+      "heading": "让 AI，\n触手可及。",
+      "height": 1000,
+      "lang": "zh-CN",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-pricing-zh-desktop-light",
+      "url": "http://127.0.0.1:29481/pricing?lang=zh",
+      "canonical": "https://api.realyu.fun/pricing",
+      "dark": false,
+      "heading": "为你的想法，找到合适的模型",
+      "height": 1000,
+      "lang": "zh-CN",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "public-model-selector-slider-usd",
+      "passed": true
+    },
+    {
+      "name": "r3-pricing-en-desktop-estimate",
+      "url": "http://127.0.0.1:29481/pricing?lang=en",
+      "canonical": "https://api.realyu.fun/pricing?lang=en",
+      "dark": false,
+      "heading": "The right model for your next idea.",
+      "height": 1000,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-pricing-en-mobile-light",
+      "url": "http://127.0.0.1:29481/pricing?lang=en",
+      "canonical": "https://api.realyu.fun/pricing?lang=en",
+      "dark": false,
+      "heading": "The right model for your next idea.",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-pricing-zh-mobile-light",
+      "url": "http://127.0.0.1:29481/pricing?lang=zh",
+      "canonical": "https://api.realyu.fun/pricing",
+      "dark": false,
+      "heading": "为你的想法，找到合适的模型",
+      "height": 844,
+      "lang": "zh-CN",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-docs-zh-mobile-light",
+      "url": "http://127.0.0.1:29481/pricing?lang=zh",
+      "canonical": "https://api.realyu.fun/pricing",
+      "dark": false,
+      "heading": "为你的想法，找到合适的模型",
+      "height": 844,
+      "lang": "zh-CN",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true,
+      "passed": false,
+      "reason": "After quick language switch, documentation click was superseded; pricing stayed active."
+    },
+    {
+      "name": "r3-docs-zh-mobile-actual",
+      "url": "http://127.0.0.1:29481/docs?lang=zh",
+      "canonical": "https://api.realyu.fun/docs",
+      "dark": false,
+      "heading": "",
+      "height": 844,
+      "lang": "zh-CN",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-docs-en-desktop-workbuddy-mac",
+      "url": "http://127.0.0.1:29481/docs?lang=en",
+      "canonical": "https://api.realyu.fun/docs?lang=en",
+      "dark": false,
+      "heading": "",
+      "height": 1000,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "docs-four-app-os-tabs",
+      "passed": true
+    },
+    {
+      "name": "r3-docs-zh-desktop",
+      "url": "http://127.0.0.1:29481/docs?lang=zh",
+      "canonical": "https://api.realyu.fun/docs",
+      "dark": false,
+      "heading": "",
+      "height": 1000,
+      "lang": "zh-CN",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-docs-en-mobile-reloaded",
+      "url": "http://127.0.0.1:29481/docs?lang=en",
+      "canonical": "https://api.realyu.fun/docs?lang=en",
+      "dark": false,
+      "heading": "",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "english-public-reload-preserved",
+      "passed": true
+    },
+    {
+      "name": "r3-member-en-mobile-light",
+      "url": "http://127.0.0.1:29481/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "One-click setup",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-member-zh-mobile-light",
+      "url": "http://127.0.0.1:29481/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "一键配置",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-member-zh-desktop-light",
+      "url": "http://127.0.0.1:29481/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "一键配置",
+      "height": 1000,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r3-member-en-desktop-light",
+      "url": "http://127.0.0.1:29481/dashboard",
+      "canonical": null,
+      "dark": false,
+      "heading": "One-click setup",
+      "height": 1000,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 1432,
+      "unmaskedKey": false,
+      "width": 1432,
+      "noViewportOverflow": true
+    },
+    {
+      "workflow": "member-team-copy-uses-existing-key",
+      "passed": true,
+      "source": "r3",
+      "secretRecorded": false
+    },
+    {
+      "workflow": "member-team-own-records-only",
+      "passed": true,
+      "source": "r3"
+    },
+    {
+      "workflow": "non-admin-key-route-redirect",
+      "source": "r3",
+      "passed": true
+    },
+    {
+      "workflow": "signed-in-logo-returns-public-home",
+      "source": "r3",
+      "passed": true
+    },
+    {
+      "workflow": "member-native-diagnostics-csv",
+      "source": "r3",
+      "passed": true,
+      "rows": 2,
+      "secretRecorded": false
+    },
+    {
+      "workflow": "r5-language-switch-en-to-zh-docs",
+      "passed": true
+    },
+    {
+      "workflow": "r5-private-docs-language-en",
+      "passed": true,
+      "note": "Authenticated docs use the workspace layout; public-header label was not applicable."
+    },
+    {
+      "workflow": "r5-language-switch-zh-to-en-docs",
+      "passed": true
+    },
+    {
+      "name": "r5-docs-en-mobile-final",
+      "url": "http://127.0.0.1:29481/docs?lang=en",
+      "canonical": "https://api.realyu.fun/docs?lang=en",
+      "dark": false,
+      "heading": "Connect in a few simple steps",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "index, follow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "workflow": "r5-native-account-disabled-en",
+      "passed": true
+    },
+    {
+      "name": "r5-accounts-en-mobile-final",
+      "url": "http://127.0.0.1:29481/admin/accounts",
+      "canonical": null,
+      "dark": false,
+      "heading": "",
+      "height": 844,
+      "lang": "en",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "workflow": "r5-native-account-disabled-zh",
+      "passed": true
+    },
+    {
+      "name": "r5-accounts-zh-mobile-final",
+      "url": "http://127.0.0.1:29481/admin/accounts",
+      "canonical": null,
+      "dark": false,
+      "heading": "",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "workflow": "r5-primary-button-visible",
+      "passed": false,
+      "background": "rgb(9, 87, 135)",
+      "foreground": "rgb(255, 255, 255)",
+      "image": "none"
+    },
+    {
+      "name": "r5-admin-usage-zh-mobile-dark-final",
+      "url": "http://127.0.0.1:29481/admin/usage",
+      "canonical": null,
+      "dark": true,
+      "heading": "全部调用记录",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 390,
+      "unmaskedKey": false,
+      "width": 390,
+      "noViewportOverflow": true
+    },
+    {
+      "workflow": "r5-mobile-menu-navigation",
+      "passed": true
+    },
+    {
+      "workflow": "r5-primary-button-contrast-ratio",
+      "passed": true,
+      "contrastRatio": 7.71,
+      "previousExactColorAssertion": "Overstrict: hovered 800 shade was visible and has higher contrast than normal 700; original failed assertion retained."
+    },
+    {
+      "name": "r5-admin-usage-zh-mobile-dark-closed",
+      "url": "http://127.0.0.1:29481/admin/usage",
+      "canonical": null,
+      "dark": true,
+      "heading": "全部调用记录",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "workflow": "r5-mobile-menu-closes",
+      "passed": false,
+      "note": "Pointer targeted an obscured header; closed assertion was premature and screenshot retained."
+    },
+    {
+      "name": "r5-admin-usage-zh-mobile-dark-settled",
+      "url": "http://127.0.0.1:29481/admin/usage",
+      "canonical": null,
+      "dark": true,
+      "heading": "全部调用记录",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "name": "r5-admin-usage-zh-mobile-dark-content",
+      "url": "http://127.0.0.1:29481/admin/usage",
+      "canonical": null,
+      "dark": true,
+      "heading": "全部调用记录",
+      "height": 844,
+      "lang": "zh",
+      "rawTranslationKeys": false,
+      "robots": "noindex, nofollow",
+      "scroll": 382,
+      "unmaskedKey": false,
+      "width": 382,
+      "noViewportOverflow": true
+    },
+    {
+      "workflow": "r5-mobile-menu-keyboard-close",
+      "passed": true
+    },
+    {
+      "workflow": "r5-mobile-menu-navigation-auto-close",
+      "passed": true
+    }
+  ],
+  "earlierCopyChecks": [
+    {
+      "case": "member personal masked copy",
+      "pass": true
+    },
+    {
+      "case": "member team canonical differs from personal",
+      "pass": true
+    },
+    {
+      "case": "WorkBuddy macOS team command",
+      "pass": true
+    }
+  ],
+  "firstFailures": [
+    {
+      "issue": "primary action white on transparent",
+      "fixed": "r3",
+      "verified": "r3/r5"
+    },
+    {
+      "issue": "rapid language docs navigation cancelled",
+      "fixed": "r5",
+      "verified": "both language directions via real browser"
+    },
+    {
+      "issue": "disabled raw locale key",
+      "fixed": "r5",
+      "verified": "English and Chinese actual native account page"
+    },
+    {
+      "issue": "Exact RGB assertion expected non-hover shade",
+      "classification": "test assertion overstrict",
+      "verified": "Actual hover shade contrast 7.71:1; original failed check retained"
+    },
+    {
+      "issue": "Menu-close assertion ran against obscured pointer target",
+      "classification": "browser test targeting",
+      "verified": "Keyboard close removes overlay and sidebar right=0; actual navigation to overview also auto-closes menu"
+    }
+  ],
+  "scope": "Screenshots from r2/r3 cover unchanged UX; r5 has final HTTP 51/51 separately plus targeted browser regressions. Do not count mixed observations as one uniform assertion total.",
+  "limitations": [
+    "IAB responsive viewport is not a physical iOS Safari or Android device",
+    "No real merchant transaction or installed client execution in this UI pass",
+    "No production change at candidate verification time"
+  ],
+  "openP0P1": 0
+}

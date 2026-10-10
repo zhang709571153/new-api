@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+  "source_commit": "f98d4b6c56f0f56a5d08dbd351c8a4af6ab6a3b7",
+  "patch_sha256": "c414a0376a9ce112ff31f45c8e74475eb8b35b2f9575b62c38e63d5e9c5a007b",
+  "reconstructed_changed_files": 383,
+  "checked_at_utc": "2026-10-10T17:13:15.088780+00:00",
+  "method": "fresh pinned git archive; git apply --check; actual apply; all changed file hashes",
+  "network_used": false,
+  "build_repeated": false,
+  "production_modified": false,
+  "line_endings": "Explicit core.autocrlf=false matches Prepare-SingleCore.ps1"
+}

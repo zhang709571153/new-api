@@ -1,0 +1,106 @@
+{
+  "status": "CANDIDATE_ACCEPTED_PRODUCTION_NOT_YET_CONFIRMED",
+  "checked_at_utc": "2026-10-10T17:21:16.906014+00:00",
+  "source_commit": "f98d4b6c56f0f56a5d08dbd351c8a4af6ab6a3b7",
+  "version": "realyu-singlecore-v0.2.15-20261011-ux2",
+  "binary_sha256": "aef7b287ba4fdea3dca6590cc10bedf1e5ed8b90be639bde4d01cbc60001453c",
+  "patch_sha256": "c414a0376a9ce112ff31f45c8e74475eb8b35b2f9575b62c38e63d5e9c5a007b",
+  "source_reconstruction": {
+    "changed_files": 383,
+    "actual_apply_and_each_hash": "PASS",
+    "clean_git_buildinfo": true
+  },
+  "frontend": {
+    "test_files": 82,
+    "tests_passed": 892,
+    "typecheck": "PASS",
+    "vite": "PASS",
+    "additional_account_status_locale_regression": "2 real-component language cases passed within a separate 104-case related suite; overlapping totals are not added"
+  },
+  "backend": {
+    "selected_packages": 8,
+    "result": "PASS",
+    "packages_with_no_matching_unit_tests": 2,
+    "real_postgresql_and_importer_evidence": "usage-history-backend-20261011.json"
+  },
+  "http": {
+    "passed": 51,
+    "failed": 0,
+    "report": "usage-history-http-20261011-r5.json",
+    "financial_fingerprint_unchanged": true
+  },
+  "browser": {
+    "report": "ux2-browser-20261011.json",
+    "mixed_observations": 64,
+    "not_a_uniform_test_total": true,
+    "locale": [
+      "zh",
+      "en"
+    ],
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        360,
+        800
+      ]
+    ],
+    "light_and_dark": true,
+    "resolved_product_failures": 3,
+    "harness_assertion_corrections_preserved": true
+  },
+  "history_rehearsal": {
+    "source_records": 31295,
+    "existing_business_tables_unchanged": 122,
+    "idempotent_replay": "PASS",
+    "report": "usage-history-full-scale-20261011.json"
+  },
+  "canonical_setup": {
+    "active_users": 51,
+    "personal_usable": 51,
+    "team_usable": 32,
+    "without_team_expected_404": 19,
+    "ambiguous": 0,
+    "report": "canonical-setup-snapshot-20261011.json"
+  },
+  "screenshots": [
+    {
+      "path": "lab/sub2api_e2e/ux2-screenshots/r3-home-zh-desktop-light.png",
+      "sha256": "9e31f588d020fa5be2aa9af563f80512135fb8c08a81a400c295932d7c0c1042"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux2-screenshots/r3-member-en-mobile-light.png",
+      "sha256": "a7776e643a2c6a799c385053ee5294fd1961275f9e61e9d282efe909ddf770b4"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux2-screenshots/r3-member-en-desktop-light.png",
+      "sha256": "1c724bb3651675a48949af1b72ac8c401a11ec75a063ff52e0ce64c727437a76"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux2-screenshots/r5-docs-en-mobile-final.png",
+      "sha256": "cf3a80ababc1465fad9aae237afed5f8197384759adbaebd6aad80ff69530822"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux2-screenshots/r5-accounts-zh-mobile-final.png",
+      "sha256": "6aa01fc6885dc6ed4282cc65d47baa85ac5ac14785dd8aa66d4af213be0f8e69"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux2-screenshots/r5-admin-usage-zh-mobile-dark-content.png",
+      "sha256": "ff6552d556883d463f5c6028d0e3e29e6e29f105c9a2770d6d65a57462b7aa7a"
+    }
+  ],
+  "production_changed_by_candidate_tests": false,
+  "limits": [
+    "IAB responsive viewport is not a physical iOS Safari or Android device",
+    "No real merchant transaction or installed client execution in this UI pass",
+    "No production change at candidate verification time",
+    "Wallet purchase/signup evidence is from the immediately preceding UX release; this change does not alter those implementation paths.",
+    "Long-term stability, physical mobile browser compatibility and search-engine indexing are not guaranteed."
+  ]
+}

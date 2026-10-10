@@ -1,0 +1,55 @@
+{
+  "counts": {
+    "deleted_actor_rows": 58,
+    "detail_rows": 31291,
+    "existing_team_rows": 24520,
+    "personal_rows": 6703,
+    "quarantined_rows": 4,
+    "self_rows": 6713,
+    "source_consume_rows": 31295,
+    "unknown_scope_rows": 10
+  },
+  "database": "realyu_backup_verify_20261010t163514z_425661ec30",
+  "deleted_actor_totals": {
+    "cost_quota": 914199,
+    "input_tokens": 555328,
+    "output_tokens": 5698
+  },
+  "dump_sha256": "fb789b3b13b76774ba865454df12fd7e6e013fbd47c2ba033cdfbf8adf0e6f46",
+  "finished_at": "2026-10-10T16:37:56.521526Z",
+  "gateway_started": false,
+  "host": "127.0.0.1",
+  "idempotent_replay": true,
+  "importer_sha256": "3ef8b282e4c9fb99c14add41d8d82f6a17264481d16c7db52dc936cc29366bb6",
+  "kind": "isolated-full-usage-history-rehearsal",
+  "limitation": "Isolated snapshot and immutable facts only; no permission to restore or rewind the production ledger.",
+  "manifest_sha256": "decf388b4beb04d93914d0746bdacdd5147db7751a6342ddf41a424af5d3394a",
+  "migration_checksum": "3ee70f5ffb0910c1693641c686a24e567ea2c0b87d32a7cb2084cffdccb3048c",
+  "migration_sha256": "a3597393fe93c23228a18787e5ade07b9c8332201c347b23df8b36bfc8ddf664",
+  "port": 29490,
+  "preexisting_rows_sha256_after": "04ed236e6f204f7af8d42c3bceeb757b12a37d44b68edd9e95c017c8bc193d2a",
+  "preexisting_rows_sha256_before": "04ed236e6f204f7af8d42c3bceeb757b12a37d44b68edd9e95c017c8bc193d2a",
+  "preexisting_tables_unchanged": 122,
+  "production_modified": false,
+  "quarantined_totals": {
+    "cost_quota": 75292,
+    "input_tokens": 2395,
+    "output_tokens": 135
+  },
+  "refresh_started": false,
+  "restore_receipt_sha256": "f3c8f5175745fdfed63aa0718ee84291e11a1198384f8fb82dd4a6be7fa7d476",
+  "source_ids_sha256": "12a288f33c3edad7f496595a1e4a9b272cdc4b6b8a59c84df9021bc498a0b2ab",
+  "source_sha256": "d336a90848f4cc19c1b6cce1c574964633261ee59da5e1e6de7df2b033ad5d61",
+  "source_totals": {
+    "cost_quota": 215328928,
+    "input_tokens": 2981030783,
+    "output_tokens": 12287707
+  },
+  "status": "PASS",
+  "version": 1,
+  "visible_totals": {
+    "cost_quota": 214339437,
+    "input_tokens": 2980473060,
+    "output_tokens": 12281874
+  }
+}

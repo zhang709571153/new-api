@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "captured_at": "2026-10-10T16:13:20.137706+00:00",
+  "status": "CANDIDATE_VERIFIED_NOT_DEPLOYED",
+  "production_writes": false,
+  "production_evidence_mode": "immutable_source_and_read_only_postgresql",
+  "source_consume_rows": 31295,
+  "counts": {
+    "source_consume_rows": 31295,
+    "self_rows": 6713,
+    "personal_rows": 6703,
+    "unknown_scope_rows": 10,
+    "deleted_actor_rows": 58,
+    "detail_rows": 31291,
+    "existing_team_rows": 24520,
+    "quarantined_rows": 4
+  },
+  "source_totals": {
+    "input_tokens": 2981030783,
+    "output_tokens": 12287707,
+    "cost_quota": 215328928
+  },
+  "visible_totals": {
+    "input_tokens": 2980473060,
+    "output_tokens": 12281874,
+    "cost_quota": 214339437
+  },
+  "deleted_actor_totals": {
+    "input_tokens": 555328,
+    "output_tokens": 5698,
+    "cost_quota": 914199
+  },
+  "quarantined_totals": {
+    "input_tokens": 2395,
+    "output_tokens": 135,
+    "cost_quota": 75292
+  },
+  "source_ids_sha256": "12a288f33c3edad7f496595a1e4a9b272cdc4b6b8a59c84df9021bc498a0b2ab",
+  "source_sha256": "d336a90848f4cc19c1b6cce1c574964633261ee59da5e1e6de7df2b033ad5d61",
+  "manifest_sha256": "decf388b4beb04d93914d0746bdacdd5147db7751a6342ddf41a424af5d3394a",
+  "tests": {
+    "go_pg_roots": 4,
+    "go_http_contract_roots": 2,
+    "python_total": 12,
+    "python_real_pg": 7,
+    "status": "PASS",
+    "evidence": [
+      {
+        "name": "history-pg-final.log",
+        "sha256": "a2bee74d7aaeb653cd812c8973ecab7927e0747cdd52fadd13fd8f0a040f9ab8"
+      },
+      {
+        "name": "history-import-final-concurrency.log",
+        "sha256": "913d20620c186b9e7028fa683a1924a5b438af95037efe19dc4e03f4785d08bc"
+      }
+    ]
+  },
+  "financial_write_boundary": "only four new history tables; synthetic PG financial/native usage/key/team fingerprints unchanged",
+  "first_failures_preserved": [
+    "history-pg-first.log: test run crossed a work-in-progress DTO addition; rebuilt after freeze",
+    "history-pg-second.log: fixture tried to scan numeric 0.00000000 into int; fixed test query, no ledger change",
+    "read-only source preflight refused 58 deleted actors; separate admin-only quarantine approved, no reassignment"
+  ],
+  "excluded": [
+    "old four deleted-team rows stay operator-only",
+    "request/response bodies are not read or reconstructed",
+    "production archive and browser E2E not performed by this subtask"
+  ],
+  "files": [
+    {
+      "path": "backend/migrations/308_realyu_usage_history.sql",
+      "sha256": "a3597393fe93c23228a18787e5ade07b9c8332201c347b23df8b36bfc8ddf664"
+    },
+    {
+      "path": "backend/internal/service/realyu_usage_history.go",
+      "sha256": "da1fb5463436943d64b22d060b15263082b5fbaeea35fcfe42e3f0d0b774e786"
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_history_repo.go",
+      "sha256": "106f1c14110003a3dad86cebef65e800f89274c1d2dfacdc982bca8c24190714"
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_history_pg_test.go",
+      "sha256": "330ee58bbfdf407d9f04db1a56b89022dfc3e62e21df9f35141e8093c7284161"
+    },
+    {
+      "path": "backend/internal/handler/realyu_usage_history_handler.go",
+      "sha256": "5f485f57d848ed8892c5a335cf92d6ce1cb6535605c2b171266c50cb88e7f6c3"
+    },
+    {
+      "path": "backend/internal/handler/realyu_usage_history_handler_test.go",
+      "sha256": "a761d78e027d6a07ae7765156b94f7a7fe2dd8c3960ee36578738ac52489098e"
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_team.go",
+      "sha256": "22de0229cfbe4789743d868c7343f91856e7e39b5d2f86abcc3eca41bf234182"
+    },
+    {
+      "path": "deploy/realyu/import_usage_history.py",
+      "sha256": "3ef8b282e4c9fb99c14add41d8d82f6a17264481d16c7db52dc936cc29366bb6"
+    },
+    {
+      "path": "deploy/realyu/test_import_usage_history.py",
+      "sha256": "f68eef87d7a7f48872d7365ee928d4686a363a878c77c81e06e7defefb513f99"
+    },
+    {
+      "path": "deploy/realyu/USAGE-HISTORY.md",
+      "sha256": "f5a2bde7255f602a0094c06adf9d5df7ab67815d4565f4eae641026115d6a66b"
+    }
+  ]
+}

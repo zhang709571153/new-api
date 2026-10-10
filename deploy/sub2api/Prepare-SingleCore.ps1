@@ -93,6 +93,7 @@ try {
                     'src/components/user/__tests__/PlatformMoneyCells.spec.ts'
                     'src/components/account/__tests__/AccountStatsModal.currency.spec.ts'
                     'src/components/account/__tests__/AccountUsageCell.spec.ts'
+                    'src/components/account/__tests__/AccountStatusIndicator.locales.spec.ts'
                     'src/__tests__/App.admin-entry.spec.ts'
                     'src/router/__tests__/feature-access.spec.ts'
                     'src/api/__tests__/client.spec.ts'
@@ -100,6 +101,14 @@ try {
                     'src/utils/__tests__/realyuPurchase.spec.ts'
                     'src/utils/__tests__/realyuSetupCommand.spec.ts'
                     'src/views/admin/orders/__tests__/RealYuPlanEditDialog.spec.ts'
+                    'src/i18n/__tests__'
+                    'src/components/realyu/public/__tests__'
+                    'src/components/admin/usage/__tests__'
+                    'src/components/user/dashboard/__tests__'
+                    'src/utils/__tests__/realyuSeo.spec.ts'
+                    'src/utils/__tests__/realyuUsageDisplay.spec.ts'
+                    'src/views/user/__tests__/RealYuUsageView.spec.ts'
+                    'src/router/__tests__/realyu-usage-access.spec.ts'
                 )
                 # A frozen older manifest may predate the UX-only test files.
                 $availableRegressionTests = @($frontendRegressionTests | Where-Object { Test-Path -LiteralPath $_ })
@@ -109,7 +118,7 @@ try {
         } finally { Pop-Location }
         Push-Location (Join-Path $candidatePath 'backend')
         try {
-            if ($Test) { Invoke-Native go @('test','-p','2','-tags','unit,embed','./internal/service','./internal/handler','./internal/repository','./internal/server/middleware','./internal/server/routes','./internal/payment/provider','./internal/web','-run','TestRealYu|TestRealyu|TestZPay|TestGatewayRoutesGroupModelAllowlist','-count=1') }
+            if ($Test) { Invoke-Native go @('test','-p','2','-tags','unit,embed','./internal/service','./internal/handler','./internal/handler/admin','./internal/repository','./internal/server/middleware','./internal/server/routes','./internal/payment/provider','./internal/web','-run','TestRealYu|TestRealyu|TestZPay|TestGatewayRoutesGroupModelAllowlist','-count=1') }
             if ($Build) {
                 $out = Join-Path $candidatePath 'candidate-output'
                 New-Item -ItemType Directory -Path $out | Out-Null

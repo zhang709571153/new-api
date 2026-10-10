@@ -1,0 +1,244 @@
+{
+  "status": "PASS",
+  "target": "http://127.0.0.1:29481",
+  "candidate_sha256": "5a458c4cbd61148fd1ff3bb3cb25aac40fe88effa9e494f92c9de75e3628fd3b",
+  "expected_version": "realyu-singlecore-v0.2.15-20261011-ux2",
+  "checks": [
+    {
+      "name": "anonymous-auth-required-usage",
+      "pass": true
+    },
+    {
+      "name": "anonymous-auth-required-summary",
+      "pass": true
+    },
+    {
+      "name": "anonymous-auth-required-realyu-setup?scope=personal",
+      "pass": true
+    },
+    {
+      "name": "admin-self-cumulative",
+      "pass": true
+    },
+    {
+      "name": "admin-personal-cumulative",
+      "pass": true
+    },
+    {
+      "name": "admin-actor-query-rejected",
+      "pass": true
+    },
+    {
+      "name": "owner-self-cumulative",
+      "pass": true
+    },
+    {
+      "name": "owner-personal-cumulative",
+      "pass": true
+    },
+    {
+      "name": "owner-platform-denied-usage",
+      "pass": true
+    },
+    {
+      "name": "owner-platform-denied-usage/summary",
+      "pass": true
+    },
+    {
+      "name": "owner-actor-query-rejected",
+      "pass": true
+    },
+    {
+      "name": "owner-extra-key-denied",
+      "pass": true
+    },
+    {
+      "name": "member-self-cumulative",
+      "pass": true
+    },
+    {
+      "name": "member-personal-cumulative",
+      "pass": true
+    },
+    {
+      "name": "member-platform-denied-usage",
+      "pass": true
+    },
+    {
+      "name": "member-platform-denied-usage/summary",
+      "pass": true
+    },
+    {
+      "name": "member-actor-query-rejected",
+      "pass": true
+    },
+    {
+      "name": "member-extra-key-denied",
+      "pass": true
+    },
+    {
+      "name": "former-self-cumulative",
+      "pass": true
+    },
+    {
+      "name": "former-personal-cumulative",
+      "pass": true
+    },
+    {
+      "name": "former-platform-denied-usage",
+      "pass": true
+    },
+    {
+      "name": "former-platform-denied-usage/summary",
+      "pass": true
+    },
+    {
+      "name": "former-actor-query-rejected",
+      "pass": true
+    },
+    {
+      "name": "former-extra-key-denied",
+      "pass": true
+    },
+    {
+      "name": "role10-self-cumulative",
+      "pass": true
+    },
+    {
+      "name": "role10-personal-cumulative",
+      "pass": true
+    },
+    {
+      "name": "role10-platform-denied-usage",
+      "pass": true
+    },
+    {
+      "name": "role10-platform-denied-usage/summary",
+      "pass": true
+    },
+    {
+      "name": "role10-actor-query-rejected",
+      "pass": true
+    },
+    {
+      "name": "role10-extra-key-denied",
+      "pass": true
+    },
+    {
+      "name": "platform-admin-all-and-actor-filter",
+      "pass": true
+    },
+    {
+      "name": "admin-scoped-history-pagination",
+      "pass": true
+    },
+    {
+      "name": "owner-scoped-history-pagination",
+      "pass": true
+    },
+    {
+      "name": "member-scoped-history-pagination",
+      "pass": true
+    },
+    {
+      "name": "former-scoped-history-pagination",
+      "pass": true
+    },
+    {
+      "name": "role10-scoped-history-pagination",
+      "pass": true
+    },
+    {
+      "name": "admin-deleted-actor-platform-pagination",
+      "pass": true
+    },
+    {
+      "name": "original-dates-and-exclusive-end",
+      "pass": true
+    },
+    {
+      "name": "owner-canonical-personal",
+      "pass": true
+    },
+    {
+      "name": "owner-canonical-team",
+      "pass": true
+    },
+    {
+      "name": "member-canonical-personal",
+      "pass": true
+    },
+    {
+      "name": "member-canonical-team",
+      "pass": true
+    },
+    {
+      "name": "owner-cannot-reveal-member-key",
+      "pass": true
+    },
+    {
+      "name": "owner-cannot-join-own-team",
+      "pass": true
+    },
+    {
+      "name": "owner-cannot-join-other-team",
+      "pass": true
+    },
+    {
+      "name": "member-cannot-edit-cap",
+      "pass": true
+    },
+    {
+      "name": "public-catalog-usd-schema-and-no-supply-secrets",
+      "pass": true
+    },
+    {
+      "name": "customer-cny-config-and-exact-synthetic-conversion",
+      "pass": true
+    },
+    {
+      "name": "anonymous-admin-api-denied",
+      "pass": true
+    },
+    {
+      "name": "member-admin-api-denied",
+      "pass": true
+    },
+    {
+      "name": "financial-fingerprint-unchanged",
+      "pass": true
+    }
+  ],
+  "production_modified": false,
+  "paid_model_called": false,
+  "started_at": "2026-10-10T16:33:37.485681+00:00",
+  "synthetic_model_cny_exact": {
+    "owner": "3.500014",
+    "member": "8.750042",
+    "former": "0.7"
+  },
+  "passed": 51,
+  "total": 51,
+  "finished_at": "2026-10-10T16:33:41.395752+00:00",
+  "financial_before_sha256": "a02fba496a21ed7527b89fdcbba118a8857cfe9213fb5b7a4b6ce9d168e7099f",
+  "financial_after_sha256": "a02fba496a21ed7527b89fdcbba118a8857cfe9213fb5b7a4b6ce9d168e7099f",
+  "evidence_kind": "isolated_candidate_http",
+  "first_attempt": {
+    "status": "FAIL",
+    "passed": 50,
+    "total": 51,
+    "sha256": "f9f2be2fb90573b3c165a3bc566bedc8cba418a72e0c6687c9c38b8988b55c56",
+    "failures": [
+      {
+        "name": "public-catalog-usd-schema-and-no-supply-secrets",
+        "pass": false,
+        "code": "HTTP_EXPECTED_200"
+      }
+    ],
+    "cause": "isolated fixture had zero pricing channels; explicit synthetic pricing-only seed followed"
+  },
+  "fixture_credentials_included": false,
+  "browser_e2e": "SEPARATE_PENDING",
+  "script_sha256": "7534e29230195f555bde8cac89f2d8db457113fc4812b51c843420275d90703a",
+  "offline_guard_tests": 4
+}

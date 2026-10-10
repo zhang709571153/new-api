@@ -1,0 +1,42 @@
+{
+  "active_imported_accounts": 51,
+  "active_realyu_accounts": 51,
+  "captured_at": "2026-10-10T16:48:28.994819Z",
+  "credential_columns_read": false,
+  "database_modified": false,
+  "exceptions": [],
+  "gateway_started": false,
+  "limitation": "Restored snapshot coverage only; not a live HTTP or credential-reveal/model test.",
+  "production_modified": false,
+  "query_method": "actual seven repository SQL statements; display-name projections omitted; no credential selected",
+  "refresh_started": false,
+  "repository_sha256": "9854889233a3a43e6e1efa8ed7f986b73eb3287bcec2e8b9fd3d6b290addc651",
+  "scope": "readonly_restored_production_snapshot",
+  "scopes": {
+    "personal": {
+      "configurable": 51,
+      "reasons": {
+        "frozen_binding": 49,
+        "unique_immutable_scope": 2
+      },
+      "statuses": {
+        "200": 51
+      }
+    },
+    "team": {
+      "configurable": 32,
+      "reasons": {
+        "frozen_binding": 32,
+        "no_current_team_membership": 19
+      },
+      "statuses": {
+        "200": 32,
+        "404": 19
+      }
+    }
+  },
+  "source_snapshot_at": "2026-10-10T16:35:16.757290Z",
+  "status": "PASS",
+  "version": 1,
+  "audit_script_sha256": "fd224beca736cdb081c89f3e05ec5dd84dfc5b249fa7a0f587eadad9d7c0e0af"
+}

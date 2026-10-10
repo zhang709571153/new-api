@@ -1,0 +1,72 @@
+{
+  "status": "ELEVATION_NOT_STARTED_PRODUCTION_UNCHANGED",
+  "at_utc": "2026-10-10T17:14:35.760777+00:00",
+  "production_changed": false,
+  "plan_sha256": "25de1b40c95d54288d77fe259e9aeb43452c1469a2127ab354de160c440a311f",
+  "candidate_sha256": "aef7b287ba4fdea3dca6590cc10bedf1e5ed8b90be639bde4d01cbc60001453c",
+  "candidate_version": "realyu-singlecore-v0.2.15-20261011-ux2",
+  "updater_sha256": "4251cdbe506486f273fd8214cf9b302285aa63e6588040563dd8a483bbfae33d",
+  "backup_receipt_sha256": "f3c8f5175745fdfed63aa0718ee84291e11a1198384f8fb82dd4a6be7fa7d476",
+  "archive_manifest_sha256": "decf388b4beb04d93914d0746bdacdd5147db7751a6342ddf41a424af5d3394a",
+  "verified_file_count": 697,
+  "migrations_before": 299,
+  "source_provenance": {
+    "source_commit": "f98d4b6c56f0f56a5d08dbd351c8a4af6ab6a3b7",
+    "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+    "source_metadata_sha256": "06efbb393eb727fc08a9a0d26608b18b47b7d400f61ee84e78896e701fa1d666",
+    "source_patch_sha256": "c414a0376a9ce112ff31f45c8e74475eb8b35b2f9575b62c38e63d5e9c5a007b",
+    "source_file_count": 383,
+    "binary_vcs_modified": false
+  },
+  "migrations_after": 300,
+  "schema": {
+    "applied": [],
+    "complete": false,
+    "migration_count": 299,
+    "archive": {
+      "status": "empty",
+      "counts": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "traffic_samples": [
+    {
+      "at_utc": "2026-10-10T17:14:24.793330+00:00",
+      "version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "maintenance": false,
+      "active_requests": 0,
+      "reserved_funding": 0,
+      "active_batch_jobs": 0,
+      "usage_rows_last_5_minutes": 2
+    },
+    {
+      "at_utc": "2026-10-10T17:14:34.888612+00:00",
+      "version": "realyu-singlecore-v0.2.15-20261010-ux",
+      "maintenance": false,
+      "active_requests": 0,
+      "reserved_funding": 0,
+      "active_batch_jobs": 0,
+      "usage_rows_last_5_minutes": 2
+    }
+  ],
+  "idle_in_both_samples": true,
+  "limitation": "Two read-only samples are not a reserved maintenance window. Execution still uses bounded drain; history import is separate.",
+  "last_readonly_preflight_utc": "2026-10-10T17:23:20Z",
+  "elevation": {
+    "status": "NOT_STARTED",
+    "error_type": "InvalidOperationException",
+    "native_error_code": null,
+    "error_detail_not_inferred": true,
+    "active_receipt_exists": false,
+    "production_changed": false
+  },
+  "limits": [
+    "Migrations_after=300 is the planned value; actual schema remains 299.",
+    "Local pinned source metadata retains original line ends. Published Git JSON is LF normalized; a different host must build and pin a new local plan.",
+    "Do not replay old UX2 r1/r2 operations. No program switch or historical import has occurred."
+  ]
+}
