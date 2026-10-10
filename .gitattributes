@@ -37,6 +37,7 @@ web/public/downloads/** -text
 # Unified diff context lines deliberately contain a single space. The candidate
 # source is checked with git diff --check before exporting this binary patch.
 deploy/sub2api/singlecore-candidate.patch text eol=lf -whitespace
+deploy/sub2api/singlecore-cny-admin.patch text eol=lf -whitespace
 
 # ============================================
 # GitHub Linguist - Language Detection

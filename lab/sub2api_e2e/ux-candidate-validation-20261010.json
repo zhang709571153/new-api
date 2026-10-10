@@ -1,0 +1,82 @@
+{
+  "status": "ISOLATED_ACCEPTANCE_PASS_NOT_DEPLOYED",
+  "checked_at_utc": "2026-10-10T14:23:36.193720+00:00",
+  "version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "source_commit": "93022254b98d9cdfbc36db8d7ef6007365a89b53",
+  "binary_sha256": "88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081",
+  "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+  "patch_sha256": "12e80b9900afd22b15fc37d3e26b06567426c7e0578747bb2d978acf83b24678",
+  "frontend": {
+    "files": 62,
+    "tests_passed": 737,
+    "typecheck": "PASS",
+    "vite_build": "PASS"
+  },
+  "backend": {
+    "unit_embed_packages": "PASS; package and subcase counts overlap, not added",
+    "signup_settings_roots": 182,
+    "signup_settings_subcases": 73,
+    "signup_settings_real_pg_roots": 1,
+    "signup_settings_real_pg_subcases": 6,
+    "key_and_team_real_pg_roots": 9,
+    "purchase_real_pg_roots": 10,
+    "purchase_native_service_roots": 17,
+    "checkout_http_to_pg_regression_roots": 1
+  },
+  "browser_http_pg": {
+    "passed": 15,
+    "failed": 0,
+    "page_errors": 0,
+    "report": "ux-parity-browser-20261010.json",
+    "target": "127.0.0.1:29481",
+    "real_merchant_called": false,
+    "paid_model_called": false
+  },
+  "purchase_replay": {
+    "orders": 1,
+    "grants": 1,
+    "managed_subscriptions": 1,
+    "stock_subscriptions": 0,
+    "wallet_before_usd": "20",
+    "wallet_after_usd": "10",
+    "price_cny": "70",
+    "weekly_cny": "21",
+    "weekly_quota": 1500000,
+    "total_quota": 6000000
+  },
+  "catalog_restore_http": "catalog-restore-http-20261010.json",
+  "schema": {
+    "production_baseline": 297,
+    "candidate": 299,
+    "reviewed_additions": [
+      306,
+      307
+    ],
+    "backup_report": "postgres-pre306-backup-20261010.json",
+    "backup_tables": 120,
+    "backup_rows": 51028,
+    "backup_migrations": 297
+  },
+  "deployment_helpers": {
+    "backup_tests": 11,
+    "catalog_tests": 9,
+    "native_and_additive_tests": 27,
+    "real_pg_in_additive_tests": 5
+  },
+  "source_reconstruction": "singlecore-patch-reconstruction-20261010-ux.json",
+  "first_failures_preserved": [
+    "checkout for_sale field missing; fixed in backend DTO and actual HTTP/PG regression",
+    "isolated launcher YAML indentation",
+    "PowerShell 5.1 stderr warning handling in build harness",
+    "Dashboard test fixture missing siteLogo",
+    "earlier native stop implicit PowerShell exit status"
+  ],
+  "production_changed_by_this_acceptance": false,
+  "limitations": [
+    "No production update receipt for UX at evidence time.",
+    "Real merchant payment/refund and legacy callbacks not accepted.",
+    "Team first purchase, renewal, upgrade and refund remain capability-disabled.",
+    "Browser clipboard adapter verified; no client installer execution or installed desktop E2E.",
+    "No long-term stability or unattended reboot guarantee."
+  ]
+}

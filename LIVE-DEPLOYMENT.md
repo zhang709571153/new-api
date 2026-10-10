@@ -1,5 +1,7 @@
 # Local Sub2API deployment record
 
+**2026-10-10 22:24 CST：UX 候选准备完成，未执行生产更新。** 当前实际服务仍为 `realyu-singlecore-v0.2.15-20261010-ws-owner`，SCM 正常，入口 maintenance=false。r3 UAC 返回取消，无 update receipt；r2 已恢复的事实不变。默认源码交接已推进到 UX 候选 `93022254b98d9cdfbc36db8d7ef6007365a89b53`，新二进制 SHA `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081`，前端 737 项及隔离浏览器 15/15 通过；这些不是生产验收。部署须使用[306/307 增量更新](deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md)，两个旧热修计划不得套用。生产备份在独立数据库恢复核对 120 表/51,028 行/297 迁移通过，完整备份保留私有。
+
 **2026-10-10 21:32 CST：第一次原生更新已恢复旧版，修正后的 r3 等待 UAC。** r2 在 `STOPPING_NATIVE` 触发失败，维护门 21:30:23–21:30:59，约 36.314 秒，自动恢复同一 PG 权威上的 `ws-owner`，公网复核恢复。已只读复现 PowerShell 在确认旧进程不存在时隐式返回 1，发布器增加完成校验后的显式成功码；13 项测试通过，真实所有权异常仍失败。首次错误与恢复阶段见[回执摘要](lab/sub2api_e2e/singlecore-cny-first-update-20261010.json)。没有恢复 SQLite 或更改网络。r3 使用同一已通过[28 项隔离浏览器检查](lab/sub2api_e2e/singlecore-cny-isolated-browser-20261010.json)的冻结二进制；下列源码与运行版本区分仍有效。
 
 **2026-10-10 21:24 CST：CNY/管理员直接进入/CowAgent 修复候选已验收，等待 Windows 服务提权。** 当前生产仍为下述 `ws-owner`，本轮 UAC 返回取消，未关闭入口、未停止服务。待发版本 `realyu-singlecore-v0.2.15-20261010-cny-admin`，二进制 SHA256 `4cb44fe13cbf48793ae28b71175cb6f919454499688092d3516a7accf5686c0a`，原生源码 `a184b4a63385e71347b80c2b59f34bce4605acfd`。隔离真实浏览器 28/28；CowAgent 同类 15 把无限 Key 的历史负额度读取修复通过 3 根 PG 和 8 项权限测试，尚未完成生产恢复验证。新增 UX 全面恢复属于下一阶段，详见 [35 项矩阵](deploy/sub2api/UX-PARITY-RECOVERY-20261010.md)。
@@ -40,7 +42,7 @@ cutover completed with customer ledger preserved and no schema change. The four
 new dependency services run automatically under LocalService. This records an
 actual local-host publication; another machine remains separately undeployed.
 
-## Topology
+## Historical bridge topology (superseded by native single-core at 20:30 CST)
 
 | Component | Host-local endpoint | Responsibility |
 | --- | --- | --- |

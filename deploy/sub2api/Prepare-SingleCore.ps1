@@ -3,7 +3,8 @@ param(
     [Parameter(Mandatory=$true)][string]$Destination,
     [switch]$Build,
     [switch]$Test,
-    [string]$Proxy = ''
+    [string]$Proxy = '',
+    [string]$SourceManifest = ''
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -13,8 +14,10 @@ function Invoke-Native([string]$Program, [string[]]$Arguments) {
     if ($LASTEXITCODE -ne 0) { throw "$Program failed with exit code $LASTEXITCODE" }
 }
 
-$manifest = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'singlecore-source.json') -Raw | ConvertFrom-Json
-$patch = Join-Path $PSScriptRoot $manifest.patch
+if (-not $SourceManifest) { $SourceManifest = Join-Path $PSScriptRoot 'singlecore-source.json' }
+$manifestPath = (Resolve-Path -LiteralPath $SourceManifest -ErrorAction Stop).Path
+$manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+$patch = Join-Path (Split-Path -Parent $manifestPath) $manifest.patch
 if ((Get-FileHash -LiteralPath $patch -Algorithm SHA256).Hash.ToLowerInvariant() -ne $manifest.patch_sha256) { throw 'Candidate patch checksum mismatch' }
 if ($manifest.upstream_url -ne 'https://github.com/Wei-Shaw/sub2api.git' -or $manifest.upstream_commit -notmatch '^[a-f0-9]{40}$') { throw 'Invalid pinned upstream' }
 $candidatePath = [IO.Path]::GetFullPath($Destination)
@@ -93,8 +96,15 @@ try {
                     'src/__tests__/App.admin-entry.spec.ts'
                     'src/router/__tests__/feature-access.spec.ts'
                     'src/api/__tests__/client.spec.ts'
+                    'src/components/realyu/__tests__'
+                    'src/utils/__tests__/realyuPurchase.spec.ts'
+                    'src/utils/__tests__/realyuSetupCommand.spec.ts'
+                    'src/views/admin/orders/__tests__/RealYuPlanEditDialog.spec.ts'
                 )
-                Invoke-Native corepack (@('pnpm@9.15.9','exec','vitest','run') + $frontendRegressionTests + @('--maxWorkers=2','--minWorkers=1'))
+                # A frozen older manifest may predate the UX-only test files.
+                $availableRegressionTests = @($frontendRegressionTests | Where-Object { Test-Path -LiteralPath $_ })
+                if ($availableRegressionTests.Count -eq 0) { throw 'No frontend regression tests found in the pinned source' }
+                Invoke-Native corepack (@('pnpm@9.15.9','exec','vitest','run') + $availableRegressionTests + @('--maxWorkers=2','--minWorkers=1'))
             }
         } finally { Pop-Location }
         Push-Location (Join-Path $candidatePath 'backend')
@@ -105,7 +115,7 @@ try {
                 New-Item -ItemType Directory -Path $out | Out-Null
                 Invoke-Native go @('build','-p','2','-trimpath','-tags','embed','-ldflags',('-s -w -X main.Version='+$manifest.candidate_version),'-o',(Join-Path $out 'sub2api.exe'),'./cmd/server')
                 Copy-Item -LiteralPath (Join-Path $candidatePath 'backend\resources') -Destination $out -Recurse
-                Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'singlecore-source.json') -Destination $out
+                Copy-Item -LiteralPath $manifestPath -Destination (Join-Path $out 'singlecore-source.json')
                 Get-FileHash -LiteralPath (Join-Path $out 'sub2api.exe') -Algorithm SHA256 | Format-List
             }
         } finally { Pop-Location }

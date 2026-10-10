@@ -1,7 +1,7 @@
 # 已 ACTIVE 原生核心的程序更新
 
 首次 New API → Sub2API 迁移完成后，不再运行旧迁移 Activate，也不恢复 SQLite。
-日常原生程序更新使用 `singlecore_native_update.py`，保持当前 PostgreSQL、Redis、身份密钥、客户和团队账本。
+没有数据库迁移的原生程序更新使用 `singlecore_native_update.py`，保持当前 PostgreSQL、Redis、身份密钥、客户和团队账本。2026-10-10 UX 版本增加 306/307，须使用[专用增量入口](SINGLECORE-ADDITIVE-UPDATE.md)，不能沿用下述 schema-free 计划。
 它只替换原生可执行文件引用，可附带一个已核实的客户展示汇率；不更改 Tunnel、代理、旧服务或数据库 schema。
 
 ## 发布前

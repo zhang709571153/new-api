@@ -1,6 +1,8 @@
 # RealYu / Sub2API 部署与迁移交接
 
-**21:24 CST 新增候选：** 客户人民币、管理直接进入、工作台和无限 Key 503 修复已完成隔离验收，等待 Windows 提权；生产仍为下述 `ws-owner`。参考[原生程序更新](deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md)、[币种合同](deploy/sub2api/SINGLECORE-CURRENCY-AND-ADMIN-20261010.md)、[旧 UX 全面恢复矩阵](deploy/sub2api/UX-PARITY-RECOVERY-20261010.md)。源码补丁是本轮已测试热修复，后续经营/工作台适配不因研究报告存在而视为已实现。
+**22:24 CST 最新交付：UX 候选通过，生产仍为 `ws-owner`。** 默认 `singlecore-source.json` / `singlecore-candidate.patch` 已更新为源码 `93022254b98d9cdfbc36db8d7ef6007365a89b53` 的完整 UX 版；前端 737 项、隔离真实浏览器/HTTP/PG 15/15 通过。工作台一键配置、自动个人 Key、团队分区/昵称/排序、个人钱包购套餐与管理员配置均已实现，详见[候选验收](deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md)。
+
+这一版包括 CNY/入口/CowAgent 修复和 306/307 两个增量迁移；必须用[增量发布入口](deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md)，不能使用旧热修计划。已完成[生产 PG 快照恢复验证](deploy/sub2api/POSTGRES-PRE306-BACKUP-20261010.md)；六档套餐的[恢复脚本](deploy/sub2api/RESTORE-CATALOG.md)只创建下架计划。冻结 CNY-only 输入另存 `singlecore-cny-admin-source.json` / `singlecore-cny-admin.patch`，供证据重建，不代表已发布；`Prepare-SingleCore.ps1 -SourceManifest` 可显式选择。生产版本以最新 ACTIVE 回执和真实 worker 为准。
 
 **当前交接补充（20:40 CST）：** 新加坡网络和原生单核心已完成生产切换，r3 ACTIVE，公网模型/协议验收和 26 笔账务对账通过。先读[生产记录](deploy/sub2api/SINGLECORE-PRODUCTION-20261010.md)；迁机必须迁移 ACTIVE 后当前 PG 数据，不可重放 S0/S1 或恢复旧 SQLite。确认页/人民币更新准备中。下方保留此前候选交付时的证据边界。
 

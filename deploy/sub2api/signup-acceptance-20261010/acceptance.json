@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "feature": "managed signup atomic personal key and OAuth registration boundary",
+  "status": "candidate_source_frozen_not_deployed",
+  "verified_at_local": "2026-10-10T21:51:37+08:00",
+  "production_changed": false,
+  "production_registration_enabled_by_this_work": false,
+  "production_or_paid_calls": 0,
+  "source_base_commit": "a184b4a63385e71347b80c2b59f34bce4605acfd",
+  "source_changes_committed_by_this_agent": false,
+  "new_migration": null,
+  "required_existing_migrations": [
+    "300_realyu_legacy_identity.sql",
+    "301_realyu_funding.sql"
+  ],
+  "configuration": {
+    "managed_mode_env": "REALYU_FUNDING_ENABLED=true",
+    "required_settings": {
+      "registration_enabled": "true only after reviewed rollout",
+      "realyu_username_registration_enabled": "true",
+      "realyu_signup_personal_group_id": "explicit positive active undeleted standard group ID"
+    },
+    "public_can_choose_group_or_payer": false,
+    "personal_group_normal_admin_api_available": true,
+    "username_mode_normal_admin_api_available": true,
+    "normal_registration_toggle_admin_api": "PUT /api/v1/admin/settings",
+    "realyu_settings_injection": "Authenticated GET/PUT /api/v1/admin/settings; pointer fields preserve omission/null; managed-only explicit active standard group validation; no manual SQL needed",
+    "missing_configuration_behavior": "fail_closed"
+  },
+  "contract": {
+    "email_optional": true,
+    "immutable_login_name_distinct_from_nickname": true,
+    "automatic_key_count": 1,
+    "automatic_key_name": "Personal Key",
+    "atomic_writes": [
+      "user",
+      "login alias",
+      "allowed personal group",
+      "API key",
+      "personal funding scope",
+      "invitation claim when required"
+    ],
+    "scope_actor_and_payer": "new user",
+    "scope_team": null,
+    "initial_balance_usd": 0,
+    "default_subscription_grants": 0,
+    "welcome_campaign_recreated": false,
+    "managed_email_only_signup": "400 LOGIN_NAME_REQUIRED when username registration is enabled; otherwise registration disabled",
+    "managed_oauth_new_account": "403 OAUTH_REGISTRATION_UNAVAILABLE",
+    "existing_oauth_login": "preserved subject to existing verified identity and active-user checks",
+    "managed_oauth_first_bind_grants": false,
+    "native_unmanaged_signup": "preserved"
+  },
+  "verification": {
+    "command": "go test -p 2 -tags unit ./internal/service ./internal/handler/admin -run '^(TestRealyu|TestAuthService_(Register_|SendVerifyCode|Verify|LoginOrRegisterOAuth)|TestVerifyCaptcha|TestRegister.*OAuth|TestSendPendingOAuth|TestEmailOAuthAuto|TestAuthServiceRegisterDualWritesEmailIdentity|Test.*FirstBind|TestCanBypassRegistrationDisabledForOAuth|TestUpdateSettings|TestSettingHandler|TestSettingService)' -count=1 -v",
+    "working_directory": "source/backend",
+    "exit_code": 0,
+    "root_pass": 182,
+    "subcase_pass": 73,
+    "fail": 0,
+    "skip": 0,
+    "postgres_target": "127.0.0.1:29490/realyu_auth_e2e",
+    "postgres_root": "TestRealyuPostgresIdentityE2E",
+    "postgres_subcases": 6,
+    "oauth_new_account_rejection_subcases": 9,
+    "http_handler_email_only_status": 400,
+    "git_diff_check": "PASS",
+    "log_relative_to_candidate_workspace": "runtime/signup-settings-final-20261010T215126871.log",
+    "log_sha256": "d65ef04bedb80c64870e355462d1349a36b9a42bae0ff8f1a931524cb2269435"
+  },
+  "first_failure_preserved": {
+    "log_relative_to_candidate_workspace": "runtime/signup-personal-key-final-20261010T213215717.log",
+    "kind": "parallel payment edit transient compilation failure",
+    "symbols": [
+      "managedPurchaseInput",
+      "resumeManagedOrder",
+      "rejectManagedRefund"
+    ],
+    "resolution": "payment owner completed implementation; complete final regression rerun passed"
+  },
+  "owned_source_sha256": {
+    "backend/internal/service/auth_service.go": "062b22e549a87b87ee565342045320de1137e4e5f9695f2cf040653d13bd2ad9",
+    "backend/internal/service/auth_oauth_email_flow.go": "23fd5be64cadbef7a28d9e9bf48a3c231b5d9de42338a761c605d23197a24930",
+    "backend/internal/service/auth_email_oauth_auto.go": "ae36ac6250f77d2cfdbd3a400eb3d23bd69ebdc4d750e43e53b9b52fe9501248",
+    "backend/internal/service/auth_oauth_first_bind.go": "902aa3dec84f60c215ce53e7dc260abcf11d647cc84d733675989e1b26d5ebf6",
+    "backend/internal/service/realyu_legacy_identity.go": "eea5637eb606a94ac09d89a7abbb4d86cde8968b54c7608b2221aa094bd3a86c",
+    "backend/internal/service/realyu_signup_key.go": "9095d06acaa6909b13d9ebc0a8484c564114c654655bf2c0068b74ededf3c897",
+    "backend/internal/service/setting_public.go": "8f3a083164b91f4d5a54e6bbc8913516bfe0db5144281e24f8f69bff0bd49547",
+    "backend/internal/repository/realyu_legacy_identity_repo.go": "fe35bfc023cf055f40b015a09ca5a31595a15a34f2f600b4a914633ca7a770b1",
+    "backend/internal/service/realyu_identity_test.go": "fbd4a201e20e63804dda442b0bba3c13102d089fab84e8092e92eb9ef1470337",
+    "backend/internal/service/settings_view.go": "b513d18c589ff15ae7a0dda22d9c8b42f6110f75ed22bad8669d8201371107aa",
+    "backend/internal/service/setting_realyu_signup.go": "66f15830b1558ff6051d7bc5e9504278b5dc1f2ec25a61c82073206c8adf52c1",
+    "backend/internal/service/setting_update.go": "5d6c082b06bd25f4d4509e5387cf02876b708a23fef639aa94572c20ad209adc",
+    "backend/internal/service/setting_parse.go": "f423c272c2877ca69a6e31a904a9bb8be60899f7706cd61b100ee4e674e65404",
+    "backend/internal/handler/dto/settings.go": "fc5e3ccfbb034d4614fc7eb5fb54251feb1a08b30b5d370c03f57d75e3e62929",
+    "backend/internal/handler/admin/setting_handler_update.go": "9a0dd433e23f02a48b25b9c802f8141d7b007ceaf524170a739dc41178ee3e7e",
+    "backend/internal/handler/admin/setting_handler.go": "c18ba5d63e5d83bae896fa9d4aa4bf167547d15015d4036868fdfbfaf5a37d02",
+    "backend/internal/handler/admin/setting_handler_audit.go": "35406cbd41b4313602b253672b6b55a52eafa83f56d647a032b4908da0a77d46",
+    "backend/internal/handler/admin/setting_handler_partial_payload_test.go": "743b91141588a4e2397ccd97f82350b873d217494c0e5b0c81ea2e549ba325f4"
+  },
+  "remaining_release_checks": [
+    "review and configure explicit personal group with authenticated admin Settings API in target environment",
+    "candidate browser full registration and key-list flow",
+    "reviewed build and deployment receipt",
+    "only then decide whether to enable production registration and run limited production acceptance"
+  ]
+}

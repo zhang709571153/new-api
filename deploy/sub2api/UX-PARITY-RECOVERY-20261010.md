@@ -1,10 +1,10 @@
 # RealYu 单核心前端 UX 恢复清单
 
-审查日期：2026-10-10。用途：把用户历史需求、旧发布实现和当前 Sub2API 页面逐项对齐，作为后续开发与验收依据。本轮为只读研究；没有为此报告改生产、客户数据或前端源码。当前正在发布的 CowAgent/CNY/管理员直接访问热修复不等待本清单全部完成。
+审查及进度更新日期：2026-10-10。用途：把历史需求、旧发布实现和原生页面逐项对齐。首次审查为只读研究；现按已提交源码 `93022254` 和 22:12 的隔离浏览器结果更新现状。**“候选完成”不表示生产发布：生产仍为 ws-owner。本次文档更新没有修改源码、服务、生产设置或客户数据。**
 
 ## 结论与“之前编译的前端去哪了”
 
-旧前端没有丢失。**旧 React 工作台、购买、套餐管理、团队管理等 UX 确实曾经发布，并且冻结源码、构建和发布证据仍在。现在的缺口主要是切换到原生 Vue 前端时没有完成同等功能移植；另有品牌设置漏迁造成已实现的团队菜单被条件隐藏。** 这两件事要分开处理。
+旧前端没有丢失。**旧 React 工作台、购买、套餐管理、团队管理等 UX 确实曾经发布，冻结源码、构建和发布证据仍在。首次审查的主要缺口是切换到 Vue 时未完成交互移植，以及品牌设置漏迁隐藏团队入口。** 接入、范围分离、团队昵称/排序、个人权益和钱包买套餐现已在候选完成并通过实际验收；真实商户、团队新购和订阅管理等剩余缺口仍保留在下表。
 
 可核验的三份前端并不是同一份产物：
 
@@ -12,15 +12,17 @@
 | --- | --- | --- |
 | 旧 New API 正式前端 | `realyu-provider-v3.9.2.22-20261008` 已正式发布；包含完整旧工作台与 10 月 8 日用户/团队/用量重构 | 旧 `lab/RELEASE-20261008-USAGE-ADMIN-REDESIGN.md`：程序 SHA256 `f729e2b8f2c631e1b804b7e6ef56397efbe76560c2e8fc6528f845c2eff4de20`，163 项前端、24 组三库、9 条隔离浏览器及正式域名只读验收。冻结目录 `C:/srv/realyu-team-funding-lab/.lab/usage-admin-redesign-20261008/source/web/dist/index.html` 本轮确认存在。 |
 | 10 月 9 日 RealYu 前端 + Sub2API 驱动桥接候选 | 仍是 React/RSBuild，改渠道入口和成员接入准备状态，同时保留旧业务 UI | 本仓库 `deploy/sub2api/frontend-validation.json`：29 文件/346 测试、生产构建通过；`frontend-enrollment-validation.json`：10 文件/187 测试。该报告当时标明候选和浏览器边界，不能把编译成功理解成后来原生 UI 全面移植完成。 |
-| 10 月 10 日原生 Sub2API 候选/单核心 | Vue/Vite，先移植品牌、用户名/昵称、模型展示规则、订阅错误状态，后补团队 API/UI 与安装资源兼容 | `lab/sub2api_e2e/frontend-reuse-20261010.json` 明确最初只做两项展示移植，且 `includes_migrated_team_funding_display=false`。其完整重建 265 项测试证明这份限定范围的候选可构建，不代表旧全部 UX 已恢复。 |
+| 10 月 10 日原生 Sub2API 候选/单核心 | Vue/Vite。早期限定展示移植后，现已补工作台、默认 Key、真实 scope、团队昵称/排序、managed 权益、钱包购买及套餐配置 | 早期 `frontend-reuse-20261010.json` 的 265 项不代表全部 UX；本轮独立证据为 `ux-parity-browser-20261010.json` 的 15/15 实际浏览器/API/PG 检查。源码 `93022254`，UX 二进制 SHA-256 `88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081`；只在 29481 隔离验证，生产仍 ws-owner。 |
 
 构建链也确实不同：旧 `web/package.json` 使用 React/RSBuild；原生 `frontend/package.json` 使用 Vue/Vite。原生 `frontend/vite.config.ts` 输出到 `backend/internal/web/dist`，`backend/internal/web/embed_on.go` 将其嵌入新原生程序。把旧 `web/dist` 原样放进去会继续请求旧 `/api/workspace`、`/api/subscription` 等合同，无法获得单核心目标。正确恢复方式是复用旧交互与纯工具函数，接原生 API 或明确的 RealYu 业务接口；不是重新启用旧后端，也不是挂一个空按钮。
 
-基准：本仓库初始冻结提交 `93357b11481e7dd7c1811870c455968151d23474`，当前只读审查 HEAD `6a516bc2ddf1543974832d4d5fb356238bcf59da`。`SOURCE-MANIFEST.json` 收录 2,973 文件，声明旧基准 v3.9.2.22、`git_ancestry_included=false`；不能为每项历史需求编造独立可 cherry-pick 的提交。原生上游基准 `f2669c8cf62555cd92389b3f55920e9e6e7c6ff2 / v0.2.15`，本轮审查原生本地 HEAD `a184b4a63385e71347b80c2b59f34bce4605acfd`，另有同轮热修复工作区改动。
+基准：本仓库初始冻结提交 `93357b11481e7dd7c1811870c455968151d23474`，初次只读审查时 HEAD 为 `6a516bc2ddf1543974832d4d5fb356238bcf59da`。`SOURCE-MANIFEST.json` 收录 2,973 文件，旧基准 v3.9.2.22、`git_ancestry_included=false`；不能编造逐项 cherry-pick 提交。原生上游基准 `f2669c8cf62555cd92389b3f55920e9e6e7c6ff2 / v0.2.15`；初次原生审查 HEAD 为 `a184b4a63385e71347b80c2b59f34bce4605acfd`，现更新至已提交的 `93022254`。这些基准均不能混称当前线上版本。
 
 ## 证据与口径
 
-本报告读取了原始用户消息、历史完成回复、发布报告和当前源码。历史用户名、客户金额、Key、商户信息与会话全文不复制入报告。日期使用北京时间；同一线程内后来的修订优先。下表 `O:` 指本交付仓库旧 `web/src` / Go 源码；`N:` 指按 `singlecore-source.json` 重建后的原生源码。现状是**源码审查状态**，生产状态必须由新版本实际页面验收补充，不能用报告代替。
+本报告读取原始需求、历史完成回复、发布报告和源码，不复制客户身份、金额、Key、商户信息或会话全文。日期为北京时间，后续修订优先。`O:` 指旧 `web/src` / Go，`N:` 指重建后的原生源码。现状分为**候选完成、候选已有但未重验、部分完成、待补齐**；生产状态必须用实际公网验收证明。
+
+最新证据：[候选验收说明](UX-CANDIDATE-VALIDATION-20261010.md)、[15/15 脱敏结果](../../lab/sub2api_e2e/ux-parity-browser-20261010.json)。15 项包含功能链路、恢复操作与无浏览器脚本错误检查，**不是 35 条历史要求全部完成的计数**。测试仅用 `127.0.0.1:29481 / realyu_singlecore_e2e` 合成账号和余额、新 headless Edge profile、内存剪贴板适配器；没有真实商户、桌面安装或付费模型调用。
 
 | 来源代号 | 日期、真实 session | 主要原始要求 |
 | --- | --- | --- |
@@ -39,45 +41,45 @@
 
 ## 功能要求矩阵
 
-优先级是恢复需求及不可退化验收的等级，不表示每一行都是现存缺陷：P0 涉及正常接入或资金隔离；P1 为用户已明确要求的关键经营/管理流程；P2 为不阻断调用的展示与效率。`已实现` 不等于本轮重新完成公网验收。历史 superseded 项在下一节单列，不按旧要求恢复错误行为。
+优先级是恢复需求及不可退化验收等级，不表示每行都是现存缺陷：P0 为接入或资金隔离，P1 为关键经营/管理，P2 为展示效率。“候选完成”只覆盖该行注明的范围，不代表生产发布或整个历史需求族已完成。过期要求在下一节单列。
 
 | ID / 优先级 | 日期 / 来源、原始需求摘要 | 旧状态与可复用实现 | 当前原生状态 / 需要恢复的差距 |
 | --- | --- | --- | --- |
-| U01 P1 | S01/S12：面向普通用户，仪表盘改工作台，突出可用额度与接入 | 已发布；O:`features/dashboard/components/overview/workspace-overview.tsx` | 原生 Dashboard 有余额/用量/图表；不是旧工作台。名称修改正由主任务处理；应保留原生统计，加接入卡与范围选择，避免再造统计内核。 |
-| U02 P1 | S01/S07/S09/S12：Codex/WorkBuddy 一键配置；Windows/macOS；只留复制 | 已发布；O:`overview/codex-guide.tsx`、`setup-command.ts`、安装资源 | `/downloads/realyu/*`、诊断和 Key 检查已移植，当前 Dashboard 无配置卡。复用原命令模板/资产/平台 tabs；选定 scope 后取该 Key，不错误回退另一资金池。 |
-| U03 P1 | S01/S12：新用户无需手工理解复杂 Key 设置，注册即一把可用身份 Key | 已有后端实现：O:`model/user.go:725,798` 在创建事务中调用 `workspacePersonalToken(..., true)`；O:`model/workspace.go:126` 幂等取/建默认 Key | N:`auth_service.go` 注册目前只建用户/身份，未接默认 Key provision。应注册事务内或可靠幂等补偿生成个人 Key；并发/重试仅一把，失败不能返回伪成功。不自动送新资金。 |
-| U04 P0 | S05：个人/团队两把 Key；owner 同样分离；团队每人独立身份 | rc8 已发布分池；O:`WorkspaceScope`、`personal-key`、`member-key`、`use-api-credential` | 迁入 `realyu_key_scopes` 已供鉴权/计费；N:`KeysView.vue` 无 team/personal 范围标签或切换。需补自有 Key 的 scope DTO/筛选/复制；不得把“分组 group”伪装成团队。 |
-| U05 P0 | S05：配置只验身份，零额度也能配置；实际推理才验资金 | 1.4.3 起已修复；O:安装器 key-check 合同 | 已有 native key-check；此次 CowAgent unlimited 负历史字段热修复已通过 PG/中间件，等待发布后真实恢复验证。复用同一合同，不在新配置卡检查余额后阻止复制。 |
-| U06 P1 | S01/S02/S12：用户名登录、邮箱不强制、昵称独立选填 | 已发布；O:注册/profile/团队昵称 | 原生用户名注册与 legacy 登录、昵称保存/显示已移植。需继续回归原用户名与昵称互不改登录标识；表单保持简短。 |
-| U07 P1 | S02：团队管理员可改本团队成员昵称 | 已发布；O:`workspace/member-settings.tsx`、`model/workspace.go` | N:`RealYuTeamsView.vue` 能显示 nickname，`UpdateMember` 仅 cap/status；没有昵称修改。需按 actor/team 授权补编辑，不能放宽到改他队用户。 |
-| U08 P1 | S01/S02：RealYu / RealYu API，统一 logo/颜色，不改上游版权 | 已发布旧品牌；资源保留 | 原生已嵌入 `/brand/realyu-wordmark.png`，但 r3 初次设置为空使品牌和团队菜单未触发。主任务在本轮新版后以原生 settings API 修复并清 HTML 缓存；不强制启动覆盖。 |
-| U09 P2 | S12：截图版本 badge/update popover 隐藏 | 最新新增要求；不是丢失旧代码 | N:`AppSidebar.vue` / `VersionBadge.vue`，主任务同轮修改中。隐藏用户入口即可，后台版本与运维 status 保留。 |
-| U10 P2 | S01/S12：兑换码/优惠码先隐藏 | 旧普通用户流程曾精简；最新明确隐藏 | 原生用户 `/redeem`、管理员兑换/优惠菜单、注册优惠输入均需一并查。仅隐藏界面，不删历史订单或兑换审计；不要顺手取消团队邀请码。 |
-| U11 P1 | S03/S12：恢复套餐/购买页与按钮，关闭销售显示缺货 | 已发布；O:`features/wallet`、`subscription-plans-card.tsx` | 原生 `/purchase`=`PaymentView.vue` 已存在，但受 payment flag；还有 `/admin/orders/plans`。这不是只重命名就完成：原生分组订阅与 RealYu 个人/团队周资金不相同，必须核对履约写入。未完成履约的产品不可开放真支付。 |
-| U12 P1 | S03/S04：按量余额充值人民币，支持分到元输入；金额边界清晰 | 已发布修订为 ¥0.01～¥10,000；O:wallet/计费 handlers | 原生支付支持充值；CNY 客户显示与输入转换同轮处理中。支付金额币种与账户 USD 入账必须明确，一次换算；不能仅把美元符号换成人民币。 |
-| U13 P1 | S03/S11/S12：管理员套餐预设可调价/周额度/上下架，已购快照不变 | 已发布；O:`features/subscriptions`、`components/cny-plan-fields.tsx`、`lib/plan-form.ts` | 原生已有 PlanEditDialog/AdminPaymentPlansView，优先扩展/适配现成页；尚无等价 RealYu team/personal 商品与周资金履约关联。不能把修改商品预设追溯更新已购订阅。 |
-| U14 P1 | S03/S11：管理员手工开通个人/团队订阅、只需团队名称 | v3.9.2.22 已发布；O:`features/users`、`subscriptions/components/dialogs/user-subscriptions-dialog.tsx` | native 原生分组订阅分配存在；迁入 RealYu `realyu_funding_subscriptions` 未接对应管理员写 API/表单。需明确独立管理员权限、原子建队/Key/资金，复用原生 UsersView 对话框位置。 |
-| U15 P1 | S05/S11：管理员改周额度及到期，不重置用量/周窗口/购买快照 | 已发布；O:`workspace/weekly-usage-form.tsx`、`subscription-expiry-form.tsx` | 当前团队 API 只改成员 cap；没有修改团队订阅额度/到期。需精确实例 ID、原值并发校验、审计与在途保护，owner 不能改总资金或延长到期。 |
-| U16 P0 | S04/S05：个人先套餐后 PAYGO；团队只套餐、不动个人钱包 | rc8 以后已发布；旧 funding 测试可作为合同 | 原生 RealYu funding middleware/repository 已接迁入资金并有账务验收。页面恢复必须读同一权威余额，不把全部 native subscriptions 简单相加，也不把团队剩余并进个人余额。 |
-| U17 P1 | S05：同一人可有个人与团队各一份订阅；各维度只升不降 | 已发布 `WEEKLY-SUBSCRIPTIONS-20260928.md` | 当前消费读取保留 scope；新销售/升级没有完整同等桥接。购物页需先选个人/团队，冲突明确显示；不能以 UI 单选代替服务端唯一性。 |
-| U18 P1 | S05：付款/管理员授予后建队；owner 不可入别队；活跃期不可解散 | 已发布；O:`CreateWorkspaceTeamTx` 与周订阅业务规则 | 当前 Join 拒 owner；没有公开任意建队，符合约束。当前 owner Leave **一律拒绝**，未恢复订阅到期后的允许解散；普通成员离队已有。恢复时应检查时间而非额度是否耗尽。 |
-| U19 P1 | S05/S11：成员管理 cap、暂停/恢复/移除，站点管理员全部队、owner 本队 | 已发布；O:`my-team.tsx`、`supplier-teams.tsx`、team-management-dialog | 当前 native 团队 API/UI 已实现这些基础操作；普通成员只能自己的明细，role10保留限定团队权限，不提升为nativeadmin。此项保留已有实现，补原生管理员入口/回归。 |
-| U20 P1 | S01/S05：永久邀请、手动轮换；成员独立 Key；退出保留历史 | 已发布；O:workspace invite/reveal/rotate | 当前 native 邀请/join/leave/历史隔离已实现；邀请原文不保存，只可新生成后取回。Key 展示/轮换入口尚未达到旧 UX；不能每次刷新自动新邀请。 |
-| U21 P1 | S05/S11：团队成员费用、Token、可用余额等双向排序，ID 在昵称前 | 已发布；O:`team-members-table.tsx`、`__tests__/team-sorting.test.tsx` | 当前 RealYuTeamsView 成员行按服务端原序，无交互排序，且 nickname 后才 ID。可薄移植数字排序/未知值/稳定 tie-break；当前接口只有本周字段，累计费用/Token需明确定义并接聚合数据。 |
-| U22 P1 | S05/S11：管理操作进“…”或对话框，客户用量纯展示 | v3.9.1.1 与 v3.9.2.22 已发布；O:`workspace/usage.tsx`、`supplier-teams.tsx`、`team-management-dialog.tsx` | 当前团队页把 cap 输入与状态按钮直接铺每行，基础能用但不等价；暂无旧客户用量总览。复用原生表格/弹窗/UsersView 操作，不重新造通用用户后台。 |
-| U23 P1 | S06/S08/S11：用户/客户用量显示订阅；有错、无订阅、加载三态分开 | 已发布；O:`subscription-summary.tsx`、`user-subscription-cell.tsx` | native用户列表能批量带原生订阅，SubscriptionsView错误重试已修；迁入 RealYu 周订阅不是原生 group subscription，当前用户列表仍可能显示无订阅。需要准确摘要 DTO，不复制旧逐行 N+1 查询。 |
-| U24 P1 | S05/S11：用户只看本周剩余、刷新、到期，不展示月总量/累计费用 | 已发布；O:`subscription-balance.tsx`、workspace-overview | 当前团队页周剩余/刷新/到期已有；个人工作台仍仅原生余额/原生订阅。需接个人周资金，概览合计只涵盖可实际消费部分。商品页可保留购买权益总量。 |
-| U25 P1 | S10/S11：owner 看团队实际调用成员、模型、时间、Token、费用；离队历史不丢 | 旧团队明细已发布；O:`features/usage-logs`、query-params | native `/realyu/teams/:id/usage` 已实现真实历史+新消费、分页/统计一致、排除个人和他队；成员只能自己。不要绕过这个端点直接按 payer 查原生全局日志。 |
-| U26 P1 | S10/S11：仅自己/我的团队，成员查看明细/趋势携带筛选可往返刷新 | 已发布；O:`usage-logs/lib/query-params.ts`、dashboard/models | native团队页有 member/model/date 筛选但本地组件状态，无旧主明细 scope switch、深链、趋势联动。可复用参数解析和边界测试；直接复用原生图表与请求详情结构。 |
-| U27 P2 | S11：费用/请求/Token × 柱状/分布/趋势，合计一致 | 已发布且真实浏览器9流程；O:`dashboard/lib/usage-charts.ts` | 原生已有丰富统计与图表，应优先满足可用口径，不照搬旧图表栈。缺团队维度趋势时接同一过滤数据；时间补零、top15+其他、不平滑这些纯函数可移植。 |
-| U28 P2 | S05/S11：客户用量按团队/个人分组可折叠；一行顶栏；窄屏换行 | 已发布；O:workspace usage/supplier-teams、dashboard布局 | 当前原生通用用户/日志表功能丰富，但客户分组总览与旧桌面工具栏细节未恢复；先补经营需要的摘要/入口，再做折叠/排序布局。 |
-| U29 P2 | S01/S05：接入文档、模型目录、状态复用左栏；常用导航不过载 | v3.9.1.1 已发布；旧sidebar config与路由可作验收合同 | native AppLayout 已统一多数页面；须将新增接入/购买/团队入口放同一层级；公开页面保持访客可读，不复制独立导航壳。 |
-| U30 P2 | S09：中文模型名、固定推荐顺序、Image 2.5仅显示名 | v3.9.2.15 已发布；O:`lib/model-catalog.ts` | 已薄移植到 N:`utils/realyuModelCatalog.ts` +modelPlaza，仅RealYu品牌生效、未知模型稳定回退；不改上游model ID/计价。生产brand值修正后需补浏览器目录验收。 |
-| U31 P1 | S01/S12：模型单价USD，余额/用量/消费/团队额度CNY，固定7 | 旧已实现；O:currency/usage detail | 本轮 native customerMoney 与实际CNY表单测试中；不能混入旧销售倍率或旧图价。新模型真实计费按当前原生供给配置，不从历史静态文案恢复。 |
-| U32 P2 | S01：推理强度、默认分组、标准档、首字/Token单位合适中文 | 旧已发布；O:usage detail/i18n | native已有中文大部分字段，但团队新明细直接model ID、部分技术文案仍原生。逐字段核对，保留源值在详情/tooltip；不要隐藏排障必需请求ID。 |
-| U33 P1 | S02：不记录使用/错误日志IP，移除开关 | 旧 session 明确已完成 | native系统存在独立的请求/审计/风控日志机制，尚未在本次 UX 审查完成隐私等价验证。需单独核对持久化字段与代理访问日志，不可因旧页面开关消失就声称不记录。 |
-| U34 P2 | S06：取消欢迎额度新发放，保留已送；邀请采用成熟原生方案 | 10-05历史要求已发布 | native有邀请码/返利基础设施，但旧邀请历史与奖励语义需独立核验。恢复注册Key不能顺手恢复9月的“新注册送¥5”旧流程；不要重复发奖励。 |
-| U35 P1 | S12：管理员登录直接用，取消确认阻断；仍严格登录/角色权限 | 本次明确授权取消；旧 gate非客户业务需求 | frontend/backend gate移除已完成定向权限回归，待新版公网验收；没有伪造接受记录。匿名/普通成员必须仍被401/403/跳转拦截。 |
+| U01 P1 | S01/S12：面向普通用户，仪表盘改工作台，突出可用额度与接入 | 已发布；O:`features/dashboard/components/overview/workspace-overview.tsx` | **候选完成（浏览器）**：用户和管理员导航已改为“工作台”，保留原生统计，新增 `RealYuWorkspaceSetup.vue` 与真实个人周权益卡。15 项隔离验收覆盖工作台和接入入口；未生产发布。 |
+| U02 P1 | S01/S07/S09/S12：Codex/WorkBuddy 一键配置；Windows/macOS；只留复制 | 已发布；O:`overview/codex-guide.tsx`、`setup-command.ts`、安装资源 | **候选完成（组件＋浏览器）**：复用旧四条 Codex/WorkBuddy Windows/macOS 命令和下载资产，新增配置卡。默认掩码，明确复制/显示才复验并读取所选 Key，切换后清除、不跨 scope 回退。浏览器实际验证 Windows Codex/macOS WorkBuddy；四模板有聚焦测试。未执行桌面安装或 OS 剪贴板验收。 |
+| U03 P1 | S01/S12：新用户无需手工理解复杂 Key 设置，注册即一把可用身份 Key | 已有后端实现：O:`model/user.go:725,798` 在创建事务中调用 `workspacePersonalToken(..., true)`；O:`model/workspace.go:126` 幂等取/建默认 Key | **候选完成（真实注册＋PG）**：托管用户名注册同事务生成唯一 active standard group 个人 Key 与自身付款 scope，邮箱可选，响应不暴露 Key、不赠送资金。浏览器与 PG 确认 1 Key、0 钱包、0 默认权益；并发/回滚另有后端回归，不计作本轮浏览器全部重验。 |
+| U04 P0 | S05：个人/团队两把 Key；owner 同样分离；团队每人独立身份 | rc8 已发布分池；O:`WorkspaceScope`、`personal-key`、`member-key`、`use-api-credential` | **候选完成（浏览器＋服务端）**：List/Get 的真实 `realyu_scope` DTO、个人/团队标签及服务器筛选分页已接；owner 两类 Key 分别配置，缺团队 Key 不回退个人。未以 group 推断团队，原计费绑定保留。 |
+| U05 P0 | S05：配置只验身份，零额度也能配置；实际推理才验资金 | 1.4.3 起已修复；O:安装器 key-check 合同 | **候选配置完成；生产恢复待验**：零余额仍可获取配置命令，配置仅校验身份/scope/状态/有效期。Cow 非团队 unlimited 负历史 remaining 修复有 PG/中间件证据；生产仍 ws-owner，Cow 与 15 把同类 Key 的新版生产验证尚待 ACTIVE。 |
+| U06 P1 | S01/S02/S12：用户名登录、邮箱不强制、昵称独立选填 | 已发布；O:注册/profile/团队昵称 | **候选完成（核心路径浏览器）**：原用户名登录、用户名无邮箱注册、独立显示昵称已接；团队别名不改账号登录名。admin/owner/member 登录与新用户注册通过；个人资料页昵称编辑未在本轮 15 项中重新点击。 |
+| U07 P1 | S02：团队管理员可改本团队成员昵称 | 已发布；O:`workspace/member-settings.tsx`、`model/workspace.go` | **候选完成（浏览器＋权限）**：成员昵称 PUT 已接，团队内存储、trim、最多 40 Unicode 字符、空值清除。owner 修改、成员展示、普通成员修改被 403 拒绝与恢复原昵称通过，登录身份不变。 |
+| U08 P1 | S01/S02：RealYu / RealYu API，统一 logo/颜色，不改上游版权 | 已发布旧品牌；资源保留 | **候选完成（浏览器）**：候选 settings 的 `/brand/realyu-wordmark.png` 激活品牌、颜色与团队入口，实际菜单可见；保留原生设置缓存机制和上游版权，不做启动时强制覆盖。本轮未改生产配置。 |
+| U09 P2 | S12：截图版本 badge/update popover 隐藏 | 最新新增要求；不是丢失旧代码 | **候选完成（浏览器）**：侧栏版本 badge/update popover 入口已隐藏，后台/status 的版本信息保留。管理员页面实测品牌区无版本按钮；生产 ws-owner 未获得本次 UX 发布。 |
+| U10 P2 | S01/S12：兑换码/优惠码先隐藏 | 旧普通用户流程曾精简；最新明确隐藏 | **候选完成（菜单浏览器＋源码）**：用户兑换和管理员兑换/优惠菜单隐藏；托管公开设置强制 `promo_code_enabled=false`，注册不接受优惠赠额。历史审计与团队邀请码保留。菜单隐藏及无赠额注册已验，原兑换接口未逐条重验。 |
+| U11 P1 | S03/S12：恢复套餐/购买页与按钮，关闭销售显示缺货 | 已发布；O:`features/wallet`、`subscription-plans-card.tsx` | **部分完成：个人钱包购买候选通过**：原生购买页接 managed 周权益，受开关、上架和 capability 控制；实际 UI 与同意图重放仅一次扣发。结算 DTO 缺 `for_sale` 的真实首失败已修复。真实商户、团队新购、续费/升级/退款尚未完成；未启生产支付。 |
+| U12 P1 | S03/S04：按量余额充值人民币，支持分到元输入；金额边界清晰 | 已发布修订为 ¥0.01～¥10,000；O:wallet/计费 handlers | **真实充值闭环未完成**：CNY 客户显示/输入换算已完成；托管 `balance_disabled=true`，服务端拒绝余额充值。人民币商户到账与 USD 钱包一次换算的真实回调未验。钱包买套餐不等于外部充值，不回退原生充值入口。 |
+| U13 P1 | S03/S11/S12：管理员套餐预设可调价/周额度/上下架，已购快照不变 | 已发布；O:`features/subscriptions`、`components/cny-plan-fields.tsx`、`lib/plan-form.ts` | **候选完成（个人套餐 UI＋钱包履约）**：复用原生列表，RealYu 表单使用 active standard 分组、28 天/4 周、CNY 售价/精确额度；先下架配置，再明确上架。订单保存权益快照。浏览器完成创建、配置、上架、购买、下架；团队 metadata 可配置但团队新购 capability 关闭。 |
+| U14 P1 | S03/S11：管理员手工开通个人/团队订阅、只需团队名称 | v3.9.2.22 已发布；O:`features/users`、`subscriptions/components/dialogs/user-subscriptions-dialog.tsx` | **待补齐**：原生 group subscription 分配不能冒充 RealYu 周资金。管理员手工授予个人/团队周订阅、原子建队/owner/Key/资金及表单尚无等价闭环；个人钱包购买不覆盖此项。 |
+| U15 P1 | S05/S11：管理员改周额度及到期，不重置用量/周窗口/购买快照 | 已发布；O:`workspace/weekly-usage-form.tsx`、`subscription-expiry-form.tsx` | **待补齐**：当前可改成员 cap，管理员修改具体周订阅额度/到期未恢复。需实例 ID、并发原值、审计与在途保护；used、周窗口和购买快照不得重置，owner 不能自扩资金。 |
+| U16 P0 | S04/S05：个人先套餐后 PAYGO；团队只套餐、不动个人钱包 | rc8 以后已发布；旧 funding 测试可作为合同 | **消费内核已有；候选展示已接权威数据**：个人套餐优先/允许时钱包补足、团队只扣套餐的 funding 保留，页面不跨池相加。本轮购买和昵称操作后 owner 钱包/used/cap 无变化；真实模型资金分摊沿用独立账务证据，本轮未发模型请求。 |
+| U17 P1 | S05：同一人可有个人与团队各一份订阅；各维度只升不降 | 已发布 `WEEKLY-SUBSCRIPTIONS-20260928.md` | **部分完成**：个人/团队消费 scope 独立；个人新购已有活动权益/未完成订单冲突与幂等保护。团队新购、续费和只升不降升级尚未闭环，capability 关闭；不可声称全部销售生命周期等价。 |
+| U18 P1 | S05：付款/管理员授予后建队；owner 不可入别队；活跃期不可解散 | 已发布；O:`CreateWorkspaceTeamTx` 与周订阅业务规则 | **部分完成**：Join 拒 owner 进别队、普通成员可离队，未开放任意建队。付款/管理员授予后原子建队与 owner 到期后解散未恢复；当前 owner Leave 仍一律拒绝。 |
+| U19 P1 | S05/S11：成员管理 cap、暂停/恢复/移除，站点管理员全部队、owner 本队 | 已发布；O:`my-team.tsx`、`supplier-teams.tsx`、team-management-dialog | **候选基础能力完成；部分沿用既有验收**：cap、暂停/恢复/移除及 admin/owner 授权已有。15 项实际验证管理员/owner/member 页面、member 管理拒绝、role10 不提权；cap/状态/移除写入沿用先前 HTTP/PG 证据，未在本轮逐项点击。 |
+| U20 P1 | S01/S05：永久邀请、手动轮换；成员独立 Key；退出保留历史 | 已发布；O:workspace invite/reveal/rotate | **部分完成**：原生邀请/join/leave、成员独立 Key 与离队历史已有，新增工作台可选自身团队 Key。永久邀请轮换、退出留历史沿用既有实现；邀请明文仅新生成时返回。完整邀请/轮换/退出流程未在本轮 15 项重验。 |
+| U21 P1 | S05/S11：团队成员费用、Token、可用余额等双向排序，ID 在昵称前 | 已发布；O:`team-members-table.tsx`、`__tests__/team-sorting.test.tsx` | **候选完成（组件＋浏览器）**：ID 在昵称前；周 cap/已用/可用、累计费用/Token 数值双向排序，未知值靠后、ID 稳定并列。累计数据为本团队 native settled＋legacy，不混个人/他队。浏览器验费用/Token 排序，双向及其余列有组件测试。 |
+| U22 P1 | S05/S11：管理操作进“…”或对话框，客户用量纯展示 | v3.9.1.1 与 v3.9.2.22 已发布；O:`workspace/usage.tsx`、`supplier-teams.tsx`、`team-management-dialog.tsx` | **部分完成**：昵称已有对话框；cap/状态仍直接放行内，尚未整理成旧“…”管理菜单，客户用量纯展示总览未恢复。后续复用原生表格/弹窗/Users 操作区，基础可用不等于旧 UX 全面等价。 |
+| U23 P1 | S06/S08/S11：用户/客户用量显示订阅；有错、无订阅、加载三态分开 | 已发布；O:`subscription-summary.tsx`、`user-subscription-cell.tsx` | **部分完成**：个人工作台/订阅页读取真实 managed 权益，加载/空集/失败重试分开，实际购买后正确显示。管理员 managed 批量摘要 API 已有，但 `UsersView` 尚未接入；其原生 group subscription 列不能当作 RealYu 周资金。 |
+| U24 P1 | S05/S11：用户只看本周剩余、刷新、到期，不展示月总量/累计费用 | 已发布；O:`subscription-balance.tsx`、workspace-overview | **候选完成（个人权益浏览器）**：工作台/订阅页显示真实个人本周可用、下次周重置、到期，团队周资金保留；仅商品页显示总权益。实际购买后 API 周可用 1,500,000 quota、页面 21 元，不以月总量替代调用余额。 |
+| U25 P1 | S10/S11：owner 看团队实际调用成员、模型、时间、Token、费用；离队历史不丢 | 旧团队明细已发布；O:`features/usage-logs`、query-params | **候选端点已有；成员边界浏览器已验**：`/realyu/teams/:id/usage` 合并本队历史与新请求、分页统计，排除个人/他队；owner 团队页和 member 自己明细可见，跨队 403。离队历史/混合账务/完整过滤组合沿用先前 HTTP/PG 证据。 |
+| U26 P1 | S10/S11：仅自己/我的团队，成员查看明细/趋势携带筛选可往返刷新 | 已发布；O:`usage-logs/lib/query-params.ts`、dashboard/models | **交互联动待补齐**：member/model/date 筛选与服务端权限已有；旧主明细 scope switch、可刷新深链、趋势往返参数未移植。自己/本队边界通过不代表这些导航体验完成。 |
+| U27 P2 | S11：费用/请求/Token × 柱状/分布/趋势，合计一致 | 已发布且真实浏览器9流程；O:`dashboard/lib/usage-charts.ts` | **原生能力保留；旧图表矩阵未全迁**：管理员统计页实际可访问，不重造图表栈。团队费用/请求/Token × 柱状/分布/趋势、合计/补零/top15 等仍需逐项对齐，15 项不是完整图表验收。 |
+| U28 P2 | S05/S11：客户用量按团队/个人分组可折叠；一行顶栏；窄屏换行 | 已发布；O:workspace usage/supplier-teams、dashboard布局 | **待补齐**：原生用户/日志表保留；个人/团队折叠客户总览、旧一行顶栏和窄屏布局尚未完整恢复。先补经营摘要/入口，不将原生表格丰富度代替这些明确需求。 |
+| U29 P2 | S01/S05：接入文档、模型目录、状态复用左栏；常用导航不过载 | v3.9.1.1 已发布；旧sidebar config与路由可作验收合同 | **核心入口候选完成；公开导航待验**：接入卡、购买链接、Key、团队入口共用 AppLayout，候选管理员/用户实际可达；购买受真实开关/capability 约束。访客文档/模型/状态导航与移动端布局未在 15 项完整复核。 |
+| U30 P2 | S09：中文模型名、固定推荐顺序、Image 2.5仅显示名 | v3.9.2.15 已发布；O:`lib/model-catalog.ts` | **候选代码已有；目录浏览器待补**：`realyuModelCatalog.ts` 与 modelPlaza 展示名、推荐顺序、未知回退仍仅 RealYu 品牌激活，不改 ID/计价。展示聚焦测试已有，本轮 15 项未进入模型目录，不宣称新版公网目录通过。 |
+| U31 P1 | S01/S12：模型单价USD，余额/用量/消费/团队额度CNY，固定7 | 旧已实现；O:currency/usage detail | **候选实现完成；本轮 CNY 闭环已验**：customerMoney 显式按 7 换算客户金额，模型参考单价保持 USD，不恢复旧倍率。真实输入周 21 元→1,500,000 quota、售价 70 元、钱包扣 10 USD、权益页 21 元通过；模型 USD/长 decimal/其他金额表单以独立测试为证。 |
+| U32 P2 | S01：推理强度、默认分组、标准档、首字/Token单位合适中文 | 旧已发布；O:usage detail/i18n | **部分完成**：历史明确模型展示规则已移植，原生中文字段保留；推理强度/分组/首字/单位逐字段等价核对尚未穷尽，团队明细保留原 model ID。排障所需源值/请求 ID 不隐藏。 |
+| U33 P1 | S02：不记录使用/错误日志IP，移除开关 | 旧 session 明确已完成 | **待独立隐私核验**：原生请求/审计/风控/代理日志尚未完成“不记录使用/错误 IP”的持久化等价审查。页面或 15 项浏览器通过均不证明没有记录 IP。 |
+| U34 P2 | S06：取消欢迎额度新发放，保留已送；邀请采用成熟原生方案 | 10-05历史要求已发布 | **新注册候选完成；邀请历史待核验**：托管注册不发原生默认余额/订阅，不接受 promo；浏览器/PG 为一个人 Key、钱包 0、无默认权益。旧欢迎权益保留；邀请历史/返利映射未重验，不重启“注册送 ¥5”。 |
+| U35 P1 | S12：管理员登录直接用，取消确认阻断；仍严格登录/角色权限 | 本次明确授权取消；旧 gate非客户业务需求 | **候选完成（浏览器＋服务端）**：frontend/backend 首次确认拦截移除，不自动接受或伪造同意记录。管理员直接访问工作台/账号/用量/用户，member/role10 admin API 仍 403，匿名有定向回归。生产仍 ws-owner，未宣称新版公网发布。 |
 
 ## 关键历史修订：不要恢复过期行为
 
@@ -89,14 +91,14 @@
 - 旧说明中所有者最早复用个人 Key 的特例已在 rc8 取消，两个独立 Key 是最终合同。
 - 原生数据统计、计次、计Token及模型供应管理优先复用；用户本次允许原生能力，不要求复刻旧全部图表视觉和技术后台。
 
-## 推荐实施顺序与复用边界
+## 已完成候选与后续实施顺序
 
-1. **接入闭环**：默认个人 Key 幂等 provision → personal/team scope DTO → 工作台Key与Codex/WorkBuddy命令卡 → 安装只读鉴权。保留旧复制、隐藏、重试、轮换确认、身份切换取消迟到结果合同。已有安装资产无需重做。
-2. **成员管理效率**：复用原生表格和弹窗，补排序、ID/昵称、昵称编辑、成员操作菜单；已有team权限/消费API保留。增加显式查看明细/趋势链接，参数可刷新返回。
-3. **经营流程**：管理员准确显示迁入个人/团队周订阅，补手动授予/周额度/到期修改；再接套餐商品与付费履约。先复用原生 Users/Plan/Order 页面，只有 scope、团队生成与周资金必要合同做适配。
-4. **展示补齐**：图表维度、中文技术值、客户折叠总览等按原生能力简化。旧 React组件不整包塞进Vue；纯 TS、资产、文案、失败测试可直接复用并保留版权。
+1. **接入候选已闭环**：默认个人 Key、真实 scope、命令卡、零余额配置及不跨池回退已验。发布后仍需公网/原用户验证；桌面安装、系统剪贴板和 Cow/15 Key 恢复不能由隔离浏览器替代。
+2. **团队基础保留并补效率项**：ID/昵称编辑、累计费用/Token 和周金额排序完成。下一步为成员操作菜单、明细/趋势深链及到期后 owner 解散，保持现有权限/资金边界。
+3. **个人钱包购买候选已闭环，经营功能仍有缺口**：原生 Plan/Order 接 managed 快照，实际 UI/PG 验证一次扣发。后续补管理员订阅摘要/授予/周额度/到期、团队首购/续费/升级/退款、真实商户及托管充值；未完成能力继续关闭。
+4. **展示与隐私补齐**：图表矩阵、客户折叠总览、窄屏/键盘细节、日志 IP 分别验收。旧 React 不整包塞进 Vue；纯函数、资产、文案、边界测试复用并保留版权。
 
-当前旧支付通知兼容层 `realyu_legacy_payment.go` 明确只是持久接收 `pending_review`，并不等于履约成功。不能据此开启旧购买按钮或向用户显示“到账”；原生新订单成功与迁入资金的对应关系需真正确认。
+旧支付通知兼容层 `realyu_legacy_payment.go` 仍只是持久接收 `pending_review`，不等于履约成功，不能据此开放旧购买或显示到账。本轮已独立验证新钱包订单与 managed 权益一次扣发；这不改变旧通知边界，也不证明真实商户回调已验。
 
 可直接复用的旧 Git blobs（均可从本仓库读取）：
 
@@ -110,14 +112,14 @@
 | `web/src/features/wallet/components/subscription-plans-card.tsx` | `91282fd9fd66f004c08174e0afc6df90a2940c75` |
 | `web/src/features/subscriptions/index.tsx` | `67312719e64ea0f9b1dc359f20fc0819b6595644` |
 
-## 恢复完成时必须实际验收的路径
+## 验收覆盖与剩余必测路径
 
 - 注册新的隔离用户名/可选昵称 → 自动获得且只获得一把个人 Key → 零余额仍可获取配置命令 → 一次正常身份检查；失败/重试不增多把默认Key。
 - 同一 synthetic owner 的个人与团队 Key 分别可见、复制/轮换不交叉；个人扣费不动团队，团队扣费不动钱包；成员仍无跨团队/管理员权限。
 - Codex/WorkBuddy、Windows/macOS 命令与现有下载签名/路径一致；复制不含另一scope Key，日志不保存凭据。页面验证不能替代真实桌面安装验收。
 - 团队有同名成员、退出成员、个人/团队混合请求；各排序数值而非字符串；分页总计与过滤明细一致；明细/趋势往返保留ID与日期。
 - 管理员周额度/到期编辑使用精确实例，旧弹窗冲突明确报错；用量、已付权益、历史账本及在途结算不重置；owner不能自己扩资金。
-- 购买关闭时显示明确不可购买状态，接口同样拒绝；开放后的支付必须验证真实回调一次履约、重复通知不重复入账、订单金额/币种与目标scope一致。此报告未执行真实支付。
+- 购买关闭时显示明确不可购买状态，接口同样拒绝；开放后的支付必须验证真实回调一次履约、重复通知不重复入账、订单金额/币种与目标scope一致。本轮只执行隔离合成钱包订单，未执行真实商户支付。
 - admin/user入口、兑换/优惠隐藏范围、移动端/桌面导航、主题、键盘焦点、错误/空数据状态；匿名与普通用户不能直接访问管理员API。
 - 模型参考单价仍为USD；客户金额按配置换算CNY。输入14元只提交2美元/1,000,000 quota，回填不能漂移；长decimal字符串不会显示“—”。
 
@@ -125,4 +127,6 @@
 
 已定位并阅读全文或相关原始需求的核心 UX 线程见S01～S12，另读取旧周订阅、工作台、10月8日团队请求/管理发布文档及当前源码。这是本次可定位历史的系统清单，不声称所有未归档/不可访问聊天、所有历史截图内容均已穷尽。用户最新要求可直接作为恢复标准，不需要重复确认。
 
-没有把旧报告的通过数量充当新版通过数量；没有把编译产物存在等同已发布；没有把native管理员原生订阅冒充迁入RealYu周订阅；没有改生产设置或新发消费请求。新版 CowAgent/15 Key、公网品牌、直接管理入口和人民币浏览器验收由对应独立结果文件记录，完成后在 DEVLOG/UPDATELOG 引用，而不覆盖本报告的首次差距证据。
+没有将旧报告计数用于新版，也没有将 15 项通过当作 35 条需求全部完成。未把原生 group subscription 冒充 RealYu 周资金，未改生产设置或真实客户账本，未发付费模型请求。结算 DTO 首次缺 `for_sale` 的失败与修复后 15/15 结果分开保留，未用重试覆盖。
+
+当前生产仍为 ws-owner；CowAgent/15 Key、公网品牌/直接管理入口/CNY UX 的新版恢复验收待真正 ACTIVE 后执行，本矩阵不是发布完成凭证。真实商户、托管充值、团队新购/续费/升级/退款、管理员周订阅授予编辑、趋势联动与日志 IP 隐私等缺口继续明确保留。

@@ -1,0 +1,22 @@
+{
+  "all_table_hashes_match": true,
+  "backup_sha256": "6b22d02bca90cd92aecf885d43eaa81354eb38f7618a21ee48d6e8a0bc90b8fd",
+  "backup_size_bytes": 3066701,
+  "captured_at": "2026-10-10T14:07:06.551754Z",
+  "kind": "singlecore-pg-snapshot-restore",
+  "latest_migration": "305_realyu_teams.sql",
+  "limitation": "Consistent logical snapshot only. LSN is observation, not PITR. Never restore over authority after subsequent financial writes. Ownership/ACL require separate reviewed provisioning.",
+  "migration_count": 297,
+  "restore_verified_at": "2026-10-10T14:07:12.475299Z",
+  "restored_server_version_num": 180006,
+  "schema": {
+    "hash_method": "canonical-catalog-v2-live-column-order-literal-array-coercion-excludes-ownership-acl-sequence-current-value",
+    "sha256": "33dcee6d73b2ca5ffa6407d04c8e12ad99e0491149fea7d5804dedd1d9be7534",
+    "table_count": 120
+  },
+  "schema_dump_sha256": "f19a039bd565935f4d54bd60cfe1f2685df0c90c8d9e1479dd8fab5b17b13b5c",
+  "source_server_version": "18.6",
+  "status": "PASS",
+  "total_rows_verified": 51028,
+  "version": 1
+}

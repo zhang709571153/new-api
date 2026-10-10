@@ -175,9 +175,9 @@
     },
     {
       "path": ".gitattributes",
-      "sha256": "9fb638e6a01b6d80ca7c48a985fa0764c34760163d4333e9966db2d82a97b576",
-      "source_sha256": "9fb638e6a01b6d80ca7c48a985fa0764c34760163d4333e9966db2d82a97b576",
-      "bytes": 1294,
+      "sha256": "9423780fbf66a326ce2035fa6e8b6fb0c26de930ee9a418ada044df8fc546b24",
+      "source_sha256": "9423780fbf66a326ce2035fa6e8b6fb0c26de930ee9a418ada044df8fc546b24",
+      "bytes": 1360,
       "git_mode": "100644",
       "source_path": ".gitattributes"
     },
@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "efd334329947cbb4915105e22d2d2347a2b46df82129e15f3bf3c77327015fb4",
-      "source_sha256": "efd334329947cbb4915105e22d2d2347a2b46df82129e15f3bf3c77327015fb4",
-      "bytes": 28285,
+      "sha256": "42d594af16cef5c5e9bc9a9243b84027699275965dec453c50f1e2c301bf5cbd",
+      "source_sha256": "42d594af16cef5c5e9bc9a9243b84027699275965dec453c50f1e2c301bf5cbd",
+      "bytes": 30866,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "737af57a94e0266b553367df4333aa15799e21705b6a4345ce4b449c8c544eb1",
-      "source_sha256": "737af57a94e0266b553367df4333aa15799e21705b6a4345ce4b449c8c544eb1",
-      "bytes": 12658,
+      "sha256": "86ce2849a9e6ab11e8ad088c980321360b9ecaffa6461eb4a802f10f69354ed7",
+      "source_sha256": "86ce2849a9e6ab11e8ad088c980321360b9ecaffa6461eb4a802f10f69354ed7",
+      "bytes": 13239,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "f605b7d6f3cc2d563ec986888f388e05fa97abe6fd707f44a7a79c231f78e221",
-      "source_sha256": "f605b7d6f3cc2d563ec986888f388e05fa97abe6fd707f44a7a79c231f78e221",
-      "bytes": 13742,
+      "sha256": "b2d942ee116c1c4724e0d424858458a1dd7f83710f533e28439d71db6f890a20",
+      "source_sha256": "b2d942ee116c1c4724e0d424858458a1dd7f83710f533e28439d71db6f890a20",
+      "bytes": 14549,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "794584cabaa030e7bed351d79e89adc53aadce41e60669b10f0780ed4880549b",
-      "source_sha256": "794584cabaa030e7bed351d79e89adc53aadce41e60669b10f0780ed4880549b",
-      "bytes": 11313,
+      "sha256": "bc4b9c46b0803943249b523f0a73432df94c5f5002976961a910d3428c2bce96",
+      "source_sha256": "bc4b9c46b0803943249b523f0a73432df94c5f5002976961a910d3428c2bce96",
+      "bytes": 12242,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2534,18 +2534,26 @@
       "bytes": 22523
     },
     {
+      "path": "deploy/sub2api/POSTGRES-PRE306-BACKUP-20261010.md",
+      "sha256": "d27a004612446e26571015b6a276b8caa89e8c16c844a4eff7a8156202bd7b5e",
+      "source_sha256": "d27a004612446e26571015b6a276b8caa89e8c16c844a4eff7a8156202bd7b5e",
+      "bytes": 4899,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/POSTGRES-PRE306-BACKUP-20261010.md"
+    },
+    {
       "path": "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md",
-      "sha256": "d0904fbb9d8366e0dd47fa5d0aaf04c711544150d1f25214440ff34ed90fa935",
-      "source_sha256": "d0904fbb9d8366e0dd47fa5d0aaf04c711544150d1f25214440ff34ed90fa935",
-      "bytes": 11505,
+      "sha256": "52e4a763051749b9557649bff8e376876b4b31f1bb2f8c7d0f6836c60927c175",
+      "source_sha256": "52e4a763051749b9557649bff8e376876b4b31f1bb2f8c7d0f6836c60927c175",
+      "bytes": 15746,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md"
     },
     {
       "path": "deploy/sub2api/Prepare-SingleCore.ps1",
-      "sha256": "d47311df6d53cf42ca5b813906f284f97b8d0445a2e002028a3e82dbee981acb",
-      "source_sha256": "d47311df6d53cf42ca5b813906f284f97b8d0445a2e002028a3e82dbee981acb",
-      "bytes": 8225,
+      "sha256": "82c5c9783d8a2898a797530d83409e5d34363e00a99e541d7907afd7196d5b46",
+      "source_sha256": "82c5c9783d8a2898a797530d83409e5d34363e00a99e541d7907afd7196d5b46",
+      "bytes": 9018,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/Prepare-SingleCore.ps1"
     },
@@ -2566,6 +2574,14 @@
       "source_path": "deploy/sub2api/RELEASE-READINESS-20261010.md"
     },
     {
+      "path": "deploy/sub2api/RESTORE-CATALOG.md",
+      "sha256": "9e6b6b5edb94836c9c0cfe50700f8f03b07102e3b01ad847205ef75ca26b67bc",
+      "source_sha256": "9e6b6b5edb94836c9c0cfe50700f8f03b07102e3b01ad847205ef75ca26b67bc",
+      "bytes": 2834,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/RESTORE-CATALOG.md"
+    },
+    {
       "path": "deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md",
       "sha256": "3d83801106bb151f05b78fef5af3c5385e1d97c9b69a6d39ddc0a15c5a14d534",
       "source_sha256": "3d83801106bb151f05b78fef5af3c5385e1d97c9b69a6d39ddc0a15c5a14d534",
@@ -2582,10 +2598,18 @@
       "source_path": "deploy/sub2api/SG-HY2-VALIDATION-20261010.json"
     },
     {
+      "path": "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md",
+      "sha256": "f7f4e8920360241666fb36aaab026121f19376f9e7213d2bffa06919b66cbcb3",
+      "source_sha256": "f7f4e8920360241666fb36aaab026121f19376f9e7213d2bffa06919b66cbcb3",
+      "bytes": 6498,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md"
+    },
+    {
       "path": "deploy/sub2api/SINGLECORE-CANDIDATE.md",
-      "sha256": "558f4f87fc8d5348c95a585043bbd60a3b6533c8924f06c42f762256f0033bd3",
-      "source_sha256": "558f4f87fc8d5348c95a585043bbd60a3b6533c8924f06c42f762256f0033bd3",
-      "bytes": 16237,
+      "sha256": "9d8ea4b8ef3eb272749e4d481eaf4994780337b405224c0cda44ee2aacdd7e12",
+      "source_sha256": "9d8ea4b8ef3eb272749e4d481eaf4994780337b405224c0cda44ee2aacdd7e12",
+      "bytes": 16983,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-CANDIDATE.md"
     },
@@ -2607,9 +2631,9 @@
     },
     {
       "path": "deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md",
-      "sha256": "b075a4f700670d0430c845257a578ef3052e0fd60b3eb7f75b13998fb865ee4c",
-      "source_sha256": "b075a4f700670d0430c845257a578ef3052e0fd60b3eb7f75b13998fb865ee4c",
-      "bytes": 4817,
+      "sha256": "4fbefd634834a0ab92f7969eeba6923a75784bd60f23e00e628b9d574d53fb10",
+      "source_sha256": "4fbefd634834a0ab92f7969eeba6923a75784bd60f23e00e628b9d574d53fb10",
+      "bytes": 4975,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md"
     },
@@ -2631,9 +2655,9 @@
     },
     {
       "path": "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
-      "sha256": "cd08ba3e3278e4e17a51691edeb35bd78e7b9de4f76defc0d905358a2eb52e01",
-      "source_sha256": "cd08ba3e3278e4e17a51691edeb35bd78e7b9de4f76defc0d905358a2eb52e01",
-      "bytes": 27861,
+      "sha256": "dd5d9b0648cc0d8952035e08acb968bd86f5635534d2f63b993c70c7162ec3ee",
+      "source_sha256": "dd5d9b0648cc0d8952035e08acb968bd86f5635534d2f63b993c70c7162ec3ee",
+      "bytes": 28316,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md"
     },
@@ -2670,10 +2694,18 @@
       "source_path": "deploy/sub2api/Test-SgHy2Package.ps1"
     },
     {
+      "path": "deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md",
+      "sha256": "5adfe8ead18087828eacabcbaa716a8a4795464bd760f8351019a289b358557b",
+      "source_sha256": "5adfe8ead18087828eacabcbaa716a8a4795464bd760f8351019a289b358557b",
+      "bytes": 6486,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md"
+    },
+    {
       "path": "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
-      "sha256": "3998f3e4c25ec401ef01a5a551baa52023eff47cd16ad2764bb777f3d3a5bf06",
-      "source_sha256": "3998f3e4c25ec401ef01a5a551baa52023eff47cd16ad2764bb777f3d3a5bf06",
-      "bytes": 25234,
+      "sha256": "6f3af74d8f5a1ca91079bb3c9dd77927dbfeb4d9eee2711ed592a4dde0347dd9",
+      "source_sha256": "6f3af74d8f5a1ca91079bb3c9dd77927dbfeb4d9eee2711ed592a4dde0347dd9",
+      "bytes": 28660,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md"
     },
@@ -2854,6 +2886,14 @@
       "source_path": "deploy/sub2api/host_cutover.py"
     },
     {
+      "path": "deploy/sub2api/legacy-catalog-20261010.json",
+      "sha256": "b2e27cb66d51b662406f518206d7eeff1c4b9cda419163f8cc93147432674b68",
+      "source_sha256": "b2e27cb66d51b662406f518206d7eeff1c4b9cda419163f8cc93147432674b68",
+      "bytes": 3600,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/legacy-catalog-20261010.json"
+    },
+    {
       "path": "deploy/sub2api/native-persistence-validation.json",
       "sha256": "31311014c2d7ba3bebaf3758291992627efeace8eba37db6a5fd9c269688e93e",
       "source_sha256": "ac3646e3c366c80b56515605debaca7ae4789f4de5763876a56520244aaf0997",
@@ -2918,6 +2958,14 @@
       "bytes": 14989
     },
     {
+      "path": "deploy/sub2api/restore_native_catalog.py",
+      "sha256": "37980cfc247f4589144fce05996ee63357197c5b668752edf1c0723777124940",
+      "source_sha256": "37980cfc247f4589144fce05996ee63357197c5b668752edf1c0723777124940",
+      "bytes": 9539,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/restore_native_catalog.py"
+    },
+    {
       "path": "deploy/sub2api/service_entry_singlecore.py",
       "sha256": "ab76d843de6a808a34a10cd0f52b2bce0f8aeb7fb89506500dc83758e05ae208",
       "source_sha256": "ab76d843de6a808a34a10cd0f52b2bce0f8aeb7fb89506500dc83758e05ae208",
@@ -2942,12 +2990,44 @@
       "source_path": "deploy/sub2api/sg_hy2_tls_probe.py"
     },
     {
+      "path": "deploy/sub2api/signup-acceptance-20261010/README.md",
+      "sha256": "d8385c96f1f94e7c440349aa6245b29e81a01d0b6cf9c1ece0e9f55324126789",
+      "source_sha256": "d8385c96f1f94e7c440349aa6245b29e81a01d0b6cf9c1ece0e9f55324126789",
+      "bytes": 7795,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/signup-acceptance-20261010/README.md"
+    },
+    {
+      "path": "deploy/sub2api/signup-acceptance-20261010/acceptance.json",
+      "sha256": "9fcd921165bd0179ec5463201ddd2ce88e0cd89a4174d18b28d2160ad00fd97d",
+      "source_sha256": "9fcd921165bd0179ec5463201ddd2ce88e0cd89a4174d18b28d2160ad00fd97d",
+      "bytes": 6410,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/signup-acceptance-20261010/acceptance.json"
+    },
+    {
       "path": "deploy/sub2api/singlecore-candidate.patch",
+      "sha256": "12e80b9900afd22b15fc37d3e26b06567426c7e0578747bb2d978acf83b24678",
+      "source_sha256": "12e80b9900afd22b15fc37d3e26b06567426c7e0578747bb2d978acf83b24678",
+      "bytes": 1395908,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore-candidate.patch"
+    },
+    {
+      "path": "deploy/sub2api/singlecore-cny-admin-source.json",
+      "sha256": "050eabe5c460e45d51752383a4755fa3395e078d86cc7bfd44de8ff9585d81cd",
+      "source_sha256": "050eabe5c460e45d51752383a4755fa3395e078d86cc7bfd44de8ff9585d81cd",
+      "bytes": 49880,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore-cny-admin-source.json"
+    },
+    {
+      "path": "deploy/sub2api/singlecore-cny-admin.patch",
       "sha256": "d2fc0bdee0d6e3cb65a10f2ce6ab56a87424c1f734ede6878278576dcf9d0ff6",
       "source_sha256": "d2fc0bdee0d6e3cb65a10f2ce6ab56a87424c1f734ede6878278576dcf9d0ff6",
       "bytes": 1117613,
       "git_mode": "100644",
-      "source_path": "deploy/sub2api/singlecore-candidate.patch"
+      "source_path": "deploy/sub2api/singlecore-cny-admin.patch"
     },
     {
       "path": "deploy/sub2api/singlecore-host-plan.example.json",
@@ -2959,11 +3039,19 @@
     },
     {
       "path": "deploy/sub2api/singlecore-source.json",
-      "sha256": "c557b5a2e8953e5f319278394e705e65a4611ef01891a66bd4f3d1ff3c2d79c3",
-      "source_sha256": "c557b5a2e8953e5f319278394e705e65a4611ef01891a66bd4f3d1ff3c2d79c3",
-      "bytes": 49880,
+      "sha256": "8e850e01b00eb2ed364b42b4f01da6390bd64aefc56ca9c4a15de24fe73da9f9",
+      "source_sha256": "8e850e01b00eb2ed364b42b4f01da6390bd64aefc56ca9c4a15de24fe73da9f9",
+      "bytes": 59282,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore-source.json"
+    },
+    {
+      "path": "deploy/sub2api/singlecore_additive_update.py",
+      "sha256": "e185c42b1c9fabbc50fca851904bcabe9b678b5e6385aa469897ba2384b23ef0",
+      "source_sha256": "e185c42b1c9fabbc50fca851904bcabe9b678b5e6385aa469897ba2384b23ef0",
+      "bytes": 18079,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore_additive_update.py"
     },
     {
       "path": "deploy/sub2api/singlecore_host_cutover.py",
@@ -2996,6 +3084,14 @@
       "bytes": 16405,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore_native_update.py"
+    },
+    {
+      "path": "deploy/sub2api/singlecore_pg_backup.py",
+      "sha256": "cbbe20c414edf90445db9c4101ad323cfdfa9a4a2a8271b5366ce9a6977b8e74",
+      "source_sha256": "cbbe20c414edf90445db9c4101ad323cfdfa9a4a2a8271b5366ce9a6977b8e74",
+      "bytes": 20559,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore_pg_backup.py"
     },
     {
       "path": "deploy/sub2api/singlecore_pricing.py",
@@ -3062,6 +3158,14 @@
       "git_mode": "100644"
     },
     {
+      "path": "deploy/sub2api/test_restore_native_catalog.py",
+      "sha256": "8b0ffca317f64c6216ef5f2c25efeeb373ef26ca68e1baa7cd9f6b036c1467e6",
+      "source_sha256": "8b0ffca317f64c6216ef5f2c25efeeb373ef26ca68e1baa7cd9f6b036c1467e6",
+      "bytes": 4874,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_restore_native_catalog.py"
+    },
+    {
       "path": "deploy/sub2api/test_service_entry_singlecore.py",
       "sha256": "a79d7cd407697f29f917f8560309d17955c2b11e06df609aad4c3d7350d23bbe",
       "source_sha256": "a79d7cd407697f29f917f8560309d17955c2b11e06df609aad4c3d7350d23bbe",
@@ -3076,6 +3180,14 @@
       "bytes": 3801,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/test_sg_hy2_package.py"
+    },
+    {
+      "path": "deploy/sub2api/test_singlecore_additive_update.py",
+      "sha256": "30a9dba0eed324c5d4e9bd889a7df3876b97f4b320da067315839861acad7769",
+      "source_sha256": "30a9dba0eed324c5d4e9bd889a7df3876b97f4b320da067315839861acad7769",
+      "bytes": 19886,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_singlecore_additive_update.py"
     },
     {
       "path": "deploy/sub2api/test_singlecore_host_cutover.py",
@@ -3108,6 +3220,14 @@
       "bytes": 8003,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/test_singlecore_native_update.py"
+    },
+    {
+      "path": "deploy/sub2api/test_singlecore_pg_backup.py",
+      "sha256": "ee65496618e81e564c93f038e819c43bc267e948b21bf3dd4092a18bd753da33",
+      "source_sha256": "ee65496618e81e564c93f038e819c43bc267e948b21bf3dd4092a18bd753da33",
+      "bytes": 7615,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_singlecore_pg_backup.py"
     },
     {
       "path": "deploy/sub2api/test_singlecore_pricing.py",
@@ -3702,6 +3822,14 @@
       "source_path": "lab/sub2api_e2e/browser-ui-summary.json"
     },
     {
+      "path": "lab/sub2api_e2e/catalog-restore-http-20261010.json",
+      "sha256": "4ccc83938716a986ee2767dd7d9fab5b5c99362652a1766191ad468a06c5e7bf",
+      "source_sha256": "4ccc83938716a986ee2767dd7d9fab5b5c99362652a1766191ad468a06c5e7bf",
+      "bytes": 1543,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/catalog-restore-http-20261010.json"
+    },
+    {
       "path": "lab/sub2api_e2e/checklist-current.csv",
       "sha256": "cf9b34b9c1b698c7359b6852435295b4b884e6f2b58c872eae12a61fcea0f3e5",
       "source_sha256": "9c0fb63bbfbf9891c52a8e575cf0bc123ae3e47056d2778854f7c9076297681e",
@@ -3836,6 +3964,14 @@
       "bytes": 3817,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/frontend-reuse-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/health-before-ux-release-20261010.json",
+      "sha256": "a8853778f4d5b7ceb064e8ececd5948cd384ad4d00a312cce15815d5ead68301",
+      "source_sha256": "a8853778f4d5b7ceb064e8ececd5948cd384ad4d00a312cce15815d5ead68301",
+      "bytes": 5422,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/health-before-ux-release-20261010.json"
     },
     {
       "path": "lab/sub2api_e2e/latest-cli-stream-failure.json",
@@ -4068,6 +4204,14 @@
       "bytes": 8609,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/portable/smoke_api.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/postgres-pre306-backup-20261010.json",
+      "sha256": "b16468dd95c4804ac7d76bdad942bfec1d2e4efc4878dc7e743e0d7e89ab8738",
+      "source_sha256": "b16468dd95c4804ac7d76bdad942bfec1d2e4efc4878dc7e743e0d7e89ab8738",
+      "bytes": 1067,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/postgres-pre306-backup-20261010.json"
     },
     {
       "path": "lab/sub2api_e2e/prepare_operator_fixture.py",
@@ -4374,6 +4518,14 @@
       "source_path": "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-cny-admin.json"
     },
     {
+      "path": "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-ux.json",
+      "sha256": "501cdf59f46466f051a5b2c2a0c93a84b8c74fe5cec4d9497000b40b979798ba",
+      "source_sha256": "501cdf59f46466f051a5b2c2a0c93a84b8c74fe5cec4d9497000b40b979798ba",
+      "bytes": 593,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-ux.json"
+    },
+    {
       "path": "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010.json",
       "sha256": "86faf34cb0919803147270bdacf450e8d8e44dc52f0cbc9ed1b3c02f93e025ae",
       "source_sha256": "86faf34cb0919803147270bdacf450e8d8e44dc52f0cbc9ed1b3c02f93e025ae",
@@ -4532,6 +4684,38 @@
       "bytes": 7041,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/test_production_funding_audit.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-browser-fixture-ops.py",
+      "sha256": "ecf95f56cfaa5e1cb83da0f9da5ba4bed06a92d92b3ef54ec92745021fe9ef60",
+      "source_sha256": "ecf95f56cfaa5e1cb83da0f9da5ba4bed06a92d92b3ef54ec92745021fe9ef60",
+      "bytes": 7457,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-browser-fixture-ops.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-candidate-validation-20261010.json",
+      "sha256": "ce04d59e816e9dd2316c9d698bb1b79557e9c71410c888ab796cf535197a3523",
+      "source_sha256": "ce04d59e816e9dd2316c9d698bb1b79557e9c71410c888ab796cf535197a3523",
+      "bytes": 2867,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-candidate-validation-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-parity-browser-20261010.json",
+      "sha256": "a6d2ce59dd7230a5f00f90130c943e1af5a6b368d08a4e8fa8ecf47d6ca991c8",
+      "source_sha256": "a6d2ce59dd7230a5f00f90130c943e1af5a6b368d08a4e8fa8ecf47d6ca991c8",
+      "bytes": 2301,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-parity-browser-20261010.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux-parity-browser-e2e.cjs",
+      "sha256": "e278d48033cd7df365c52d94a9748ec6d0f050b5cbc821fcfa2069b111feabf6",
+      "source_sha256": "e278d48033cd7df365c52d94a9748ec6d0f050b5cbc821fcfa2069b111feabf6",
+      "bytes": 35754,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux-parity-browser-e2e.cjs"
     },
     {
       "path": "lab/sub2api_e2e/validation-summary.json",
@@ -23953,28 +24137,6 @@
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T11:49:48.826997+00:00",
-    "review_scope": "Sub2API native customer/team core, Windows runtime sources, pinned SG/core cutover tools, migration handoff and bounded evidence. SG services and S0 prepared; core not activated.",
-    "changed_or_added_count": 5,
-    "changed_or_added_paths": [
-      "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "UPDATELOG.md",
-      "lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md",
-      "lab/sub2api_e2e/singlecore_production_acceptance.py"
-    ],
-    "checks": {
-      "changed_git_blob_hashes": true,
-      "private_runtime_values_excluded": true,
-      "private_runtime_files_excluded": true,
-      "local_document_links": 72,
-      "pinned_upstream_and_patch": true
-    },
-    "deployment_status": "SG_SCM_INSTALLED_S0_STAGED_NATIVE_ACTIVATION_WAITING_WINDOWS_ELEVATION",
-    "note": "Real upstream PDF/search/image, WS continuation and CLI cross-origin resume passed in isolated native customer state. Production core activation/public acceptance, real merchant acceptance and reboot/long-term stability are not claimed."
-  },
-  "publication_review": {
-    "status": "PASS",
     "checked_at_utc": "2026-10-10T13:42:28.997171+00:00",
     "review_scope": "Native Sub2API production cutover, SG path, native-only follow-up release, CNY/admin entry and CowAgent unlimited-key correction, source rebuild, deployment runbooks and bounded production evidence.",
     "changed_or_added_count": 35,
@@ -24024,6 +24186,59 @@
     },
     "deployment_status": "NATIVE_SINGLECORE_ACTIVE_SINGAPORE_HY2",
     "note": "See LIVE-DEPLOYMENT.md for the actual live binary and acceptance. Native production activation and real public PDF/search/image, WS continuation, CLI resume and funding reconciliation have evidence. Merchant purchase/refund, unattended reboot and long-term SLA are not claimed."
+  },
+  "publication_review": {
+    "status": "PASS",
+    "checked_at_utc": "2026-10-10T14:26:44.647409+00:00",
+    "review_scope": "Native Sub2API UX candidate including CNY/admin/CowAgent corrections, atomic managed signup and personal keys, key scopes, team metadata and usage, wallet purchase idempotency, source rebuild, 306/307-only updater, verified PG snapshot restore, catalog restoration, and Windows deployment handoff.",
+    "changed_or_added_count": 36,
+    "changed_or_added_paths": [
+      ".gitattributes",
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/POSTGRES-PRE306-BACKUP-20261010.md",
+      "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md",
+      "deploy/sub2api/Prepare-SingleCore.ps1",
+      "deploy/sub2api/RESTORE-CATALOG.md",
+      "deploy/sub2api/SINGLECORE-ADDITIVE-UPDATE.md",
+      "deploy/sub2api/SINGLECORE-CANDIDATE.md",
+      "deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md",
+      "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
+      "deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md",
+      "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
+      "deploy/sub2api/legacy-catalog-20261010.json",
+      "deploy/sub2api/restore_native_catalog.py",
+      "deploy/sub2api/signup-acceptance-20261010/README.md",
+      "deploy/sub2api/signup-acceptance-20261010/acceptance.json",
+      "deploy/sub2api/singlecore-candidate.patch",
+      "deploy/sub2api/singlecore-cny-admin-source.json",
+      "deploy/sub2api/singlecore-cny-admin.patch",
+      "deploy/sub2api/singlecore-source.json",
+      "deploy/sub2api/singlecore_additive_update.py",
+      "deploy/sub2api/singlecore_pg_backup.py",
+      "deploy/sub2api/test_restore_native_catalog.py",
+      "deploy/sub2api/test_singlecore_additive_update.py",
+      "deploy/sub2api/test_singlecore_pg_backup.py",
+      "lab/sub2api_e2e/catalog-restore-http-20261010.json",
+      "lab/sub2api_e2e/health-before-ux-release-20261010.json",
+      "lab/sub2api_e2e/postgres-pre306-backup-20261010.json",
+      "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-ux.json",
+      "lab/sub2api_e2e/ux-browser-fixture-ops.py",
+      "lab/sub2api_e2e/ux-candidate-validation-20261010.json",
+      "lab/sub2api_e2e/ux-parity-browser-20261010.json",
+      "lab/sub2api_e2e/ux-parity-browser-e2e.cjs"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 151,
+      "pinned_upstream_and_patch": true
+    },
+    "deployment_status": "NATIVE_SINGLECORE_WS_OWNER_ACTIVE_SINGAPORE_HY2_UX_CANDIDATE_PENDING",
+    "note": "See LIVE-DEPLOYMENT.md for the actual live binary. UX candidate has 737 frontend tests and 15 real browser/HTTP/PG acceptance cases; its production update is not yet confirmed. The earlier live core has real public PDF/search/image, WS, CLI resume and ledger evidence. Real merchant payment/refund, team first purchase/renewal/upgrade, installed desktop E2E, unattended reboot and long-term SLA are not claimed."
   },
   "publication_review_history": [
     {
@@ -24511,6 +24726,58 @@
       },
       "deployment_status": "SG_SCM_INSTALLED_S0_STAGED_NATIVE_ACTIVATION_WAITING_WINDOWS_ELEVATION",
       "note": "Real upstream PDF/search/image, WS continuation and CLI cross-origin resume passed in isolated native customer state. Production core activation/public acceptance, real merchant acceptance and reboot/long-term stability are not claimed."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T13:42:28.997171+00:00",
+      "review_scope": "Native Sub2API production cutover, SG path, native-only follow-up release, CNY/admin entry and CowAgent unlimited-key correction, source rebuild, deployment runbooks and bounded production evidence.",
+      "changed_or_added_count": 35,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/Apply-NativeBrand.py",
+        "deploy/sub2api/Invoke-SingleCoreRelease.ps1",
+        "deploy/sub2api/PURCHASE-AND-ENROLLMENT-PARITY-20261010.md",
+        "deploy/sub2api/Prepare-SingleCore.ps1",
+        "deploy/sub2api/SINGLECORE-CURRENCY-AND-ADMIN-20261010.md",
+        "deploy/sub2api/SINGLECORE-NATIVE-UPDATE.md",
+        "deploy/sub2api/SINGLECORE-PRODUCTION-20261010.md",
+        "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
+        "deploy/sub2api/Set-SgHy2Monitoring.ps1",
+        "deploy/sub2api/Switch-SgHy2Tunnel.ps1",
+        "deploy/sub2api/UX-PARITY-RECOVERY-20261010.md",
+        "deploy/sub2api/singlecore-candidate.patch",
+        "deploy/sub2api/singlecore-source.json",
+        "deploy/sub2api/singlecore_host_cutover.py",
+        "deploy/sub2api/singlecore_native_update.py",
+        "deploy/sub2api/test_singlecore_host_cutover.py",
+        "deploy/sub2api/test_singlecore_native_update.py",
+        "lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md",
+        "lab/sub2api_e2e/cowagent-key-fix-20261010.json",
+        "lab/sub2api_e2e/probe_cowagent_native_recovery.py",
+        "lab/sub2api_e2e/production_funding_audit.py",
+        "lab/sub2api_e2e/singlecore-cny-first-update-20261010.json",
+        "lab/sub2api_e2e/singlecore-cny-isolated-browser-20261010.json",
+        "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010-cny-admin.json",
+        "lab/sub2api_e2e/singlecore-patch-reconstruction-20261010.json",
+        "lab/sub2api_e2e/singlecore-production-health-20261010-2056.json",
+        "lab/sub2api_e2e/singlecore-production-health-20261010-2057.json",
+        "lab/sub2api_e2e/singlecore-production-protocol-20261010.json",
+        "lab/sub2api_e2e/singlecore_existing_health_window.py",
+        "lab/sub2api_e2e/singlecore_production_acceptance.py",
+        "lab/sub2api_e2e/test_production_funding_audit.py"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 129,
+        "pinned_upstream_and_patch": true
+      },
+      "deployment_status": "NATIVE_SINGLECORE_ACTIVE_SINGAPORE_HY2",
+      "note": "See LIVE-DEPLOYMENT.md for the actual live binary and acceptance. Native production activation and real public PDF/search/image, WS continuation, CLI resume and funding reconciliation have evidence. Merchant purchase/refund, unattended reboot and long-term SLA are not claimed."
     }
   ]
 }

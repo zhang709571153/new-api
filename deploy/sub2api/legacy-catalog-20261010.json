@@ -1,0 +1,150 @@
+{
+  "read_only": true,
+  "at_utc": "2026-10-10T13:48:22.957068+00:00",
+  "plans": [
+    {
+      "id": 1,
+      "title": "Realyu 月度额度（管理员开通）",
+      "price_amount": 0,
+      "currency": "USD",
+      "duration_unit": "month",
+      "duration_value": 1,
+      "enabled": 0,
+      "sort_order": 0,
+      "funding_scope": "personal",
+      "total_amount": 0,
+      "weekly_amount": 0,
+      "allow_balance_pay": 0,
+      "allow_wallet_overflow": 0,
+      "upgrade_group": "",
+      "quota_reset_period": "never"
+    },
+    {
+      "id": 2,
+      "title": "Lite",
+      "price_amount": 98,
+      "currency": "CNY",
+      "duration_unit": "day",
+      "duration_value": 28,
+      "enabled": 1,
+      "sort_order": 100,
+      "funding_scope": "personal",
+      "total_amount": 8571428,
+      "weekly_amount": 2142857,
+      "allow_balance_pay": 1,
+      "allow_wallet_overflow": 1,
+      "upgrade_group": "",
+      "quota_reset_period": "never"
+    },
+    {
+      "id": 3,
+      "title": "Starter",
+      "price_amount": 198,
+      "currency": "CNY",
+      "duration_unit": "day",
+      "duration_value": 28,
+      "enabled": 1,
+      "sort_order": 99,
+      "funding_scope": "personal",
+      "total_amount": 17142856,
+      "weekly_amount": 4285714,
+      "allow_balance_pay": 1,
+      "allow_wallet_overflow": 1,
+      "upgrade_group": "",
+      "quota_reset_period": "never"
+    },
+    {
+      "id": 4,
+      "title": "Pro",
+      "price_amount": 398,
+      "currency": "CNY",
+      "duration_unit": "day",
+      "duration_value": 28,
+      "enabled": 1,
+      "sort_order": 98,
+      "funding_scope": "personal",
+      "total_amount": 34285712,
+      "weekly_amount": 8571428,
+      "allow_balance_pay": 1,
+      "allow_wallet_overflow": 1,
+      "upgrade_group": "",
+      "quota_reset_period": "never"
+    },
+    {
+      "id": 5,
+      "title": "Max",
+      "price_amount": 698,
+      "currency": "CNY",
+      "duration_unit": "day",
+      "duration_value": 28,
+      "enabled": 1,
+      "sort_order": 97,
+      "funding_scope": "personal",
+      "total_amount": 62857140,
+      "weekly_amount": 15714285,
+      "allow_balance_pay": 1,
+      "allow_wallet_overflow": 1,
+      "upgrade_group": "",
+      "quota_reset_period": "never"
+    },
+    {
+      "id": 6,
+      "title": "Ultra",
+      "price_amount": 1398,
+      "currency": "CNY",
+      "duration_unit": "day",
+      "duration_value": 28,
+      "enabled": 1,
+      "sort_order": 96,
+      "funding_scope": "personal",
+      "total_amount": 128571428,
+      "weekly_amount": 32142857,
+      "allow_balance_pay": 1,
+      "allow_wallet_overflow": 1,
+      "upgrade_group": "",
+      "quota_reset_period": "never"
+    },
+    {
+      "id": 7,
+      "title": "Scale",
+      "price_amount": 2598,
+      "currency": "CNY",
+      "duration_unit": "day",
+      "duration_value": 28,
+      "enabled": 1,
+      "sort_order": 95,
+      "funding_scope": "personal",
+      "total_amount": 240000000,
+      "weekly_amount": 60000000,
+      "allow_balance_pay": 1,
+      "allow_wallet_overflow": 1,
+      "upgrade_group": "",
+      "quota_reset_period": "never"
+    }
+  ],
+  "routing_groups": [
+    {
+      "id": 1,
+      "name": "default",
+      "status": "active",
+      "subscription_type": "standard",
+      "rate_multiplier": "1.0000"
+    },
+    {
+      "id": 2,
+      "name": "RealYu Production OpenAI",
+      "status": "active",
+      "subscription_type": "standard",
+      "rate_multiplier": "0.1250"
+    }
+  ],
+  "personal_keys_by_group": [
+    [
+      2,
+      64
+    ]
+  ],
+  "reviewed_group_mapping": {
+    "default": 2
+  }
+}

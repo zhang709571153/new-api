@@ -1,0 +1,84 @@
+{
+  "target": "http://127.0.0.1:29481",
+  "expected_version": "realyu-singlecore-v0.2.15-20261010-ux",
+  "synthetic_only": true,
+  "production_modified": false,
+  "real_browser": true,
+  "paid_model_called": false,
+  "clipboard": "browser-memory adapter; OS clipboard not accessed",
+  "started_at": "2026-10-10T14:12:23.996Z",
+  "finished_at": "2026-10-10T14:12:38.935Z",
+  "candidate_binary_sha256": "88d749b7a8cb354959f7343280dea51843d68a34f9cc3619919294abfacad081",
+  "passed": 15,
+  "failed": 0,
+  "page_error_count": 0,
+  "blocked_request_count": 36,
+  "checks": [
+    {
+      "name": "exact-isolated-version-brand-cny7-and-disabled-upstream",
+      "pass": true
+    },
+    {
+      "name": "admin-native-pages-no-confirmation-workspace-brand",
+      "pass": true
+    },
+    {
+      "name": "owner-personal-team-setup-and-server-key-scope-pagination",
+      "pass": true
+    },
+    {
+      "name": "owner-team-nickname-cumulative-sorting-with-funds-unchanged",
+      "pass": true
+    },
+    {
+      "name": "member-own-team-usage-and-server-forbidden-boundaries",
+      "pass": true
+    },
+    {
+      "name": "registration-without-email-default-personal-key-zero-grants",
+      "pass": true
+    },
+    {
+      "name": "admin-ui-configures-managed-cny-plan-offsale-before-explicit-publish",
+      "pass": true
+    },
+    {
+      "name": "wallet-ui-purchase-idempotency-single-debit-and-managed-entitlement",
+      "pass": true
+    },
+    {
+      "name": "cleanup-restores-original-team-alias",
+      "pass": true
+    },
+    {
+      "name": "cleanup-test-plan-offsale",
+      "pass": true
+    },
+    {
+      "name": "cleanup-extra-synthetic-owner-key-disabled",
+      "pass": true
+    },
+    {
+      "name": "cleanup-restores-isolated-payment-enabled",
+      "pass": true
+    },
+    {
+      "name": "cleanup-restores-isolated-signup-settings",
+      "pass": true
+    },
+    {
+      "name": "owner-funds-usage-cap-invariant-after-suite",
+      "pass": true
+    },
+    {
+      "name": "no-browser-page-errors",
+      "pass": true
+    }
+  ],
+  "evidence_private": "C:\\srv\\realyu-singlecore-dev\\runtime\\screenshots\\ux-parity-private-2026-10-10T14-12-23-996Z",
+  "limitations": [
+    "OS clipboard not used",
+    "No external payment provider acceptance",
+    "No model or paid upstream call"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "target": "http://127.0.0.1:29481",
+  "production_changed": false,
+  "native_admin_http": true,
+  "catalogue_sha256": "4c15ca13e38a0afa280ba83dc8e2eba9324bcd87c0819041641e05645a8c6b84",
+  "attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 0
+    },
+    {
+      "attempt": 2,
+      "exit_code": 0
+    }
+  ],
+  "plans": [
+    {
+      "source_id": 2,
+      "name": "Lite",
+      "price_cny": "98.00",
+      "for_sale": false,
+      "weekly_quota": 2142857,
+      "total_quota": 8571428
+    },
+    {
+      "source_id": 3,
+      "name": "Starter",
+      "price_cny": "198.00",
+      "for_sale": false,
+      "weekly_quota": 4285714,
+      "total_quota": 17142856
+    },
+    {
+      "source_id": 4,
+      "name": "Pro",
+      "price_cny": "398.00",
+      "for_sale": false,
+      "weekly_quota": 8571428,
+      "total_quota": 34285712
+    },
+    {
+      "source_id": 5,
+      "name": "Max",
+      "price_cny": "698.00",
+      "for_sale": false,
+      "weekly_quota": 15714285,
+      "total_quota": 62857140
+    },
+    {
+      "source_id": 6,
+      "name": "Ultra",
+      "price_cny": "1398.00",
+      "for_sale": false,
+      "weekly_quota": 32142857,
+      "total_quota": 128571428
+    },
+    {
+      "source_id": 7,
+      "name": "Scale",
+      "price_cny": "2598.00",
+      "for_sale": false,
+      "weekly_quota": 60000000,
+      "total_quota": 240000000
+    }
+  ],
+  "wallet_subscriptions_orders_grants_unchanged": true,
+  "resume_same_native_ids": true,
+  "merchant_called": false,
+  "settings_changed": false
+}

@@ -78,6 +78,32 @@
 - 管理员先通过原生 plan CRUD 创建 `for_sale=false`、CNY、28 day、standard group 计划，再 `PUT /api/v1/admin/payment/plans/:id/managed-entitlement` 配置 scope/total/weekly/duration/price_cents/allow_balance_pay/allow_wallet_overflow/source_plan_id。服务器按显式客户汇率计算固定钱包扣款 quota；元数据只允许下架时配置。审核后通过原生 plan 更新上架。没有自动导入或开启生产商户。
 - migration 306 和当前源代码仅在隔离候选开发/测试。不得把本文接口存在当作本轮商户、购买 UI 或生产上线验收已完成。
 
+## 候选实现与证据更新
+
+2026-10-10 本轮后续候选已落地上述个人购买内核及只读权益接口，**尚未部署或开启生产支付**：
+
+| 项目 | 候选状态 / 边界 |
+|---|---|
+| 原生 standard-group 计划管理 | 原生 HTTP handler→service→真实 PostgreSQL 已穿透：下架创建、managed 元数据、显式上架、目录读取；不改 group 类型 |
+| 个人钱包购买 | 原生订单及快照同事务；钱包扣款、唯一 grant、权益、审计和订单完成同事务；重复返回同订单，商户实收为零 |
+| 个人商户购买 | 保留 native provider/金额校验/lease；managed grant 不写 stock 权益、不额外扣钱包；真实商户验签/支付/退款闭环仍 NOT_RUN |
+| 目录导入幂等 | 非空 source_plan_id 在 DB 唯一；同来源不可配置到两个原生计划，冲突 409；手工新模板 0 存 NULL |
+| 汇率与钱包报价 | CNY price_cents 经显式汇率精确 decimal→整数 quota 固定在订单快照；汇率变更使新钱包购买 capability 暂停，需下架复核计划报价，旧已建订单不重算 |
+| 客户权益读取 | `GET /api/v1/payment/managed-subscriptions` 返回本人个人权益与历史；金额全为 quota，时间 Unix 秒，按相同跨周/尾周规则只在内存投影；不重写 used/reset |
+| 管理员批量摘要 | `POST /api/v1/admin/payment/managed-subscriptions/query`，`{user_ids:[...]}`，上限 200；返回 `{users:[{user_id,managed,quota_per_usd,subscriptions:[]}]}`，包括这些用户本人个人及其 owned-team 权益。仍由原 adminAuth 保护 |
+| 未验收的钱包充值 | 对 managed 用户 config/checkout 返回 balance_disabled=true，服务端 balance/default 下单明确 MANAGED_RECHARGE_UNSUPPORTED；未知 order_type 也拒绝。不能把 CNY 实付直接充成相同 USD。stock 用户原行为保留 |
+| 有效期内重复购买/续期/升级、团队首购、managed 退款 | 在付款前拒绝；团队首购与管理员团队授予尚未完整恢复，不声称等价 |
+
+`subscriptions[]` 字段：`id/user_id/team_id/title/status/start_time/end_time/amount_total_quota/amount_used_quota/weekly_amount_quota/weekly_used_quota/effective_weekly_limit_quota/available_quota/weekly_reset_at/allow_wallet_overflow`；`quota_per_usd=500000`。个人接口不接受客户端指定 user_id，也不返回别人的团队成员信息。
+
+独立 PostgreSQL 使用专用测试数据库和每次新临时 schema；未连接生产进行写入。测试包括钱包 12 并发唯一扣款、merchant receipt 8 并发重试、grant 故障注入全回滚、目录改动不改已建快照、过期新一期保留旧 used、exclusive/public/restricted 组权限、来源唯一、缺汇率/报价漂移拒绝、只读跨周和尾周可用量与 DB 不变。原生服务回归覆盖 CreateOrder 事务上下文、原生订单回滚、付款前拒绝、managed 履约不进入 stock、topup 和退款保护。
+
+保留了首次失败证据：简化 PG fixture 的过期期限和多语句 prepared 装配错误；真实完整 native schema 的 HTTP 测试额外抓到初版 SQL 误用桥接列名 restrict_group_membership。现按原生 restrict_public_groups + is_exclusive + explicit allowed groups 修正，而非放宽权限；后续同链绿色。测试日志在私有 runtime 的 `managed-purchase-*` 文件，完整应用 JWT/浏览器购买流程和实商户仍需发布前独立验收。
+
+最终隔离 PG 10 组测试通过（`managed-purchase-pg-final-source-unique.log`），原生/managed 服务相关 17 组回归及 handler/admin/routes 编译/相关测试通过（`managed-purchase-native-regression.log`、`managed-purchase-native-final.log`）。独立有限代码 review 未确认新的 P0/P1；这不扩展为真实商户或生产稳定性证明。
+
+**回退边界：** migration 306 采用增量表/sequence，并未更改既有消费资金列。但新 managed 订单一旦启用，旧程序不认识其 snapshot/grant/钱包订单语义；DDL 兼容不能等同业务可回退。已有新订单后需继续运行了解新语义的处理器或前向修复，不能直接降级并假设未决订单仍能正确履约。当前生产支付未启用，无本轮新真实订单。
+
 再用隔离完整应用验证购买页面、能力提示、管理员配置、计划读取与订单状态。最后仅在运营方启用前，对真实商户做最小支付→验签→唯一到账→真实消费→退款闭环；此项当前 **NOT_RUN**。不凭模拟支付、catalog 200 或页面币种正确宣布收款上线。
 
 现有 paid 权益和请求服务可以继续运行。新购买/注册功能的发布单独控制，保留旧 pending 的人工核对队列，不覆盖已 ACTIVE 客户库，不借重新迁移快照补齐商品。
