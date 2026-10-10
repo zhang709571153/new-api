@@ -50,6 +50,43 @@ Sub2API 依据：[平台及角色](https://github.com/Wei-Shaw/sub2api/blob/v0.2
 
 两处容易误判：New API `/files` 虽有路由，但绑定 `RelayNotImplemented`，不能算作它已经实现而 Sub 没有的优势；两边有某种 API 路由，也不代表 ChatGPT 订阅账号具备该 API 的全部原生行为。
 
+## ZPay 支付专项核查（2026-10-10 09:45 CST）
+
+Sub2API v0.2.15 的官方支付指南明确列出 ZPay，接入使用内置 EasyPay 服务商，
+不是必须另装的支付服务。配置项为 PID、PKey、API 基础地址及可选的支付宝/微信通道 ID；
+前台支付方式还需路由到对应 EasyPay 实例。使用商户后台提供的实际 API 地址，
+不能把 ZPay 营销首页域名自动当成 API 域名。本轮没有读取或迁移真实商户密钥。
+
+源码已有支付宝/微信、扫码/跳转、回调验签、查单与退款适配；订单履约服务同时处理
+余额充值与订阅购买。当前 RealYu 的团队资金及套餐业务仍须按上文移植，不能因为
+目标有支付按钮就把影子用户预算当作客户余额，或现在直接开启双边收款。
+
+但本轮发现两项需要验证的协议差异，不能把官方列名当作完整商户验收：
+
+1. **查单请求方式不一致**：ZPay 文档规定 GET `/api.php?act=order`，Sub 的
+   `EasyPay.QueryOrder` 向 `/api.php` POST 表单，`act` 也在表单中。对文档所列
+   `https://zpayz.cn` 使用无效测试身份、虚构订单号做只读探测，Sub 形态返回
+   HTTP 200 / 0 字节；GET 返回 JSON 错误。追加把 `act` 放到查询串的 POST
+   返回必填参数错误。没有有效商户认证，不能由这些结果宣称真实订单查单成功或
+   已复现真实漏单；但现有空响应无法被适配器 JSON 解码，主动补单路径需要验证/适配。
+2. **同步返回地址约束不一致**：ZPay 跳转接口文档称 `return_url` 不支持带参数；
+   Sub 的 `buildPaymentReturnURL` 会添加订单 ID、状态及恢复令牌。异步通知地址本身
+   是无查询串的固定路径。同步返回的实际接受、参数保留和页面恢复尚未实测。
+
+ZPay 文档还说明多数通道退款额需等于原订单额，因此不能承诺所有通道支持部分退款。
+迁移前的商户验收应包含充值与订阅支付、异步通知、重复回调只入账一次、主动查单补单、
+支付后返回页面、整单退款，以及渠道支持时的部分退款。本轮没有创建支付订单、付款、
+退款、修改支付配置或进行真实商户 E2E；这些仍是待验收项。
+
+结论：ZPay 有原生接入基础，不构成必须长期保留 New API 的理由；原版 v0.2.15
+的上述兼容点应进入迁移验收，发现问题时优先做小范围上游适配，不重造支付系统。
+
+依据：[Sub 官方支付指南](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/docs/PAYMENT_CN.md)、
+[EasyPay 适配器](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/internal/payment/provider/easypay.go)、
+[订单履约](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/internal/service/payment_fulfillment.go)、
+[返回地址生成](https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/backend/internal/service/payment_resume_service.go)、
+[ZPay 官方协议](https://api.z-pay.cn/doc.html)。只读探测摘要见同目录研究证据索引的 `zpay_followup`。
+
 ## 为什么选择 Sub2API，而不是继续扩写 New API 的 Codex 渠道
 
 New API 官方 issue 范围明确排除逆向渠道、Codex 反代为通用 API 后的兼容问题；这是维护范围，不是代码完全不支持。当前官方已支持 Codex WS，rc.38 已有流中断估算与图片 token 修复，rc.42 还有搜索计费改进。

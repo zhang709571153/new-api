@@ -182,5 +182,94 @@
     "deployment": false
   },
   "recommendation": "Sub2API single core with scoped RealYu business port; current bridge remains until migration acceptance.",
-  "privacy": "No user names, emails, passwords, API keys, transaction amounts or raw customer records included."
+  "privacy": "No user names, emails, passwords, API keys, transaction amounts or raw customer records included.",
+  "zpay_followup": {
+    "recorded_at_utc": "2026-10-10T01:47:04.087960+00:00",
+    "sub2api_tag": "v0.2.15",
+    "support": "ZPay explicitly named by the built-in EasyPay documentation; implementation includes balance and subscription fulfillment.",
+    "sources": [
+      "https://github.com/Wei-Shaw/sub2api/blob/v0.2.15/docs/PAYMENT_CN.md",
+      "https://api.z-pay.cn/doc.html"
+    ],
+    "probe_scope": "Read-only order queries against the documented public API host. Invalid synthetic identity and fictional order IDs only; no valid merchant credentials or orders.",
+    "endpoint": "https://zpayz.cn/api.php",
+    "probe_sequence": [
+      {
+        "sequence": 1,
+        "method": "GET",
+        "action_location": "query",
+        "synthetic_order_format": "alphabetic",
+        "curl_exit": 0,
+        "http_status_recorded": false,
+        "response": "JSON error: order or trade identifier required"
+      },
+      {
+        "sequence": 2,
+        "method": "POST",
+        "action_location": "form",
+        "synthetic_order_format": "alphabetic",
+        "curl_exit": 0,
+        "http_status_recorded": false,
+        "response": "empty body"
+      },
+      {
+        "sequence": 3,
+        "method": "GET",
+        "action_location": "query",
+        "synthetic_order_format": "30-digit synthetic number",
+        "curl_exit": 0,
+        "http_status": 200,
+        "response_bytes": 52,
+        "response": "JSON error: order or trade identifier required"
+      },
+      {
+        "sequence": 4,
+        "method": "POST",
+        "action_location": "form",
+        "synthetic_order_format": "30-digit synthetic number",
+        "curl_exit": 0,
+        "http_status": 200,
+        "response_bytes": 0,
+        "response": "empty body"
+      },
+      {
+        "sequence": 5,
+        "method": "POST",
+        "action_location": "query",
+        "synthetic_order_format": "30-digit synthetic number",
+        "curl_exit": 0,
+        "http_status": 200,
+        "response_bytes": 58,
+        "response": "JSON error: pid and key required"
+      }
+    ],
+    "findings": [
+      {
+        "kind": "protocol_difference_with_unauthenticated_probe",
+        "detail": "ZPay documents GET order lookup. Sub EasyPay.QueryOrder POSTs act and all parameters in the body. Sub-shaped probe returned an empty body, which the JSON decoder cannot parse. Authenticated merchant order lookup remains unverified."
+      },
+      {
+        "kind": "documented_constraint_not_live_verified",
+        "detail": "ZPay submit return_url disallows query parameters in documentation; Sub buildPaymentReturnURL adds order_id, out_trade_no, status and optional resume_token."
+      },
+      {
+        "kind": "provider_constraint",
+        "detail": "ZPay documentation says most refund channels require the full original amount; partial refunds are not universally promised."
+      }
+    ],
+    "merchant_payment_e2e": false,
+    "orders_created": 0,
+    "payments_executed": 0,
+    "refunds_executed": 0,
+    "production_configuration_changes": 0,
+    "acceptance_remaining": [
+      "balance top-up",
+      "subscription purchase",
+      "signed notification and duplicate callback idempotency",
+      "authenticated query and reconciliation",
+      "browser return recovery",
+      "full refund",
+      "partial refund only where the channel supports it"
+    ]
+  }
 }

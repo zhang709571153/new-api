@@ -4,6 +4,13 @@
 完整部署状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，接手入口见
 [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md)，开发过程见 [DEVLOG.md](DEVLOG.md)。
 
+## 2026-10-10 — ZPay 支付兼容核查，未变更线上功能
+
+- 确认 Sub2API 内置 EasyPay 明确列出 ZPay；无需新造完整支付系统。
+- [研究报告](deploy/sub2api/PLATFORM-COMPARISON-20261010.md)补充查单方式与支付返回
+  地址两项协议差异；仍需真实商户 E2E，不能将原生支持标记为已经上线验收。
+- 本轮只有文档/源码核查和无效测试身份的只读查单探测，没有客户资金或支付配置变更。
+
 ## 2026-10-10 — 平台选型研究，未变更线上功能
 
 - 完成原版 New API / Sub2API、相关上游与 fork 的源码对照，另列 RealYu 定制业务
