@@ -4,6 +4,13 @@
 完整部署状态见 [LIVE-DEPLOYMENT.md](LIVE-DEPLOYMENT.md)，接手入口见
 [HANDOFF-SUB2API.md](HANDOFF-SUB2API.md)，开发过程见 [DEVLOG.md](DEVLOG.md)。
 
+## 2026-10-10 上午 — 公网访问恢复，网络观察进行中
+
+- 08:10–08:23 公网中断期间源站正常，实际仍走 us2 代理；出口切至 jp3 后恢复。
+- 首页、登录页、全部首页 JS/CSS 与一次真实 Codex 短文本流已复核通过。
+- 本轮没有新程序发布或账本变更；已开始有界观察，共享出口可靠性仍待验证。
+- [故障记录与接手注意](deploy/sub2api/NETWORK-INCIDENT-20261010.md)。
+
 ## realyu-sub2api-v3.10.0.2-20261010 — 候选已验证，未发布
 
 - 渠道页增加 Sub2API 实际账号池、并发、配额窗口与今日请求分布；支持刷新和失败提示。

@@ -1,5 +1,12 @@
 # Local Sub2API deployment record
 
+**Network incident, 2026-10-10 morning CST:** public access failed from 08:10
+to 08:23 while origin services stayed healthy. The observed tunnel traffic still
+used the us2 proxy; after the route changed to jp3, public access recovered.
+Homepage assets and one real Codex stream passed. This diagnostic session did
+not deploy code or perform the node switches. Shared proxy-path reliability
+remains an open issue; see the [incident and handoff note](deploy/sub2api/NETWORK-INCIDENT-20261010.md).
+
 **Portal follow-up, 2026-10-10 03:15 CST:** the v3.10.0.2 candidate passed
 management HTTP E2E against isolated RealYu state and real Sub2API reads. Its
 publication has not run: Windows elevation was cancelled. The new native-console

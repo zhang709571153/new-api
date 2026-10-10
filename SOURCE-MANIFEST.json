@@ -287,11 +287,11 @@
     },
     {
       "path": "DEVLOG.md",
-      "source_path": "DEVLOG.md",
-      "source_sha256": "416de261079b19e9c4e4b18526a8bdd975ecf2b043448780c77921b203a373d2",
-      "sha256": "416de261079b19e9c4e4b18526a8bdd975ecf2b043448780c77921b203a373d2",
-      "bytes": 4366,
-      "git_mode": "100644"
+      "sha256": "3f058cd217608630295232a31892d3af49f1b633f5e8ead2108c5945bd74ecea",
+      "source_sha256": "3f058cd217608630295232a31892d3af49f1b633f5e8ead2108c5945bd74ecea",
+      "bytes": 5958,
+      "git_mode": "100644",
+      "source_path": "DEVLOG.md"
     },
     {
       "path": "Dockerfile",
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "5207105422aa449dfb9f5af9a667e5e118281eed256f58319c6ccb5fd7239bca",
-      "source_sha256": "5207105422aa449dfb9f5af9a667e5e118281eed256f58319c6ccb5fd7239bca",
-      "bytes": 4966,
+      "sha256": "e513cfd8df4d3d70fc749edb48e54ac8645267ab21e5802b0933e6b26479e03c",
+      "source_sha256": "e513cfd8df4d3d70fc749edb48e54ac8645267ab21e5802b0933e6b26479e03c",
+      "bytes": 5157,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "2781c204ea87e76738b7d4aa6a80593005a07a8c0c0a7f170769d75729c68729",
-      "source_sha256": "2781c204ea87e76738b7d4aa6a80593005a07a8c0c0a7f170769d75729c68729",
-      "bytes": 10311,
+      "sha256": "cf8b3f263d4727520c77696b5613fe61536358c49d8860d0f93a1f86375b48c5",
+      "source_sha256": "cf8b3f263d4727520c77696b5613fe61536358c49d8860d0f93a1f86375b48c5",
+      "bytes": 10807,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,11 +399,11 @@
     },
     {
       "path": "UPDATELOG.md",
-      "source_path": "UPDATELOG.md",
-      "source_sha256": "d759a5c85bb2c446b6fbfb1f9b8830e0f05317c6c4f5d98e9c3a07ffa5cab07a",
-      "sha256": "d759a5c85bb2c446b6fbfb1f9b8830e0f05317c6c4f5d98e9c3a07ffa5cab07a",
-      "bytes": 2282,
-      "git_mode": "100644"
+      "sha256": "5a646a68f5feed897b5781ca7486b060814b1f8ed57756192f30c5f986c16669",
+      "source_sha256": "5a646a68f5feed897b5781ca7486b060814b1f8ed57756192f30c5f986c16669",
+      "bytes": 2741,
+      "git_mode": "100644",
+      "source_path": "UPDATELOG.md"
     },
     {
       "path": "VERSION",
@@ -2460,6 +2460,14 @@
       "bytes": 29255,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/NATIVE-WINDOWS.md"
+    },
+    {
+      "path": "deploy/sub2api/NETWORK-INCIDENT-20261010.md",
+      "sha256": "5d99d92fea415848cbf322ec814b21e665e2f74cf43f4a6c15ef4aebdde4e8f2",
+      "source_sha256": "5d99d92fea415848cbf322ec814b21e665e2f74cf43f4a6c15ef4aebdde4e8f2",
+      "bytes": 4792,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
     },
     {
       "path": "deploy/sub2api/New-NativeCandidate.ps1",
@@ -23395,59 +23403,26 @@
   },
   "publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-09T19:18:49.427527+00:00",
-    "review_scope": "Account overview, exact administrative usage attribution, native HTTPS ingress template, ledger-preserving portal upgrade, smoke scripts and maintained DEVLOG/UPDATELOG. Candidate validated; production publication not executed.",
+    "checked_at_utc": "2026-10-10T00:39:11.095837+00:00",
+    "review_scope": "Sanitized network incident, historical session comparison, bounded observation and deployment handoff notes. Documentation only.",
+    "changed_or_added_count": 5,
     "changed_or_added_paths": [
-      "AGENTS.md",
       "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "LIVE-DEPLOYMENT.md",
       "UPDATELOG.md",
-      "controller/log.go",
-      "controller/sub2api.go",
-      "deploy/sub2api/ADMIN-PORTAL.md",
-      "deploy/sub2api/README.md",
-      "deploy/sub2api/admin-ingress.example.yml",
-      "deploy/sub2api/export_source.py",
-      "deploy/sub2api/host_cutover.py",
-      "deploy/sub2api/test_host_cutover.py",
-      "lab/sub2api_e2e/admin-portal-candidate-20261010.json",
-      "lab/sub2api_e2e/admin_portal.py",
-      "lab/sub2api_e2e/native_admin.py",
-      "router/channel-router.go",
-      "service/sub2api_driver_test.go",
-      "service/sub2api_observability.go",
-      "web/src/features/channels/__tests__/driver-routing.test.tsx",
-      "web/src/features/channels/api.ts",
-      "web/src/features/channels/components/__tests__/sub2api-management.test.tsx",
-      "web/src/features/channels/components/sub2api-management.tsx",
-      "web/src/features/channels/index.tsx",
-      "web/src/features/usage-logs/components/__tests__/mobile-card.test.tsx",
-      "web/src/features/usage-logs/components/columns/common-logs-columns.tsx",
-      "web/src/features/usage-logs/components/common-log-mobile-card.tsx",
-      "web/src/features/usage-logs/components/dialogs/details-dialog.tsx",
-      "web/src/features/usage-logs/types.ts",
-      "web/src/i18n/locales/en.json",
-      "web/src/i18n/locales/fr.json",
-      "web/src/i18n/locales/ja.json",
-      "web/src/i18n/locales/ru.json",
-      "web/src/i18n/locales/vi.json",
-      "web/src/i18n/locales/zh-TW.json",
-      "web/src/i18n/locales/zh.json"
+      "LIVE-DEPLOYMENT.md",
+      "HANDOFF-SUB2API.md",
+      "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
     ],
-    "changed_or_added_count": 36,
     "checks": {
-      "file_hashes": true,
+      "all_manifest_git_blob_hashes": true,
       "private_paths_excluded": true,
+      "go_inputs_unchanged_from_previous_verified_revision": true,
       "public_assets_unchanged": true,
-      "affected_frontend_lint_format_typecheck_build": true,
-      "frontend_tests": 74,
-      "host_lifecycle_tests": 12,
-      "real_candidate_management_checks": 11
+      "local_document_links": true
     },
     "unexpected_credential_patterns": 0,
-    "deployment_status": "CANDIDATE_ACCEPTED_NOT_PUBLISHED",
-    "note": "Windows elevation cancelled. DNS created but native management ingress not loaded. Browser runtime crashed; no desktop or off-machine acceptance claim."
+    "deployment_status": "LIVE_V3_10_0_1_NETWORK_RECOVERED_PORTAL_CANDIDATE_UNPUBLISHED",
+    "note": "Bounded document scan is not proof of absence of all secrets; sampled network recovery is not long-term stability."
   },
   "publication_review_history": [
     {
@@ -23607,6 +23582,62 @@
       "unexpected_credential_patterns": 0,
       "deployment_status": "PUBLISHED_ACCEPTED_WITH_P1_BACKLOG",
       "note": "Read-only production audit; incomplete recovery and client acceptance are explicitly tracked. Does not claim a fresh complete E2E or absence of all defects."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-09T19:18:49.427527+00:00",
+      "review_scope": "Account overview, exact administrative usage attribution, native HTTPS ingress template, ledger-preserving portal upgrade, smoke scripts and maintained DEVLOG/UPDATELOG. Candidate validated; production publication not executed.",
+      "changed_or_added_paths": [
+        "AGENTS.md",
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "controller/log.go",
+        "controller/sub2api.go",
+        "deploy/sub2api/ADMIN-PORTAL.md",
+        "deploy/sub2api/README.md",
+        "deploy/sub2api/admin-ingress.example.yml",
+        "deploy/sub2api/export_source.py",
+        "deploy/sub2api/host_cutover.py",
+        "deploy/sub2api/test_host_cutover.py",
+        "lab/sub2api_e2e/admin-portal-candidate-20261010.json",
+        "lab/sub2api_e2e/admin_portal.py",
+        "lab/sub2api_e2e/native_admin.py",
+        "router/channel-router.go",
+        "service/sub2api_driver_test.go",
+        "service/sub2api_observability.go",
+        "web/src/features/channels/__tests__/driver-routing.test.tsx",
+        "web/src/features/channels/api.ts",
+        "web/src/features/channels/components/__tests__/sub2api-management.test.tsx",
+        "web/src/features/channels/components/sub2api-management.tsx",
+        "web/src/features/channels/index.tsx",
+        "web/src/features/usage-logs/components/__tests__/mobile-card.test.tsx",
+        "web/src/features/usage-logs/components/columns/common-logs-columns.tsx",
+        "web/src/features/usage-logs/components/common-log-mobile-card.tsx",
+        "web/src/features/usage-logs/components/dialogs/details-dialog.tsx",
+        "web/src/features/usage-logs/types.ts",
+        "web/src/i18n/locales/en.json",
+        "web/src/i18n/locales/fr.json",
+        "web/src/i18n/locales/ja.json",
+        "web/src/i18n/locales/ru.json",
+        "web/src/i18n/locales/vi.json",
+        "web/src/i18n/locales/zh-TW.json",
+        "web/src/i18n/locales/zh.json"
+      ],
+      "changed_or_added_count": 36,
+      "checks": {
+        "file_hashes": true,
+        "private_paths_excluded": true,
+        "public_assets_unchanged": true,
+        "affected_frontend_lint_format_typecheck_build": true,
+        "frontend_tests": 74,
+        "host_lifecycle_tests": 12,
+        "real_candidate_management_checks": 11
+      },
+      "unexpected_credential_patterns": 0,
+      "deployment_status": "CANDIDATE_ACCEPTED_NOT_PUBLISHED",
+      "note": "Windows elevation cancelled. DNS created but native management ingress not loaded. Browser runtime crashed; no desktop or off-machine acceptance claim."
     }
   ]
 }
