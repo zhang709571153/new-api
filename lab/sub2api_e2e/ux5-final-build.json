@@ -1,0 +1,20 @@
+{
+  "version": "realyu-singlecore-v0.2.15-20261011-ux5",
+  "binary": "C:\\srv\\realyu-singlecore-dev\\runtime\\sub2api-ux5-final-r2.exe",
+  "sha256": "ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3",
+  "stages": [
+    {
+      "stage": "vite",
+      "exit_code": 0,
+      "seconds": 22.62,
+      "log": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux5-20261011T133356-vite.log"
+    },
+    {
+      "stage": "binary",
+      "exit_code": 0,
+      "seconds": 10.92,
+      "log": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux5-20261011T133356-binary.log"
+    }
+  ],
+  "production_changed": false
+}

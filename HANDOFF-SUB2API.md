@@ -1,5 +1,9 @@
 # RealYu / Sub2API 部署与迁移交接
 
+## 2026-10-11 — UX5工作台布局与对齐
+
+最新代码已包含UX5双栏及对齐改进，候选通过，等待 Windows 正常提权；当前线上仍为 UX4。源码b059ab268d9fa26fc63639f4978d48cb01ac1135，405文件完整重建；binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。新机按现有Windows交接重新构建及封本机计划，不重放本站旧operation。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。
+
 ## 2026-10-11 12:44:28 — 最新UX4 r3已部署，限定范围验收通过
 
 本轮交付源码为clean commit `7e0215f62539a52a3c7884560152a11599f7fe1e`，完整patch SHA `b0688d7dea49955fbf0deee0eb2534da1947f625df86493aaa0acc87cbd1058c`，405文件实际重建一致；已部署binary SHA `1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821`。12:44:28.612 ACTIVE、维护37.591秒。候选85项与公网47项分开通过，真实SSE一次/同连接WS两轮及3笔后验账务一致；线上管理员工作台/模型导航/六套餐已实看。[浏览器范围](lab/sub2api_e2e/ux4-production-browser-20261011.json)和[既有观测](lab/sub2api_e2e/ux4-production-observation-20261011.json)各自记录限制，生产浏览器9项包含390×844英文暗色价格页及菜单，页面宽382≤390；不宣称普通成员登录、全部角色/实体设备或长期稳定。

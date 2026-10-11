@@ -27322,20 +27322,20 @@ index 0000000000000000000000000000000000000000..7831e0a9747036645cb18ef63a6e61f0
 +</script>
 diff --git a/frontend/src/components/realyu/RealYuUsageAnalytics.vue b/frontend/src/components/realyu/RealYuUsageAnalytics.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8bcde9d16
+index 0000000000000000000000000000000000000000..e0b6848f3602fbccad0344f7e9d58e5f806cdf8f
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuUsageAnalytics.vue
 @@ -0,0 +1,123 @@
 +<template>
-+  <section class="space-y-2" :aria-label="t('realyuUx.trends')" data-testid="usage-analytics">
-+    <div class="realyu-toolbar">
-+      <h2 class="text-sm font-semibold">{{ t('realyuUx.trends') }}</h2>
++  <section class="min-w-0" :class="showRecent ? 'space-y-2' : 'card flex flex-col gap-3 p-4'" :aria-label="t('realyuUx.trends')" data-testid="usage-analytics">
++    <div class="realyu-toolbar min-h-9">
++      <h2 class="text-base font-semibold">{{ t('realyuUx.trends') }}</h2>
 +      <div class="flex min-w-0 flex-wrap items-center gap-2">
 +        <div class="realyu-segmented" :aria-label="t('dashboard.timeRange')">
 +          <button v-for="days in [7, 30]" :key="days" :aria-pressed="rangeDays === days" @click="setRange(days)">{{ t('realyuUx.lastDays', { days }) }}</button>
 +        </div>
-+        <button class="btn btn-secondary btn-sm" :aria-expanded="customRange" @click="customRange = !customRange">{{ t('realyuUx.dates') }}</button>
-+        <button class="btn btn-secondary btn-sm" :disabled="loading" @click="load">{{ t('common.refresh') }}</button>
++        <button class="btn btn-secondary btn-sm min-h-9" :aria-expanded="customRange" @click="customRange = !customRange">{{ t('realyuUx.dates') }}</button>
++        <button class="btn btn-secondary btn-sm h-9 w-9 !p-0" :disabled="loading" :aria-label="t('common.refresh')" :title="t('common.refresh')" @click="load"><Icon name="refresh" size="sm" aria-hidden="true" /></button>
 +      </div>
 +    </div>
 +    <form v-if="customRange" class="flex flex-wrap items-end gap-2" @submit.prevent="applyDates">
@@ -27345,14 +27345,14 @@ index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8
 +      <span class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.dateZone') }}</span>
 +    </form>
 +    <p v-if="rangeError" role="alert" class="text-sm text-red-600">{{ t('realyuUx.rangeLimit') }}</p>
-+    <div class="realyu-analytics-grid">
-+      <div class="card min-w-0 p-3 sm:p-4">
++    <div :class="showRecent ? 'realyu-analytics-grid' : 'flex min-h-0 flex-1 flex-col'">
++      <div :class="showRecent ? 'card min-w-0 p-3 sm:p-4' : 'flex min-h-0 min-w-0 flex-1 flex-col'">
 +        <div class="realyu-toolbar mb-2">
 +          <div class="realyu-segmented" :aria-label="t('realyuUx.metric')">
 +            <button v-for="item in metrics" :key="item" :aria-pressed="metric === item" @click="metric = item">{{ t(`realyuUx.${item}`) }}</button>
 +          </div>
 +          <div class="flex flex-wrap items-center gap-2">
-+            <select v-model="granularity" class="rounded-lg border border-gray-200 bg-transparent px-2 py-1 text-xs dark:border-dark-600" :aria-label="t('dashboard.granularity')">
++            <select v-model="granularity" class="min-h-9 rounded-full border border-gray-200 bg-transparent px-2 py-1 text-xs dark:border-dark-600" :aria-label="t('dashboard.granularity')">
 +              <option value="day">{{ t('dashboard.day') }}</option><option value="hour" :disabled="spanDays > 31">{{ t('dashboard.hour') }}</option>
 +            </select>
 +            <div class="realyu-segmented" :aria-label="t('realyuUx.chartType')">
@@ -27362,7 +27362,7 @@ index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8
 +          </div>
 +        </div>
 +        <p v-if="trendError" role="alert" class="py-8 text-sm text-red-600">{{ t('realyuUx.loadFailed') }} <button class="underline" @click="load">{{ t('common.tryAgain') }}</button></p>
-+        <div v-else class="relative h-48 min-w-0" :aria-busy="loading" data-testid="usage-trend-chart">
++        <div v-else class="relative h-48 min-h-48 min-w-0" :class="{ 'flex-1': !showRecent }" :aria-busy="loading" data-testid="usage-trend-chart">
 +          <p v-if="loading" role="status" class="py-8 text-sm text-gray-500">{{ t('common.loading') }}</p>
 +          <template v-else-if="trend">
 +            <Line v-if="chartType === 'line'" :data="chartData" :options="chartOptions" :aria-label="chartLabel" role="img" />
@@ -27371,14 +27371,13 @@ index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8
 +        </div>
 +        <div v-if="trend" class="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-500 dark:text-dark-400" data-testid="trend-total">
 +          <span>{{ startDate }} — {{ endDate }} · {{ t('realyuUx.totalInRange') }} <strong class="font-medium text-gray-800 dark:text-dark-100">{{ valueText(trend.stats) }}</strong></span>
-+          <span v-if="!trend.coverage.legacy_archive_complete">{{ t('realyuUx.archivePending') }}</span>
 +        </div>
 +        <details v-if="trend && !loading" class="mt-2 text-xs">
 +          <summary class="cursor-pointer text-gray-500 dark:text-dark-400">{{ t('realyuUx.dataTable') }}</summary>
 +          <div class="mt-2 max-h-60 overflow-auto"><table class="w-full text-left tabular-nums"><thead><tr><th class="py-2">{{ t('realyuUx.date') }}</th><th>{{ t('realyuUx.requests') }}</th><th>{{ t('realyuUx.tokens') }}</th><th>{{ t('realyuUx.cost') }}</th></tr></thead><tbody><tr v-for="point in points" :key="point.bucket_start" class="border-t border-gray-100 dark:border-dark-700"><td class="py-2">{{ bucketLabel(point.bucket_start) }}</td><td>{{ point.requests.toLocaleString(locale) }}</td><td>{{ point.total_tokens.toLocaleString(locale) }}</td><td>{{ formatCustomerMoney(point.cost_usd, 6) }}</td></tr></tbody></table></div>
 +        </details>
 +      </div>
-+      <div class="card min-w-0 overflow-hidden">
++      <div v-if="showRecent" class="card min-w-0 overflow-hidden">
 +        <div class="realyu-toolbar px-4 pb-2 pt-3"><h3 class="text-sm font-semibold">{{ t('realyuUx.recentUsage') }}</h3><router-link :to="historyLink" class="text-xs text-primary-700 hover:underline dark:text-primary-300">{{ t('realyuUx.viewAll') }}</router-link></div>
 +        <p v-if="recentError" role="alert" class="px-4 py-8 text-sm text-red-600">{{ t('realyuUx.loadFailed') }} <button class="underline" @click="load">{{ t('common.tryAgain') }}</button></p>
 +        <p v-else-if="loading" role="status" class="px-4 py-8 text-sm text-gray-500">{{ t('common.loading') }}</p>
@@ -27391,13 +27390,14 @@ index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8
 +<script setup lang="ts">
 +import { computed, onBeforeUnmount, ref, watch } from 'vue'
 +import { useI18n } from 'vue-i18n'
++import Icon from '@/components/icons/Icon.vue'
 +import { Line, Bar } from 'vue-chartjs'
 +import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Filler } from 'chart.js'
 +import { getRealYuUsage, getRealYuUsageTrend, type RealYuUsagePage, type RealYuUsageStats, type RealYuUsageTrend } from '@/api/realyuUsage'
 +import { customerMoneyValue, formatCustomerMoney } from '@/utils/customerMoney'
 +import { formatRealYuTokens } from '@/utils/realyuDisplay'
 +ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Filler)
-+const props = withDefaults(defineProps<{ scope?: 'self' | 'personal' | 'platform' }>(), { scope: 'self' })
++const props = withDefaults(defineProps<{ scope?: 'self' | 'personal' | 'platform'; showRecent?: boolean }>(), { scope: 'self', showRecent: true })
 +const { t, locale } = useI18n()
 +const metrics = ['spending', 'requests', 'tokens'] as const
 +const metric = ref<typeof metrics[number]>('spending'), chartType = ref<'line' | 'bar'>('line'), granularity = ref<'day' | 'hour'>('day')
@@ -27422,7 +27422,7 @@ index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8
 +  controller?.abort(); const request = new AbortController(); controller = request
 +  trend.value = null; recent.value = null; trendError.value = false; recentError.value = false; loading.value = true
 +  const query = { scope: props.scope, ...interval.value, tz: 'Asia/Shanghai' }
-+  const results = await Promise.allSettled([getRealYuUsageTrend({ ...query, granularity: granularity.value }, request.signal), getRealYuUsage({ ...query, page: 1, page_size: 5 }, request.signal)])
++  const results = await Promise.allSettled([getRealYuUsageTrend({ ...query, granularity: granularity.value }, request.signal), props.showRecent ? getRealYuUsage({ ...query, page: 1, page_size: 5 }, request.signal) : Promise.resolve(null)])
 +  if (request.signal.aborted) return
 +  if (results[0].status === 'fulfilled') trend.value = results[0].value; else trendError.value = true
 +  if (results[1].status === 'fulfilled') recent.value = results[1].value; else recentError.value = true
@@ -27446,15 +27446,15 @@ index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8
 +const chartData = computed(() => ({ labels: points.value.map(point => bucketLabel(point.bucket_start)), datasets: [{ label: t(`realyuUx.${metric.value}`), data: points.value.map(point => Number.isFinite(valueNumber(point)) ? valueNumber(point) : null), borderColor: '#168ac7', backgroundColor: '#168ac722', borderWidth: 2, pointRadius: points.value.length > 40 ? 0 : 2, pointHoverRadius: 4, tension: .2, fill: true, maxBarThickness: 24 }] }))
 +const chartOptions = computed(() => ({ responsive: true, maintainAspectRatio: false, animation: false as const, interaction: { mode: 'index' as const, intersect: false }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context: { dataIndex: number }) => valueText(points.value[context.dataIndex]!) } } }, scales: { x: { grid: { display: false }, ticks: { color: '#888888', maxTicksLimit: 7, maxRotation: 0 } }, y: { beginAtZero: true, grid: { color: '#88888820' }, ticks: { color: '#888888', maxTicksLimit: 4 } } } }))
 +const historyLink = computed(() => ({ path: props.scope === 'platform' ? '/admin/usage' : '/usage', query: { start_date: startDate.value, end_date: endDate.value, scope: props.scope } }))
-+watch([() => props.scope, startDate, endDate, granularity], load, { immediate: true })
++watch([() => props.scope, () => props.showRecent, startDate, endDate, granularity], load, { immediate: true })
 +onBeforeUnmount(() => controller?.abort())
 +</script>
 diff --git a/frontend/src/components/realyu/RealYuUsageOverview.vue b/frontend/src/components/realyu/RealYuUsageOverview.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..0bb4bc19136e13382d72d10b0da3cee3d8380286
+index 0000000000000000000000000000000000000000..6bc720c145ec7e7713f0c035ac75b3a57f7201dd
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuUsageOverview.vue
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,42 @@
 +<template>
 +  <section class="space-y-2" :aria-label="t('realyuUx.usageOverview')">
 +    <div class="realyu-toolbar">
@@ -27471,7 +27471,6 @@ index 0000000000000000000000000000000000000000..0bb4bc19136e13382d72d10b0da3cee3
 +      <div class="card min-w-0 px-4 py-3"><div class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.requests') }}</div><div class="mt-1 text-xl font-semibold tabular-nums">{{ current ? current.requests.toLocaleString(locale) : '—' }}</div></div>
 +      <div class="card min-w-0 px-4 py-3"><div class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.tokens') }}</div><div class="mt-1 text-xl font-semibold tabular-nums" :title="current?.total_tokens.toLocaleString(locale)">{{ current ? formatRealYuTokens(current.total_tokens, locale) : '—' }}</div></div>
 +    </div>
-+    <p v-if="summary && !summary.coverage.legacy_archive_complete" role="status" class="text-sm text-amber-700 dark:text-amber-300">{{ t('realyuUx.archivePending') }}</p>
 +  </section>
 +</template>
 +<script setup lang="ts">
@@ -27500,10 +27499,10 @@ index 0000000000000000000000000000000000000000..0bb4bc19136e13382d72d10b0da3cee3
 +</script>
 diff --git a/frontend/src/components/realyu/RealYuWorkspaceSetup.vue b/frontend/src/components/realyu/RealYuWorkspaceSetup.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..cf044fc5b963af02d05849f9fe41b033338d70a0
+index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba2213aaef
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuWorkspaceSetup.vue
-@@ -0,0 +1,203 @@
+@@ -0,0 +1,206 @@
 +<!--
 +Setup layout adapted from new-api codex-guide.tsx.
 +Copyright (C) 2023-2026 QuantumNous
@@ -27524,19 +27523,20 @@ index 0000000000000000000000000000000000000000..cf044fc5b963af02d05849f9fe41b033
 +For commercial licensing, please contact support@quantumnous.com
 +-->
 +<template>
-+  <section v-if="enabled" class="card min-w-0 space-y-2 p-3" data-testid="workspace-setup" :aria-label="t('realyuSetup.title')">
-+    <div class="flex min-w-0 flex-wrap items-center gap-2">
-+      <h2 class="mr-1 text-base font-semibold">{{ t('realyuSetup.title') }}</h2>
++  <section v-if="enabled" class="card flex min-w-0 flex-col gap-3 p-4" data-testid="workspace-setup" :aria-label="t('realyuSetup.title')">
++    <div class="realyu-toolbar min-h-9">
++      <h2 class="text-base font-semibold">{{ t('realyuSetup.title') }}</h2>
 +      <div class="setup-segments" role="group" :aria-label="t('realyuSetup.scope')">
 +        <button v-for="kind in scopeKinds" :key="kind" type="button" class="setup-segment" :class="{ 'setup-segment-active': scope === kind }" :aria-pressed="scope === kind" :data-testid="`setup-scope-${kind}`" @click="scope = kind">{{ t(`realyuSetup.${kind}`) }}</button>
 +      </div>
-+      <div class="setup-segments" role="tablist" :aria-label="t('realyuSetup.client')" data-testid="setup-client" @keydown="moveSegmentFocus($event)">
++    </div>
++    <div class="grid min-w-0 gap-2">
++      <div class="setup-segments setup-segments-wide" role="tablist" :aria-label="t('realyuSetup.client')" data-testid="setup-client" @keydown="moveSegmentFocus($event)">
 +        <button v-for="item in clients" :id="`${controlID}-client-${item.value}`" :key="item.value" type="button" role="tab" class="setup-segment" :class="{ 'setup-segment-active': client === item.value }" :aria-selected="client === item.value" :aria-controls="`${controlID}-command`" :tabindex="client === item.value ? 0 : -1" :data-testid="`setup-client-${item.value}`" @click="client = item.value">{{ item.label }}</button>
 +      </div>
-+      <div class="setup-segments" role="tablist" :aria-label="t('realyuSetup.platform')" data-testid="setup-platform" @keydown="moveSegmentFocus($event)">
++      <div class="setup-segments setup-segments-wide" role="tablist" :aria-label="t('realyuSetup.platform')" data-testid="setup-platform" @keydown="moveSegmentFocus($event)">
 +        <button v-for="item in platforms" :id="`${controlID}-platform-${item.value}`" :key="item.value" type="button" role="tab" class="setup-segment" :class="{ 'setup-segment-active': platform === item.value }" :aria-selected="platform === item.value" :aria-controls="`${controlID}-command`" :tabindex="platform === item.value ? 0 : -1" :data-testid="`setup-platform-${item.value}`" @click="platform = item.value">{{ item.label }}</button>
 +      </div>
-+      <RouterLink to="/docs" class="ml-auto text-xs text-primary-700 hover:underline dark:text-primary-300" data-testid="setup-docs">{{ t('realyuSetup.docs') }}</RouterLink>
 +    </div>
 +
 +    <p v-if="loading" class="text-sm text-gray-500 dark:text-gray-400" role="status">{{ t('realyuSetup.loading') }}</p>
@@ -27548,11 +27548,12 @@ index 0000000000000000000000000000000000000000..cf044fc5b963af02d05849f9fe41b033
 +    <p v-else-if="selected && !canConfigure" data-testid="setup-unavailable" class="text-sm text-gray-500 dark:text-gray-400">{{ t('realyuSetup.unavailable') }}</p>
 +    <p v-else-if="selected?.realyu_scope?.kind === 'team'" class="text-sm text-gray-500 dark:text-gray-400" data-testid="setup-team-name">{{ t('realyuSetup.teamScope', { name: selected.realyu_scope.team_name || `#${selected.realyu_scope.team_id}` }) }}</p>
 +
-+    <div :id="`${controlID}-command`" role="tabpanel" :aria-labelledby="`${controlID}-client-${client} ${controlID}-platform-${platform}`" class="flex min-w-0 flex-wrap items-center gap-2 sm:flex-nowrap">
-+      <textarea class="input min-w-0 flex-1 basis-full resize-y break-all font-mono text-xs sm:basis-0" rows="2" :value="(visible && command) || setupCommandPreview(platform, client)" readonly spellcheck="false" autocomplete="off" :aria-label="t('realyuSetup.command')" data-testid="setup-command" @focus="selectCommand" />
-+      <div class="ml-auto flex shrink-0 items-center gap-2">
-+        <button type="button" class="btn btn-secondary btn-sm" :disabled="!canConfigure || busy" :aria-label="t(visible ? 'realyuSetup.hide' : 'realyuSetup.show')" :title="t(visible ? 'realyuSetup.hide' : 'realyuSetup.show')" data-testid="setup-reveal" @click="toggleVisibility"><Icon :name="visible ? 'eyeOff' : 'eye'" size="sm" aria-hidden="true" /></button>
-+        <button type="button" class="btn btn-primary btn-sm" :disabled="!canConfigure || busy" data-testid="setup-copy" @click="useKey('copy')">{{ t('realyuSetup.copy') }}</button>
++    <div :id="`${controlID}-command`" role="tabpanel" :aria-labelledby="`${controlID}-client-${client} ${controlID}-platform-${platform}`" class="flex min-w-0 flex-1 flex-col gap-3">
++      <textarea class="input min-h-28 w-full min-w-0 flex-1 resize-y break-all font-mono text-xs" rows="5" :value="(visible && command) || setupCommandPreview(platform, client)" readonly spellcheck="false" autocomplete="off" :aria-label="t('realyuSetup.command')" data-testid="setup-command" @focus="selectCommand" />
++      <div class="flex items-center gap-2">
++        <button type="button" class="btn btn-primary btn-sm min-h-9" :disabled="!canConfigure || busy" data-testid="setup-copy" @click="useKey('copy')">{{ t('realyuSetup.copy') }}</button>
++        <button type="button" class="btn btn-secondary btn-sm h-9 w-9 !p-0" :disabled="!canConfigure || busy" :aria-label="t(visible ? 'realyuSetup.hide' : 'realyuSetup.show')" :title="t(visible ? 'realyuSetup.hide' : 'realyuSetup.show')" data-testid="setup-reveal" @click="toggleVisibility"><Icon :name="visible ? 'eyeOff' : 'eye'" size="sm" aria-hidden="true" /></button>
++        <RouterLink to="/docs" class="ml-auto whitespace-nowrap text-xs text-primary-700 hover:underline dark:text-primary-300" data-testid="setup-docs">{{ t('realyuSetup.docs') }}</RouterLink>
 +      </div>
 +    </div>
 +    <p class="text-xs leading-relaxed text-gray-500 dark:text-gray-400">{{ t(client === 'codex' ? 'realyuSetup.codexSteps' : 'realyuSetup.workbuddySteps') }}</p>
@@ -27698,11 +27699,12 @@ index 0000000000000000000000000000000000000000..cf044fc5b963af02d05849f9fe41b033
 +
 +<style scoped>
 +.setup-segments {
-+  @apply inline-flex max-w-full flex-wrap items-center rounded-lg bg-gray-100 p-1 text-sm dark:bg-dark-700;
++  @apply inline-flex max-w-full items-center gap-0.5 rounded-full bg-gray-100 p-0.5 text-sm dark:bg-dark-700;
 +}
 +.setup-segment {
-+  @apply inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 font-medium text-gray-500 transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus-visible:ring-offset-dark-900;
++  @apply inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium text-gray-500 transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus-visible:ring-offset-dark-900;
 +}
++.setup-segments-wide > .setup-segment { flex: 1; }
 +.setup-segment-active {
 +  @apply bg-white text-gray-900 shadow-sm dark:bg-dark-800 dark:text-gray-100;
 +}
@@ -27997,7 +27999,7 @@ index 0000000000000000000000000000000000000000..6f4dc80af9ffdf3ca9e03923188effbe
 +})
 diff --git a/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts b/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..47310c9172a97a24273acd2cd5d308e612782a37
+index 0000000000000000000000000000000000000000..fa51d0d4a96f46f796579bbd10dc3dda7c2a2e6d
 --- /dev/null
 +++ b/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts
 @@ -0,0 +1,131 @@
@@ -28100,12 +28102,12 @@ index 0000000000000000000000000000000000000000..47310c9172a97a24273acd2cd5d308e6
 +    expect(view.find('[role="alert"]').exists()).toBe(false)
 +  })
 +
-+  it('retains incomplete-archive disclosure and never substitutes a rate when CNY configuration is unavailable', async () => {
++  it('omits the archive banner and never substitutes a rate when CNY configuration is unavailable', async () => {
 +    const value = summary(); value.coverage.legacy_archive_complete = false
 +    summaryApi.mockResolvedValueOnce(value)
 +    configureCustomerCurrency({ customer_currency: 'CNY', customer_usd_to_cny: '' })
 +    const view = render(); await flushPromises()
-+    expect(view.get('[role="status"]').text()).toContain('Totals are not yet complete')
++    expect(view.find('[role="status"]').exists()).toBe(false)
 +    expect(view.text()).not.toContain('¥')
 +    expect(view.text()).not.toContain('$')
 +    expect(view.text()).toContain('—')
@@ -31739,10 +31741,10 @@ index 63e26e4eb71e87b4120f5ae433ee46c1b9a5be80..c759db5ee01454348ee730ce31b5866b
  @tailwind utilities;
 diff --git a/frontend/src/styles/realyu-brand.css b/frontend/src/styles/realyu-brand.css
 new file mode 100644
-index 0000000000000000000000000000000000000000..3f718af6c4ee76d80db5685d0fc10cb2784a7654
+index 0000000000000000000000000000000000000000..e86de1ad3ca977f694d95af2dbbdf8b7fee03b29
 --- /dev/null
 +++ b/frontend/src/styles/realyu-brand.css
-@@ -0,0 +1,138 @@
+@@ -0,0 +1,141 @@
 +/* Activated only by the explicit native site_logo in deploy/realyu/branding-settings.json.
 + * Reuses RealYu's existing assets and blue theme; upstream and other sites retain
 + * their original styling. Primary anchors are from RealYu web/src/styles/theme.css:
@@ -31859,7 +31861,9 @@ index 0000000000000000000000000000000000000000..3f718af6c4ee76d80db5685d0fc10cb2
 +.realyu-segmented > button[aria-pressed='true'] { background: var(--realyu-surface, white); box-shadow: 0 1px 3px #00000020; }
 +.realyu-stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
 +.realyu-stat-grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-+.realyu-workbench-tools { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); align-items: start; gap: .75rem; }
++.realyu-workbench-tools { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: .75rem; }
++.realyu-workbench-tools .realyu-segmented { min-height: 2.25rem; }
++.realyu-workbench-tools .realyu-segmented > button { min-height: 1.85rem; }
 +.realyu-analytics-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; gap: .75rem; }
 +html[data-brand-profile='realyu'] .realyu-workbench .card { border-radius: .875rem; }
 +/* Blue is the single decorative accent. Error/warning status colors keep their meaning. */
@@ -31872,6 +31876,7 @@ index 0000000000000000000000000000000000000000..3f718af6c4ee76d80db5685d0fc10cb2
 +html[data-brand-profile='realyu'] .realyu-native-metrics [class*='text-amber-'],
 +html[data-brand-profile='realyu'] .realyu-native-metrics [class*='text-green-'] { color: var(--realyu-ink); }
 +@media (min-width: 1024px) {
++  .realyu-workbench-tools { grid-template-columns: minmax(20rem, 1fr) minmax(0, 1.8fr); }
 +  html[data-brand-profile='realyu'] .realyu-main[data-collapsed='false'] { margin-left: 13rem; }
 +}
 +@media (max-width: 639px) {
@@ -34430,10 +34435,10 @@ index 4cedca99491800131aa42fdbc016872ddb9a53e9..097819dae32f7923bf933e18a093cf6b
  
  function terminalZeroCost(job: Pick<BatchImageJob, 'status' | 'actual_cost'>) {
 diff --git a/frontend/src/views/user/DashboardView.vue b/frontend/src/views/user/DashboardView.vue
-index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..c2419dd12d7ffdf287c1d2085eb661fb8631c7d7 100644
+index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..1728af64c483da6670ae196f3a095953094ebdb9 100644
 --- a/frontend/src/views/user/DashboardView.vue
 +++ b/frontend/src/views/user/DashboardView.vue
-@@ -1,40 +1,56 @@
+@@ -1,40 +1,58 @@
  <template>
    <AppLayout>
 -    <div class="space-y-6">
@@ -34447,7 +34452,6 @@ index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..c2419dd12d7ffdf287c1d2085eb661fb
 -        </div>
 -      </template>
 +    <div class="realyu-workbench space-y-3">
-+      <RealYuWorkspaceSetup />
 +      <RealYuUsageOverview>
 +        <template #balance>
 +          <section class="card min-w-0 px-4 py-3" :aria-label="t('realyuUx.personalFunds')">
@@ -34463,7 +34467,10 @@ index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..c2419dd12d7ffdf287c1d2085eb661fb
 +          </section>
 +        </template>
 +      </RealYuUsageOverview>
-+      <RealYuUsageAnalytics />
++      <div class="realyu-workbench-tools">
++        <RealYuWorkspaceSetup />
++        <RealYuUsageAnalytics :show-recent="false" />
++      </div>
 +      <details class="text-sm">
 +        <summary class="cursor-pointer py-1 text-gray-500 dark:text-dark-400">{{ t('realyuUx.subscriptionDetails') }}</summary>
 +        <RealYuPersonalEntitlements compact class="mt-2" @loaded="entitlements = $event" />
@@ -35832,10 +35839,10 @@ index 0000000000000000000000000000000000000000..ff41fcf8406a0e41587471eb5b5b3ee6
 +</style>
 diff --git a/frontend/src/views/user/RealYuUsageView.vue b/frontend/src/views/user/RealYuUsageView.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..b6ff159d687c4e66b05f8c8801300c1d2f77d657
+index 0000000000000000000000000000000000000000..72e05942c996481e942ceaeac0575f24c640f475
 --- /dev/null
 +++ b/frontend/src/views/user/RealYuUsageView.vue
-@@ -0,0 +1,215 @@
+@@ -0,0 +1,214 @@
 +<template>
 +  <AppLayout>
 +    <div class="space-y-4">
@@ -35870,7 +35877,6 @@ index 0000000000000000000000000000000000000000..b6ff159d687c4e66b05f8c8801300c1d
 +          <div class="card px-4 py-3"><p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.requests') }}</p><p class="mt-1 text-xl font-semibold">{{ result.total.toLocaleString(locale) }}</p></div>
 +          <div class="card px-4 py-3"><p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.tokens') }}</p><p class="mt-1 text-xl font-semibold" :title="result.stats.total_tokens.toLocaleString(locale)">{{ token(result.stats.total_tokens) }}</p></div>
 +        </div>
-+        <p v-if="!result.coverage.legacy_archive_complete" role="status" class="text-sm text-amber-700">{{ t('realyuUx.archivePending') }}</p>
 +        <div class="card relative min-w-0 overflow-hidden">
 +          <div class="overflow-x-auto">
 +            <table class="table w-full whitespace-nowrap text-sm">

@@ -1,0 +1,94 @@
+{
+  "status": "CANDIDATE_VERIFIED_AWAITING_WINDOWS_ELEVATION",
+  "recorded_at_utc": "2026-10-11T05:40:52.045997+00:00",
+  "version": "realyu-singlecore-v0.2.15-20261011-ux5",
+  "source_commit": "b059ab268d9fa26fc63639f4978d48cb01ac1135",
+  "binary_sha256": "ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3",
+  "patch_sha256": "f60a554cee3aa17c54d0562c47a01c5e2fd4e3a0033746e93be26b1e39e2e4f2",
+  "source_metadata_sha256": "669bd145f46478966d9615d11cfd3f4147dcff6c3945d142119bb5d796fd30ef",
+  "scope": "User workbench left setup/right trend, no recent card; equal card and title alignment; consistent buttons. Remove archive-preparation banner in overview, trend and history. API coverage metadata retained. Monetary/statistical values, billing, auth, keys, database and network unchanged.",
+  "checks": {
+    "targeted_existing_frontend_tests": {
+      "passed": 83,
+      "files": 5,
+      "log_sha256": "ca2e3a084fe78befb7a0f4d8120746ea8f558557f5377a394e0056579fb86385"
+    },
+    "typecheck": "PASS",
+    "vite": "PASS",
+    "go_embed_build": "PASS",
+    "source_reconstruction_files": 405,
+    "private_preparer_offline_tests": 15,
+    "powershell_parser_errors": 0
+  },
+  "browser": {
+    "method": "CUA isolated existing synthetic member login",
+    "desktop_width": 1280,
+    "setup": {
+      "x": 224.667,
+      "y": 233.479,
+      "width": 363.802,
+      "height": 384.333,
+      "bottom": 617.813
+    },
+    "trend": {
+      "x": 600.469,
+      "y": 233.479,
+      "width": 654.865,
+      "height": 384.333,
+      "bottom": 617.813
+    },
+    "heading_y_both": 256.146,
+    "desktop_top_bottom_and_titles_aligned": true,
+    "mobile_width": 390,
+    "mobile_document_width": 382,
+    "mobile_card_width_both": 336.667,
+    "mobile_vertical_order": "overview, setup, trend",
+    "chinese_light_and_english_dark": true,
+    "archive_banner_absent": true,
+    "recent_card_absent": true,
+    "workbuddy_mac_switch_and_requests_bar_refresh": "PASS",
+    "weekly_allowance_fixture_cny": "21.00",
+    "wallet_fixture_cny": "0.00",
+    "all_time_fixture_requests": 5,
+    "all_time_fixture_tokens": 11834,
+    "screenshots": [
+      {
+        "name": "01-desktop-zh-light.png",
+        "sha256": "eaaa5bf1b586f7552ea68b350ac0d50996c0379c18fa3f61f8b750c623083eec",
+        "exported": false
+      },
+      {
+        "name": "02-desktop-en-dark.png",
+        "sha256": "dc36c14b8aa76fec13e162c0eef681bbb5fec719e273fd8ebe0c6799a804bdb0",
+        "exported": false
+      },
+      {
+        "name": "03-mobile-en-dark.png",
+        "sha256": "71583ab516562d078636bd60695b35b5fdf84d5eb2ff5d5db4b9ab67087e0bd2",
+        "exported": false
+      }
+    ]
+  },
+  "first_failures": [
+    {
+      "stage": "earlier r1 UAC launcher",
+      "result": "cancelled before worker; no activation receipt"
+    },
+    {
+      "stage": "r2 UAC launcher",
+      "result": "UAC_NOT_STARTED / InvalidOperationException; no activation worker or receipt observed. Native OS cause unavailable; no production changes from this attempt."
+    },
+    {
+      "stage": "r2 initial existing tests",
+      "result": "82 passed; one old assertion required the removed archive banner. Updated the assertion to the explicit user requirement while retaining missing-currency checks; final 83/83 passed."
+    }
+  ],
+  "production_release": "PENDING_WINDOWS_ELEVATION",
+  "production_http": "NOT_RUN",
+  "production_browser": "NOT_RUN",
+  "limitations": [
+    "No new paid inference; UX4 protocol acceptance is historical evidence, not rerun on UX5.",
+    "Candidate data is synthetic; removing the banner does not alter backend coverage metadata or declare archive completion.",
+    "Viewport checks are not physical-device tests."
+  ]
+}

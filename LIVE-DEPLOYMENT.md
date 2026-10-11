@@ -1,5 +1,9 @@
 # Local Sub2API deployment record
 
+## 2026-10-11 — UX5工作台布局与对齐
+
+UX5：候选通过，等待 Windows 正常提权；当前线上仍为 UX4。新operation native-ux5-20261011-r2，binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。r1已过期，不执行。生产身份以实际manifest与ACTIVE回执为准；同PG/300migration/原Key与代理。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。
+
 ## 2026-10-11 12:44:28 — UX4已ACTIVE，限定范围验收通过
 
 **当前实际版本：`realyu-singlecore-v0.2.15-20261011-ux4`。** operation r2已在12:44:28.612 ACTIVE；排空12:43:51.021至开门37.591秒。同一原生PG、300项migration和代理保持，未恢复数据库或启动旧服务。部署source `7e0215f62539a52a3c7884560152a11599f7fe1e`、binary SHA `1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821`，与405文件重建、完整85项候选HTTP身份一致。

@@ -1,0 +1,53 @@
+{
+  "status": "PREFLIGHT_PASS_PREPARED_NOT_ACTIVATED",
+  "at_utc": "2026-10-11T05:35:33.160759+00:00",
+  "production_changed": false,
+  "plan_sha256": "648693ba656e774909f3e3058b7675773cfb9293092b6605c72ba0e42b66cd6a",
+  "activation_wrapper_sha256": "84165f0748e31cfa10bb939dda94c0579a785ed904807581eb10f0c7459dfbec",
+  "candidate_sha256": "ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3",
+  "candidate_version": "realyu-singlecore-v0.2.15-20261011-ux5",
+  "updater_sha256": "4f773a41e4e8942f359ec318233b5bf62d3463fed2d2eb4b58d32dc14287921b",
+  "release_control_sha256": "5e01cd3a7ddaaeea940e19771b0406ff4ccd065045f5275ff9ea2ed75fec42c5",
+  "backup_receipt_sha256": "2942a564855ced4efd12c5207bba20ce7236d81e64e9a9001c8f9ce0179a1e31",
+  "backup_dump_sha256": "e7c3e61c13b3277473033f34493231bbc57fc8cc75fd12225d07067efb5b0309",
+  "verified_file_count": 725,
+  "database_migrations": false,
+  "migration_count": 300,
+  "drain_seconds": 30,
+  "source_provenance": {
+    "source_commit": "b059ab268d9fa26fc63639f4978d48cb01ac1135",
+    "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+    "source_metadata_sha256": "669bd145f46478966d9615d11cfd3f4147dcff6c3945d142119bb5d796fd30ef",
+    "source_patch_sha256": "f60a554cee3aa17c54d0562c47a01c5e2fd4e3a0033746e93be26b1e39e2e4f2",
+    "source_file_count": 405,
+    "binary_vcs_modified": false
+  },
+  "traffic_samples": [
+    {
+      "at_utc": "2026-10-11T05:35:21.448710+00:00",
+      "version": "realyu-singlecore-v0.2.15-20261011-ux4",
+      "maintenance": false,
+      "active_requests": 0,
+      "reserved_funding": 0,
+      "active_batch_jobs": 0,
+      "usage_rows_last_5_minutes": 0,
+      "migration_count": 300,
+      "schema_sha256": "4b27ba25c1ab6cc6d44107715fa33733fa2ebe9f7055ff91b7be24b8983f4662",
+      "table_count": 127
+    },
+    {
+      "at_utc": "2026-10-11T05:35:33.150478+00:00",
+      "version": "realyu-singlecore-v0.2.15-20261011-ux4",
+      "maintenance": false,
+      "active_requests": 0,
+      "reserved_funding": 0,
+      "active_batch_jobs": 0,
+      "usage_rows_last_5_minutes": 0,
+      "migration_count": 300,
+      "schema_sha256": "4b27ba25c1ab6cc6d44107715fa33733fa2ebe9f7055ff91b7be24b8983f4662",
+      "table_count": 127
+    }
+  ],
+  "idle_in_both_samples": true,
+  "limitation": "Read-only samples do not reserve a maintenance window. Execution must still drain. Recovery may only use the same current PG authority, never the snapshot or retired SQLite."
+}
