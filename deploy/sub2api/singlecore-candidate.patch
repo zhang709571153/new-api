@@ -25966,6 +25966,104 @@ index 5fdac9c99832ea7afd787e1146b4fdca84f31ff6..f8a9610b327588ece0986bc2cd5fe45d
 +  expect(chartData.datasets[0].data).toEqual([500])
 +  wrapper.unmount()
 +})
+diff --git a/frontend/src/components/common/BaseDialog.vue b/frontend/src/components/common/BaseDialog.vue
+index 5bdef2ba62aba8517e4660fc97470bd6f351d4a2..ff277d23b8e06bfc60ce9c404779a86ee8be2da0 100644
+--- a/frontend/src/components/common/BaseDialog.vue
++++ b/frontend/src/components/common/BaseDialog.vue
+@@ -4,6 +4,7 @@
+       <div
+         v-if="show"
+         class="modal-overlay"
++        :class="{ 'modal-drawer': placement === 'drawer' }"
+         :style="zIndexStyle"
+         :aria-labelledby="dialogId"
+         role="dialog"
+@@ -11,7 +12,7 @@
+         @click.self="handleClose"
+       >
+         <!-- Modal panel -->
+-        <div ref="dialogRef" :class="['modal-content', widthClasses]" @click.stop>
++        <div ref="dialogRef" :class="['modal-content', widthClasses]" tabindex="-1" @click.stop @keydown.tab="trapFocus">
+           <!-- Header -->
+           <div class="modal-header">
+             <h3 :id="dialogId" class="modal-title">
+@@ -21,7 +22,7 @@
+               v-if="showCloseButton"
+               @click="emit('close')"
+               class="-mr-2 rounded-xl p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/30 focus-visible:ring-offset-2 dark:text-dark-500 dark:hover:bg-dark-700 dark:hover:text-dark-300 dark:focus-visible:ring-offset-dark-900"
+-              aria-label="Close modal"
++              :aria-label="closeLabel"
+             >
+               <Icon name="x" size="md" />
+             </button>
+@@ -69,6 +70,8 @@ interface Props {
+   closeOnClickOutside?: boolean
+   showCloseButton?: boolean
+   zIndex?: number
++  placement?: 'center' | 'drawer'
++  closeLabel?: string
+ }
+ 
+ interface Emits {
+@@ -80,7 +83,9 @@ const props = withDefaults(defineProps<Props>(), {
+   closeOnEscape: true,
+   closeOnClickOutside: false,
+   showCloseButton: true,
+-  zIndex: 50
++  zIndex: 50,
++  placement: 'center',
++  closeLabel: 'Close modal'
+ })
+ 
+ const emit = defineEmits<Emits>()
+@@ -116,6 +121,20 @@ const handleEscape = (event: KeyboardEvent) => {
+   }
+ }
+ 
++const trapFocus = (event: KeyboardEvent) => {
++  if ([...openDialogs].pop() !== dialogId || !dialogRef.value) return
++  const controls = Array.from(dialogRef.value.querySelectorAll<HTMLElement>(
++    'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
++  )).filter(element => !element.closest('[hidden], [inert]') && getComputedStyle(element).display !== 'none' && getComputedStyle(element).visibility !== 'hidden')
++  const first = controls[0], last = controls.at(-1)
++  if (!first) { event.preventDefault(); dialogRef.value.focus(); return }
++  if (event.shiftKey && (document.activeElement === first || document.activeElement === dialogRef.value)) {
++    event.preventDefault(); last?.focus()
++  } else if (!event.shiftKey && (document.activeElement === last || document.activeElement === dialogRef.value)) {
++    event.preventDefault(); first.focus()
++  }
++}
++
+ const updateScrollLock = (isOpen: boolean) => {
+   if (isOpen) openDialogs.add(dialogId)
+   else openDialogs.delete(dialogId)
+@@ -139,9 +158,9 @@ watch(
+       }
+       if (dialogRef.value) {
+         const firstFocusable = dialogRef.value.querySelector<HTMLElement>(
+-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
++          'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
+         )
+-        firstFocusable?.focus()
++        ;(firstFocusable || dialogRef.value).focus()
+       }
+     } else {
+       updateScrollLock(false)
+@@ -165,3 +184,14 @@ onUnmounted(() => {
+   updateScrollLock(false)
+ })
+ </script>
++
++<style scoped>
++.modal-drawer { align-items: stretch; justify-content: flex-end; padding: 0; }
++.modal-drawer .modal-content { display: flex; flex-direction: column; width: min(100%, 26rem); max-height: 100dvh; margin: 0; border-radius: 1rem 0 0 1rem; }
++.modal-drawer .modal-body { flex: 1; overflow-y: auto; }
++.modal-drawer .modal-footer { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
++@media (max-width: 639px) {
++  .modal-drawer { align-items: flex-end; }
++  .modal-drawer .modal-content { width: 100%; max-height: calc(100dvh - 2rem); border-radius: 1rem 1rem 0 0; }
++}
++</style>
 diff --git a/frontend/src/components/common/LocaleSwitcher.vue b/frontend/src/components/common/LocaleSwitcher.vue
 index 417e5a23b2042f0abb0356188a0409297262bc1d..9a554c5ca439ae06c20b025bae1e491aa6a3fbe8 100644
 --- a/frontend/src/components/common/LocaleSwitcher.vue
@@ -26129,7 +26227,7 @@ index 8c082a95c427865c68975b540691fa3f165070f1..cffe775de48f04300270990f7662876f
      const wrapper = mountModal()
      expect(wrapper.get('[data-test="submit"]').attributes('disabled')).toBeDefined()
 diff --git a/frontend/src/components/layout/AppHeader.vue b/frontend/src/components/layout/AppHeader.vue
-index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7fed0c7f1 100644
+index 99a33056580c95f34ecf594ca5877e5a090fe4df..93e5c8e5bfb65ec87c1267b25f37c21b8a8fc028 100644
 --- a/frontend/src/components/layout/AppHeader.vue
 +++ b/frontend/src/components/layout/AppHeader.vue
 @@ -1,5 +1,5 @@
@@ -26139,7 +26237,21 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
      <div class="flex h-16 items-center justify-between gap-2 px-2 sm:px-4 md:px-6">
        <!-- Left: Mobile Menu Toggle + Page Title -->
        <div class="flex shrink-0 items-center gap-2 sm:gap-4">
-@@ -30,8 +30,8 @@
+@@ -11,6 +11,13 @@
+           <Icon name="menu" size="md" />
+         </button>
+ 
++        <router-link v-if="isRealYu" to="/home" class="lg:hidden" :aria-label="appStore.siteName || 'RealYu API'">
++          <picture>
++            <source media="(max-width: 359px)" srcset="/brand/icon-192.png" />
++            <img :src="sanitizeUrl(appStore.siteLogo, { allowRelative: true, allowDataUrl: true })" alt="" class="h-6 w-6 min-[360px]:w-20 min-[400px]:w-24 object-contain" width="96" height="24" />
++          </picture>
++        </router-link>
++
+         <div class="hidden lg:block">
+           <h1 class="text-lg font-semibold text-gray-900 dark:text-white">
+             {{ pageTitle }}
+@@ -30,8 +37,8 @@
          <a
            v-if="docUrl"
            :href="docUrl"
@@ -26150,7 +26262,7 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
            class="hidden items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-dark-400 dark:hover:bg-dark-800 dark:hover:text-white sm:flex"
          >
            <Icon name="book" size="sm" />
-@@ -40,7 +40,7 @@
+@@ -40,7 +47,7 @@
  
          <!-- Model Plaza Entry (icon only below sm) -->
          <router-link
@@ -26159,7 +26271,7 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
            :to="{ path: '/model-plaza', query: { embedded: '1' } }"
            :title="t('nav.modelPlaza')"
            :aria-label="t('nav.modelPlaza')"
-@@ -54,11 +54,12 @@
+@@ -54,11 +61,12 @@
          <LocaleSwitcher />
  
          <!-- Subscription Progress (for users with active subscriptions; not mounted at all when the feature is off) -->
@@ -26174,7 +26286,7 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
            class="group relative hidden items-center gap-2 rounded-xl bg-primary-50 px-3 py-1.5 dark:bg-primary-900/20 sm:flex"
          >
            <svg
-@@ -160,7 +161,7 @@
+@@ -160,7 +168,7 @@
                    {{ t('nav.profile') }}
                  </router-link>
  
@@ -26183,7 +26295,7 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
                    <Icon name="key" size="sm" />
                    {{ t('nav.apiKeys') }}
                  </router-link>
-@@ -252,12 +253,15 @@
+@@ -252,12 +260,15 @@
  </template>
  
  <script setup lang="ts">
@@ -26199,7 +26311,7 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
  import SubscriptionProgressMini from '@/components/common/SubscriptionProgressMini.vue'
  import AnnouncementBell from '@/components/common/AnnouncementBell.vue'
  import Icon from '@/components/icons/Icon.vue'
-@@ -270,6 +274,7 @@ const router = useRouter()
+@@ -270,6 +281,7 @@ const router = useRouter()
  const route = useRoute()
  const { t } = useI18n()
  const appStore = useAppStore()
@@ -26207,7 +26319,7 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
  const authStore = useAuthStore()
  const adminSettingsStore = useAdminSettingsStore()
  const onboardingStore = useOnboardingStore()
-@@ -278,7 +283,7 @@ const user = computed(() => authStore.user)
+@@ -278,7 +290,7 @@ const user = computed(() => authStore.user)
  const dropdownOpen = ref(false)
  const dropdownRef = ref<HTMLElement | null>(null)
  const contactInfo = computed(() => appStore.contactInfo)
@@ -26216,7 +26328,7 @@ index 99a33056580c95f34ecf594ca5877e5a090fe4df..f3bb2cc1fecfb7956ea9e8849f64c4e7
  const modelPlazaEnabled = computed(() => isFeatureFlagEnabled(FeatureFlags.modelPlaza))
  const avatarUrl = computed(() => user.value?.avatar_url?.trim() || '')
  const availableBalance = computed(() => Number(user.value?.balance || 0))
-@@ -374,8 +379,7 @@ function handleReplayGuide() {
+@@ -374,8 +386,7 @@ function handleReplayGuide() {
  }
  
  function formatHeaderMoney(value: number) {
@@ -27449,6 +27561,129 @@ index 0000000000000000000000000000000000000000..e0b6848f3602fbccad0344f7e9d58e5f
 +watch([() => props.scope, () => props.showRecent, startDate, endDate, granularity], load, { immediate: true })
 +onBeforeUnmount(() => controller?.abort())
 +</script>
+diff --git a/frontend/src/components/realyu/RealYuUsageDateRange.vue b/frontend/src/components/realyu/RealYuUsageDateRange.vue
+new file mode 100644
+index 0000000000000000000000000000000000000000..f273c41bc309a1cc6d9f0482180b4dd999d939ca
+--- /dev/null
++++ b/frontend/src/components/realyu/RealYuUsageDateRange.vue
+@@ -0,0 +1,81 @@
++<template>
++  <div ref="root" class="usage-date-range">
++    <button ref="trigger" type="button" class="input range-trigger" :aria-expanded="open" aria-haspopup="dialog" :aria-label="`${t('realyuUx.dateRange')}: ${label}`" @click="toggle">
++      <Icon name="calendar" size="sm" aria-hidden="true" /><span>{{ label }}</span><Icon name="chevronDown" size="xs" aria-hidden="true" />
++    </button>
++    <div v-if="open" class="range-panel" role="dialog" :aria-label="t('realyuUx.dateRange')" @keydown.esc.stop.prevent="close" @keydown.enter.prevent="apply">
++      <p class="range-zone">{{ t('realyuUx.dateZone') }}</p>
++      <div class="range-presets">
++        <button v-for="days in [0, 1, 7, 30]" :key="days" type="button" class="btn btn-secondary" @click="preset(days)">{{ days === 0 ? t('realyuUx.allDates') : days === 1 ? t('realyuUx.today') : t('realyuUx.lastDays', { days }) }}</button>
++      </div>
++      <div class="range-fields">
++        <label>{{ t('realyuUx.startDate') }}<input v-model="draftStart" class="input" type="date" /></label>
++        <label>{{ t('realyuUx.endDate') }}<input v-model="draftEnd" class="input" type="date" :min="draftStart || undefined" /></label>
++      </div>
++      <p v-if="invalid" role="alert" class="range-error">{{ t('realyuUx.invalidDateRange') }}</p>
++      <div class="range-actions"><button type="button" class="btn btn-secondary" @click="close">{{ t('realyuUx.cancel') }}</button><button type="button" class="btn btn-primary" :disabled="invalid" @click="apply">{{ t('realyuUx.apply') }}</button></div>
++    </div>
++  </div>
++</template>
++
++<script setup lang="ts">
++import { computed, ref } from 'vue'
++import { onClickOutside, useEventListener } from '@vueuse/core'
++import { useI18n } from 'vue-i18n'
++import Icon from '@/components/icons/Icon.vue'
++
++// The native picker uses the device's timezone and requires bounded dates.
++// Usage history instead allows all time / open ends and always means Beijing dates.
++const props = defineProps<{ startDate: string; endDate: string }>()
++const emit = defineEmits<{ change: [range: { startDate: string; endDate: string }] }>()
++const { t } = useI18n()
++const root = ref<HTMLElement>(), trigger = ref<HTMLButtonElement>(), open = ref(false)
++const draftStart = ref(''), draftEnd = ref('')
++const invalid = computed(() => Boolean(draftStart.value && draftEnd.value && draftStart.value > draftEnd.value))
++const label = computed(() => {
++  if (!props.startDate && !props.endDate) return t('realyuUx.allDates')
++  if (props.startDate === props.endDate) return props.startDate
++  return `${props.startDate || t('realyuUx.unbounded')} — ${props.endDate || t('realyuUx.unbounded')}`
++})
++function toggle() {
++  if (open.value) { close(); return }
++  draftStart.value = props.startDate; draftEnd.value = props.endDate; open.value = true
++}
++function close() { open.value = false; trigger.value?.focus() }
++function apply() {
++  if (invalid.value) return
++  emit('change', { startDate: draftStart.value, endDate: draftEnd.value }); close()
++}
++function preset(days: number) {
++  // Shift into UTC+8 before extracting dates; never use local getters or UTC midnight.
++  const today = new Date(Date.now() + 8 * 3600000).toISOString().slice(0, 10)
++  draftEnd.value = days ? today : ''
++  draftStart.value = days ? new Date(Date.parse(today) - (days - 1) * 86400000).toISOString().slice(0, 10) : ''
++  apply()
++}
++onClickOutside(root, () => { open.value = false })
++useEventListener(root, 'focusout', event => {
++  if (event.relatedTarget instanceof Node && !root.value?.contains(event.relatedTarget)) open.value = false
++})
++</script>
++
++<style scoped>
++.usage-date-range { position: relative; min-width: 0; }
++.range-trigger { display: flex; align-items: center; gap: .5rem; min-height: 2.125rem; padding: .375rem .75rem; font-size: .8125rem; color: var(--realyu-ink, #171717); text-align: left; }
++.range-trigger span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
++.range-trigger svg { flex-shrink: 0; }
++.range-panel { position: absolute; top: calc(100% + .5rem); left: 0; z-index: 35; width: 23rem; max-width: calc(100vw - 3rem); padding: 1rem; border: 1px solid var(--realyu-border, #e5e7eb); border-radius: .875rem; background: var(--realyu-surface, white); box-shadow: 0 8px 24px #00000012; }
++.range-zone { margin-bottom: .75rem; font-size: .75rem; color: #666; }
++.range-presets { display: flex; flex-wrap: wrap; gap: .375rem; margin-bottom: 1rem; }
++.range-presets .btn, .range-actions .btn { min-height: 2.125rem; padding: .375rem .75rem; font-size: .8125rem; }
++.range-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
++.range-fields label { min-width: 0; font-size: .75rem; }
++.range-fields .input { min-width: 0; margin-top: .375rem; padding: .5rem; font-size: .8125rem; }
++.range-error { margin-top: .5rem; color: #b91c1c; font-size: .75rem; }
++.range-actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }
++.dark .range-zone { color: #b6b6b6; }
++.dark .range-error { color: #fca5a5; }
++@media (max-width: 639px) {
++  .range-trigger, .range-presets .btn, .range-actions .btn, .range-fields .input { min-height: 2.75rem; }
++}
++</style>
+diff --git a/frontend/src/components/realyu/RealYuUsageDetails.vue b/frontend/src/components/realyu/RealYuUsageDetails.vue
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd65937fef778b61e20ab58c5c02b9935ab770f3
+--- /dev/null
++++ b/frontend/src/components/realyu/RealYuUsageDetails.vue
+@@ -0,0 +1,30 @@
++<template>
++  <div class="usage-details">
++    <dl>
++      <div><dt>{{ t('realyuUx.requestID') }}</dt><dd class="record-id">{{ item.id }}</dd></div>
++      <div><dt>{{ t('realyuUx.source') }}</dt><dd>{{ t(`realyuUx.${item.source}`) }}</dd></div>
++      <div><dt>{{ t('realyuUx.duration') }}</dt><dd>{{ item.duration_ms == null ? t('realyuUx.missing') : (item.duration_ms / 1000).toFixed(2) + ' s' }}</dd></div>
++      <div><dt>{{ t('realyuUx.input') }}</dt><dd>{{ item.input_tokens.toLocaleString(locale) }}</dd></div>
++      <div><dt>{{ t('realyuUx.output') }}</dt><dd>{{ item.output_tokens.toLocaleString(locale) }}</dd></div>
++      <div><dt>{{ t('realyuUx.cacheRead') }}</dt><dd>{{ item.cache_read_tokens == null ? t('realyuUx.missing') : item.cache_read_tokens.toLocaleString(locale) }}</dd></div>
++      <div><dt>{{ t('realyuUx.cacheWrite') }}</dt><dd>{{ item.cache_creation_tokens == null ? t('realyuUx.missing') : item.cache_creation_tokens.toLocaleString(locale) }}</dd></div>
++    </dl>
++    <p v-if="item.scope === 'legacy_unknown'">{{ t('realyuUx.unknownFunding') }}</p>
++  </div>
++</template>
++<script setup lang="ts">
++import { useI18n } from 'vue-i18n'
++import type { RealYuUsageRecord } from '@/api/realyuUsage'
++defineProps<{ item: RealYuUsageRecord }>()
++const { t, locale } = useI18n()
++</script>
++<style scoped>
++.usage-details { padding: .875rem; font-size: .8125rem; line-height: 1.5; text-align: left; }
++dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .875rem 1.5rem; }
++dt, p { color: #666; font-size: .75rem; }
++dd { overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
++.record-id { font-family: ui-monospace, monospace; font-size: .75rem; }
++p { margin-top: .75rem; }
++.dark dt, .dark p { color: #b6b6b6; }
++@media (max-width: 639px) { dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; } dl > :first-child { grid-column: 1 / -1; } }
++</style>
 diff --git a/frontend/src/components/realyu/RealYuUsageOverview.vue b/frontend/src/components/realyu/RealYuUsageOverview.vue
 new file mode 100644
 index 0000000000000000000000000000000000000000..6bc720c145ec7e7713f0c035ac75b3a57f7201dd
@@ -27995,6 +28230,62 @@ index 0000000000000000000000000000000000000000..6f4dc80af9ffdf3ca9e03923188effbe
 +    await view.get('select').setValue('hour'); await flushPromises()
 +    await dates[0]!.setValue('2026-09-01'); await view.get('form').trigger('submit'); await flushPromises()
 +    expect(trendAPI.mock.calls.at(-1)![0]).toMatchObject({ granularity: 'day', start: '2026-08-31T16:00:00.000Z' })
++  })
++})
+diff --git a/frontend/src/components/realyu/__tests__/RealYuUsageDateRange.spec.ts b/frontend/src/components/realyu/__tests__/RealYuUsageDateRange.spec.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..22f89edb02a17526aa83709af88cc0ae94c92215
+--- /dev/null
++++ b/frontend/src/components/realyu/__tests__/RealYuUsageDateRange.spec.ts
+@@ -0,0 +1,50 @@
++import { afterEach, describe, expect, it, vi } from 'vitest'
++import { mount, type VueWrapper } from '@vue/test-utils'
++import { createI18n } from 'vue-i18n'
++import RealYuUsageDateRange from '../RealYuUsageDateRange.vue'
++import en from '@/i18n/locales/en/realyuUx'
++vi.unmock('vue-i18n')
++let wrapper: VueWrapper | undefined
++function render(startDate = '', endDate = '') {
++  wrapper = mount(RealYuUsageDateRange, { attachTo: document.body, props: { startDate, endDate }, global: {
++    plugins: [createI18n({ legacy: false, locale: 'en', messages: { en } })],
++  } })
++  return wrapper
++}
++afterEach(() => { wrapper?.unmount(); wrapper = undefined; vi.restoreAllMocks(); document.body.innerHTML = '' })
++describe('usage date ranges', () => {
++  it.each([
++    ['2026-12-31T15:59:59Z', 'Today', '2026-12-31', '2026-12-31'],
++    ['2026-12-31T16:00:00Z', 'Today', '2027-01-01', '2027-01-01'],
++    ['2026-12-31T16:00:00Z', 'Last 7 days', '2026-12-26', '2027-01-01'],
++    ['2026-12-31T16:00:00Z', 'Last 30 days', '2026-12-03', '2027-01-01'],
++  ])('uses Beijing midnight for %s / %s', async (now, text, startDate, endDate) => {
++    vi.spyOn(Date, 'now').mockReturnValue(Date.parse(now))
++    const view = render(); await view.get('.range-trigger').trigger('click')
++    await view.findAll('.range-presets button').find(button => button.text() === text)!.trigger('click')
++    expect(view.emitted('change')).toEqual([[{ startDate, endDate }]])
++    expect(view.find('[role="dialog"]').exists()).toBe(false)
++  })
++  it('discards cancelled date edits and does not query an inverted interval', async () => {
++    const view = render('2026-10-01', '2026-10-11')
++    await view.get('.range-trigger').trigger('click')
++    await view.findAll('input')[0]!.setValue('2026-10-20')
++    expect(view.get('[role="alert"]').text()).toContain('End date')
++    expect(view.get('.range-actions .btn-primary').attributes('disabled')).toBeDefined()
++    await view.get('.range-actions .btn-secondary').trigger('click')
++    expect(view.emitted('change')).toBeUndefined()
++    await view.get('.range-trigger').trigger('click')
++    expect((view.findAll('input')[0]!.element as HTMLInputElement).value).toBe('2026-10-01')
++    await view.findAll('.range-presets button')[0]!.trigger('click')
++    expect(view.emitted('change')).toEqual([[{ startDate: '', endDate: '' }]])
++  })
++  it('retains open-ended ranges and closes with Escape while restoring trigger focus', async () => {
++    const view = render(); await view.get('.range-trigger').trigger('click')
++    await view.findAll('input')[1]!.setValue('2026-10-11')
++    await view.get('.range-actions .btn-primary').trigger('click')
++    expect(view.emitted('change')).toEqual([[{ startDate: '', endDate: '2026-10-11' }]])
++    await view.get('.range-trigger').trigger('click'); await view.get('[role="dialog"]').trigger('keydown', { key: 'Escape' })
++    expect(view.find('[role="dialog"]').exists()).toBe(false)
++    expect(document.activeElement).toBe(view.get('.range-trigger').element)
 +  })
 +})
 diff --git a/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts b/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts
@@ -30933,12 +31224,13 @@ index 0000000000000000000000000000000000000000..5eba5d2e5a80c40e3678e054c37dc17b
 +}
 diff --git a/frontend/src/i18n/locales/en/realyuUx.ts b/frontend/src/i18n/locales/en/realyuUx.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..5bebd4d64f055927ac9bec9d3bb1855de282ce6c
+index 0000000000000000000000000000000000000000..9b428021800dae356e8b2c8dbb8e0c0df8bfeb8e
 --- /dev/null
 +++ b/frontend/src/i18n/locales/en/realyuUx.ts
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,38 @@
 +export default {
 +  realyuUx: {
++    filters: 'Filters', closeFilters: 'Close filters', dateRange: 'Date range', allDates: 'All time', unbounded: 'Any date', cancel: 'Cancel', invalidDateRange: 'End date must be on or after start date.',
 +    platformManagement: 'Platform management', overview: 'Overview', allUsage: 'All usage records',
 +    teamManagement: 'Teams', teamSettings: 'Team settings', upstreamAccounts: 'Upstream accounts', modelPricing: 'Models & pricing',
 +    advanced: 'Advanced & diagnostics', plans: 'Plans', models: 'Model pricing',
@@ -31316,12 +31608,13 @@ index 0000000000000000000000000000000000000000..d2e7d09b558c7b03d67d8859c6ee11ca
 +}
 diff --git a/frontend/src/i18n/locales/zh/realyuUx.ts b/frontend/src/i18n/locales/zh/realyuUx.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..57bcf3461b1a425e34eb39329a3d4af8df5e065b
+index 0000000000000000000000000000000000000000..8ae128990fdca27a2e7c52cb6db796448dd90aa3
 --- /dev/null
 +++ b/frontend/src/i18n/locales/zh/realyuUx.ts
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,38 @@
 +export default {
 +  realyuUx: {
++    filters: '筛选', closeFilters: '关闭筛选', dateRange: '时间范围', allDates: '全部时间', unbounded: '不限', cancel: '取消', invalidDateRange: '结束日期不能早于开始日期。',
 +    platformManagement: '平台管理', overview: '运营概览', allUsage: '全部调用记录',
 +    teamManagement: '团队管理', teamSettings: '团队设置', upstreamAccounts: '上游账号', modelPricing: '模型与价格',
 +    advanced: '高级与诊断', plans: '套餐', models: '模型价格',
@@ -35839,84 +36132,111 @@ index 0000000000000000000000000000000000000000..ff41fcf8406a0e41587471eb5b5b3ee6
 +</style>
 diff --git a/frontend/src/views/user/RealYuUsageView.vue b/frontend/src/views/user/RealYuUsageView.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..72e05942c996481e942ceaeac0575f24c640f475
+index 0000000000000000000000000000000000000000..23795ce3eab0d45cb108a238aa33ad592f205062
 --- /dev/null
 +++ b/frontend/src/views/user/RealYuUsageView.vue
-@@ -0,0 +1,214 @@
+@@ -0,0 +1,344 @@
 +<template>
 +  <AppLayout>
-+    <div class="space-y-4">
-+      <div class="realyu-toolbar">
++    <div class="usage-page">
++      <div class="realyu-toolbar usage-heading">
 +        <div class="flex flex-wrap items-center gap-3">
-+          <h1 class="text-lg font-semibold">{{ t(platform ? 'realyuUx.allUsage' : 'realyuUx.history') }}</h1>
++          <h1>{{ t(platform ? 'realyuUx.allUsage' : 'realyuUx.history') }}</h1>
 +          <div v-if="!platform" class="realyu-segmented">
 +            <button data-testid="my-calls" :aria-pressed="!teamMode" @click="changeScope(ownScope)">{{ t('realyuUx.myCalls') }}</button>
 +            <button v-if="managedTeams.length" data-testid="team-calls" :aria-pressed="teamMode" @click="enterTeam">{{ t('realyuUx.teamCalls') }}</button>
 +          </div>
 +        </div>
-+        <router-link :to="platform ? '/admin/usage/diagnostics' : '/usage/diagnostics'" class="btn btn-secondary text-xs">{{ t('realyuUx.nativeDiagnostics') }}</router-link>
++        <router-link :to="platform ? '/admin/usage/diagnostics' : '/usage/diagnostics'" class="usage-diagnostics">{{ t('realyuUx.nativeDiagnostics') }}<Icon name="chevronRight" size="xs" aria-hidden="true" /></router-link>
 +      </div>
++      <p v-if="!platform && teamsFailed" role="alert" class="usage-message" data-testid="teams-load-error">{{ t('realyuUx.teamsLoadFailed') }} <button class="underline" :disabled="teamsLoading" @click="loadTeams">{{ t('common.tryAgain') }}</button></p>
 +
-+      <p v-if="!platform && teamsFailed" role="alert" class="text-sm text-gray-600 dark:text-dark-300" data-testid="teams-load-error">{{ t('realyuUx.teamsLoadFailed') }} <button class="underline" :disabled="teamsLoading" @click="loadTeams">{{ t('common.tryAgain') }}</button></p>
-+      <form class="grid grid-cols-2 items-end gap-3 sm:flex sm:flex-wrap" @submit.prevent="apply">
-+        <label v-if="!platform && !teamMode" class="col-span-2 min-w-0 text-xs sm:w-40">{{ t('realyuUx.scope') }}<select class="input mt-1 min-w-0" data-testid="own-scope" :value="scope" @change="changeOwnScope"><option value="self">{{ t('realyuUx.self') }}</option><option value="personal">{{ t('realyuUx.personal') }}</option></select></label>
-+        <label v-if="teamMode && managedTeams.length" class="col-span-2 min-w-0 text-xs sm:w-48">{{ t('realyuUx.team') }}<select class="input mt-1 min-w-0" data-testid="usage-team-select" :value="selectedTeamID" :disabled="teamsLoading" @change="changeTeam"><option v-if="!selectedTeam" :value="selectedTeamID" disabled>{{ t('realyuUx.selectTeam') }}</option><option v-for="team in managedTeams" :key="team.id" :value="team.id">{{ team.name }} · #{{ team.id }}</option></select></label>
-+        <label class="min-w-0 text-xs sm:w-40">{{ t('realyuUx.startDate') }}<input v-model="startDate" type="date" class="input mt-1 min-w-0" /></label>
-+        <label class="min-w-0 text-xs sm:w-40">{{ t('realyuUx.endDate') }}<input v-model="endDate" type="date" class="input mt-1 min-w-0" :min="startDate || undefined" /></label>
-+        <label class="col-span-2 min-w-0 text-sm sm:min-w-48 sm:flex-1">{{ t('realyuUx.model') }}<input v-model="model" class="input mt-1 min-w-0" :placeholder="t('realyuUx.allModels')" maxlength="128" /></label>
-+        <label v-if="platform" class="col-span-2 text-sm sm:w-28">{{ t('realyuUx.actor') }}<input v-model="userID" class="input mt-1" type="number" min="1" step="1" /></label>
-+        <button class="btn btn-primary" type="submit" :disabled="loading || (teamMode && teamsLoading)">{{ t('realyuUx.apply') }}</button>
-+        <button class="btn btn-secondary" type="button" @click="reset">{{ t('realyuUx.reset') }}</button>
-+      </form>
-+      <p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.dateZone') }}</p>
-+      <p v-if="error" role="alert" class="text-sm text-red-600" data-testid="usage-error">{{ t(error === 'team' ? 'realyuUx.teamUnavailable' : 'realyuUx.loadFailed') }} <button class="underline" @click="retryUsage">{{ t('common.tryAgain') }}</button></p>
-+      <p v-if="loading || (teamMode && teamsLoading)" role="status" class="text-sm text-gray-500">{{ t('common.loading') }}</p>
-+      <template v-if="result">
-+        <div class="realyu-stat-grid">
-+          <div class="card px-4 py-3"><p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.spending') }}</p><p class="mt-1 text-xl font-semibold">{{ money(result.stats.cost_usd, 4) }}</p></div>
-+          <div class="card px-4 py-3"><p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.requests') }}</p><p class="mt-1 text-xl font-semibold">{{ result.total.toLocaleString(locale) }}</p></div>
-+          <div class="card px-4 py-3"><p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.tokens') }}</p><p class="mt-1 text-xl font-semibold" :title="result.stats.total_tokens.toLocaleString(locale)">{{ token(result.stats.total_tokens) }}</p></div>
++      <section class="usage-filter-panel" :aria-label="t('realyuUx.filters')">
++        <form class="usage-filter-controls" @submit.prevent="apply">
++          <label v-if="!platform && !teamMode" class="usage-scope"><span class="sr-only">{{ t('realyuUx.scope') }}</span><select class="input" data-testid="own-scope" :value="scope" @change="changeOwnScope"><option value="self">{{ t('realyuUx.self') }}</option><option value="personal">{{ t('realyuUx.personal') }}</option></select></label>
++          <label v-if="teamMode && managedTeams.length" class="usage-scope"><span class="sr-only">{{ t('realyuUx.team') }}</span><select class="input" data-testid="usage-team-select" :value="selectedTeamID" :disabled="teamsLoading" @change="changeTeam"><option v-if="!selectedTeam" :value="selectedTeamID" disabled>{{ t('realyuUx.selectTeam') }}</option><option v-for="team in managedTeams" :key="team.id" :value="team.id">{{ team.name }} · #{{ team.id }}</option></select></label>
++          <RealYuUsageDateRange :start-date="startDate" :end-date="endDate" @change="changeRange" />
++          <template v-if="!isMobile">
++            <label class="usage-model-filter"><span class="sr-only">{{ t('realyuUx.model') }}</span><Icon name="search" size="sm" aria-hidden="true" /><input v-model="model" class="input" :placeholder="t('realyuUx.allModels')" maxlength="128" /></label>
++            <label v-if="platform" class="usage-user-filter"><span class="sr-only">{{ t('realyuUx.actor') }}</span><input v-model="userID" class="input" :placeholder="t('realyuUx.actor')" type="number" min="1" step="1" /></label>
++            <button class="btn btn-primary" type="submit" :disabled="loading || (teamMode && teamsLoading)">{{ t('realyuUx.apply') }}</button>
++            <button class="btn btn-secondary" type="button" @click="reset">{{ t('realyuUx.reset') }}</button>
++          </template>
++          <button v-else class="btn btn-secondary usage-mobile-filter" type="button" data-testid="open-filters" :aria-expanded="filtersOpen" aria-haspopup="dialog" @click="filtersOpen = true"><Icon name="filter" size="sm" aria-hidden="true" />{{ t('realyuUx.filters') }}<span v-if="activeFilterCount" class="usage-filter-count">{{ activeFilterCount }}</span></button>
++        </form>
++        <div class="usage-filter-summary">
++          <dl v-if="result" class="usage-stats" aria-live="polite">
++            <div><dt>{{ t('realyuUx.spending') }}</dt><dd>{{ money(result.stats.cost_usd, 4) }}</dd></div>
++            <div><dt>{{ t('realyuUx.requests') }}</dt><dd>{{ result.total.toLocaleString(locale) }}</dd></div>
++            <div><dt>{{ t('realyuUx.tokens') }}</dt><dd :title="result.stats.total_tokens.toLocaleString(locale)">{{ token(result.stats.total_tokens) }}</dd></div>
++          </dl>
++          <p v-else role="status" class="usage-message">{{ loading || (teamMode && teamsLoading) ? t('common.loading') : '—' }}</p>
++          <p class="usage-timezone">{{ t('realyuUx.dateZone') }}</p>
 +        </div>
-+        <div class="card relative min-w-0 overflow-hidden">
-+          <div class="overflow-x-auto">
-+            <table class="table w-full whitespace-nowrap text-sm">
-+              <thead><tr><th>{{ t('realyuUx.date') }}</th><th>{{ t('realyuUx.model') }}</th><th v-if="showActors" class="text-gray-500 dark:text-dark-400">{{ t('realyuUx.actor') }}</th><th v-if="showActors" class="usage-actor-name">{{ t('realyuUx.nickname') }}</th><th>{{ t('realyuUx.scope') }}</th><th>{{ t('realyuUx.tokens') }}</th><th>{{ t('realyuUx.cost') }}</th><th><span class="sr-only">{{ t('realyuUx.details') }}</span></th></tr></thead>
++      </section>
++
++      <BaseDialog :show="isMobile && filtersOpen" :title="t('realyuUx.filters')" :close-label="t('realyuUx.closeFilters')" placement="drawer" @close="filtersOpen = false">
++        <form id="usage-mobile-filters" class="usage-drawer-fields" @submit.prevent="apply">
++          <label>{{ t('realyuUx.model') }}<input v-model="model" class="input" :placeholder="t('realyuUx.allModels')" maxlength="128" /></label>
++          <label v-if="platform">{{ t('realyuUx.actor') }}<input v-model="userID" class="input" type="number" min="1" step="1" /></label>
++        </form>
++        <template #footer><div class="usage-drawer-actions"><button class="btn btn-secondary" type="button" @click="reset">{{ t('realyuUx.reset') }}</button><button class="btn btn-primary" type="submit" form="usage-mobile-filters" :disabled="loading || (teamMode && teamsLoading)">{{ t('realyuUx.apply') }}</button></div></template>
++      </BaseDialog>
++
++      <p v-if="error" role="alert" class="usage-error" data-testid="usage-error">{{ t(error === 'team' ? 'realyuUx.teamUnavailable' : 'realyuUx.loadFailed') }} <button class="underline" @click="retryUsage">{{ t('common.tryAgain') }}</button></p>
++      <template v-if="result">
++        <div class="usage-records">
++          <div v-if="!isMobile" class="usage-table-scroll" tabindex="0" role="region" :aria-label="t('realyuUx.history')">
++            <table class="usage-table">
++              <caption class="sr-only">{{ t(platform ? 'realyuUx.allUsage' : 'realyuUx.history') }}</caption>
++              <thead><tr><th scope="col">{{ t('realyuUx.date') }}</th><th scope="col">{{ t('realyuUx.model') }}</th><th v-if="showActors" scope="col">{{ t('realyuUx.actor') }}</th><th v-if="showActors" scope="col">{{ t('realyuUx.nickname') }}</th><th scope="col">{{ t('realyuUx.scope') }}</th><th scope="col" class="usage-number">{{ t('realyuUx.tokens') }}</th><th scope="col" class="usage-number">{{ t('realyuUx.cost') }}</th><th scope="col"><span class="sr-only">{{ t('realyuUx.details') }}</span></th></tr></thead>
 +              <tbody>
 +                <template v-for="item in result.items" :key="item.id">
 +                  <tr>
-+                    <td>{{ date(item.created_at) }}</td><td class="font-medium">{{ item.model }}</td><td v-if="showActors" class="font-mono text-xs text-gray-500 dark:text-dark-400">{{ item.actor_user_id == null ? t('realyuUx.missing') : `#${item.actor_user_id}` }}</td><td v-if="showActors" class="usage-actor-name"><span class="block max-w-40 truncate font-medium" :title="item.actor_nickname || undefined">{{ item.actor_nickname || t('realyuUx.missing') }}</span></td>
-+                    <td>{{ scopeLabel(item.scope) }}</td><td :title="item.total_tokens.toLocaleString(locale)">{{ token(item.total_tokens) }}</td><td>{{ money(item.cost_usd, 6) }}</td>
-+                    <td><button class="rounded-full px-2 py-1 text-primary-700 hover:bg-primary-50 dark:text-primary-300 dark:hover:bg-dark-700" :aria-expanded="expanded === item.id" @click="expanded = expanded === item.id ? null : item.id">{{ t('realyuUx.details') }}</button></td>
++                    <td class="usage-time"><time :datetime="item.created_at">{{ date(item.created_at) }}</time></td>
++                    <td><span class="usage-model-badge" :title="item.model"><ModelIcon :model="item.model" size="18px" class="usage-model-icon" aria-hidden="true" /><span class="usage-model">{{ item.model }}</span></span></td>
++                    <td v-if="showActors" class="usage-id">{{ item.actor_user_id == null ? t('realyuUx.missing') : `#${item.actor_user_id}` }}</td>
++                    <td v-if="showActors" class="usage-actor-name"><span class="usage-actor"><span class="usage-avatar" aria-hidden="true"><template v-if="avatarInitial(item.actor_nickname)">{{ avatarInitial(item.actor_nickname) }}</template><Icon v-else name="user" size="sm" /></span><span class="usage-nickname" :title="item.actor_nickname || undefined">{{ item.actor_nickname || t('realyuUx.missing') }}</span></span></td>
++                    <td><span class="usage-scope-badge">{{ scopeLabel(item.scope) }}</span></td>
++                    <td class="usage-number"><span class="usage-primary" :title="item.total_tokens.toLocaleString(locale)">{{ token(item.total_tokens) }}</span><span class="usage-secondary">{{ t('realyuUx.input') }} {{ token(item.input_tokens) }} · {{ t('realyuUx.output') }} {{ token(item.output_tokens) }}</span></td>
++                    <td class="usage-number usage-cost">{{ money(item.cost_usd, 6) }}</td>
++                    <td class="usage-action"><button :aria-expanded="expanded === item.id" :aria-controls="`usage-detail-${item.id}`" @click="expanded = expanded === item.id ? null : item.id">{{ t('realyuUx.details') }}<Icon :name="expanded === item.id ? 'chevronUp' : 'chevronDown'" size="xs" aria-hidden="true" /></button></td>
 +                  </tr>
-+                  <tr v-if="expanded === item.id"><td :colspan="showActors ? 8 : 6" class="!whitespace-normal bg-gray-50 dark:bg-dark-900">
-+                    <dl class="grid gap-x-6 gap-y-3 p-2 sm:grid-cols-3">
-+                      <div><dt class="text-gray-500">{{ t('realyuUx.requestID') }}</dt><dd class="break-all font-mono text-xs">{{ item.id }}</dd></div>
-+                      <div><dt class="text-gray-500">{{ t('realyuUx.source') }}</dt><dd>{{ t(`realyuUx.${item.source}`) }}</dd></div>
-+                      <div><dt class="text-gray-500">{{ t('realyuUx.duration') }}</dt><dd>{{ item.duration_ms == null ? t('realyuUx.missing') : (item.duration_ms / 1000).toFixed(2) + ' s' }}</dd></div>
-+                      <div><dt class="text-gray-500">{{ t('realyuUx.input') }}</dt><dd>{{ item.input_tokens.toLocaleString(locale) }}</dd></div>
-+                      <div><dt class="text-gray-500">{{ t('realyuUx.output') }}</dt><dd>{{ item.output_tokens.toLocaleString(locale) }}</dd></div>
-+                      <div><dt class="text-gray-500">{{ t('realyuUx.cacheRead') }}</dt><dd>{{ item.cache_read_tokens == null ? t('realyuUx.missing') : item.cache_read_tokens.toLocaleString(locale) }}</dd></div>
-+                      <div><dt class="text-gray-500">{{ t('realyuUx.cacheWrite') }}</dt><dd>{{ item.cache_creation_tokens == null ? t('realyuUx.missing') : item.cache_creation_tokens.toLocaleString(locale) }}</dd></div>
-+                    </dl>
-+                    <p v-if="item.scope === 'legacy_unknown'" class="mt-2 text-xs text-gray-500">{{ t('realyuUx.unknownFunding') }}</p>
-+                  </td></tr>
++                  <tr v-if="expanded === item.id" :id="`usage-detail-${item.id}`"><td :colspan="showActors ? 8 : 6" class="usage-detail-cell"><RealYuUsageDetails :item="item" /></td></tr>
 +                </template>
-+                <tr v-if="result.items.length === 0"><td :colspan="showActors ? 8 : 6" class="py-10 text-center text-gray-500">{{ t('realyuUx.empty') }}</td></tr>
++                <tr v-if="result.items.length === 0"><td :colspan="showActors ? 8 : 6" class="usage-empty">{{ t('realyuUx.empty') }}</td></tr>
 +              </tbody>
 +            </table>
 +          </div>
-+          <div class="realyu-toolbar border-t border-gray-100 px-4 py-3 dark:border-dark-700">
-+            <p class="text-xs text-gray-500">{{ t('realyuUx.page', { page, total: result.total.toLocaleString(locale) }) }}</p>
-+            <div class="flex gap-2"><button class="btn btn-secondary !py-1.5" :disabled="page <= 1 || loading" @click="turnPage(-1)">{{ t('realyuUx.previous') }}</button><button class="btn btn-secondary !py-1.5" :disabled="page * 25 >= result.total || loading" @click="turnPage(1)">{{ t('realyuUx.next') }}</button></div>
++          <div v-else class="usage-mobile-records">
++            <article v-for="item in result.items" :key="item.id" class="usage-mobile-card">
++              <div class="usage-mobile-title"><h2><ModelIcon :model="item.model" size="18px" class="usage-model-icon" aria-hidden="true" /><span>{{ item.model }}</span></h2><p class="usage-cost">{{ money(item.cost_usd, 6) }}</p></div>
++              <time class="usage-secondary" :datetime="item.created_at">{{ date(item.created_at) }}</time>
++              <div v-if="showActors" class="usage-mobile-actor"><span class="usage-avatar" aria-hidden="true"><template v-if="avatarInitial(item.actor_nickname)">{{ avatarInitial(item.actor_nickname) }}</template><Icon v-else name="user" size="sm" /></span><span class="usage-primary usage-mobile-nickname">{{ item.actor_nickname || t('realyuUx.missing') }}</span><span class="usage-id">{{ t('realyuUx.actor') }} {{ item.actor_user_id == null ? t('realyuUx.missing') : `#${item.actor_user_id}` }}</span></div>
++              <div class="usage-mobile-tokens"><span>{{ t('realyuUx.tokens') }} <strong :title="item.total_tokens.toLocaleString(locale)">{{ token(item.total_tokens) }}</strong></span><span class="usage-secondary">{{ t('realyuUx.input') }} {{ token(item.input_tokens) }} · {{ t('realyuUx.output') }} {{ token(item.output_tokens) }}</span></div>
++              <div class="usage-mobile-footer"><span class="usage-scope-badge">{{ scopeLabel(item.scope) }}</span><button :aria-expanded="expanded === item.id" :aria-controls="`usage-detail-${item.id}`" @click="expanded = expanded === item.id ? null : item.id">{{ t('realyuUx.details') }}<Icon :name="expanded === item.id ? 'chevronUp' : 'chevronDown'" size="xs" aria-hidden="true" /></button></div>
++              <div v-if="expanded === item.id" :id="`usage-detail-${item.id}`" class="usage-mobile-details"><RealYuUsageDetails :item="item" /></div>
++            </article>
++            <p v-if="result.items.length === 0" class="usage-empty">{{ t('realyuUx.empty') }}</p>
++          </div>
++          <div class="usage-pagination">
++            <p>{{ t('realyuUx.page', { page, total: result.total.toLocaleString(locale) }) }}</p>
++            <div><button class="btn btn-secondary" :disabled="page <= 1 || loading" @click="turnPage(-1)">{{ t('realyuUx.previous') }}</button><button class="btn btn-secondary" :disabled="page * 25 >= result.total || loading" @click="turnPage(1)">{{ t('realyuUx.next') }}</button></div>
 +          </div>
 +        </div>
-+        <details v-if="!result.coverage.cache_read_complete || !result.coverage.cache_creation_complete" class="text-xs text-gray-500"><summary class="cursor-pointer">{{ t('realyuUx.more') }}</summary><p class="mt-2">{{ t('realyuUx.cacheUnknown') }}</p></details>
++        <details v-if="!result.coverage.cache_read_complete || !result.coverage.cache_creation_complete" class="usage-coverage"><summary>{{ t('realyuUx.more') }}</summary><p>{{ t('realyuUx.cacheUnknown') }}</p></details>
 +      </template>
 +    </div>
 +  </AppLayout>
 +</template>
 +<script setup lang="ts">
 +import { computed, onBeforeUnmount, ref, watch } from 'vue'
++import { useMediaQuery } from '@vueuse/core'
++import BaseDialog from '@/components/common/BaseDialog.vue'
++import ModelIcon from '@/components/common/ModelIcon.vue'
++import Icon from '@/components/icons/Icon.vue'
++import RealYuUsageDateRange from '@/components/realyu/RealYuUsageDateRange.vue'
++import RealYuUsageDetails from '@/components/realyu/RealYuUsageDetails.vue'
 +import { useI18n } from 'vue-i18n'
 +import { useRoute, useRouter } from 'vue-router'
 +import AppLayout from '@/components/layout/AppLayout.vue'
@@ -35926,9 +36246,14 @@ index 0000000000000000000000000000000000000000..72e05942c996481e942ceaeac0575f24
 +import { formatCustomerMoney as money } from '@/utils/customerMoney'
 +import { formatRealYuTokens } from '@/utils/realyuDisplay'
 +const { t, locale } = useI18n(), authStore = useAuthStore(), route = useRoute(), router = useRouter()
++function avatarInitial(nickname: string | null | undefined) { return Array.from(nickname?.trim() || '')[0]?.toLocaleUpperCase(locale.value) || '' }
 +const platform = computed(() => route.path.startsWith('/admin/') && authStore.isAdmin)
 +type OwnScope = 'self' | 'personal'
 +type UsageScope = OwnScope | 'team'
++const isMobile = useMediaQuery('(max-width: 639px)')
++const filtersOpen = ref(false)
++const activeFilterCount = ref(0)
++watch(isMobile, () => { filtersOpen.value = false })
 +const scope = ref<UsageScope>('self'), ownScope = ref<OwnScope>('self')
 +const startDate = ref(''), endDate = ref(''), model = ref('')
 +const userID = ref(String(route.query.user_id || '')), page = ref(1), expanded = ref<string | null>(null)
@@ -36013,7 +36338,8 @@ index 0000000000000000000000000000000000000000..72e05942c996481e942ceaeac0575f24
 +  writtenRoute = nextRoute !== routeKey(route.path, route.query) ? nextRoute : ''
 +  if (writtenRoute) void router.push({ path: route.path, query })
 +}
-+function apply() { readDraft(); page.value = 1; syncURL(); void load() }
++function apply() { readDraft(); activeFilterCount.value = Number(Boolean(applied.model)) + Number(Boolean(applied.user_id)); filtersOpen.value = false; page.value = 1; syncURL(); void load() }
++function changeRange(value: { startDate: string; endDate: string }) { startDate.value = value.startDate; endDate.value = value.endDate; apply() }
 +function reset() { startDate.value = ''; endDate.value = ''; model.value = ''; userID.value = ''; apply() }
 +function changeScope(value: UsageScope) {
 +  scope.value = value
@@ -36049,13 +36375,110 @@ index 0000000000000000000000000000000000000000..72e05942c996481e942ceaeac0575f24
 +  const requestedPage = Number(route.query.page)
 +  page.value = Number.isInteger(requestedPage) && requestedPage > 0 && requestedPage <= 100000 ? requestedPage : 1
 +  readDraft()
++  activeFilterCount.value = Number(Boolean(applied.model)) + Number(Boolean(applied.user_id))
++  filtersOpen.value = false
 +  if (!platform.value && !teamsLoaded.value && !teamsLoading.value && !teamsFailed.value) void loadTeams()
 +  void load()
 +}, { immediate: true })
 +onBeforeUnmount(() => { disposed = true; controller?.abort(); teamsController?.abort() })
 +</script>
 +<style scoped>
-+.usage-actor-name { position: sticky; left: 0; z-index: 1; background: var(--realyu-surface, #fff); }
++.usage-page { display: flex; flex-direction: column; gap: .875rem; --usage-muted: #666; --usage-tint: #fafafa; color: var(--realyu-ink, #171717); }
++.dark .usage-page { --usage-muted: #b6b6b6; --usage-tint: #242424; }
++.usage-heading h1 { font-size: 1.125rem; font-weight: 600; }
++.usage-diagnostics { display: inline-flex; align-items: center; gap: .25rem; min-height: 2.125rem; font-size: .75rem; color: var(--usage-muted); }
++.usage-filter-panel { padding: .75rem; border: 1px solid var(--realyu-border, #e5e7eb); border-radius: 1rem; }
++.usage-filter-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
++.usage-filter-controls .input, .usage-filter-controls .btn { min-height: 2.125rem; padding: .375rem .75rem; font-size: .8125rem; }
++.usage-filter-controls :deep(.usage-date-range) { flex: 1 1 14rem; max-width: 24rem; }
++.usage-scope { min-width: 0; flex: 0 1 11rem; }
++.usage-scope select { padding-right: 1.75rem !important; }
++.usage-model-filter { position: relative; min-width: 9rem; flex: 1 1 10rem; }
++.usage-model-filter > svg { position: absolute; left: .75rem; top: .6rem; color: var(--usage-muted); }
++.usage-model-filter .input { padding-left: 2rem; }
++.usage-user-filter { width: 7rem; }
++.usage-filter-summary { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 1rem; margin-top: .625rem; }
++.usage-stats { display: flex; flex-wrap: wrap; gap: .375rem; }
++.usage-stats > div { display: flex; align-items: baseline; gap: .5rem; padding: .25rem .625rem; border: 1px solid var(--realyu-border, #e5e7eb); border-radius: 999px; font-size: .75rem; }
++.usage-stats dt, .usage-message, .usage-timezone { color: var(--usage-muted); }
++.usage-stats dd { font-weight: 600; font-variant-numeric: tabular-nums; }
++.usage-timezone { margin-left: auto; font-size: .6875rem; }
++.usage-message, .usage-error { font-size: .8125rem; }
++.usage-error { color: #b91c1c; }
++.dark .usage-error { color: #fca5a5; }
++.usage-records { min-width: 0; border: 1px solid var(--realyu-border, #e5e7eb); border-radius: 1rem; overflow: hidden; }
++.usage-table-scroll { max-height: max(20rem, calc(100dvh - 20rem)); overflow: auto; }
++.usage-table { width: 100%; font-size: .8125rem; line-height: 1.45; font-variant-numeric: tabular-nums; text-align: left; }
++.usage-table th { position: sticky; top: 0; z-index: 1; background: var(--usage-tint); color: var(--usage-muted); font-weight: 500; padding: .625rem .4375rem; white-space: nowrap; border-bottom: 1px solid var(--realyu-border, #e5e7eb); }
++.usage-table td { padding: .625rem .4375rem; border-bottom: 1px solid var(--realyu-border, #e5e7eb); vertical-align: middle; }
++.usage-table tbody > tr:last-child td { border-bottom: 0; }
++.usage-table tbody > tr:hover { background: var(--usage-tint); }
++.usage-time { white-space: nowrap; font-weight: 500; }
++.usage-model-badge { display: inline-flex; align-items: center; gap: .375rem; min-width: 0; max-width: 10rem; padding: .1875rem .375rem; border: 1px solid var(--realyu-border, #e5e7eb); border-radius: .75rem; }
++.usage-model { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
++.usage-model-icon { flex-shrink: 0; color: inherit; }
++.usage-model-icon :deep(path) { fill: currentColor; }
++.usage-model-icon.model-icon-fallback { background: var(--usage-tint); color: var(--usage-muted); }
++.usage-actor { display: flex; align-items: center; gap: .375rem; max-width: 8.5rem; }
++.usage-avatar { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 1.5rem; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #e8f4fa; color: #005a83; font-size: .6875rem; font-weight: 600; line-height: 1; }
++.dark .usage-avatar { background: #203d50; color: #b9e3fb; }
++.usage-nickname { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
++.usage-id { font-size: .75rem; color: var(--usage-muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
++.usage-scope-badge { display: inline-block; padding: .125rem .5rem; background: var(--usage-tint); border: 1px solid var(--realyu-border, #e5e7eb); border-radius: 999px; font-size: .75rem; color: var(--usage-muted); white-space: nowrap; }
++.usage-number { text-align: right; white-space: nowrap; }
++.usage-primary, .usage-cost { font-weight: 500; }
++.usage-cost { white-space: nowrap; font-variant-numeric: tabular-nums; }
++.usage-secondary { display: block; margin-top: .1875rem; font-size: .75rem; color: var(--usage-muted); }
++.usage-action { width: 1%; }
++.usage-action button, .usage-mobile-footer button { display: inline-flex; align-items: center; justify-content: center; gap: .25rem; padding: .375rem .25rem; border-radius: .375rem; white-space: nowrap; color: rgb(var(--brand-primary-700, 0 114 177)); }
++.dark .usage-action button, .dark .usage-mobile-footer button { color: #9ecef5; }
++.usage-table td.usage-detail-cell { padding: 0; background: var(--usage-tint); }
++.usage-table td.usage-empty, .usage-empty { padding: 3rem 1rem; text-align: center; color: var(--usage-muted); }
++.usage-pagination { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem; padding: .75rem; border-top: 1px solid var(--realyu-border, #e5e7eb); font-size: .75rem; color: var(--usage-muted); }
++.usage-pagination > div { display: flex; gap: .375rem; }
++.usage-pagination .btn { min-height: 2rem; padding: .25rem .625rem; font-size: .75rem; }
++.usage-coverage { font-size: .75rem; color: var(--usage-muted); }
++.usage-coverage summary { width: fit-content; cursor: pointer; }
++.usage-coverage p { margin-top: .375rem; }
++.usage-filter-count { padding: 0 .35rem; border-radius: 999px; background: rgb(var(--brand-primary-100)); color: #0f3e5e; font-variant-numeric: tabular-nums; }
++.usage-drawer-fields { display: grid; gap: 1rem; }
++.usage-drawer-fields label { font-size: .8125rem; }
++.usage-drawer-fields .input { margin-top: .5rem; min-height: 2.75rem; }
++.usage-drawer-actions { display: flex; gap: .75rem; }
++.usage-drawer-actions .btn { flex: 1; min-height: 2.75rem; }
++.usage-page :is(button, a, summary, [tabindex]):focus-visible { outline: 2px solid rgb(var(--brand-primary-700, 0 114 177)); outline-offset: 3px; }
++@media (max-width: 639px) {
++  .usage-page { gap: .75rem; }
++  .usage-heading { gap: .25rem; }
++  .usage-diagnostics { min-height: 2.75rem; }
++  .usage-heading .realyu-segmented > button { min-height: 2.5rem; }
++  .usage-filter-panel { padding: .625rem; }
++  .usage-filter-controls .input, .usage-filter-controls .btn { min-height: 2.75rem; }
++  .usage-filter-controls :deep(.usage-date-range) { flex: 1; max-width: none; }
++  .usage-scope { flex: 1 0 100%; }
++  .usage-mobile-filter { flex-shrink: 0; gap: .375rem; }
++  .usage-stats { gap: .375rem .625rem; }
++  .usage-stats > div { padding: 0; border: 0; border-radius: 0; gap: .375rem; }
++  .usage-timezone { margin-left: 0; }
++  .usage-records { border: 0; border-radius: 0; overflow: visible; }
++  .usage-mobile-records { display: grid; gap: .625rem; }
++  .usage-mobile-card { min-width: 0; padding: .75rem; border: 1px solid var(--realyu-border, #e5e7eb); border-radius: .875rem; font-size: .8125rem; }
++  .usage-mobile-title { display: flex; align-items: baseline; gap: .75rem; justify-content: space-between; }
++  .usage-mobile-title h2 { display: flex; align-items: center; gap: .375rem; min-width: 0; font-size: .875rem; font-weight: 600; }
++  .usage-mobile-title h2 > span { min-width: 0; overflow-wrap: anywhere; }
++  .usage-mobile-title .usage-cost { flex-shrink: 0; font-size: .875rem; font-weight: 600; }
++  .usage-mobile-actor { display: flex; align-items: center; gap: .375rem; margin-top: .5rem; }
++  .usage-mobile-nickname { overflow-wrap: anywhere; min-width: 0; }
++  .usage-mobile-actor .usage-id { margin-left: .25rem; }
++  .usage-mobile-tokens { display: flex; flex-wrap: wrap; gap: .125rem .75rem; align-items: baseline; margin-top: .5rem; }
++  .usage-mobile-tokens strong { font-weight: 500; font-variant-numeric: tabular-nums; }
++  .usage-mobile-footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
++  .usage-mobile-footer button { min-height: 2.75rem; }
++  .usage-mobile-details { border-top: 1px solid var(--realyu-border, #e5e7eb); margin-top: .25rem; }
++  .usage-mobile-details :deep(.usage-details) { padding: .75rem 0 0; }
++  .usage-pagination { padding: .75rem 0 0; margin-top: .75rem; }
++  .usage-pagination .btn { min-height: 2.75rem; }
++}
 +</style>
 diff --git a/frontend/src/views/user/RedeemView.vue b/frontend/src/views/user/RedeemView.vue
 index 0e9bcc3b0c805da73898399450d081bf9e219570..eb32b8a9b9567ee358d27885e378f8a3b7261270 100644
@@ -37330,13 +37753,13 @@ index 0000000000000000000000000000000000000000..28dbb12d49370aade3e8f193699c466b
 +})
 diff --git a/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts b/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b388c5853d
+index 0000000000000000000000000000000000000000..b6e71103d05def8eb183907a72615a8435ff2a90
 --- /dev/null
 +++ b/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts
-@@ -0,0 +1,400 @@
+@@ -0,0 +1,456 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
-+import { reactive } from 'vue'
++import { computed, reactive } from 'vue'
 +import { createI18n } from 'vue-i18n'
 +import RealYuUsageView from '../RealYuUsageView.vue'
 +import type { RealYuUsagePage, RealYuUsageQuery } from '@/api/realyuUsage'
@@ -37348,6 +37771,10 @@ index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b3
 +
 +const { usageApi, teamsApi, state } = vi.hoisted(() => ({ usageApi: vi.fn(), teamsApi: vi.fn(), state: {} as Record<string, any> }))
 +vi.unmock('vue-i18n')
++vi.mock('@vueuse/core', async original => ({
++  ...await original<typeof import('@vueuse/core')>(),
++  useMediaQuery: () => computed(() => state.viewport.mobile),
++}))
 +vi.mock('@/api/realyuUsage', () => ({ getRealYuUsage: usageApi }))
 +vi.mock('@/api/realyuTeams', () => ({ realyuTeamsApi: { list: teamsApi } }))
 +vi.mock('@/stores/auth', () => ({ useAuthStore: () => state.auth }))
@@ -37385,9 +37812,9 @@ index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b3
 +}
 +let wrapper: VueWrapper | undefined
 +function render(locale: 'en' | 'zh' = 'en') {
-+  wrapper = mount(RealYuUsageView, { global: {
++  wrapper = mount(RealYuUsageView, { attachTo: document.body, global: {
 +    plugins: [createI18n({ legacy: false, locale, messages: { en: { ...en, ...enCommon }, zh: { ...zh, ...zhCommon } } })],
-+    stubs: { AppLayout: { template: '<main><slot /></main>' }, RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } },
++    stubs: { Teleport: true, AppLayout: { template: '<main><slot /></main>' }, RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } },
 +  } })
 +  return wrapper
 +}
@@ -37397,12 +37824,63 @@ index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b3
 +  usageApi.mockReset().mockResolvedValue(result())
 +  teamsApi.mockReset().mockResolvedValue([])
 +  state.auth = reactive({ isAdmin: false, isAuthenticated: true })
++  state.viewport = reactive({ mobile: false })
 +  state.route = reactive({ path: '/usage', query: {} as Record<string, unknown> })
 +  configureCustomerCurrency({ customer_currency: 'CNY', customer_usd_to_cny: '7' })
 +})
-+afterEach(() => { wrapper?.unmount(); wrapper = undefined })
++afterEach(() => { wrapper?.unmount(); wrapper = undefined; document.body.innerHTML = '' })
 +
 +describe('RealYu usage view contracts', () => {
++  it.each(['en', 'zh'] as const)('keeps mobile cost and actor identity visible, and applies/reset drawer filters in %s', async locale => {
++    state.viewport.mobile = true
++    state.auth.isAdmin = true; state.route.path = '/admin/usage'
++    const value = result('synthetic-very-long-model-name-for-mobile'); value.items[0]!.actor_nickname = 'Synthetic mobile member'
++    usageApi.mockResolvedValue(value)
++    const view = render(locale); await flushPromises()
++    expect(view.find('table').exists()).toBe(false)
++    const card = view.get('article')
++    expect(card.text()).toContain('Synthetic mobile member')
++    expect(card.text()).toContain('#101')
++    expect(card.get('.usage-cost').text()).toBe('¥0.864192')
++    expect(view.find('input[maxlength="128"]').exists()).toBe(false)
++    const opener = view.get('[data-testid="open-filters"]')
++    ;(opener.element as HTMLButtonElement).focus()
++    await opener.trigger('click'); await flushPromises()
++    const dialog = view.get('[role="dialog"]')
++    await dialog.get('input[maxlength="128"]').setValue('synthetic-filter')
++    await dialog.get('input[type="number"]').setValue('101')
++    await dialog.get('form').trigger('submit'); await flushPromises()
++    expect(lastQuery()).toMatchObject({ scope: 'platform', model: 'synthetic-filter', user_id: 101, page: 1 })
++    expect(view.find('[role="dialog"]').exists()).toBe(false)
++    expect(document.activeElement).toBe(opener.element)
++    expect(opener.text()).toContain('2')
++    await opener.trigger('click')
++    await view.get('.usage-drawer-actions .btn-secondary').trigger('click'); await flushPromises()
++    expect(lastQuery().model).toBeUndefined(); expect(lastQuery().user_id).toBeUndefined()
++    expect(view.find('[role="dialog"]').exists()).toBe(false)
++  })
++
++  it('keeps the mobile drawer focus inside, restores it on Escape and closes on desktop resize', async () => {
++    state.viewport.mobile = true
++    const view = render(); await flushPromises()
++    const opener = view.get('[data-testid="open-filters"]')
++    ;(opener.element as HTMLButtonElement).focus()
++    await opener.trigger('click'); await flushPromises()
++    const controls = view.get('[role="dialog"]').findAll('button, input')
++    const first = controls[0]!, last = controls.at(-1)!
++    ;(last.element as HTMLElement).focus(); await last.trigger('keydown', { key: 'Tab' })
++    expect(document.activeElement).toBe(first.element)
++    await first.trigger('keydown', { key: 'Tab', shiftKey: true })
++    expect(document.activeElement).toBe(last.element)
++    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); await flushPromises()
++    expect(view.find('[role="dialog"]').exists()).toBe(false)
++    expect(document.activeElement).toBe(opener.element)
++    await opener.trigger('click'); state.viewport.mobile = false; await flushPromises()
++    expect(view.find('[role="dialog"]').exists()).toBe(false)
++    expect(view.find('table').exists()).toBe(true)
++    expect(document.body.classList.contains('modal-open')).toBe(false)
++  })
++
 +  it.each(['en', 'zh'] as const)('renders real %s labels and converts decimal USD to CNY exactly once', async locale => {
 +    const view = render(locale); await flushPromises()
 +    expect(view.get('h1').text()).toBe(locale === 'en' ? 'Usage records' : '调用记录')
@@ -37426,9 +37904,10 @@ index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b3
 +    ['2026-12-31', '2027-01-01', '2026-12-30T16:00:00.000Z', '2027-01-01T16:00:00.000Z'],
 +  ])('sends Beijing date range %s to %s with an exclusive next-day endpoint', async (start, end, expectedStart, expectedEnd) => {
 +    const view = render(); await flushPromises()
++    await view.get('.range-trigger').trigger('click')
 +    const dates = view.findAll('input[type="date"]')
 +    await dates[0]!.setValue(start); await dates[1]!.setValue(end)
-+    await view.get('form').trigger('submit'); await flushPromises()
++    await view.get('.range-actions .btn-primary').trigger('click'); await flushPromises()
 +    expect(lastQuery()).toMatchObject({ start: expectedStart, end: expectedEnd, scope: 'self', page: 1, page_size: 25 })
 +  })
 +
@@ -37548,7 +38027,7 @@ index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b3
 +    const view = render(); await flushPromises()
 +    const cells = view.get('tbody tr').findAll('td')
 +    expect(cells[2]!.text()).toBe('#101')
-+    expect(cells[3]!.text()).toBe('Fixture nickname')
++    expect(cells[3]!.get('.usage-nickname').text()).toBe('Fixture nickname')
 +  })
 +
 +  it('reloads both backward and forward history after two locally applied filters', async () => {
@@ -37581,9 +38060,9 @@ index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b3
 +    const rows = view.findAll('tbody > tr')
 +    expect(rows).toHaveLength(2)
 +    expect(rows[0]!.findAll('td')[2]!.text()).toBe('#101')
-+    expect(rows[0]!.findAll('td')[3]!.text()).toBe('Synthetic owner')
++    expect(rows[0]!.findAll('td')[3]!.get('.usage-nickname').text()).toBe('Synthetic owner')
 +    expect(rows[1]!.findAll('td')[2]!.text()).toBe('#102')
-+    expect(rows[1]!.findAll('td')[3]!.text()).toBe('Synthetic teammate')
++    expect(rows[1]!.findAll('td')[3]!.get('.usage-nickname').text()).toBe('Synthetic teammate')
 +    expect(view.text()).toContain('¥8.7500')
 +    expect(view.text()).toContain(locale === 'en' ? 'Page 1 · 26 records' : '第 1 页，共 26 条')
 +    expect(view.text()).not.toContain('realyuUx.')

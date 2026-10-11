@@ -1,5 +1,11 @@
 # Local Sub2API deployment record
 
+## 2026-10-11 17:30 — UX6 candidate ready, UX5 remains the last verified live version
+
+The icon-complete r4 elevation attempt returned `UAC_NOT_STARTED`; no r4 activation receipt exists. R2 gate duration was30.162s, with9 preserved maintenance failure samples. After reopening, the existing collector observed171/171 healthy samples on each of six paths through17:34:21 CST; both Tunnels had4 connections. This is bounded sampling, not a continuous availability guarantee. [Observation](lab/sub2api_e2e/ux6-abort-observation-20261011.json).
+
+UX6 now includes provider marks and nickname avatars. The r2 attempt aborted before stopping any service after a30s drain timeout; the gate reopened. r3 was superseded without activation for the icon correction. Final r4 preflight saw zero active/reserved/batch work twice, but this is not deployment proof. The current candidate binary is `26aaecdbab17baeb86e9f984cf66d3b8c99a51542845b0b73603827f26298cc7`; source `a631266bde77db86b5b530cc4fccb7b6aba1013f`. Only an r4 ACTIVE receipt plus public acceptance may replace UX5 as the verified live version. [Delivery and first failures](deploy/sub2api/UX6-USAGE-20261011.md).
+
 ## 2026-10-11 15:04 — Network recovery, application remains UX5
 
 Defender quarantined the new SG GOST binary at14:26:57 CST. The original digest was restored with an effective exact-file exclusion; dependent Tunnels and SG forwarding were recovered. Native API/bridge/Mihomo processes and the application/database version were not changed. Six paths27/27 through15:08:20, both connectors4 connections, and one real public SSE passed. See [incident evidence and remaining recovery gap](deploy/sub2api/NETWORK-INCIDENT-20261011.md). Do not replay the completed incident script on healthy production.

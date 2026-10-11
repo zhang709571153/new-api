@@ -1,0 +1,144 @@
+{
+  "status": "CANDIDATE_VALIDATED_PRODUCTION_SEPARATE",
+  "version": "realyu-singlecore-v0.2.15-20261011-ux6",
+  "source_commit": "a631266bde77db86b5b530cc4fccb7b6aba1013f",
+  "binary_sha256": "26aaecdbab17baeb86e9f984cf66d3b8c99a51542845b0b73603827f26298cc7",
+  "patch_sha256": "20a90f1bc034ca24d7500bc1561e6530519efb8feaca83994b1b9ae9f319e4de",
+  "source_files_reconstructed": 409,
+  "native_changed_files_vs_ux5": 9,
+  "backend_or_migration_changes": false,
+  "automated_stages": [
+    {
+      "name": "broad_frontend_regression_stage",
+      "files": 94,
+      "passed": 1021,
+      "log_sha256": "5d7c1f057d10e183ac787d874729405f6b9600c585f38fe2042c27577253d66a",
+      "before_final_css_and_avatar_addition": true
+    },
+    {
+      "name": "dialog_layout_usage_date_regression_stage",
+      "files": 10,
+      "passed": 73,
+      "log_sha256": "f157bcfb68e1619ee4cc5e1752e1828a465b07536313b465eb64e731ac752068",
+      "before_avatar_addition": true
+    },
+    {
+      "name": "after_provider_icons_and_avatars",
+      "files": 1,
+      "passed": 37,
+      "log_sha256": "37cd6585c08acbeb9d2f8f829ec7e88ca03fff4e8f57a2be903a5c0ea3b40f36",
+      "final_later_changes": "Only table CSS sizing; actual r6 browser checked"
+    },
+    {
+      "name": "vue_types_after_icons",
+      "passed": true
+    },
+    {
+      "name": "r4_release_preparation_guards",
+      "passed": 15
+    },
+    {
+      "name": "public_readonly_runner_guards",
+      "passed": 11
+    }
+  ],
+  "overlapping_counts_not_added": true,
+  "browser": {
+    "method": "CUA through actual isolated native API, synthetic fixture accounts; no paid upstream",
+    "roles": [
+      "admin",
+      "team owner",
+      "member",
+      "former member",
+      "empty-record account"
+    ],
+    "covered": [
+      "self/team switching and nickname/ID columns",
+      "admin model plus actor filter",
+      "apply/reset and browser back/forward",
+      "Beijing today/all-time dates",
+      "member denied admin route",
+      "former member denied old-team link",
+      "historical missing cache remains unknown",
+      "drawer focus cycle and Esc returns to opener"
+    ],
+    "final_r6_icon_metrics": {
+      "desktopEnDark": {
+        "avatarBackground": "rgb(32, 61, 80)",
+        "avatarColor": "rgb(185, 227, 251)",
+        "avatarCount": 12,
+        "container": 1013,
+        "documentWidth": 1272,
+        "iconFill": "rgb(244, 244, 244)",
+        "modelIconCount": 2,
+        "scrollWidth": 1013,
+        "table": 1013.3333740234376,
+        "viewport": 1280
+      },
+      "mobileEnDark320": {
+        "avatarWidth": 24,
+        "costVisible": true,
+        "documentWidth": 312,
+        "headerWidth": 312,
+        "modelIconWidth": 18,
+        "viewport": 320
+      }
+    },
+    "final_r6_zh390": {
+      "document_width": 382,
+      "first_card_top": 256.5,
+      "model_and_cost_same_row": true,
+      "avatar_width": 24
+    },
+    "final_r6_zh1440": {
+      "document_width": 1432,
+      "table_client_width": 1173,
+      "table_scroll_width": 1173
+    },
+    "earlier_stage_roles_still_applicable": "Final icon work only changed presentation and existing text assertions, not API/scope logic",
+    "synthetic_model_label_preview": {
+      "rows": 2,
+      "labels": [
+        "gpt-6.1-sol",
+        "gpt-6-sol"
+      ],
+      "genuine_model_requests": false,
+      "original_labels_restored": true,
+      "money_and_token_fields_changed": false
+    },
+    "screenshots": [
+      {
+        "path": "ux6-desktop-synthetic.png",
+        "sha256": "335b050230ed8202dc5a29e593f3a11e6a51615d7d99f44308d445d6924d5db8",
+        "synthetic_only": true
+      },
+      {
+        "path": "ux6-mobile-synthetic.png",
+        "sha256": "8cb2d792cfd19f93f39ee561cd1389d27c8a50723a1166893b20ae8960d5989b",
+        "synthetic_only": true
+      }
+    ]
+  },
+  "first_failures_retained": [
+    "Dark scoped auxiliary text/badge styling fixed after browser inspection",
+    "Initial EN table 1096px exceeded 1013px container; fixed",
+    "Initial 320px header was 374px; responsive brand mark fixed",
+    "After icons, EN table was 1030.396px and then 1014.396px; final scrollWidth/clientWidth both1013",
+    "Three existing nickname text assertions included decorative initial; adjusted to exact nickname node, all37 passed",
+    "First reconstruction raced unfinished export; clean new directory succeeded after completion",
+    "Candidate execution policy fixed for process only",
+    "First UAC not started; r2 later aborted before stop after30s, entrance reopened",
+    "r3 waiting launcher stopped and activator retired for explicit missing-icon steering; no r3 receipt",
+    "Browser intermediate resize, text-spacing locator and nonfocusable-div press errors retained; semantic observed controls succeeded",
+    "One local helper read with default GBK failed before mutation; explicit UTF8 corrected"
+  ],
+  "production_acceptance": "NOT_RUN until matching r4 ACTIVE receipt; UX5 remained live after r2 abort",
+  "limits": [
+    "No physical phone or OS200percent zoom test",
+    "No paid inference or payment this frontend release",
+    "No new live ordinary-role accounts or forged JWT",
+    "No assertion that all historical UX requests or all pages were redesigned",
+    "Short verification is not long-term stability"
+  ],
+  "recorded_at": "2026-10-11T09:33:04.745778+00:00"
+}

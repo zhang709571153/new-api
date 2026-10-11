@@ -1,0 +1,15 @@
+{
+  "operation_id": "native-ux6-20261011-r2",
+  "phase": "ABORTED_BEFORE_STOP",
+  "phase_times": {
+    "DRAINING": 1791709530.693223,
+    "ABORTED_BEFORE_STOP": 1791709560.8554924
+  },
+  "database_restored": false,
+  "old_legacy_services_started": false,
+  "first_failure": {
+    "phase": "DRAINING",
+    "type": "UpdateError",
+    "code": "DRAIN_TIMEOUT_NO_STREAM_KILLED"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "source_commit": "a631266bde77db86b5b530cc4fccb7b6aba1013f",
+  "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+  "patch_sha256": "20a90f1bc034ca24d7500bc1561e6530519efb8feaca83994b1b9ae9f319e4de",
+  "reconstructed_files": 409,
+  "checked_at": "2026-10-11T09:27:23.731917+00:00",
+  "private_runtime_included": false
+}

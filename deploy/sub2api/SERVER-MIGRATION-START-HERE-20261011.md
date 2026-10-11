@@ -9,9 +9,9 @@
 - 仓库：`https://github.com/zhang709571153/new-api.git`
 - 部署分支：`codex/sub2api-handoff-20261009`。不要使用默认 `realyu` 分支或根目录 New API 程序作为新业务核心。
 - 本入口编写前已核实 GitHub 与本地提交均为 `5c2764f570e399ebcb46b1703cde2473b521ab9e`，工作区干净；本入口随后的提交继续沿此分支。
-- 当前实际应用：`realyu-singlecore-v0.2.15-20261011-ux5`，原生源码提交 `b059ab268d9fa26fc63639f4978d48cb01ac1135`。
-- 以 `singlecore-source.json` 的固定 Sub2API 上游加完整补丁交付。此次重新比对 405 个改动文件全部一致，Git 内补丁 SHA256 与 manifest 一致；原生开发目录的本地 remote 不是独立 GitHub 发布仓库。
-- 补丁 SHA256：`f60a554cee3aa17c54d0562c47a01c5e2fd4e3a0033746e93be26b1e39e2e4f2`。当前生产 binary SHA256：`ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3`。不同工具链重新构建不能仅因文件名相同声称与旧 binary 一致，应记录自己的构建哈希及来源。
+- 默认重建输入：`realyu-singlecore-v0.2.15-20261011-ux6`，源码 `a631266bde77db86b5b530cc4fccb7b6aba1013f`。当前最后已确认线上为UX5，UX6发布状态以根目录LIVE最新记录为准。
+- 以 `singlecore-source.json` 的固定 Sub2API 上游加完整补丁交付。此次重新比对 409 个改动文件全部一致，Git 内补丁 SHA256 与 manifest 一致；原生开发目录的本地 remote 不是独立 GitHub 发布仓库。
+- 补丁 SHA256：`20a90f1bc034ca24d7500bc1561e6530519efb8feaca83994b1b9ae9f319e4de`。UX6本机候选 binary SHA256：`26aaecdbab17baeb86e9f984cf66d3b8c99a51542845b0b73603827f26298cc7`。不同工具链重新构建不能仅因文件名相同声称与旧 binary 一致，应记录自己的构建哈希及来源。
 - 当前 PG 有 300 条 migration 记录，最新 308；历史归档已进入原生 PG。新机恢复当前完整库，不重跑旧 SQLite/S0/S1 客户导入。
 - 本机 15:27 采样六路径健康，仅证明源机当次健康。服务器报告仍是 10月9日的 Windows Server 2025 Datacenter、4 vCPU/16 GiB；须在目标机重新核对实际状态。
 
@@ -25,7 +25,7 @@ Set-Location C:\RealYu\handoff
 git rev-parse HEAD
 ```
 
-阅读本入口、[Windows 整站交接](SINGLECORE-WINDOWS-HANDOFF.md)、[UX5 交付](UX5-WORKBENCH-20261011.md)和[最新网络事故](NETWORK-INCIDENT-20261011.md)。其余文档按需导航；有日期的旧“候选/未上线”描述不是当前版本状态。
+阅读本入口、[Windows 整站交接](SINGLECORE-WINDOWS-HANDOFF.md)、[UX6 交付](UX6-USAGE-20261011.md)和[最新网络事故](NETWORK-INCIDENT-20261011.md)。其余文档按需导航；有日期的旧“候选/未上线”描述不是当前版本状态。
 
 1. 重新盘点服务器的权限、已有服务、端口、磁盘、待重启状态、实际网络和备份位置，保留云厂商/远程管理服务。
 2. 安装持久目录内的构建与运行依赖，按原生 Windows 服务方案准备 PG、免费 Redis、WinSW、API、bridge 和网络组件。生产服务不依赖 Codex 缓存、用户登录或桌面 Clash。
@@ -68,4 +68,4 @@ powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File .\deploy\sub2api\P
 
 ## 5. 可直接发给服务器 Codex
 
-> 请从 `https://github.com/zhang709571153/new-api.git` 的 `codex/sub2api-handoff-20261009` 分支接手，先读 `deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md`。目标是将当前UX5单核心RealYu整站迁到本Windows Server，最后不再依赖开发机。现在先完成目标机盘点、依赖安装、固定源码重建、独立Windows服务/隔离测试和迁移预演准备，保留现有服务器服务。不要部署默认分支的旧New API，不重放旧同机切核计划，不改生产入口或与旧机并发刷新同一OAuth。列出所需私有数据/配置、续聊状态迁移实现及测试结果，与源机最终快照配合后执行短窗口切流。维护DEVLOG/UPDATELOG，输出真实回执与首次失败，不输出密钥，不将未验证项记为通过。
+> 请从 `https://github.com/zhang709571153/new-api.git` 的 `codex/sub2api-handoff-20261009` 分支接手，先读 `deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md`。目标是将当前单核心RealYu整站迁到本Windows Server，默认源码交付为UX6，实际源机版本先查LIVE，最后不再依赖开发机。现在先完成目标机盘点、依赖安装、固定源码重建、独立Windows服务/隔离测试和迁移预演准备，保留现有服务器服务。不要部署默认分支的旧New API，不重放旧同机切核计划，不改生产入口或与旧机并发刷新同一OAuth。列出所需私有数据/配置、续聊状态迁移实现及测试结果，与源机最终快照配合后执行短窗口切流。维护DEVLOG/UPDATELOG，输出真实回执与首次失败，不输出密钥，不将未验证项记为通过。
