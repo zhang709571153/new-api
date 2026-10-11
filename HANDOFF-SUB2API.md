@@ -1,5 +1,7 @@
 # RealYu / Sub2API 部署与迁移交接
 
+**服务器整站迁移从这里开始：** [Windows Server 接手入口（2026-10-11）](deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md)。当前Git已交付UX5完整源码补丁和最新网络修复，服务器可开始安装与隔离验收；生产数据/私有配置、跨机Redis续聊迁移及目标机验收仍需完成后才能正式接管。不要使用默认分支的旧New API或重放本机旧计划。
+
 ## 2026-10-11 — UX5工作台布局与对齐
 
 最新代码已包含UX5双栏及对齐改进，UX5已上线，公网及浏览器验收通过；监测保留一次本机代理样本超时。源码b059ab268d9fa26fc63639f4978d48cb01ac1135，405文件完整重建；binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。新机按现有Windows交接重新构建及封本机计划，不重放本站旧operation。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。

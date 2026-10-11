@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "1e4c8f82b2eb13dd4e377c2fd634d5d9e9d8dddde89b443e34e585c11d70dc31",
-      "source_sha256": "1e4c8f82b2eb13dd4e377c2fd634d5d9e9d8dddde89b443e34e585c11d70dc31",
-      "bytes": 43767,
+      "sha256": "a2f8d5361415c7f2fdcc9f6c527b6647310272f02805a3d25624ddb0cff44a5b",
+      "source_sha256": "a2f8d5361415c7f2fdcc9f6c527b6647310272f02805a3d25624ddb0cff44a5b",
+      "bytes": 44368,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "4ec08e47ff279bd6eb8d56e0d2bf7991a4f06219b0235451ec7396105953c6fc",
-      "source_sha256": "4ec08e47ff279bd6eb8d56e0d2bf7991a4f06219b0235451ec7396105953c6fc",
-      "bytes": 22452,
+      "sha256": "228156e286367113cc3875d271869a5d35ae0f2941b3a8d0fe299eab0742141b",
+      "source_sha256": "228156e286367113cc3875d271869a5d35ae0f2941b3a8d0fe299eab0742141b",
+      "bytes": 22876,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "d8b2ff56fb2980f5951b483e5e0c907bbb76a3e466ccbaa96082afd66b7d9233",
-      "source_sha256": "d8b2ff56fb2980f5951b483e5e0c907bbb76a3e466ccbaa96082afd66b7d9233",
-      "bytes": 20395,
+      "sha256": "02e1f93267e68de4603207745af4265d8ce2ac9ac2e05f7be21ad5d53e7f61e1",
+      "source_sha256": "02e1f93267e68de4603207745af4265d8ce2ac9ac2e05f7be21ad5d53e7f61e1",
+      "bytes": 20743,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2628,6 +2628,14 @@
       "bytes": 19128,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SEO-GEO-20261011.md"
+    },
+    {
+      "path": "deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md",
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md",
+      "sha256": "6ae3837bd0b4429e3defb72b3abbf750bef917ec1ec625a3a99766ab537bd3d4",
+      "source_sha256": "6ae3837bd0b4429e3defb72b3abbf750bef917ec1ec625a3a99766ab537bd3d4",
+      "bytes": 7892
     },
     {
       "path": "deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md",
