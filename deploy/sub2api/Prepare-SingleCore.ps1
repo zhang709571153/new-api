@@ -116,6 +116,11 @@ try {
                     'src/views/user/__tests__/RealYuUsageView.spec.ts'
                     'src/views/user/__tests__/RealYuWorkbench.spec.ts'
                     'src/components/payment/__tests__/AmountInput.spec.ts'
+                    'src/components/payment/__tests__/PaymentStatusPanel.spec.ts'
+                    'src/components/payment/__tests__/PaymentQRDialog.spec.ts'
+                    'src/utils/__tests__/realyuUsageMetrics.spec.ts'
+                    'src/views/admin/__tests__/UsersView.spec.ts'
+                    'src/stores/__tests__/app.spec.ts'
                     'src/router/__tests__/realyu-usage-access.spec.ts'
                 )
                 # A frozen older manifest may predate the UX-only test files.

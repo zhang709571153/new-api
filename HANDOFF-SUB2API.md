@@ -1,5 +1,9 @@
 # RealYu / Sub2API 部署与迁移交接
 
+## 2026-10-11 21:35 — 最新默认重建输入为 UX7
+
+完整补丁/manifest已更新为UX7，源码 `f9941441e79062ae860b1cc0f429656c0e9c4ed3`，433文件实际复原一致。包含UX6图标/头像、调用时延、CNY充值与ZPay兼容、独立平台团队和可审计订阅调整。当前线上仍UX5；实际发布和支付启用以[LIVE](LIVE-DEPLOYMENT.md)后续回执为准。UX7新增309/310、完整库302项migration，不能继续用300项308工具验收新库。见[UX7交付](deploy/sub2api/UX7-PAYGO-ADMIN-20261011.md)与[整站迁机入口](deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md)。下方UX6及更早记录保留为历史。
+
 ## 2026-10-11 — 最新默认重建输入为 UX6
 
 本分支的 `singlecore-source.json` 和完整补丁已更新为含模型图标/昵称头像的UX6，409文件验证一致。原生源码 `a631266bde77db86b5b530cc4fccb7b6aba1013f`，生产是否已切换请读[LIVE最新记录](LIVE-DEPLOYMENT.md)，下面UX5及更早段落是历史。[UX6候选与部署](deploy/sub2api/UX6-USAGE-20261011.md)包括本轮测试、合成截图与排空失败；新服务器按[整站迁移入口](deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md)重建，不能重放本机计划。

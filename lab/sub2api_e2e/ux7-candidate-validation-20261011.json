@@ -1,0 +1,350 @@
+{
+  "generated_at": "2026-10-11T13:39:32.822929+00:00",
+  "candidate_version": "realyu-singlecore-v0.2.15-20261011-ux7",
+  "source_commit": "f9941441e79062ae860b1cc0f429656c0e9c4ed3",
+  "production_changed": false,
+  "live_version_at_preparation": "realyu-singlecore-v0.2.15-20261011-ux5",
+  "build": {
+    "version": "realyu-singlecore-v0.2.15-20261011-ux7",
+    "binary": "C:\\srv\\realyu-singlecore-dev\\runtime\\sub2api-ux7-final-r4.exe",
+    "sha256": "0734fee22619df881f7a014b4383df17e1a9310e5a467627a691741aa21e02c4",
+    "stages": [
+      {
+        "stage": "vite",
+        "exit_code": 0,
+        "seconds": 21.31,
+        "log": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux7-20261011T212826-vite.log"
+      },
+      {
+        "stage": "binary",
+        "exit_code": 0,
+        "seconds": 6.91,
+        "log": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux7-20261011T212826-binary.log"
+      }
+    ],
+    "production_changed": false
+  },
+  "reconstruction": {
+    "status": "PASS",
+    "source_commit": "f9941441e79062ae860b1cc0f429656c0e9c4ed3",
+    "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+    "patch_sha256": "2944d711c92fd0cf332c92745c31294c619ccf4e53b78f3753145ed37f4c06a0",
+    "reconstructed_files": 433,
+    "checked_at": "2026-10-11T13:28:38.667218+00:00",
+    "private_runtime_included": false
+  },
+  "final_http": {
+    "target": "http://127.0.0.1:29481",
+    "synthetic_only": true,
+    "production_changed": false,
+    "paid_upstream_calls": 0,
+    "checks": [
+      {
+        "name": "final-version",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 63.0,
+        "body_sha256": "2af75dced42712d4c66a3abdd24fb2799ef490e56866349fee9baa8e8e30e87f"
+      },
+      {
+        "name": "anonymous-admin-denied",
+        "pass": true,
+        "http_status": 401,
+        "expected_status": 401,
+        "milliseconds": 15.0,
+        "body_sha256": "45af71ac65d4166926a33cc89c2bde0a5884f2f84bb2809f369466b78e00dfb2"
+      },
+      {
+        "name": "synthetic-login-admin",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 235.0,
+        "body_sha256": "78894a99131acf67c82a046e188cdbfbc3d66de026785da248cc3e911c48fe53"
+      },
+      {
+        "name": "synthetic-login-owner",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 234.0,
+        "body_sha256": "04d20974d011d9420e4ee86ed5080ecc1576dab8d59e1043d1bb7d0baa3248c4"
+      },
+      {
+        "name": "all-teams-admin",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 16.0,
+        "body_sha256": "7afa5139a6759b68dbca8678e30fb9f38742868ae26a50c3d83a860ddc5fea66"
+      },
+      {
+        "name": "owner-cannot-grant",
+        "pass": true,
+        "http_status": 403,
+        "expected_status": 403,
+        "milliseconds": 15.0,
+        "body_sha256": "6265e94ab8d078a8626414993eafee0381baef9a64e41132d24e4fa6380ca3ea"
+      },
+      {
+        "name": "synthetic-new-user-login",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 204.0,
+        "body_sha256": "7c7f7d295d5888507c2d72611fda9388e020a3f8332ed4c073f8087821e4c7f8"
+      },
+      {
+        "name": "admin-user-identity",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 125.0,
+        "body_sha256": "6f10ca0c423d7a952b4cee37c46b041c1c4ce1e57d49acb7ef1be810c7c29e4b"
+      },
+      {
+        "name": "personal-grant",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 31.0,
+        "body_sha256": "4d1a7f47e8996cb894b86e0ac68ae8c9e458eb602d036f07ac9ceafb8c37de2e"
+      },
+      {
+        "name": "personal-grant-retry",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 0.0,
+        "body_sha256": "4d1a7f47e8996cb894b86e0ac68ae8c9e458eb602d036f07ac9ceafb8c37de2e"
+      },
+      {
+        "name": "subscription-summary",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 15.0,
+        "body_sha256": "455961f96918d34066fe4def9dce721c2d400d64fe942ed2af1b354563a756ce"
+      },
+      {
+        "name": "personal-adjust",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 16.0,
+        "body_sha256": "4d1a7f47e8996cb894b86e0ac68ae8c9e458eb602d036f07ac9ceafb8c37de2e"
+      },
+      {
+        "name": "stale-edit-denied",
+        "pass": true,
+        "http_status": 409,
+        "expected_status": 409,
+        "milliseconds": 16.0,
+        "body_sha256": "38299cfb58358718fd252872ba3857cf564577abcf7d8849bed867ccb51fa4eb"
+      },
+      {
+        "name": "new-team-grant",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 62.0,
+        "body_sha256": "5280918fa22d8ccddba094bc3c7ff9574beb08b97e31b697d65989c3c9b7e7ae"
+      },
+      {
+        "name": "team-key-setup",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 47.0,
+        "body_sha256": "776bf58051abbe3474e239087f72b7ac8d1bc13ac29d7157314d504718551851"
+      },
+      {
+        "name": "personal-key-preserved",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 63.0,
+        "body_sha256": "5b6d845f102ce8d37cdd8df840a5ee8841d95c9759c66d05107cf2256131485a"
+      },
+      {
+        "name": "platform-admin-has-owner-permissions",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 15.0,
+        "body_sha256": "e2b84991d3bd0b7d5113c4fbee5396e99cf2d5f10cdd3ffc509b4f9f25cf1e2d"
+      },
+      {
+        "name": "unrelated-team-denied",
+        "pass": true,
+        "http_status": 403,
+        "expected_status": 403,
+        "milliseconds": 47.0,
+        "body_sha256": "927d69c9e0120bdfc23e72cc45cc7e9d4d6c031ad098d21758ace2b341e27315"
+      },
+      {
+        "name": "platform-admin-edit-owner-nickname",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 16.0,
+        "body_sha256": "fdde467abb9332910069b23905b167a4492ce4b43cab89cc2fc152fe4f3d726d"
+      },
+      {
+        "name": "team-nickname-persists",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 47.0,
+        "body_sha256": "a12d03e84de39ecea10182256e6f4d28fdae9a055db16ba313aabd607e22faf5"
+      },
+      {
+        "name": "subscription-summary",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 31.0,
+        "body_sha256": "079aac67866c2c19837623c1720f74e9da6d18f2f26750d74bb529c59df596f8"
+      },
+      {
+        "name": "weekly-used-explicit-zero",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 15.0,
+        "body_sha256": "5280918fa22d8ccddba094bc3c7ff9574beb08b97e31b697d65989c3c9b7e7ae"
+      },
+      {
+        "name": "weekly-used-retry",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 0.0,
+        "body_sha256": "5280918fa22d8ccddba094bc3c7ff9574beb08b97e31b697d65989c3c9b7e7ae"
+      },
+      {
+        "name": "subscription-summary",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 32.0,
+        "body_sha256": "079aac67866c2c19837623c1720f74e9da6d18f2f26750d74bb529c59df596f8"
+      },
+      {
+        "name": "personal-cancel",
+        "pass": true,
+        "http_status": 200,
+        "expected_status": 200,
+        "milliseconds": 15.0,
+        "body_sha256": "4d1a7f47e8996cb894b86e0ac68ae8c9e458eb602d036f07ac9ceafb8c37de2e"
+      }
+    ],
+    "ledger_checks": {
+      "balance_unchanged": true,
+      "native_subscription_rows_unchanged": true,
+      "five_unique_audited_operations": true
+    },
+    "status": "PASS"
+  },
+  "artifacts": [
+    {
+      "name": "ux7-20261011T211614-frontend-tests.log",
+      "sha256": "ab1ac212d060b6538e8c756cd27abde95f11fc62a1cb8c8e725e701d417a8aef",
+      "bytes": 40698
+    },
+    {
+      "name": "ux7-20261011T211614-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "name": "admin-frontend-r3.log",
+      "sha256": "75c88516745f100faf2b4992107d204ece541c18b19ebba9e8928cc1cf6d6fff",
+      "bytes": 4065
+    },
+    {
+      "name": "admin-frontend-r4.log",
+      "sha256": "57dbce53b54e9f128adba95c6c50fa959030668efb08feda5869f75eb275e2dd",
+      "bytes": 614
+    },
+    {
+      "name": "paygo-unit-r3.log",
+      "sha256": "65670a50528d3f441f9f367afe558580765b6ab4e17af49f664b43de787a4090",
+      "bytes": 183
+    },
+    {
+      "name": "paygo-pg-20261011T202822.log",
+      "sha256": "0ca3b05b4b272af38b272d508f8a27438eaf85b5704ab3d6d937d8add5df2953",
+      "bytes": 5733
+    },
+    {
+      "name": "admin-pg-20261011T212603.log",
+      "sha256": "1b9d18746d4a444802ffd6283c54c7c37e84dddcb579e6daba1ad869c467c83e",
+      "bytes": 3083
+    },
+    {
+      "name": "paygo-release-20261011T211505.log",
+      "sha256": "b14498ad05726c57d20862ef669517df0221bfe12ddc390d0abf7ec461d58e22",
+      "bytes": 2968
+    },
+    {
+      "name": "ux7-admin-final-go-unit.log",
+      "sha256": "b8594d66c39690839cd99abf8ba1005fe5f4c9118209d5de91d591aa93349c87",
+      "bytes": 219
+    },
+    {
+      "name": "ux7-admin-http-20261011T213232.json",
+      "sha256": "17095f2d26118fcbb4382ab56094ffeccc7583ad3d68c3deca73017d15b8ed7c",
+      "bytes": 6602
+    },
+    {
+      "name": "ux7-final-r4-build.json",
+      "sha256": "ca7cb7534c9d85d8fa7b25a4095a3c545d66c1281c95c44426fcac762d91e8fa",
+      "bytes": 623
+    },
+    {
+      "name": "ux7-source-reconstruction-r4.json",
+      "sha256": "6b17789c3ad4c1d662d641d8b265b96ca007f8253b8dc92e1f090275c8dbcb10",
+      "bytes": 365
+    }
+  ],
+  "test_counts_overlap": true,
+  "frontend_full_stage": {
+    "files": 102,
+    "tests": 1097,
+    "status": "PASS"
+  },
+  "frontend_admin_stage": {
+    "files": 6,
+    "tests": 88,
+    "status": "PASS"
+  },
+  "frontend_final_empty_title_i18n": {
+    "files": 2,
+    "tests": 11,
+    "status": "PASS"
+  },
+  "release_tests": {
+    "tests": 18,
+    "real_postgres_tests": 3,
+    "status": "PASS"
+  },
+  "browser_ux7": "NOT_RUN_TOOL_ERROR_TAB_BLOCKED_USER_REOPEN_REQUESTED",
+  "real_merchant_readonly": "PASSED_EARLIER_QUERY",
+  "real_new_payment": "NOT_RUN",
+  "smtp": "NOT_RUN_UPSTREAM_USD_TEMPLATE_REMAINS",
+  "first_failures_preserved": [
+    "admin-frontend-r1.log",
+    "admin-pg-20261011T211319.log",
+    "ux7-admin-http-20261011T212418.json",
+    "ux7-admin-http-20261011T213210.json",
+    "production-ux7-update-20261011-r2/first-preparation-failure.json"
+  ],
+  "limits": [
+    "No production mutation in this candidate report",
+    "No paid model calls in final candidate HTTP harness",
+    "Real merchant settlement and browser rendering require separate evidence",
+    "No claim of long-term availability"
+  ]
+}

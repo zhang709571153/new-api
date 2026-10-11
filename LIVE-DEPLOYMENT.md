@@ -1,5 +1,9 @@
 # Local Sub2API deployment record
 
+## 2026-10-11 21:35 CST — UX7 prepared; live remains UX5
+
+Final candidate source `f9941441e79062ae860b1cc0f429656c0e9c4ed3`, EXE SHA256 `0734fee22619df881f7a014b4383df17e1a9310e5a467627a691741aa21e02c4`; full433-file reconstruction and25 final-binary synthetic HTTP checks passed. Read-only plan `native-ux7-20261011-r2`, SHA256 `b81eeaffe583ca0dd256f9053559bf69a4fd61f037a8d56be12b00815a78a9bc`, is prepared, not activated. Both samples observed3 in-flight requests; execution must still drain within30s or abort and reopen. Current authority has300 migrations, UX7 requires302 after reviewed309/310. Native recharge remains disabled and no real new payment has been completed. [Delivery, first failures and limits](deploy/sub2api/UX7-PAYGO-ADMIN-20261011.md).
+
 ## 2026-10-11 17:30 — UX6 candidate ready, UX5 remains the last verified live version
 
 The icon-complete r4 elevation attempt returned `UAC_NOT_STARTED`; no r4 activation receipt exists. R2 gate duration was30.162s, with9 preserved maintenance failure samples. After reopening, the existing collector observed171/171 healthy samples on each of six paths through17:34:21 CST; both Tunnels had4 connections. This is bounded sampling, not a continuous availability guarantee. [Observation](lab/sub2api_e2e/ux6-abort-observation-20261011.json).
