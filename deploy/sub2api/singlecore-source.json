@@ -1,13 +1,13 @@
 {
   "format": 1,
-  "candidate_version": "realyu-singlecore-v0.2.15-20261011-ux7",
-  "status": "UX7 source frozen; production acceptance recorded separately",
+  "candidate_version": "realyu-singlecore-v0.2.15-20261012-ux8",
+  "status": "UX8 PAYGO frontend fix frozen; production acceptance recorded separately",
   "upstream_url": "https://github.com/Wei-Shaw/sub2api.git",
   "upstream_tag": "v0.2.15",
   "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
   "patch": "singlecore-candidate.patch",
-  "patch_sha256": "2944d711c92fd0cf332c92745c31294c619ccf4e53b78f3753145ed37f4c06a0",
-  "patch_bytes": 2221948,
+  "patch_sha256": "fbb51d5d69c64983ac1db1672b179f6ff28e7081a9d317d8a08232ce0dd04e4c",
+  "patch_bytes": 2227872,
   "changed_files": [
     {
       "path": "backend/cmd/server/wire_gen.go",
@@ -1371,8 +1371,8 @@
     },
     {
       "path": "frontend/src/components/payment/AmountInput.vue",
-      "sha256": "7facc0d5ef9d3a59ffef842951bdebbc97de71fdcfecda4f2556e9fa416be3a5",
-      "bytes": 6728
+      "sha256": "b98f81df6f476d297d59cf3112b4da12320167f45651e9117e16caa161992dec",
+      "bytes": 6866
     },
     {
       "path": "frontend/src/components/payment/OrderTable.vue",
@@ -1413,6 +1413,16 @@
       "path": "frontend/src/components/payment/__tests__/SubscriptionPlanCard.spec.ts",
       "sha256": "2d3452eb3138bbea264d7128bf7eab2af962903dc0eb768d3c35dbde0ca82e74",
       "bytes": 7632
+    },
+    {
+      "path": "frontend/src/components/payment/__tests__/paymentFlow.spec.ts",
+      "sha256": "3e228b7abb32aad15880c36246e85e6565d1ed33d2c0b2816cf849339c4f9a10",
+      "bytes": 15862
+    },
+    {
+      "path": "frontend/src/components/payment/paymentFlow.ts",
+      "sha256": "782ca463e57c38817c44572795d59b9edcf6f0eb901abdf39cbc30c6bf144868",
+      "bytes": 11571
     },
     {
       "path": "frontend/src/components/realyu/RealYuAdminSubscriptionDialog.vue",
@@ -1506,8 +1516,8 @@
     },
     {
       "path": "frontend/src/components/realyu/paygo.ts",
-      "sha256": "2579b3e40aaed4a0906898fa5a6c3a384be352312e03ed1ad45a2a868123573c",
-      "bytes": 464
+      "sha256": "9e8c7fccf09cf6ce3dc1162a3473f945d089a73d0700561a44900430edbae232",
+      "bytes": 526
     },
     {
       "path": "frontend/src/components/realyu/public/RealYuHomeAtmosphere.vue",
@@ -1826,8 +1836,8 @@
     },
     {
       "path": "frontend/src/types/payment.ts",
-      "sha256": "247aaa6f940ef6ea8a75f3a4ca1e37f6c766230cca6269ddc6e160983125e8ca",
-      "bytes": 8168
+      "sha256": "b5a0bdff8c932c75a40d927b78b70f7e93ecd2042efd65155a30691af41f16f1",
+      "bytes": 8252
     },
     {
       "path": "frontend/src/utils/__tests__/branding.spec.ts",
@@ -2071,8 +2081,8 @@
     },
     {
       "path": "frontend/src/views/user/PaymentView.vue",
-      "sha256": "6b024f32aeb689dcd239b4415ad64f531e88bf4ec19779a94296baf696ac6325",
-      "bytes": 63550
+      "sha256": "0a02a54878ea83f9513afdd5f56e526d260b5665a5528642ad5861c918486587",
+      "bytes": 63578
     },
     {
       "path": "frontend/src/views/user/ProfileView.vue",
@@ -2121,8 +2131,8 @@
     },
     {
       "path": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
-      "sha256": "8d7106de951b79b754474b6051a3e075c784b8509055545b6cac300a7c1328c4",
-      "bytes": 43868
+      "sha256": "899edafbd39d6daeb74c01945c40f2e1f7510714c4858fcbd6b69a4f1f0f0bbb",
+      "bytes": 45848
     },
     {
       "path": "frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts",
@@ -2175,10 +2185,10 @@
       "bytes": 987
     }
   ],
-  "generated_utc": "2026-10-11T13:27:56.584784+00:00",
+  "source_commit": "243338e47b12b460f46bf2842e89a40077cbbf78",
+  "generated_utc": "2026-10-11T16:24:59.519106+00:00",
   "private_runtime_included": false,
   "production_actions": false,
   "rebuild": "Prepare-SingleCore.ps1 -Destination NEW_DIRECTORY -Build -Test",
-  "verification_report": "../../lab/sub2api_e2e/ux7-candidate-validation-20261011.json",
-  "source_commit": "f9941441e79062ae860b1cc0f429656c0e9c4ed3"
+  "verification_report": "../../lab/sub2api_e2e/ux8-paygo-20261012.json"
 }

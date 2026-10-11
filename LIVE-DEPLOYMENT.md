@@ -1,5 +1,13 @@
 # Local Sub2API deployment record
 
+## 2026-10-12 00:36:31 CST — UX8 ACTIVE，按量充值“缺货”误判已修复
+
+当前线上 `realyu-singlecore-v0.2.15-20261012-ux8`，源码 `243338e47b12b460f46bf2842e89a40077cbbf78`，EXE SHA256 `e826cb76da7fd1528ad874fc77e2bc7860d292680e237fb35aeff9ce19ebcfb0`。operation `native-ux8-20261012-r1` ACTIVE，维护 30.768 秒。仅七个前端文件变化；同一PG/302项migration、环境值、商户、代理、余额及旧订单保留，未恢复数据库。
+
+原生支付方式返回省略可选 `available` 字段，旧前端严格判断true而误显示缺货；现按原生合同处理缺省可用、显式false不可用，空支付方式仍关闭。新增 **¥5 / ¥20 / ¥50 / ¥100 / ¥200**，保留自定义金额与人民币实付/到账。101项定向测试、类型检查、构建、435文件源码复原、隔离桌面/390手机/英文表单以及公网47项只读验收通过；公网两份支付JS逐字节匹配最终程序。
+
+仅创建一笔新¥5真实待支付订单，服务端现金/到账快照、零手续费和未付款钱包不变已核实，HTTP到达支付宝官方收银页且含5.00。**尚未实际付款，不能称回调/到账完整E2E通过。** 最初脚本误判可选currency后只读查回同一订单，未重复建单。[交付与边界](deploy/sub2api/UX8-PAYGO-20261012.md) · [机器证据](lab/sub2api_e2e/ux8-paygo-20261012.json) · [保留失败的采样](lab/sub2api_e2e/ux8-production-observation-20261012.json)。下方UX7及更早记录为历史。
+
 ## 2026-10-12 00:13 CST — UX7 ACTIVE; native Alipay checkout verified
 
 **Live is `realyu-singlecore-v0.2.15-20261011-ux7`.** Authorized operation `native-ux7-20261011-r3` completed ACTIVE at 2026-10-11 23:57:05.436 CST; the admission gate lasted **31.316 seconds**. The actual manifest/SCM EXE matches source `f9941441e79062ae860b1cc0f429656c0e9c4ed3` and SHA256 `0734fee22619df881f7a014b4383df17e1a9310e5a467627a691741aa21e02c4`. Reviewed migrations 309/310 completed, **302 total**. Same PostgreSQL authority and Redis; no DB restore, legacy restart, wallet rewrite or network change. [Release receipt](lab/sub2api_e2e/ux7-production-20261012.json).

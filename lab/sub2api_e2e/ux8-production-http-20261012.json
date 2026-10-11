@@ -1,0 +1,1380 @@
+{
+  "status": "PASS",
+  "expected_version": "realyu-singlecore-v0.2.15-20261012-ux8",
+  "expected_binary_sha256": "e826cb76da7fd1528ad874fc77e2bc7860d292680e237fb35aeff9ce19ebcfb0",
+  "runner_sha256": "c9bbd5f2668664f84d4e0b99fec25bbb7e9befc3dc1bd699a03f09d473a2cba8",
+  "started_at": "2026-10-11T16:37:22.553325+00:00",
+  "checks": [
+    {
+      "name": "local-exact-version",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-exact-version",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-exact-version",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-/home?lang=zh",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-/home?lang=en",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-/docs?lang=zh",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-/docs?lang=en",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-/pricing?lang=zh",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-/pricing?lang=en",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-anonymous-history",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-anonymous-/summary",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-anonymous-/trend",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-/home?lang=zh",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-/home?lang=en",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-/docs?lang=zh",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-/docs?lang=en",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-/pricing?lang=zh",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-/pricing?lang=en",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-anonymous-history",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-anonymous-/summary",
+      "status": "PASS"
+    },
+    {
+      "name": "proxy-anonymous-/trend",
+      "status": "PASS"
+    },
+    {
+      "name": "platform-fixed-list-summary-local-public-day-hour",
+      "status": "PASS"
+    },
+    {
+      "name": "self-fixed-list-summary-local-public-day-hour",
+      "status": "PASS"
+    },
+    {
+      "name": "personal-fixed-list-summary-local-public-day-hour",
+      "status": "PASS"
+    },
+    {
+      "name": "immutable-31291-platform-archive",
+      "status": "PASS"
+    },
+    {
+      "name": "forbidden-scope-filter-user_id",
+      "status": "PASS"
+    },
+    {
+      "name": "forbidden-scope-filter-team_id",
+      "status": "PASS"
+    },
+    {
+      "name": "personal-is-subset-of-self",
+      "status": "PASS"
+    },
+    {
+      "name": "actual-team-1-full-member-summary-nickname",
+      "status": "PASS"
+    },
+    {
+      "name": "actual-team-2-full-member-summary-nickname",
+      "status": "PASS"
+    },
+    {
+      "name": "actual-team-3-full-member-summary-nickname",
+      "status": "PASS"
+    },
+    {
+      "name": "customer-cny-and-reference-usd",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-manageable-team-1-exact-scope-projection",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-manageable-team-2-exact-scope-projection",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-manageable-team-3-exact-scope-projection",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-list-anonymous-401",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-list-forbidden-user_id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-list-forbidden-member_id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-list-duplicate-team-id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-summary-anonymous-401",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-summary-forbidden-user_id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-summary-forbidden-member_id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-summary-duplicate-team-id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-trend-anonymous-401",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-trend-forbidden-user_id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-trend-forbidden-member_id",
+      "status": "PASS"
+    },
+    {
+      "name": "ux7-team-trend-duplicate-team-id",
+      "status": "PASS"
+    }
+  ],
+  "http": [
+    {
+      "route": "local",
+      "path": "/api/status",
+      "probe_id": "336850ed11674d1ebf5555b37a5a4422",
+      "at": "2026-10-11T16:37:26.753940+00:00",
+      "http_status": 200,
+      "bytes": 154,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "6a14e586-ff18-4baa-8655-96656d96d344",
+      "seconds": 0.0,
+      "body_sha256": "c16b8f3a80779d4d468686e634a3e9e6a0eed206e1c1ff3f5c2811d6202508b1"
+    },
+    {
+      "route": "direct",
+      "path": "/api/status",
+      "probe_id": "ba3f350078b74b029413ca25905e4a10",
+      "at": "2026-10-11T16:37:26.763488+00:00",
+      "http_status": 200,
+      "bytes": 154,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a1f3b57d4fa-CDG",
+      "request_id": "e019cf7f-6929-46fd-8651-e3ff304a10d8",
+      "seconds": 1.078,
+      "body_sha256": "c16b8f3a80779d4d468686e634a3e9e6a0eed206e1c1ff3f5c2811d6202508b1"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/status",
+      "probe_id": "3123f1c183eb428d8bb2d709b51ee383",
+      "at": "2026-10-11T16:37:27.845494+00:00",
+      "http_status": 200,
+      "bytes": 154,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a22ba0dafdd-SIN",
+      "request_id": "5186db44-588c-491d-b3ca-65dd7a81bdb9",
+      "seconds": 0.39,
+      "body_sha256": "c16b8f3a80779d4d468686e634a3e9e6a0eed206e1c1ff3f5c2811d6202508b1"
+    },
+    {
+      "route": "direct",
+      "path": "/home?lang",
+      "probe_id": "dabc37da4a144e1196e59c0d3a71c3d8",
+      "at": "2026-10-11T16:37:28.238383+00:00",
+      "http_status": 200,
+      "bytes": 8380,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a28286b1ef2-LHR",
+      "request_id": "230e8342-5485-4ec2-a545-e2c309695b01",
+      "seconds": 1.094,
+      "body_sha256": "9c732193032ae994cb473f1c5e16f0a0ca5c67183fd459d9ba7e41a4d044dcb0"
+    },
+    {
+      "route": "direct",
+      "path": "/home?lang",
+      "probe_id": "079674eebfb94f7bbdb52fc9fba99d1f",
+      "at": "2026-10-11T16:37:29.341979+00:00",
+      "http_status": 200,
+      "bytes": 8378,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a2f0f4a50d5-LHR",
+      "request_id": "18068052-5e7a-4a7e-b449-884811b38c0d",
+      "seconds": 1.375,
+      "body_sha256": "7d2bcce61164b6a05827ab44debe93d44fc5ef07a48811335031d22f84c7cb81"
+    },
+    {
+      "route": "direct",
+      "path": "/docs?lang",
+      "probe_id": "5938660ec7d4484884693656f805d972",
+      "at": "2026-10-11T16:37:30.720626+00:00",
+      "http_status": 200,
+      "bytes": 8829,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a37c9b92a05-CDG",
+      "request_id": "b6300a8d-0aee-4d9a-b78d-70a3f0a2e5b6",
+      "seconds": 1.062,
+      "body_sha256": "da2cafffa2f0391c62552a9fd675f4b1f945236199bdac601ac4a2e079fc86df"
+    },
+    {
+      "route": "direct",
+      "path": "/docs?lang",
+      "probe_id": "2b0856135a8748d9bbc759645071d023",
+      "at": "2026-10-11T16:37:31.770774+00:00",
+      "http_status": 200,
+      "bytes": 9348,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a3e3a384e47-AMS",
+      "request_id": "6e375dba-6990-4a87-aaed-4fd5b15bc27d",
+      "seconds": 1.36,
+      "body_sha256": "0da928006f52a5be9f06c8542bf97f285a0a4f901fe74176865b8891fe810487"
+    },
+    {
+      "route": "direct",
+      "path": "/pricing?lang",
+      "probe_id": "b61943e2b5a94427a8f183a107c9f225",
+      "at": "2026-10-11T16:37:33.134168+00:00",
+      "http_status": 200,
+      "bytes": 8302,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a469af8345d-LHR",
+      "request_id": "fbeaba6e-7255-4e0d-be6e-a17aaf9b0a0f",
+      "seconds": 1.343,
+      "body_sha256": "315391488cf400b804f6fa27bbb3a7515b940803df4849f78b159f6ee84f23fc"
+    },
+    {
+      "route": "direct",
+      "path": "/pricing?lang",
+      "probe_id": "241120a0bf0248528ac611545a3ed8a4",
+      "at": "2026-10-11T16:37:34.483183+00:00",
+      "http_status": 200,
+      "bytes": 8264,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a4f2e5fef39-LHR",
+      "request_id": "55e8cab7-535b-42f6-8952-62ae2f849b29",
+      "seconds": 1.047,
+      "body_sha256": "6169ec0ffa29dceba776cc1ebce3e0586df69e9fec11033bdd0ca2cb09a606a0"
+    },
+    {
+      "route": "direct",
+      "path": "/api/v1/realyu/usage",
+      "probe_id": "1962847c63ea4db4bbacbea0dac6b0a6",
+      "at": "2026-10-11T16:37:35.533616+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a5b9e43e913-LHR",
+      "request_id": "9418afcb-ce1e-4f45-a72f-97bcb87547b1",
+      "seconds": 2.578,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "direct",
+      "path": "/api/v1/realyu/usage/summary",
+      "probe_id": "3db375ee4e174639ba240fcce284de12",
+      "at": "2026-10-11T16:37:38.112531+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a6ccdfad1b8-LHR",
+      "request_id": "7b3e6cd8-c85e-4309-9c23-3facdd440fb7",
+      "seconds": 2.5,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "direct",
+      "path": "/api/v1/realyu/usage/trend",
+      "probe_id": "5335fddb8cab48ea83c9e3b6c96d1029",
+      "at": "2026-10-11T16:37:40.612891+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a74da1e0198-CDG",
+      "request_id": "5e1a47f1-befc-4a18-b019-c30d56fb8cf6",
+      "seconds": 0.938,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "proxy",
+      "path": "/home?lang",
+      "probe_id": "0d169b8517ac4e9b932efa9b76f27e18",
+      "at": "2026-10-11T16:37:41.536032+00:00",
+      "http_status": 200,
+      "bytes": 8380,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a78dd9a3912-SIN",
+      "request_id": "32428bf0-ae68-4ae6-a818-50b4a18950bc",
+      "seconds": 0.406,
+      "body_sha256": "e4b4bd5ad1689f8d3a10d4401a6be9df05f285a6d0f5f4a0df8837fab3ddcb8d"
+    },
+    {
+      "route": "proxy",
+      "path": "/home?lang",
+      "probe_id": "b72e39b1448d42de82a690541657d70c",
+      "at": "2026-10-11T16:37:41.953840+00:00",
+      "http_status": 200,
+      "bytes": 8378,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a7b5fa00655-HKG",
+      "request_id": "d29baefa-133f-4acf-878c-a1e69465a297",
+      "seconds": 0.531,
+      "body_sha256": "0fbad7c3f413801f5352afa87210459d4d5a5dff1fa48cf5c41c1f141a0388f4"
+    },
+    {
+      "route": "proxy",
+      "path": "/docs?lang",
+      "probe_id": "50af7b3cf40e4813bedde1720a30d52e",
+      "at": "2026-10-11T16:37:42.482340+00:00",
+      "http_status": 200,
+      "bytes": 8829,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a7efee106b9-HKG",
+      "request_id": "c907f126-1626-45ae-b185-300bdf607d63",
+      "seconds": 0.563,
+      "body_sha256": "4e23e26a6a327e805b84bc79488ce86c87fd2ebc74c37e80892bd6e8574381b7"
+    },
+    {
+      "route": "proxy",
+      "path": "/docs?lang",
+      "probe_id": "eb528108dbfa4f088a185e62e15c51a9",
+      "at": "2026-10-11T16:37:43.041873+00:00",
+      "http_status": 200,
+      "bytes": 9348,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a824dda848e-HKG",
+      "request_id": "86d7401e-b0df-41a4-8ae7-bc1fc7aa0871",
+      "seconds": 0.719,
+      "body_sha256": "19b57fc54974b5326d1bce6199670cb4f918a3352aa13f6479138afa165c46dc"
+    },
+    {
+      "route": "proxy",
+      "path": "/pricing?lang",
+      "probe_id": "ea38f4c070be48ac90326e01181d5273",
+      "at": "2026-10-11T16:37:43.759517+00:00",
+      "http_status": 200,
+      "bytes": 8302,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a862a307373-SIN",
+      "request_id": "6e9edd64-8b0a-40b9-bfaf-729426a1e268",
+      "seconds": 0.609,
+      "body_sha256": "12b7c86cdffde2ffa0d8a94914bedf1faf4325ab70ed5d8611ffa6584e25ecf1"
+    },
+    {
+      "route": "proxy",
+      "path": "/pricing?lang",
+      "probe_id": "9594acb5b67540dd923c10083a31f95d",
+      "at": "2026-10-11T16:37:44.370408+00:00",
+      "http_status": 200,
+      "bytes": 8264,
+      "content_type": "text/html; charset=utf-8",
+      "cf_ray": "a48f4a8a6cd85fce-SIN",
+      "request_id": "87cc082d-02ee-40a7-9695-5a323094cccd",
+      "seconds": 0.375,
+      "body_sha256": "22a88e45a43315401474270a2984382fa0abf152cbbfb5a90943880275a4138c"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage",
+      "probe_id": "bac5250966e147e0b1ed8a76370fdc90",
+      "at": "2026-10-11T16:37:44.751233+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a8d9dda0397-HKG",
+      "request_id": "1c5ce806-4520-47bb-b99d-8d2a4a5e57a8",
+      "seconds": 0.563,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary",
+      "probe_id": "c1eb3fe6a0a8459398a4aec5d858e4de",
+      "at": "2026-10-11T16:37:45.308225+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a900df28bc5-SIN",
+      "request_id": "1f129432-11aa-4dbd-ae29-df4f0f305786",
+      "seconds": 0.453,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend",
+      "probe_id": "a0cc09c3986846df9cebafa6f1a53790",
+      "at": "2026-10-11T16:37:45.761250+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a929877ce43-SIN",
+      "request_id": "efaf259e-cc66-4ae5-bf3d-ad37686405e7",
+      "seconds": 0.281,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/auth/login",
+      "probe_id": "0647d59b9b6e46c4a631456d2264338c",
+      "at": "2026-10-11T16:37:46.048436+00:00",
+      "http_status": 200,
+      "bytes": 1229,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a95287c603b-SIN",
+      "request_id": "c18f8daa-0208-4532-98df-5d9ca3903710",
+      "seconds": 0.469
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&page_size&scope&start&tz",
+      "probe_id": "f8062010da74414b87a5be5b4b2c6437",
+      "at": "2026-10-11T16:37:46.518926+00:00",
+      "http_status": 200,
+      "bytes": 1167,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a979c55f9e6-SIN",
+      "request_id": "38fac0fd-17af-4c66-84b7-1cfa26afd5ab",
+      "seconds": 0.484,
+      "body_sha256": "287358a98a7ba8ee80783f88fac2b0fa2f2d4f733c124f3d05e96913438332fe"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&tz",
+      "probe_id": "b781e86d0c474722b5ff263dc498a8e7",
+      "at": "2026-10-11T16:37:46.989410+00:00",
+      "http_status": 200,
+      "bytes": 938,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a9a8bc19b91-SIN",
+      "request_id": "8c698167-b855-4d56-a3b7-715e01562857",
+      "seconds": 0.438,
+      "body_sha256": "725214c9ecc884e5916100764b2ea07d79e618116485efbade1b8e561661584c"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "f2bdc3a0ade9491fbc5dae1a1a7a49ce",
+      "at": "2026-10-11T16:37:47.433344+00:00",
+      "http_status": 200,
+      "bytes": 8500,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "48849678-b083-404e-97c4-072180533ca8",
+      "seconds": 0.125,
+      "body_sha256": "feb36ed0c3e98a7e997b3bc804cb6d987f65d5a649ee9b2e534257c516c6988f"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "93eb65f4d0694981b6cb89244f30e74e",
+      "at": "2026-10-11T16:37:47.552097+00:00",
+      "http_status": 200,
+      "bytes": 115887,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "a0a0105c-33e4-42a3-a988-9acbcb8cf095",
+      "seconds": 0.218,
+      "body_sha256": "bc9e0c36cae69f463a734fae5404c9d14401586539255293afe225ceae77cc2c"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "39e2c6c1e3fe4a888a025da837ac9c20",
+      "at": "2026-10-11T16:37:47.772011+00:00",
+      "http_status": 200,
+      "bytes": 8500,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4a9f184d5cd5-SIN",
+      "request_id": "63525e72-d2b6-4e73-803f-b217e8fb59ba",
+      "seconds": 0.469,
+      "body_sha256": "95e68eebc52cca3ecce13aaa48aa5e661770359a437dade6a8bd7f595c3826f9"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "bcd040217ff940988bf5861f93103789",
+      "at": "2026-10-11T16:37:48.238407+00:00",
+      "http_status": 200,
+      "bytes": 115887,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4aa29c7d882e-HKG",
+      "request_id": "e56928f6-99eb-425e-b904-6a16e55a8e51",
+      "seconds": 0.594,
+      "body_sha256": "f4932ade81db7550c1cc8d368e6c2645b0b4aa8ec81552f6de1a785e3b83997d"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&page_size&scope&start&tz",
+      "probe_id": "cecee1096a804d099097a94da1ee789d",
+      "at": "2026-10-11T16:37:48.849465+00:00",
+      "http_status": 200,
+      "bytes": 1180,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4aa5c91606b6-SIN",
+      "request_id": "1061f9c6-889c-49c1-9162-dbf238d80f4f",
+      "seconds": 0.313,
+      "body_sha256": "176c4a5e8cdbced18949103a000c118cf6c5747a20af26ae14ee95c803568f4d"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&tz",
+      "probe_id": "82b85fe1d0f242009f01fae8afccaa5d",
+      "at": "2026-10-11T16:37:49.172067+00:00",
+      "http_status": 200,
+      "bytes": 920,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4aa83db5ce65-SIN",
+      "request_id": "902681b3-c4a9-4d19-a6b3-16ac27fe1a63",
+      "seconds": 0.359,
+      "body_sha256": "acaed15ba3c23e77ba301d2c4006f4261fadf2cbf4741fa1a351b96ab6f5ccdc"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "42a1ed84cfa04c8482a83e606d2e5db8",
+      "at": "2026-10-11T16:37:49.532974+00:00",
+      "http_status": 200,
+      "bytes": 5511,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "83e4ccde-a218-4656-9ccd-19dd38387bda",
+      "seconds": 0.032,
+      "body_sha256": "a72f9312d8e8e049d956d507a43bc6de43f728e556328ab937485955e72a8b6b"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "7bb5cad6b6a44460acc914ee42c1c535",
+      "at": "2026-10-11T16:37:49.565953+00:00",
+      "http_status": 200,
+      "bytes": 21604,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "e899e601-8632-4b16-8e38-26846cfad0ea",
+      "seconds": 0.046,
+      "body_sha256": "1510264f00808fe8728e8c12b9f01234ca52579c9388c170bc32162a0dbdc6c4"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "bd76ff7a4c8a4e38a3797d997ba9d553",
+      "at": "2026-10-11T16:37:49.603471+00:00",
+      "http_status": 200,
+      "bytes": 5511,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4aaaa827a39b-SIN",
+      "request_id": "64fbf9df-0978-4b2e-9b84-caa75f2df8b4",
+      "seconds": 0.344,
+      "body_sha256": "a2a278a47d1a8daae29a8f98b8496fb2e9d7bd981f6a4b7cbd230f3bca156e39"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "5300da0d0ce7462ab25be30d548e80d0",
+      "at": "2026-10-11T16:37:49.949211+00:00",
+      "http_status": 200,
+      "bytes": 21604,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4aad1d3bfdea-SIN",
+      "request_id": "e1720896-3e66-48f8-911b-02edce912d80",
+      "seconds": 0.485,
+      "body_sha256": "c6da7c9acd00aa96c8a73c0944975f51321e18e72d1f4537e6e435d308f3b877"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&page_size&scope&start&tz",
+      "probe_id": "4aedc4cdb9ce4d3286209162d3363b4e",
+      "at": "2026-10-11T16:37:50.434816+00:00",
+      "http_status": 200,
+      "bytes": 1178,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4aafdfd09c35-SIN",
+      "request_id": "b0e6541f-3c1c-418e-bc36-869df16c3b00",
+      "seconds": 0.375,
+      "body_sha256": "b539a3048fbb13926dcd42a252e84f54ff07640bc091cab66a8f60ea12573a49"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&tz",
+      "probe_id": "67915e7eb8054681806bf776a2bdfe3d",
+      "at": "2026-10-11T16:37:50.806240+00:00",
+      "http_status": 200,
+      "bytes": 919,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ab29fdece32-SIN",
+      "request_id": "f89d72ca-39fe-425e-9970-b97545cfec69",
+      "seconds": 0.375,
+      "body_sha256": "7724c5953e469c6abbef4734fab53a684dd1a4e85a9c4b620ad8504a300e5ffe"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "e94c2b3d220041dea9c6ebe6d5a4d5bc",
+      "at": "2026-10-11T16:37:51.180385+00:00",
+      "http_status": 200,
+      "bytes": 4300,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "0e39033e-e55b-40af-82d4-474865cf61b4",
+      "seconds": 0.015,
+      "body_sha256": "c6b56df8582cb436776547cb5d251f03afccc905b349518c85a764331c6354db"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "7b42f302d7534981b21152f5bfbdabe5",
+      "at": "2026-10-11T16:37:51.204519+00:00",
+      "http_status": 200,
+      "bytes": 11543,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "ec5eb86d-5daa-48fc-a7fa-b2aa9ff048b4",
+      "seconds": 0.031,
+      "body_sha256": "90be79ca857e6622fd96e96bae8cef33555d4f9f8f1fabb180f94c2155a95fe7"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "ef86ba9e5ec3481a81131f180a46191c",
+      "at": "2026-10-11T16:37:51.236599+00:00",
+      "http_status": 200,
+      "bytes": 4299,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ab4ebaca11e-SIN",
+      "request_id": "adf56099-d172-4621-820d-9b29ca5c7225",
+      "seconds": 0.391,
+      "body_sha256": "4bf97893910fa58122cc449c201cb6458c9593504c6a8f99df1fa45463302e93"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&tz",
+      "probe_id": "2799532dc1fe464f9249fb7b7f193c90",
+      "at": "2026-10-11T16:37:51.621306+00:00",
+      "http_status": 200,
+      "bytes": 11543,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ab7adc7a988-SIN",
+      "request_id": "f883cbd8-4b87-4200-a474-a490a1bd0d46",
+      "seconds": 0.406,
+      "body_sha256": "bf71b608c924d9ebea7c141be5421f48eb39c0e673c1e392120a31b7387eddad"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?scope",
+      "probe_id": "c0c335d97260433898204c668ebd3f0d",
+      "at": "2026-10-11T16:37:52.034109+00:00",
+      "http_status": 200,
+      "bytes": 982,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4abaed1b84db-HKG",
+      "request_id": "4f5e3855-1ab1-4e35-9c10-f8f409cfcc58",
+      "seconds": 0.61,
+      "body_sha256": "773c39466c8ef19fe7cb94cf9f1654182590f6ec69347c186ddec41a7a16bb16"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&scope&start&tz&user_id",
+      "probe_id": "18b748004dc1461abf31ef54a7883c3c",
+      "at": "2026-10-11T16:37:52.640693+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4abdda1835b2-SIN",
+      "request_id": "eaf99691-e732-44b0-a995-85871c849339",
+      "seconds": 0.359,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&scope&start&team_id&tz",
+      "probe_id": "f63a3a1fc7114080b4885fce4a700261",
+      "at": "2026-10-11T16:37:53.002797+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ac05ecfab4f-SIN",
+      "request_id": "972eddcc-936d-402f-83ca-a5700c7701b8",
+      "seconds": 0.422,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams",
+      "probe_id": "2b52fdad9a4b4d0f909d0fa613991a76",
+      "at": "2026-10-11T16:37:53.416220+00:00",
+      "http_status": 200,
+      "bytes": 456,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ac2ec3fd837-SIN",
+      "request_id": "ce060d8a-b27b-4130-9e7c-0d035215a445",
+      "seconds": 0.391,
+      "body_sha256": "3218b37b113f2d783d7fbb7a3edbfac5a784e82e4f25ee36807970acad86de2d"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}",
+      "probe_id": "719a58aaa07b448a89ac9fcc1d1d914e",
+      "at": "2026-10-11T16:37:53.811769+00:00",
+      "http_status": 200,
+      "bytes": 1361,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ac4fd2a8f82-SIN",
+      "request_id": "cdff5c5f-1819-4e69-9b87-626ac1485d10",
+      "seconds": 0.328,
+      "body_sha256": "bf9218bf9a2406483b61b848145cd02060cd5a9f3273e2b96e514300bc4f1023"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "e1e0dce995234f1891cb80926fc22d7d",
+      "at": "2026-10-11T16:37:54.136666+00:00",
+      "http_status": 200,
+      "bytes": 9156,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ac6dbd59610-SIN",
+      "request_id": "156e2736-4f0c-4ba9-bd9b-594dc74c0058",
+      "seconds": 0.422,
+      "body_sha256": "b32ebb5660d37b1725d9a3e625dfc2553ac08c48639036ef923dcaaa31c27016"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "27384811ea3f4404b3e85d57c502fcd6",
+      "at": "2026-10-11T16:37:54.553957+00:00",
+      "http_status": 200,
+      "bytes": 9150,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "e501992d-ca32-4b79-a64e-245659f8ce28",
+      "seconds": 0.046,
+      "body_sha256": "87cc7b4892872a49dc7426291434786800d1cbd72d12a1079303719440e988d8"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}",
+      "probe_id": "287655e0cac44bfe91318f0b63cb2707",
+      "at": "2026-10-11T16:37:54.605178+00:00",
+      "http_status": 200,
+      "bytes": 7167,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4acb4b048553-HKG",
+      "request_id": "1845a43f-e5ab-410b-94ea-2afd08ff40f7",
+      "seconds": 0.625,
+      "body_sha256": "e29ddfef4f349b87fbb49eaa6aed79b35c3a46de6e7be83abc4368e146dc3925"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "36209b1166c94ca4b53cb215decccab6",
+      "at": "2026-10-11T16:37:55.236691+00:00",
+      "http_status": 200,
+      "bytes": 35602,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ace1a89fde2-SIN",
+      "request_id": "da339f26-4ff5-4536-adb8-a7691ce98a81",
+      "seconds": 0.454,
+      "body_sha256": "cd41652f37b81ec479834fdb8913f0a73a5ad830ae7d8327145f03185dcc80ad"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "887e9e886b5246409036d87e3eac9605",
+      "at": "2026-10-11T16:37:55.682481+00:00",
+      "http_status": 200,
+      "bytes": 35603,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "503bbf1c-429b-4b6b-bf59-975e66faddda",
+      "seconds": 0.093,
+      "body_sha256": "186a3bbd1019b82fec533947535e9903b806199bc66f1d5e7b512ce0f386803a"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}",
+      "probe_id": "e2081317c7e34d4da632013b27463473",
+      "at": "2026-10-11T16:37:55.770903+00:00",
+      "http_status": 200,
+      "bytes": 787,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ad13abafd2a-SIN",
+      "request_id": "c52c12c3-7416-4ac6-9996-2afc70d57892",
+      "seconds": 0.344,
+      "body_sha256": "cd577e3963a16ffa7b4f9c08a7e92b566655c8bdd206e5c7490475dce533e2a2"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "4b62315527d747709719245bca37a4bf",
+      "at": "2026-10-11T16:37:56.123383+00:00",
+      "http_status": 200,
+      "bytes": 1265,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ad3ac80fd2f-SIN",
+      "request_id": "d323e35e-ae7a-492c-ab44-965cc2339ebc",
+      "seconds": 0.359,
+      "body_sha256": "5eae94564bcce2ffbbe9658ee7c7cea33d3d5461cc31cf93f2d292fe255755f9"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "02f7619550714f719eac2abfa17808df",
+      "at": "2026-10-11T16:37:56.483841+00:00",
+      "http_status": 200,
+      "bytes": 1265,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "79e7e66b-5f4d-47c0-b54b-1baaee1d3134",
+      "seconds": 0.032,
+      "body_sha256": "078c3510d030749fdcb47cb75a3894353ee8a69b9166437ab2220b8d5c75a729"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/settings/public",
+      "probe_id": "1b14fbf089d14bd9aa91571ceccb834f",
+      "at": "2026-10-11T16:37:56.508556+00:00",
+      "http_status": 200,
+      "bytes": 2706,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ad678021095-HKG",
+      "request_id": "19a83e28-2d92-4af2-adc9-ec5b16eba0ba",
+      "seconds": 0.484,
+      "body_sha256": "1477e1a5d2ad7b10aa24515325df8dac67cada68c79357ab3e90fbcfc160fcc9"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/public-models",
+      "probe_id": "ca52e5b5c1ce4c04b03a70e211175901",
+      "at": "2026-10-11T16:37:57.000304+00:00",
+      "http_status": 200,
+      "bytes": 3330,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ad97f899a34-HKG",
+      "request_id": "9d30889e-44f2-48d8-825b-627a1fc7b63f",
+      "seconds": 0.547,
+      "body_sha256": "3d99264759d3a737259e430c8f852869984629f414b64a60d09e4b5ffc83db38"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&page&page_size&scope&start&team_id&tz",
+      "probe_id": "1a7625f09910420488cfa05e28658726",
+      "at": "2026-10-11T16:37:57.536269+00:00",
+      "http_status": 200,
+      "bytes": 1620,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4adc3c35f930-SIN",
+      "request_id": "18d4e1a8-8cfe-4dd5-85f5-caf6e8bc8e87",
+      "seconds": 0.328,
+      "body_sha256": "f4f2cddf11b0329a597bd84a36e9ed415e2b84e0073808e1ba395279b46998f1"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "e95e6d822762467593874f9cc479e599",
+      "at": "2026-10-11T16:37:57.872811+00:00",
+      "http_status": 200,
+      "bytes": 9487,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4adebf39a1b5-SIN",
+      "request_id": "e7c72036-f8e8-4f0c-8a58-8e8415d54f24",
+      "seconds": 0.438,
+      "body_sha256": "104e75f6ed47d896517941c9a7c3e6525997368b10cbdae0c137d86cee5250a7"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&team_id&tz",
+      "probe_id": "fdc0f8b38fc3458e8079a296551ca4b8",
+      "at": "2026-10-11T16:37:58.311906+00:00",
+      "http_status": 200,
+      "bytes": 934,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ae1591a1ecc-SIN",
+      "request_id": "b639ebd7-ea44-4fd3-817d-b9c4598bb2c3",
+      "seconds": 0.39,
+      "body_sha256": "0537b84326a04453c6da32d0775a9691440259ac3970c24104784d29b049dcb5"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&team_id&tz",
+      "probe_id": "1b200ea9151c4c52957bc10c49630462",
+      "at": "2026-10-11T16:37:58.702186+00:00",
+      "http_status": 200,
+      "bytes": 7607,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "a1520821-f183-4d97-9224-107206f3daa1",
+      "seconds": 0.047,
+      "body_sha256": "ebb39a3d95173bb93045373acbc93f25e887a5a0cfb4db2bf66f326930286fdc"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&team_id&tz",
+      "probe_id": "e9558b1f69c345fea7eb372ed9f0874a",
+      "at": "2026-10-11T16:37:58.741570+00:00",
+      "http_status": 200,
+      "bytes": 49115,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ae43f5bce2e-SIN",
+      "request_id": "f3dbd91a-9725-44e8-9a9e-2d4a671afc36",
+      "seconds": 0.406,
+      "body_sha256": "b2aa72e719d47f5a2d0fbe879069653b540b494141af8076cc915d1622ab1a56"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&page&page_size&scope&start&team_id&tz",
+      "probe_id": "809bd15813ec40828d555739ef148a4d",
+      "at": "2026-10-11T16:37:59.152360+00:00",
+      "http_status": 200,
+      "bytes": 1627,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ae6cc598475-HKG",
+      "request_id": "ea2991fe-b619-4190-b0e1-56a9ca13421c",
+      "seconds": 0.516,
+      "body_sha256": "ac3da1b99e8fcd7646d87986468be5790d69c8dfeefdde55a62dffca6b48d857"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "84e183e1428a43708e7a88592f09a274",
+      "at": "2026-10-11T16:37:59.665093+00:00",
+      "http_status": 200,
+      "bytes": 35935,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4ae9cddd9c69-SIN",
+      "request_id": "256b3583-8283-4bf9-942e-071b2331816e",
+      "seconds": 0.453,
+      "body_sha256": "25bcf049d3f26230f9a96952e4dbfb0721267665e52a6dde9b88661017c5b34d"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&team_id&tz",
+      "probe_id": "6d3ea736860e4de0b28dc042fb4767ae",
+      "at": "2026-10-11T16:38:00.119554+00:00",
+      "http_status": 200,
+      "bytes": 943,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4aecaeb6ef6e-SIN",
+      "request_id": "9c44dbdb-187a-427c-9541-f3ce70ba358a",
+      "seconds": 0.406,
+      "body_sha256": "c367bebcf582f0998ca97a215873ba35d72db4da7d989f6d4ef02a26dbe36ee0"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&team_id&tz",
+      "probe_id": "4800418a904942c4be888d429c53acd0",
+      "at": "2026-10-11T16:38:00.526183+00:00",
+      "http_status": 200,
+      "bytes": 6456,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "b2339405-eb9e-4346-95a0-482bafb53280",
+      "seconds": 0.047,
+      "body_sha256": "888e89632ef7cee9c68a1efee47ee9fb02156a6332c89ad5e994003cd626eac5"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&team_id&tz",
+      "probe_id": "af85fb0341f24ad5b5db1801d63a5750",
+      "at": "2026-10-11T16:38:47.505427+00:00",
+      "http_status": 200,
+      "bytes": 54025,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c152f1e20f9-HKG",
+      "request_id": "4bb79b8d-aafa-48fc-86e3-9fdddd711fec",
+      "seconds": 0.547,
+      "body_sha256": "5f690c6423e79bb03c6984ce2dfcba9a50d6c3443a602e746acb3e25b6faf803"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&page&page_size&scope&start&team_id&tz",
+      "probe_id": "00cc40aeaed641b0947ce70cf8fb7e83",
+      "at": "2026-10-11T16:38:48.053919+00:00",
+      "http_status": 200,
+      "bytes": 1594,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c17d8b9fde0-SIN",
+      "request_id": "a2d522c6-bd12-4282-baad-276b5ffd6bf8",
+      "seconds": 0.296,
+      "body_sha256": "bdc26248170a4e1f02e95b6c46c00df68fd0136854b3e8a06fb75685aa06e9a8"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/teams/{id}/usage?end&page&page_size&start&tz",
+      "probe_id": "5fd25f809f8d406da13e16ccba68a3be",
+      "at": "2026-10-11T16:38:48.436379+00:00",
+      "http_status": 200,
+      "bytes": 1603,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c1a5f916198-SIN",
+      "request_id": "ab6d3855-4f20-484c-99a0-0a98ff668fce",
+      "seconds": 0.406,
+      "body_sha256": "8959f994d9ad4d651eb7d5049bac03978708d2c3c1f94d92afab71a0b7df694e"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&team_id&tz",
+      "probe_id": "2cdbf45031bd452e84dd758637df0762",
+      "at": "2026-10-11T16:38:48.844962+00:00",
+      "http_status": 200,
+      "bytes": 901,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c1cc88fa110-SIN",
+      "request_id": "2ac81e9e-3fc3-4dc5-be63-7f33ba9a0e2c",
+      "seconds": 0.312,
+      "body_sha256": "3ce170f4b921795d9cba05dda3d60a0a749ef0822127dd9b4b19967830fb168b"
+    },
+    {
+      "route": "local",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&team_id&tz",
+      "probe_id": "92f178d1ff594442be8776308f81a53e",
+      "at": "2026-10-11T16:38:49.148119+00:00",
+      "http_status": 200,
+      "bytes": 1163,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": null,
+      "request_id": "dad6eb7c-2ef0-40cd-b872-3697b1234ad2",
+      "seconds": 0.0,
+      "body_sha256": "5e3cef18bd7f390179dde61b1b00bb3221e243ba5609ee03c7face16f899f8fe"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&granularity&scope&start&team_id&tz",
+      "probe_id": "b18cc1cf4a154dbb9da14fd835f31a8b",
+      "at": "2026-10-11T16:38:49.254711+00:00",
+      "http_status": 200,
+      "bytes": 1164,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c1f7b5f5fa9-SIN",
+      "request_id": "973094be-f398-49b5-b535-0a45c68392e5",
+      "seconds": 0.406,
+      "body_sha256": "64126208d230e952507eda9fc291a30563e683d5cded135cfcce0968f96de97c"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&scope&start&team_id&tz",
+      "probe_id": "19bc6cd6125c4ffe80be459bc4ba08b5",
+      "at": "2026-10-11T16:38:49.677543+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c2288170965-HKG",
+      "request_id": "097ba800-1f01-47e7-90cb-9f4e7c0fac89",
+      "seconds": 0.515,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&scope&start&team_id&tz&user_id",
+      "probe_id": "a198e8feb0004ce6ac47adbab009b308",
+      "at": "2026-10-11T16:38:50.195800+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c25beba08f9-HKG",
+      "request_id": "c67bcd87-faaa-4775-8bdf-33fe72f52ffe",
+      "seconds": 0.422,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&member_id&scope&start&team_id&tz",
+      "probe_id": "7ce86cd730514f878ee86ee0d86034a6",
+      "at": "2026-10-11T16:38:50.620851+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c281a9e6026-SIN",
+      "request_id": "412cb2ad-ba2f-4c2d-b452-2acf120ed8a8",
+      "seconds": 0.359,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage?end&scope&start&team_id&tz",
+      "probe_id": "250e6061d6154614ac6f6e63000439f0",
+      "at": "2026-10-11T16:38:50.977267+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c2a3b4eb486-SIN",
+      "request_id": "f2d9342d-d9b8-4757-8819-7187262e2fd1",
+      "seconds": 0.297,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&team_id&tz",
+      "probe_id": "4930ace1691d424bbfc5f47d27209dc8",
+      "at": "2026-10-11T16:38:51.280867+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c2c099f527e-SIN",
+      "request_id": "9c55adc1-f31c-46ca-9f71-514084f4372d",
+      "seconds": 0.391,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&team_id&tz&user_id",
+      "probe_id": "209e223b49df4195bfb68af0d88170c0",
+      "at": "2026-10-11T16:38:51.673640+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c2e9ce40d49-SIN",
+      "request_id": "9a03aae3-4df8-47fd-9b6d-a406ab2b4d0d",
+      "seconds": 0.312,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&member_id&scope&start&team_id&tz",
+      "probe_id": "f88c8b4b37274e0caaebd2e89699d3ea",
+      "at": "2026-10-11T16:38:51.980135+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c309c22895e-SIN",
+      "request_id": "c0e8d350-ec04-45b3-b71a-8442446ae5b1",
+      "seconds": 0.344,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/summary?end&scope&start&team_id&tz",
+      "probe_id": "e3ff688209284fa78de88d6af5dfc0dd",
+      "at": "2026-10-11T16:38:52.327939+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c32b9a1a085-SIN",
+      "request_id": "06331c18-a4dd-4c15-9685-81ad93f72cbc",
+      "seconds": 0.36,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&scope&start&team_id&tz",
+      "probe_id": "fe115ae7cb6e438d902d5d5d94b4c864",
+      "at": "2026-10-11T16:38:52.682717+00:00",
+      "http_status": 401,
+      "bytes": 68,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c34cdb5fcf7-SIN",
+      "request_id": "0a2d7d91-f33f-4c76-a9d1-5cefdbdfeb6f",
+      "seconds": 0.296,
+      "body_sha256": "6abf9a96f79c7426b94f6772aeb0ce7e5908c6c2c908977917af15d078b49138"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&scope&start&team_id&tz&user_id",
+      "probe_id": "daf70388b57a41dbbe945eb3b980e6df",
+      "at": "2026-10-11T16:38:52.976569+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c372a3758c3-SIN",
+      "request_id": "b0a48be7-b1e2-43ac-91f5-fe20e6368b31",
+      "seconds": 0.422,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&member_id&scope&start&team_id&tz",
+      "probe_id": "1c4ec54c95234f55b1c7618afee0620a",
+      "at": "2026-10-11T16:38:53.399433+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c39fc2af51a-HKG",
+      "request_id": "b156fd9c-faff-41f8-99de-563c2a5ba249",
+      "seconds": 0.532,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    },
+    {
+      "route": "proxy",
+      "path": "/api/v1/realyu/usage/trend?end&scope&start&team_id&tz",
+      "probe_id": "f0182b5b203341f2b2eb769bf16b21fd",
+      "at": "2026-10-11T16:38:53.943242+00:00",
+      "http_status": 400,
+      "bytes": 45,
+      "content_type": "application/json; charset=utf-8",
+      "cf_ray": "a48f4c3d6bc3109a-HKG",
+      "request_id": "55434949-01b6-47c1-b2fe-f2ffb3afdb2a",
+      "seconds": 0.485,
+      "body_sha256": "60868ce713d3a090104700ab492108cdf51bb953691bf00bd0585709f729b0a6"
+    }
+  ],
+  "production_configuration_or_financial_mutations": false,
+  "database_accessed": false,
+  "model_requests": 0,
+  "customer_rows_or_credentials_exported": false,
+  "ordinary_user_live_authorization": "NOT_RUN_NO_EXISTING_CREDENTIALS",
+  "ordinary_user_reference": "isolated UX7 JWT team-scope acceptance; not a live-role claim",
+  "authenticated_request_pacing": "at most 40 requests per 61 seconds; no failed-request retry",
+  "live_process_identity": {
+    "executable_path_readable": true,
+    "proof": "listener executable path plus manifest binary SHA"
+  },
+  "manifest_binary_pin": "PASS",
+  "admin_login": "PASS",
+  "fixed_window": {
+    "start": "2026-09-11T16:00:00+00:00",
+    "end": "2026-10-11T16:00:00+00:00",
+    "tz": "Asia/Shanghai",
+    "end_exclusive": true,
+    "live_late_settlement_can_still_change_old_rows": true
+  },
+  "fixed_scope_checks": {
+    "platform": {
+      "requests": 33653,
+      "legacy_requests": 31291,
+      "native_requests": 2362,
+      "stats_sha256": "72f827f4a8add25c70715cb635accfafce759cdebfa73bd4ae1fc8786d6c3398",
+      "local_proxy_day_hour_equal": true
+    },
+    "self": {
+      "requests": 1346,
+      "legacy_requests": 1325,
+      "native_requests": 21,
+      "stats_sha256": "479b52d13601df272d3195dcf6784a8ac40321c73e594fe1e2d2c2d60c4af98c",
+      "local_proxy_day_hour_equal": true
+    },
+    "personal": {
+      "requests": 671,
+      "legacy_requests": 650,
+      "native_requests": 21,
+      "stats_sha256": "c0adb523c99be771e8037d3a707e66360adb16d88ba999e1d6a3a9592d60eeb2",
+      "local_proxy_day_hour_equal": true
+    }
+  },
+  "archive": {
+    "legacy_visible_requests": 31291,
+    "archive_complete": true,
+    "all_time_requests": 33679,
+    "native_requests": 2388,
+    "observed_at": "2026-10-11T16:37:52.640054+00:00"
+  },
+  "team_projection_count": 3,
+  "currency": {
+    "api_cost_unit": "USD",
+    "customer_display_unit": "CNY",
+    "usd_to_cny": "7",
+    "model_unit": "USD per million tokens",
+    "no_rebilling": true
+  },
+  "ux7_live_team_scope": {
+    "active_manageable_teams": 3,
+    "teams": [
+      {
+        "ordinal": 1,
+        "requests": 6369,
+        "legacy_requests": 6338,
+        "native_requests": 31,
+        "stats_sha256": "be7927f46d2c86cbf124d9ad85a6b5748602fb8ff1e211db2ecfbbfd4027b25e",
+        "member_count": 4,
+        "detail_samples": 2,
+        "detail_source_ids_sha256": "72a9ab0f3f3fc87b89a3b3773e8e674b6a72d3183363323ff89841a0a8282c4b",
+        "nickname_matches": 2,
+        "customer_identifiers_exported": false,
+        "summary_day_hour_exact": true
+      },
+      {
+        "ordinal": 2,
+        "requests": 19473,
+        "legacy_requests": 18179,
+        "native_requests": 1294,
+        "stats_sha256": "db9607e6e73db30bc6a6520b051c95cea2011ad4749082d894c9bb7218be857c",
+        "member_count": 28,
+        "detail_samples": 2,
+        "detail_source_ids_sha256": "9706ea958d93238f4afe612156c0df9e3964775f950babc686f38b4d7555f2aa",
+        "nickname_matches": 2,
+        "customer_identifiers_exported": false,
+        "summary_day_hour_exact": true
+      },
+      {
+        "ordinal": 3,
+        "requests": 3,
+        "legacy_requests": 3,
+        "native_requests": 0,
+        "stats_sha256": "a3c0d9c231bbfd9b288bfa721cbb513ed5325f3e59539483f2f1e5e208baa815",
+        "member_count": 1,
+        "detail_samples": 2,
+        "detail_source_ids_sha256": "a85f14ca3bba4a13ae6743bdff441a2039aa69ccbc5d1c84652b48c2fb90efc8",
+        "nickname_matches": 2,
+        "customer_identifiers_exported": false,
+        "summary_day_hour_exact": true
+      }
+    ],
+    "ordinary_member_live_403": "NOT_RUN_NO_EXISTING_CREDENTIALS",
+    "ordinary_member_reference": "isolated UX7 candidate JWT owner/admin/member/former tests",
+    "detail_limit_per_team": 2,
+    "full_range_statistics": true
+  },
+  "limits": [
+    "Ordinary-user live login/403 NOT_RUN: no existing authorized credentials; no forged JWT or account mutation",
+    "HTTP metadata/body hashes only; no customer rows, nicknames, identities, keys, tokens or full HTML exported",
+    "No model/SSE/WS/real payment/browser behavior in this read-only run",
+    "Fixed past window avoids current requests; a late settlement may still change a historical row between requests and needs review, never a silent retry",
+    "Login may update native authentication timestamps/session cache; no financial/configuration mutation is attempted"
+  ],
+  "checks_passed": 47,
+  "checks_total": 47,
+  "ended_at": "2026-10-11T16:38:54.430096+00:00"
+}

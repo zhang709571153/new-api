@@ -1,0 +1,188 @@
+{
+  "status": "ACTIVE_RECHARGE_OPEN_PAYMENT_NOT_EXECUTED",
+  "release": {
+    "status": "PASS_RECHARGE_OPEN_WAITING_FOR_REAL_PAYMENT",
+    "at": "2026-10-11T16:41:42.009778+00:00",
+    "version": "realyu-singlecore-v0.2.15-20261012-ux8",
+    "source_commit": "243338e47b12b460f46bf2842e89a40077cbbf78",
+    "binary_sha256": "e826cb76da7fd1528ad874fc77e2bc7860d292680e237fb35aeff9ce19ebcfb0",
+    "maintenance_seconds": 30.767748,
+    "environment_values_unchanged": true,
+    "migration_count": 302,
+    "database_migrations": false,
+    "recharge_enabled": true,
+    "checkout": {
+      "managed_recharge": true,
+      "balance_disabled": false,
+      "alipay_currency": "CNY",
+      "optional_available_absent": true
+    },
+    "live_assets": [
+      {
+        "path": "/assets/PaymentView-B477t0ey.js",
+        "sha256": "44ab10386c89cf9f2250cd7f02e7a80659f112557d3d6404ac618e0ef0c3ac40",
+        "matches_embedded_candidate": true
+      },
+      {
+        "path": "/assets/paymentFlow-CVAn-Co8.js",
+        "sha256": "859ab2f3e9380dab09386d58d4d65cfd90021f3bde2d3220755ce39cb87536d6",
+        "matches_embedded_candidate": true
+      }
+    ],
+    "native_test_order": {
+      "new_orders_created_this_task": 1,
+      "currency": "CNY",
+      "pay_amount": 5,
+      "fee_rate": 0,
+      "bonus_amount": 0,
+      "status": "PENDING",
+      "cash_snapshot_cny": 5,
+      "wallet_unchanged": true
+    },
+    "checks": [
+      {
+        "path": "/api/status",
+        "http_status": 200,
+        "sha256": "c16b8f3a80779d4d468686e634a3e9e6a0eed206e1c1ff3f5c2811d6202508b1",
+        "cf_ray": "a48f501f4bc7002e-LHR"
+      },
+      {
+        "path": "/api/v1/settings/public",
+        "http_status": 200,
+        "sha256": "1477e1a5d2ad7b10aa24515325df8dac67cada68c79357ab3e90fbcfc160fcc9",
+        "cf_ray": "a48f5025e871db78-CDG"
+      },
+      {
+        "path": "/api/v1/auth/login",
+        "http_status": 200,
+        "sha256": "123abfa410f3d0640830cd70ae64891b8a8b183b31bfd504c34f18a30ed9df95",
+        "cf_ray": "a48f50326acdecdb-LHR"
+      },
+      {
+        "path": "/api/v1/payment/checkout-info",
+        "http_status": 200,
+        "sha256": "6bb4fbe4461db488970842dd40a0bc57f7d834350b430c54de5c87ccbb3d6ff4",
+        "cf_ray": "a48f50392d1dd51e-CDG"
+      },
+      {
+        "path": "/api/v1/payment/orders/{test_order}",
+        "http_status": 200,
+        "sha256": "7f9c3abdff3506a374164071a9fbc2317c3bcd56f965771a674abd7c7078d5cc",
+        "cf_ray": "a48f50419a520b09-LHR"
+      },
+      {
+        "path": "/assets/PaymentView-B477t0ey.js",
+        "http_status": 200,
+        "sha256": "44ab10386c89cf9f2250cd7f02e7a80659f112557d3d6404ac618e0ef0c3ac40",
+        "cf_ray": "a48f5047f9de3075-LHR"
+      },
+      {
+        "path": "/assets/paymentFlow-CVAn-Co8.js",
+        "http_status": 200,
+        "sha256": "859ab2f3e9380dab09386d58d4d65cfd90021f3bde2d3220755ce39cb87536d6",
+        "cf_ray": "a48f5051698098d9-LHR"
+      }
+    ],
+    "payment_executed": false,
+    "fake_callback_sent": false,
+    "first_harness_failure": "Create-response currency is optional; original assertion failure preserved; read back the SAME order without another POST",
+    "limitations": [
+      "Actual payment, successful public callback and one-time credit still require real payment.",
+      "Production login was verified via native API; browser form and mobile/English visual checks used an isolated synthetic user and the exact same binary.",
+      "No model/SSE/WebSocket retest for this seven-file frontend-only fix."
+    ]
+  },
+  "plan_sha256": "1734205241f28e09f67009a8ea7f12bdcf1b76c2ec2b7d89026c57640b855426",
+  "active_at_cst": "2026-10-12T00:36:31.028671+08:00",
+  "frontend_tests": {
+    "passed": 101,
+    "files": 5,
+    "typecheck": "PASS",
+    "counts_by_suite": {
+      "PaymentView": 44,
+      "paymentFlow": 26,
+      "AmountInput": 13,
+      "RealYuPaygoCard": 15,
+      "localeKeyCompleteness": 3
+    },
+    "test_command": "pnpm exec vitest run <five named suites>; pnpm exec vue-tsc -b",
+    "raw_log": "Tool output; no raw log file claimed"
+  },
+  "source_reconstruction": {
+    "status": "PASS",
+    "source_commit": "243338e47b12b460f46bf2842e89a40077cbbf78",
+    "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+    "patch_sha256": "fbb51d5d69c64983ac1db1672b179f6ff28e7081a9d317d8a08232ce0dd04e4c",
+    "reconstructed_files": 435,
+    "checked_at": "2026-10-11T16:27:54.663531+00:00",
+    "private_runtime_included": false
+  },
+  "build": {
+    "version": "realyu-singlecore-v0.2.15-20261012-ux8",
+    "source_commit": "243338e47b12b460f46bf2842e89a40077cbbf78",
+    "binary": "C:\\srv\\realyu-singlecore-dev\\runtime\\sub2api-ux8-final-r1.exe",
+    "sha256": "e826cb76da7fd1528ad874fc77e2bc7860d292680e237fb35aeff9ce19ebcfb0",
+    "stages": [
+      {
+        "stage": "vite",
+        "exit_code": 0,
+        "seconds": 20.55,
+        "log": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux8-final-r1-vite.log"
+      },
+      {
+        "stage": "binary",
+        "exit_code": 0,
+        "seconds": 33.14,
+        "log": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux8-final-r1-binary.log"
+      }
+    ],
+    "production_changed": false
+  },
+  "browser": {
+    "environment": "isolated final binary, synthetic normal user; no merchant credentials",
+    "tool": "CUA",
+    "desktop": "PASS",
+    "mobile_viewport": "390x844",
+    "mobile_document_width": 382,
+    "mobile_scroll_width": 382,
+    "presets_cny": [
+      5,
+      20,
+      50,
+      100,
+      200
+    ],
+    "each_preset_payment_button_enabled": true,
+    "custom_amount_cny": 12.34,
+    "displayed_payment_cny": 12.34,
+    "displayed_credit_cny": 12.34,
+    "english": "PASS",
+    "production_authenticated_browser": "NOT_RUN_NO_EXISTING_SESSION",
+    "production_assets_match_same_binary": true,
+    "actual_payment_clicked": false
+  },
+  "cashier_http": {
+    "http_status": 200,
+    "final_host": "excashier.alipay.com",
+    "final_path": "/standard/auth.htm",
+    "cash_amount_cny": 5,
+    "signed_checkout_fields_valid": true,
+    "has_alipay_text": true,
+    "has_expected_amount": true,
+    "has_error_text": false,
+    "body_sha256": "ebb9828a34a00c2840f2ea42af91bedc023360fa29524efde0d796a2ded905b8"
+  },
+  "root_cause": "Native MethodLimits omits available; frontend incorrectly required available === true. Normalize absent to available, retain explicit false.",
+  "first_failures_preserved": [
+    "Isolated provider-create fixture expected 200 but native returned 201; reused the same synthetic provider.",
+    "Stale browser error tab was recovered with a new tab in the same browser; no site security warning bypass.",
+    "Real create-order harness asserted optional currency; same-order database and authenticated GET reconciliation passed; no second create POST."
+  ],
+  "limits": [
+    "Actual payment, successful public callback and one-time credit still require real payment.",
+    "Production login was verified via native API; browser form and mobile/English visual checks used an isolated synthetic user and the exact same binary.",
+    "No model/SSE/WebSocket retest for this seven-file frontend-only fix.",
+    "New five-CNY cashier verified by cookie-aware HTTP, not claimed as a new CUA QR-code test. Prior ten-CNY CUA evidence is historical.",
+    "Existing native global minimum is CNY 1; current form placeholder can show 0.01 when method minimum is zero. Server rejects below configured minimum; separate non-blocking UX follow-up."
+  ]
+}

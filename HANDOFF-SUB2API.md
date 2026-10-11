@@ -1,5 +1,9 @@
 # RealYu / Sub2API 部署与迁移交接
 
+## 2026-10-12 — 默认源码与线上为 UX8
+
+源码243338e，完整补丁435文件，修复充值缺货误判并加入5/20/50/100/200。源机已ACTIVE，完整库仍302项。按[LIVE](LIVE-DEPLOYMENT.md)、[UX8交付](deploy/sub2api/UX8-PAYGO-20261012.md)和[整站迁移](deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md)接手。支付已开放并有真实订单，不重跑旧关闭充值/无订单首发脚本。Git不包含生产密钥、订单或数据库。
+
 ## 2026-10-12 — UX7已ACTIVE，支付宝已恢复
 
 23:57:05 CST的r3已正式切换到UX7/f994144，实际EXE SHA为0734fee2开头的完整冻结值，维护31.316秒，现库302项migration。原生支付宝入口已开，真实¥10订单已取得官方扫码页；订单仍PENDING，实付到账尚未验收。见[LIVE实际回执](LIVE-DEPLOYMENT.md)、[支付宝测试基线](lab/sub2api_e2e/ux7-alipay-baseline-20261012.json)与[整站迁移入口](deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md)。

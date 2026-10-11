@@ -1,0 +1,159 @@
+{
+  "from_utc": "2026-10-11T16:36:31.028671+00:00",
+  "through_utc": "2026-10-11T16:44:23.127483+00:00",
+  "paths": {
+    "public-direct": {
+      "healthy": 48,
+      "total": 48,
+      "success_percent": 100.0
+    },
+    "public-via-local-proxy": {
+      "healthy": 48,
+      "total": 48,
+      "success_percent": 100.0
+    },
+    "backend": {
+      "healthy": 48,
+      "total": 48,
+      "success_percent": 100.0
+    },
+    "bridge": {
+      "healthy": 48,
+      "total": 48,
+      "success_percent": 100.0
+    },
+    "tunnel-primary": {
+      "healthy": 48,
+      "total": 48,
+      "success_percent": 100.0
+    },
+    "tunnel-replica": {
+      "healthy": 48,
+      "total": 48,
+      "success_percent": 100.0
+    }
+  },
+  "saved_rounds_after_active": 48,
+  "maximum_interval_seconds": 10.011978,
+  "freshness_at_read_seconds": 7.562,
+  "post_active_failures": [],
+  "maintenance_failures": [
+    {
+      "timestamp": "2026-10-11T16:36:03.101441+00:00",
+      "target": "public-direct",
+      "probe_id": "a31eb62dcfb54266abe0c3cdb7671774",
+      "http_status": 503,
+      "cf_ray": "a48f48148d247548-SEA",
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 1563,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:03.101441+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "fb3635f60aa34cf692ca54bf684b788f",
+      "http_status": 503,
+      "cf_ray": "a48f4811bc509c45-SIN",
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 438,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:03.101441+00:00",
+      "target": "bridge",
+      "probe_id": "8a70529146d54587b3a5e8d449c136ab",
+      "http_status": 503,
+      "cf_ray": null,
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 32,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:13.102837+00:00",
+      "target": "public-direct",
+      "probe_id": "ec07bcc350d04e628ba6468c11515974",
+      "http_status": 503,
+      "cf_ray": "a48f4852e86099ac-CDG",
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 1063,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:13.102837+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "80bcb309fbed4f53a667b7d5211e352a",
+      "http_status": 503,
+      "cf_ray": "a48f484fbbcf3f6f-SIN",
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 391,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:13.102837+00:00",
+      "target": "bridge",
+      "probe_id": "de53674e10694095b3ba92134ff6e600",
+      "http_status": 503,
+      "cf_ray": null,
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 47,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:23.112557+00:00",
+      "target": "public-direct",
+      "probe_id": "c7a75e6ab38d40f4864115c491b6e01d",
+      "http_status": 503,
+      "cf_ray": "a48f4890accd79b6-LHR",
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 1281,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:23.112557+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "886f5f10e08e42c8add8a3344149683c",
+      "http_status": 503,
+      "cf_ray": "a48f488e580ca3d5-SIN",
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 375,
+      "failure_stage": "http_contract"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:23.112557+00:00",
+      "target": "backend",
+      "probe_id": "9e47c26913824413b1e24e277e5c39a9",
+      "http_status": null,
+      "cf_ray": null,
+      "category": "connect",
+      "curl_exit": 7,
+      "duration_ms": 2063,
+      "failure_stage": "connect"
+    },
+    {
+      "timestamp": "2026-10-11T16:36:23.112557+00:00",
+      "target": "bridge",
+      "probe_id": "711f9102179246e993544b815657b8d7",
+      "http_status": 503,
+      "cf_ray": null,
+      "category": "http_503",
+      "curl_exit": 0,
+      "duration_ms": 31,
+      "failure_stage": "http_contract"
+    }
+  ],
+  "latest_ready_connections": {
+    "tunnel-primary": 4,
+    "tunnel-replica": 4
+  },
+  "existing_collector": true,
+  "new_probe_installed": false,
+  "limitations": "Same-host health contract samples; not inference, continuous availability, or a long-term stability guarantee."
+}

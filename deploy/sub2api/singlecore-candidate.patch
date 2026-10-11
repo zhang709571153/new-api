@@ -28396,10 +28396,25 @@ index f5c121199bafb02eeaeb4ebe1a11997dd8463596..b44f171d0a6e2aa98c84cebda78b6641
      { enabled: true, multiplier: 1, userRate: 0.05, expected: 1 },
      { enabled: true, multiplier: 0.5, userRate: null, expected: 0.5 },
 diff --git a/frontend/src/components/payment/AmountInput.vue b/frontend/src/components/payment/AmountInput.vue
-index a16029e94bf2ac1271a9d43423324641b6f1432d..b8a0adfa6b67beabf3a3508f2c269c3e53af6504 100644
+index a16029e94bf2ac1271a9d43423324641b6f1432d..bc2a7aa3d7ad7de27ab91cae2596bf28c835422d 100644
 --- a/frontend/src/components/payment/AmountInput.vue
 +++ b/frontend/src/components/payment/AmountInput.vue
-@@ -55,7 +55,7 @@
+@@ -5,7 +5,7 @@
+       <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+         {{ t('payment.quickAmounts') }}
+       </label>
+-      <div class="grid grid-cols-3 gap-x-4 gap-y-4 pt-2">
++      <div class="grid grid-cols-3 gap-3 pt-2" :class="{ 'sm:grid-cols-5': filteredAmounts.length === 5 }">
+         <button
+           v-for="amt in filteredAmounts"
+           :key="amt"
+@@ -50,14 +50,15 @@
+ 
+     <!-- Custom Amount Input -->
+     <div>
+-      <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
++      <label :for="customInputId" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+         {{ t('payment.customAmount') }}
        </label>
        <div class="relative">
          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-dark-500">
@@ -28407,8 +28422,16 @@ index a16029e94bf2ac1271a9d43423324641b6f1432d..b8a0adfa6b67beabf3a3508f2c269c3e
 +          {{ currencySymbol(currency) }}
          </span>
          <input
++          :id="customInputId"
            type="text"
-@@ -75,7 +75,7 @@ import { ref, computed, watch } from 'vue'
+           inputmode="decimal"
+           :value="customText"
+@@ -71,11 +72,11 @@
+ </template>
+ 
+ <script setup lang="ts">
+-import { ref, computed, watch } from 'vue'
++import { ref, computed, watch, useId } from 'vue'
  import { useI18n } from 'vue-i18n'
  import type { RechargeBonusTier } from '@/types/payment'
  import { formatRechargeBonusNumber, quoteRechargeBonus, type RechargeBonusMode } from '@/utils/rechargeBonus'
@@ -28417,6 +28440,14 @@ index a16029e94bf2ac1271a9d43423324641b6f1432d..b8a0adfa6b67beabf3a3508f2c269c3e
  
  const props = withDefaults(defineProps<{
    amounts?: number[]
+@@ -107,6 +108,7 @@ const emit = defineEmits<{
+ const { t } = useI18n()
+ 
+ const customText = ref('')
++const customInputId = useId()
+ 
+ // 0 = no limit
+ const filteredAmounts = computed(() =>
 diff --git a/frontend/src/components/payment/OrderTable.vue b/frontend/src/components/payment/OrderTable.vue
 index 4ae61e990eed8713d89e9dcb9f71d597b1d2064b..a5bd32c2873283475d94354500e5b05113f15828 100644
 --- a/frontend/src/components/payment/OrderTable.vue
@@ -28893,6 +28924,43 @@ index 853af980ba8dc43a2ef8a9a635d6f6f9181d2e4c..2c1bb7192fd3e729204d935b0b540f59
 +    expect(wrapper.text()).toContain("/ 30days");
    });
  });
+diff --git a/frontend/src/components/payment/__tests__/paymentFlow.spec.ts b/frontend/src/components/payment/__tests__/paymentFlow.spec.ts
+index 7a9dd20c393eb011a7658b8a62a3d6c4e82f98d6..d4a207249afef69eaad441c8e6b3642c947cb154 100644
+--- a/frontend/src/components/payment/__tests__/paymentFlow.spec.ts
++++ b/frontend/src/components/payment/__tests__/paymentFlow.spec.ts
+@@ -33,6 +33,17 @@ function createOrderResult(overrides: Partial<CreateOrderResult> = {}): CreateOr
+ }
+ 
+ describe('getVisibleMethods', () => {
++  it('accepts the checkout API shape with no availability field and preserves explicit disabling', () => {
++    const actualCheckoutMethod = { currency: 'CNY', fee_rate: 0, daily_limit: 0, single_min: 0, single_max: 0 }
++    const visible = getVisibleMethods(JSON.parse(JSON.stringify({
++      alipay: actualCheckoutMethod,
++      wxpay: { ...actualCheckoutMethod, available: false },
++    })))
++    expect(visible.alipay.available).toBe(true)
++    expect(visible.wxpay.available).toBe(false)
++    expect(getVisibleMethods({})).toEqual({})
++  })
++
+   it('normalizes provider aliases and keeps stripe as a top-level method', () => {
+     const visible = getVisibleMethods({
+       alipay_direct: methodLimit({ single_min: 5 }),
+diff --git a/frontend/src/components/payment/paymentFlow.ts b/frontend/src/components/payment/paymentFlow.ts
+index cd9ccfd38f17f7dcfe0059d05ae1afd8b5b47a10..b73238d5ec42670a273f13889d48ad71c5fa7ff0 100644
+--- a/frontend/src/components/payment/paymentFlow.ts
++++ b/frontend/src/components/payment/paymentFlow.ts
+@@ -111,7 +111,9 @@ export function getVisibleMethods(methods: Record<string, MethodLimit>): Record<
+     const isCanonical = type === normalized
+     const existing = visible[normalized]
+     if (!existing || isCanonical) {
+-      visible[normalized] = { ...limit }
++      // The checkout API lists enabled methods without an availability flag.
++      // Preserve an explicit false, while omitted flags match the server contract.
++      visible[normalized] = { ...limit, available: limit.available !== false }
+     }
+   })
+ 
 diff --git a/frontend/src/components/realyu/RealYuAdminSubscriptionDialog.vue b/frontend/src/components/realyu/RealYuAdminSubscriptionDialog.vue
 new file mode 100644
 index 0000000000000000000000000000000000000000..30b86917cf51c582c3ce20a482b65879424e5a95
@@ -30597,14 +30665,15 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +})
 diff --git a/frontend/src/components/realyu/paygo.ts b/frontend/src/components/realyu/paygo.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..982d5374dcfa6ae22d2ff4288b4ec9cee2433b6d
+index 0000000000000000000000000000000000000000..8e37fedadded3bc687e620df777be9410a4248b0
 --- /dev/null
 +++ b/frontend/src/components/realyu/paygo.ts
-@@ -0,0 +1,11 @@
+@@ -0,0 +1,12 @@
 +// Personal PAYGO checkout uses CNY cents. This only validates the input; it does
 +// not enable managed recharge or replace server-side payment/credit validation.
 +export const REALYU_PAYGO_MIN_CNY = 0.01
 +export const REALYU_PAYGO_MAX_CNY = 10000
++export const REALYU_PAYGO_PRESETS_CNY = [5, 20, 50, 100, 200]
 +
 +export function isRealYuPaygoAmount(value: number): boolean {
 +  return Number.isFinite(value)
@@ -34258,10 +34327,20 @@ index cfd3f2f1673818f61024cee4d529c6d9bd2c455b..cd9e799e8d4c94a213012b263831d6d8
    user_id: number
    key: string
 diff --git a/frontend/src/types/payment.ts b/frontend/src/types/payment.ts
-index 6a4103098812b0cde3f17c0134cf87e65a8d7380..6f63c92f18ff51ffaebf04c097973913a653d04d 100644
+index 6a4103098812b0cde3f17c0134cf87e65a8d7380..f173e29d9745ff310000060ee972a54061af670f 100644
 --- a/frontend/src/types/payment.ts
 +++ b/frontend/src/types/payment.ts
-@@ -68,6 +68,8 @@ export interface MethodLimitsResponse {
+@@ -56,7 +56,8 @@ export interface MethodLimit {
+   single_min: number
+   single_max: number
+   fee_rate: number
+-  available: boolean
++  /** Checkout lists enabled methods; older/current servers may omit this flag. */
++  available?: boolean
+ }
+ 
+ /** Response from /payment/limits API */
+@@ -68,6 +69,8 @@ export interface MethodLimitsResponse {
  
  /** Response from /payment/checkout-info API — single call for the payment page */
  export interface CheckoutInfoResponse {
@@ -34270,7 +34349,7 @@ index 6a4103098812b0cde3f17c0134cf87e65a8d7380..6f63c92f18ff51ffaebf04c097973913
    methods: Record<string, MethodLimit>
    global_min: number
    global_max: number
-@@ -123,6 +125,7 @@ export interface PaymentOrder {
+@@ -123,6 +126,7 @@ export interface PaymentOrder {
  // ==================== Plans & Channels ====================
  
  export interface SubscriptionPlan {
@@ -34278,7 +34357,7 @@ index 6a4103098812b0cde3f17c0134cf87e65a8d7380..6f63c92f18ff51ffaebf04c097973913
    id: number
    group_id: number
    group_platform?: string
-@@ -150,6 +153,46 @@ export interface SubscriptionPlan {
+@@ -150,6 +154,46 @@ export interface SubscriptionPlan {
    sort_order: number
  }
  
@@ -34325,7 +34404,7 @@ index 6a4103098812b0cde3f17c0134cf87e65a8d7380..6f63c92f18ff51ffaebf04c097973913
  export interface PaymentChannel {
    id: number
    group_id?: number
-@@ -181,6 +224,9 @@ export interface ProviderInstance {
+@@ -181,6 +225,9 @@ export interface ProviderInstance {
  // ==================== Request / Response ====================
  
  export interface CreateOrderRequest {
@@ -34335,7 +34414,7 @@ index 6a4103098812b0cde3f17c0134cf87e65a8d7380..6f63c92f18ff51ffaebf04c097973913
    amount: number
    payment_type: string
    order_type: string
-@@ -213,6 +259,7 @@ export interface WechatJSAPIPayload {
+@@ -213,6 +260,7 @@ export interface WechatJSAPIPayload {
  }
  
  export interface CreateOrderResult {
@@ -37425,7 +37504,7 @@ index 459220eda5f836640059e7428b78a380c3995ec8..703ce1f43cce5996864c8d21a00b8f4e
  import { useI18n } from 'vue-i18n'
  import { useRoute, useRouter } from 'vue-router'
 diff --git a/frontend/src/views/user/PaymentView.vue b/frontend/src/views/user/PaymentView.vue
-index 4727e1602ba157681ded5b2de59306fbab87e9fc..949138beceef7756300fde0f22e94bfd244413e8 100644
+index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca0b2cabf8 100644
 --- a/frontend/src/views/user/PaymentView.vue
 +++ b/frontend/src/views/user/PaymentView.vue
 @@ -1,10 +1,20 @@
@@ -37470,6 +37549,15 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..949138beceef7756300fde0f22e94bfd
              </div>
              <div v-if="enabledMethods.length === 0" class="card py-16 text-center">
                <p class="text-gray-500 dark:text-gray-400">{{ t('payment.notAvailable') }}</p>
+@@ -59,7 +69,7 @@
+               ></div>
+               <AmountInput
+                 v-model="amount"
+-                :amounts="[10, 20, 50, 100, 200, 500, 1000, 2000, 5000]"
++                :amounts="isRealYu ? REALYU_PAYGO_PRESETS_CNY : undefined"
+                 :min="globalMinAmount"
+                 :max="globalMaxAmount"
+                 :bonus-tiers="rechargeBonusTiers"
 @@ -96,14 +106,14 @@
                  </div>
                  <div v-if="showBonusRow" class="flex justify-between" :class="{ 'border-t border-gray-200 pt-2 dark:border-dark-600': !showActualPay }" data-testid="recharge-bonus-row">
@@ -37590,7 +37678,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..949138beceef7756300fde0f22e94bfd
  import AppLayout from '@/components/layout/AppLayout.vue'
  import AmountInput from '@/components/payment/AmountInput.vue'
 +import RealYuPaygoCard from '@/components/realyu/RealYuPaygoCard.vue'
-+import { isRealYuPaygoAmount, REALYU_PAYGO_MIN_CNY, REALYU_PAYGO_MAX_CNY } from '@/components/realyu/paygo'
++import { isRealYuPaygoAmount, REALYU_PAYGO_MIN_CNY, REALYU_PAYGO_MAX_CNY, REALYU_PAYGO_PRESETS_CNY } from '@/components/realyu/paygo'
  import PaymentMethodSelector from '@/components/payment/PaymentMethodSelector.vue'
  import { METHOD_ORDER, getPaymentPopupFeatures, isBuiltInAlipayMethod, isBuiltInWxpayMethod } from '@/components/payment/providerConfig'
  import {
@@ -39232,7 +39320,7 @@ index 751e7d83c42ba073dd1b5934bdac3eaac94fe656..8780264c6afd9ab7e325e6d797928e7a
      routeState.query = {
        resume_token: 'resume-42',
 diff --git a/frontend/src/views/user/__tests__/PaymentView.spec.ts b/frontend/src/views/user/__tests__/PaymentView.spec.ts
-index 57ee459266504bd2e75196713335dbb6bfdf7cf0..1b3e3ac2eabaa88db6691f84e0105d353cf0d01f 100644
+index 57ee459266504bd2e75196713335dbb6bfdf7cf0..5e755cf8584c22778a384244ae3d6eb8f642a81b 100644
 --- a/frontend/src/views/user/__tests__/PaymentView.spec.ts
 +++ b/frontend/src/views/user/__tests__/PaymentView.spec.ts
 @@ -1,18 +1,23 @@
@@ -39397,7 +39485,7 @@ index 57ee459266504bd2e75196713335dbb6bfdf7cf0..1b3e3ac2eabaa88db6691f84e0105d35
    })
  })
  
-@@ -887,3 +954,212 @@ describe('PaymentView subscription feature flag', () => {
+@@ -887,3 +954,240 @@ describe('PaymentView subscription feature flag', () => {
      wrapper.unmount()
    })
  })
@@ -39483,6 +39571,34 @@ index 57ee459266504bd2e75196713335dbb6bfdf7cf0..1b3e3ac2eabaa88db6691f84e0105d35
 +    const view = await mountPaygo(checkoutInfoFixture().data)
 +    expect(view.findComponent(AmountInput).exists()).toBe(true)
 +    expect(createOrder).not.toHaveBeenCalled()
++    view.unmount()
++  })
++
++  it('opens actual ZPay checkout data, supports all five presets and submits custom CNY unchanged', async () => {
++    routeState.query = { tab: 'recharge' }
++    const methods = JSON.parse('{"alipay":{"payment_type":"alipay","currency":"CNY","fee_rate":0,"daily_limit":0,"single_min":0,"single_max":0}}')
++    getCheckoutInfo.mockResolvedValue(checkoutInfoFixture({ methods, managed_recharge: true }))
++    const view = shallowMount(PaymentView, { global: { stubs: {
++      AppLayout: { template: '<div><slot /></div>' }, RealYuPaygoCard: false, AmountInput: false, Teleport: true, Transition: false,
++    } } })
++    await flushPromises()
++    expect(view.get('[data-testid="realyu-paygo"] button').attributes('disabled')).toBeUndefined()
++    const submit = () => view.findAll('button').find(button => button.text().startsWith('payment.createOrder'))!
++    for (const value of [5, 20, 50, 100, 200]) {
++      await view.get(`[data-testid="quick-amount-${value}"]`).trigger('click')
++      expect(view.getComponent(AmountInput).get('input').element.value).toBe(String(value))
++      expect(view.get('[data-testid="recharge-credited-row"]').text()).toContain(`${value}.00`)
++      expect(submit().attributes('disabled')).toBeUndefined()
++    }
++    expect(view.findAll('[data-testid^="quick-amount-"]')).toHaveLength(5)
++    await view.getComponent(AmountInput).get('input').setValue('12.34')
++    expect(view.get('[data-testid="recharge-credited-row"]').text()).toContain('12.34')
++    expect(createOrder).not.toHaveBeenCalled()
++    createOrder.mockResolvedValue({ order_id: 123, amount: 12.34, pay_amount: 12.34, currency: 'CNY', payment_type: 'alipay', qr_code: 'synthetic-qr', result_type: 'qr_code', expires_at: '2099-01-01T00:10:00Z' })
++    await submit().trigger('click')
++    await flushPromises()
++    expect(createOrder).toHaveBeenCalledOnce()
++    expect(createOrder.mock.calls[0][0]).toMatchObject({ order_type: 'balance', amount: 12.34, payment_type: 'alipay' })
 +    view.unmount()
 +  })
 +
