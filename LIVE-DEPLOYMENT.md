@@ -1,5 +1,9 @@
 # Local Sub2API deployment record
 
+## 2026-10-11 15:04 — Network recovery, application remains UX5
+
+Defender quarantined the new SG GOST binary at14:26:57 CST. The original digest was restored with an effective exact-file exclusion; dependent Tunnels and SG forwarding were recovered. Native API/bridge/Mihomo processes and the application/database version were not changed. Six paths27/27 through15:08:20, both connectors4 connections, and one real public SSE passed. See [incident evidence and remaining recovery gap](deploy/sub2api/NETWORK-INCIDENT-20261011.md). Do not replay the completed incident script on healthy production.
+
 ## 2026-10-11 — UX5工作台布局与对齐
 
 UX5：UX5已上线，公网及浏览器验收通过；监测保留一次本机代理样本超时。新operation native-ux5-20261011-r2，binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。r1已过期，不执行。生产身份以实际manifest与ACTIVE回执为准；同PG/300migration/原Key与代理。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。

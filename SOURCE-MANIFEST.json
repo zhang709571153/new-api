@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "a52c9980f5e688352b781ac0ac393eb3a72504ed40d6ea6f58799c6efc8eadb0",
-      "source_sha256": "a52c9980f5e688352b781ac0ac393eb3a72504ed40d6ea6f58799c6efc8eadb0",
-      "bytes": 42899,
+      "sha256": "1e4c8f82b2eb13dd4e377c2fd634d5d9e9d8dddde89b443e34e585c11d70dc31",
+      "source_sha256": "1e4c8f82b2eb13dd4e377c2fd634d5d9e9d8dddde89b443e34e585c11d70dc31",
+      "bytes": 43767,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "6c9e299a4cbf32e2767457cc9eecf18097dad1e4084a21724a4d485a8dee80cd",
-      "source_sha256": "6c9e299a4cbf32e2767457cc9eecf18097dad1e4084a21724a4d485a8dee80cd",
-      "bytes": 23895,
+      "sha256": "094fc4136371552f04bbc046704a0d4479db9e64b59be60c30287ae484b146d1",
+      "source_sha256": "094fc4136371552f04bbc046704a0d4479db9e64b59be60c30287ae484b146d1",
+      "bytes": 24496,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "5955cda555117078922641f3d477f3b7f9c6692c12e2142bd20991bb1a596510",
-      "source_sha256": "5955cda555117078922641f3d477f3b7f9c6692c12e2142bd20991bb1a596510",
-      "bytes": 20018,
+      "sha256": "d8b2ff56fb2980f5951b483e5e0c907bbb76a3e466ccbaa96082afd66b7d9233",
+      "source_sha256": "d8b2ff56fb2980f5951b483e5e0c907bbb76a3e466ccbaa96082afd66b7d9233",
+      "bytes": 20395,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2526,6 +2526,14 @@
       "source_path": "deploy/sub2api/NETWORK-INCIDENT-20261010.md"
     },
     {
+      "path": "deploy/sub2api/NETWORK-INCIDENT-20261011.md",
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/NETWORK-INCIDENT-20261011.md",
+      "sha256": "11f633f1016b6375954dcf9ba2b27e4c87d6c537e47ac9ed6472d56c967d8804",
+      "source_sha256": "11f633f1016b6375954dcf9ba2b27e4c87d6c537e47ac9ed6472d56c967d8804",
+      "bytes": 4376
+    },
+    {
       "path": "deploy/sub2api/New-NativeCandidate.ps1",
       "sha256": "8de213c0027d23d371b3d208fd8be59aad624d72c2f2d371fd98ce098703a38f",
       "source_sha256": "8de213c0027d23d371b3d208fd8be59aad624d72c2f2d371fd98ce098703a38f",
@@ -2606,6 +2614,14 @@
       "source_path": "deploy/sub2api/RESTORE-CATALOG.md"
     },
     {
+      "path": "deploy/sub2api/Repair-SgGost-20261011.ps1",
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/Repair-SgGost-20261011.ps1",
+      "sha256": "dc79bc652740a64058af1baf3f3d7ed8039c9869382fccae90bd462ac9ee5715",
+      "source_sha256": "dc79bc652740a64058af1baf3f3d7ed8039c9869382fccae90bd462ac9ee5715",
+      "bytes": 7079
+    },
+    {
       "path": "deploy/sub2api/SEO-GEO-20261011.md",
       "sha256": "ab3c172d6a39475e8994e8a93964aaacd238446eeb30f71eb7a54372529f565e",
       "source_sha256": "ab3c172d6a39475e8994e8a93964aaacd238446eeb30f71eb7a54372529f565e",
@@ -2615,9 +2631,9 @@
     },
     {
       "path": "deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md",
-      "sha256": "3d83801106bb151f05b78fef5af3c5385e1d97c9b69a6d39ddc0a15c5a14d534",
-      "source_sha256": "3d83801106bb151f05b78fef5af3c5385e1d97c9b69a6d39ddc0a15c5a14d534",
-      "bytes": 12586,
+      "sha256": "acf38ec2acf693675e5e12676f96e0a4d5a788d171c5f4352056c45a6c3108b9",
+      "source_sha256": "acf38ec2acf693675e5e12676f96e0a4d5a788d171c5f4352056c45a6c3108b9",
+      "bytes": 13203,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SG-HY2-SERVICE-HANDOFF.md"
     },
@@ -2695,9 +2711,9 @@
     },
     {
       "path": "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md",
-      "sha256": "d009b778243040254a81b1c49b029478833c76cd74125f11ef09fe70b578e909",
-      "source_sha256": "d009b778243040254a81b1c49b029478833c76cd74125f11ef09fe70b578e909",
-      "bytes": 29017,
+      "sha256": "0e5ba06a3fc29af4af020462b7ae952baf90f802792aa121d3c14f231661db07",
+      "source_sha256": "0e5ba06a3fc29af4af020462b7ae952baf90f802792aa121d3c14f231661db07",
+      "bytes": 29420,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/SINGLECORE-WINDOWS-HANDOFF.md"
     },
@@ -4364,6 +4380,14 @@
       "bytes": 2737,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/negative-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/network-recovery-20261011.json",
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/network-recovery-20261011.json",
+      "sha256": "0980996ffe83b9ada6e643c606313d2ff8d36356ac6d4acc4b84ff9d2712b4b3",
+      "source_sha256": "0980996ffe83b9ada6e643c606313d2ff8d36356ac6d4acc4b84ff9d2712b4b3",
+      "bytes": 4816
     },
     {
       "path": "lab/sub2api_e2e/pdf-url-egress-summary.json",

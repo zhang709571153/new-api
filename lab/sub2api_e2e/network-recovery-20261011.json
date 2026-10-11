@@ -1,0 +1,161 @@
+{
+  "observed_at": "2026-10-11T07:08:22.498076+00:00",
+  "sampling_interval_seconds": 10,
+  "vantage": "same Windows host, direct and explicit SG proxy; not independent external monitoring",
+  "paths": {
+    "public-direct": {
+      "first_failure": {
+        "timestamp": "2026-10-11T06:27:00.194136+00:00",
+        "http_status": 502,
+        "cf_error": 502,
+        "cf_ray": "a48bcbeff8aa054f-LHR",
+        "probe_id": "33ca5aef2e4f494aa9824c239341efd6"
+      },
+      "first_recovery": {
+        "timestamp": "2026-10-11T07:04:00.337151+00:00",
+        "http_status": 200,
+        "cf_error": null,
+        "cf_ray": "a48c02234ad35907-SEA",
+        "probe_id": "027a1f67b2da42678d98d72c2fa5c090"
+      },
+      "sample_failure_to_recovery_seconds": 2220.143015,
+      "post_recovery_successes": 27,
+      "post_recovery_samples": 27,
+      "post_recovery_failures": []
+    },
+    "public-via-local-proxy": {
+      "first_failure": {
+        "timestamp": "2026-10-11T06:27:00.194136+00:00",
+        "http_status": 502,
+        "cf_error": 502,
+        "cf_ray": "a48bcbe80b54fdb3-SIN",
+        "probe_id": "2787fa5d7cde4599b4730522a15dee5b"
+      },
+      "first_recovery": {
+        "timestamp": "2026-10-11T07:04:00.337151+00:00",
+        "http_status": 200,
+        "cf_error": null,
+        "cf_ray": "a48c021bd8eafd29-SIN",
+        "probe_id": "ae2ec49868a6435084636b682c5f98b7"
+      },
+      "sample_failure_to_recovery_seconds": 2220.143015,
+      "post_recovery_successes": 27,
+      "post_recovery_samples": 27,
+      "post_recovery_failures": []
+    },
+    "backend": {
+      "first_failure": null,
+      "first_recovery": null,
+      "sample_failure_to_recovery_seconds": null,
+      "post_recovery_successes": 27,
+      "post_recovery_samples": 27,
+      "post_recovery_failures": []
+    },
+    "bridge": {
+      "first_failure": null,
+      "first_recovery": null,
+      "sample_failure_to_recovery_seconds": null,
+      "post_recovery_successes": 27,
+      "post_recovery_samples": 27,
+      "post_recovery_failures": []
+    },
+    "tunnel-primary": {
+      "first_failure": {
+        "timestamp": "2026-10-11T06:27:00.195141+00:00",
+        "http_status": 503,
+        "cf_error": null,
+        "cf_ray": null,
+        "probe_id": "6b9c34373b894226b877a896677cdbe1"
+      },
+      "first_recovery": {
+        "timestamp": "2026-10-11T07:04:00.337151+00:00",
+        "http_status": 200,
+        "cf_error": null,
+        "cf_ray": null,
+        "probe_id": "ab1371904d0044698a7fb817790cee3f"
+      },
+      "sample_failure_to_recovery_seconds": 2220.14201,
+      "post_recovery_successes": 27,
+      "post_recovery_samples": 27,
+      "post_recovery_failures": []
+    },
+    "tunnel-replica": {
+      "first_failure": {
+        "timestamp": "2026-10-11T06:27:00.195141+00:00",
+        "http_status": 503,
+        "cf_error": null,
+        "cf_ray": null,
+        "probe_id": "30bb3b455e2443f2a33270476b980b65"
+      },
+      "first_recovery": {
+        "timestamp": "2026-10-11T07:04:00.337151+00:00",
+        "http_status": 200,
+        "cf_error": null,
+        "cf_ray": null,
+        "probe_id": "ab210bae68204408b28864c6de508c4e"
+      },
+      "sample_failure_to_recovery_seconds": 2220.14201,
+      "post_recovery_successes": 27,
+      "post_recovery_samples": 27,
+      "post_recovery_failures": []
+    }
+  },
+  "latest_sample_at": "2026-10-11T07:08:20.351623+00:00",
+  "sample_freshness_seconds": 2.148,
+  "max_sample_gap_seconds": 10.014,
+  "latest_tunnel_connection_counts": {
+    "tunnel-primary": 4,
+    "tunnel-replica": 4
+  },
+  "proxy_path": {
+    "first_at": "2026-10-11T07:04:07.578725+00:00",
+    "last_at": "2026-10-11T07:08:11.021740+00:00",
+    "connection_count": 8,
+    "same_connection_ids": 8,
+    "chains": [
+      [
+        "RealYu-SG-HY2",
+        "REALYU"
+      ]
+    ],
+    "upload_delta": 4210497,
+    "download_delta": 8883407,
+    "each_connection_received": true,
+    "each_connection_sent": true
+  },
+  "real_public_model_smoke": {
+    "status": "PASS",
+    "model_requests": 1,
+    "retries": 0,
+    "model": "gpt-5.6-sol",
+    "seconds": 6.656,
+    "checks": [
+      {
+        "path": "/api/status",
+        "status": 200,
+        "complete": true,
+        "bytes": 154,
+        "cf_ray": "a48c074fafd2ebdf-SEA"
+      },
+      {
+        "path": "/home",
+        "status": 200,
+        "complete": true,
+        "bytes": 8779,
+        "cf_ray": "a48c07578d23fa42-SEA"
+      },
+      {
+        "path": "/v1/responses",
+        "http_status": 200,
+        "complete": true,
+        "cf_ray": "a48c076419b1ebca-SEA",
+        "probe_id": "72044e5154739a241bf38947e664bb9c",
+        "bytes": 74588,
+        "completion_status": "completed",
+        "events": 18,
+        "delta_final_consistent": true,
+        "completed_items_preserved": true
+      }
+    ]
+  }
+}

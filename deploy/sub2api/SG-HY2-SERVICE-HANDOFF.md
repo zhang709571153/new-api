@@ -1,5 +1,7 @@
 # SG-HY2 independent Windows services — candidate, not deployed
 
+**2026-10-11 operational update:** The SG services were deployed on2026-10-10 and are the live17897/19464–19467 path. On2026-10-11 Defender quarantined the new GOST path, causing public1033; recovery completed at15:04 CST. See [the incident and exact-file protection requirement](NETWORK-INCIDENT-20261011.md). The candidate wording and acceptance failures below remain historical. For each new install path, verify artifact provenance/digest and effective protection for that exact executable; an exclusion on an older path does not cover it. SCM Running alone did not detect the missing worker in this incident.
+
 Prepared 2026-10-10. These scripts add independent network services; they do not
 perform the single-core application/database migration. No credentials belong in
 Git. Installation and production route changes are separate explicit commands.
