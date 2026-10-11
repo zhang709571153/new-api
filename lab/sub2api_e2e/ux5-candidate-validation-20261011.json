@@ -1,6 +1,6 @@
 {
-  "status": "CANDIDATE_VERIFIED_AWAITING_WINDOWS_ELEVATION",
-  "recorded_at_utc": "2026-10-11T05:40:52.045997+00:00",
+  "status": "LIVE_UI_HTTP_ACCEPTED_PROXY_SAMPLE_EXCEPTION",
+  "recorded_at_utc": "2026-10-11T06:20:00.023380+00:00",
   "version": "realyu-singlecore-v0.2.15-20261011-ux5",
   "source_commit": "b059ab268d9fa26fc63639f4978d48cb01ac1135",
   "binary_sha256": "ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3",
@@ -75,17 +75,19 @@
       "result": "cancelled before worker; no activation receipt"
     },
     {
-      "stage": "r2 UAC launcher",
-      "result": "UAC_NOT_STARTED / InvalidOperationException; no activation worker or receipt observed. Native OS cause unavailable; no production changes from this attempt."
+      "stage": "earlier r2 UAC launcher",
+      "result": "Initial attempt returned UAC_NOT_STARTED / InvalidOperationException, with no worker or receipt at that time. Later user-requested retry succeeded; see production activation evidence."
     },
     {
       "stage": "r2 initial existing tests",
       "result": "82 passed; one old assertion required the removed archive banner. Updated the assertion to the explicit user requirement while retaining missing-currency checks; final 83/83 passed."
     }
   ],
-  "production_release": "PENDING_WINDOWS_ELEVATION",
-  "production_http": "NOT_RUN",
-  "production_browser": "NOT_RUN",
+  "production_release": "ACTIVE",
+  "production_http": "PASS",
+  "production_browser": "PASS",
+  "production_observation": "OBSERVED_FAILURES",
+  "production_maintenance_gate_seconds": 34.797276,
   "limitations": [
     "No new paid inference; UX4 protocol acceptance is historical evidence, not rerun on UX5.",
     "Candidate data is synthetic; removing the banner does not alter backend coverage metadata or declare archive completion.",

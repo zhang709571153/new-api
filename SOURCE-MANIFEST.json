@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "2f9f9aa83a450f47f87b6b6df3cfb8b8be445398f974586c695d671d8f3ebd3e",
-      "source_sha256": "2f9f9aa83a450f47f87b6b6df3cfb8b8be445398f974586c695d671d8f3ebd3e",
-      "bytes": 42876,
+      "sha256": "a52c9980f5e688352b781ac0ac393eb3a72504ed40d6ea6f58799c6efc8eadb0",
+      "source_sha256": "a52c9980f5e688352b781ac0ac393eb3a72504ed40d6ea6f58799c6efc8eadb0",
+      "bytes": 42899,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "7977071813fbc198f8ffed8fbea6fb961085e02574f3031b0ab31af8acd96401",
-      "source_sha256": "7977071813fbc198f8ffed8fbea6fb961085e02574f3031b0ab31af8acd96401",
-      "bytes": 22429,
+      "sha256": "4ec08e47ff279bd6eb8d56e0d2bf7991a4f06219b0235451ec7396105953c6fc",
+      "source_sha256": "4ec08e47ff279bd6eb8d56e0d2bf7991a4f06219b0235451ec7396105953c6fc",
+      "bytes": 22452,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "bb9c987d449288f7a878ef8526b6430930261cedbcb4d22de0ad8a5c35cfbcf6",
-      "source_sha256": "bb9c987d449288f7a878ef8526b6430930261cedbcb4d22de0ad8a5c35cfbcf6",
-      "bytes": 23872,
+      "sha256": "6c9e299a4cbf32e2767457cc9eecf18097dad1e4084a21724a4d485a8dee80cd",
+      "source_sha256": "6c9e299a4cbf32e2767457cc9eecf18097dad1e4084a21724a4d485a8dee80cd",
+      "bytes": 23895,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "46eab902d3d91af91280f76e68c92bd44e15c75a4c6776a6850274cd3d1c905e",
-      "source_sha256": "46eab902d3d91af91280f76e68c92bd44e15c75a4c6776a6850274cd3d1c905e",
-      "bytes": 19995,
+      "sha256": "5955cda555117078922641f3d477f3b7f9c6692c12e2142bd20991bb1a596510",
+      "source_sha256": "5955cda555117078922641f3d477f3b7f9c6692c12e2142bd20991bb1a596510",
+      "bytes": 20018,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2823,9 +2823,9 @@
     },
     {
       "path": "deploy/sub2api/UX5-WORKBENCH-20261011.md",
-      "sha256": "d78f886c659c8f15c6da2e59da6dd9940cf6d107530f09d2cce23d4de7ab50ae",
-      "source_sha256": "d78f886c659c8f15c6da2e59da6dd9940cf6d107530f09d2cce23d4de7ab50ae",
-      "bytes": 3298,
+      "sha256": "d5cd21fb0c962bb78fd3946f2d72f63e1fd30766cf842584b98322c50680e36a",
+      "source_sha256": "d5cd21fb0c962bb78fd3946f2d72f63e1fd30766cf842584b98322c50680e36a",
+      "bytes": 4634,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/UX5-WORKBENCH-20261011.md"
     },
@@ -5711,9 +5711,9 @@
     },
     {
       "path": "lab/sub2api_e2e/ux5-candidate-validation-20261011.json",
-      "sha256": "5a4c557cf8fd80d4fa3a0023074482145690e2fd39df724121e0991c357365de",
-      "source_sha256": "5a4c557cf8fd80d4fa3a0023074482145690e2fd39df724121e0991c357365de",
-      "bytes": 3717,
+      "sha256": "fdfc58ba4f55c7ef180d4ea512098dba124f0a68f9da5f251a4dc5b2366a4dab",
+      "source_sha256": "fdfc58ba4f55c7ef180d4ea512098dba124f0a68f9da5f251a4dc5b2366a4dab",
+      "bytes": 3827,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/ux5-candidate-validation-20261011.json"
     },
@@ -5732,6 +5732,38 @@
       "bytes": 2472,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/ux5-preflight-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux5-production-activation-20261011.json",
+      "sha256": "2fc8122029c31626342df86b92019ca55df47c4bd28b013fe93a6e2bfbfa21fc",
+      "source_sha256": "2fc8122029c31626342df86b92019ca55df47c4bd28b013fe93a6e2bfbfa21fc",
+      "bytes": 1038,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux5-production-activation-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux5-production-browser-20261011.json",
+      "sha256": "62a2550108534a4dc0e116839dda5a4192ba74233d1d24227ab878aa438dd70a",
+      "source_sha256": "62a2550108534a4dc0e116839dda5a4192ba74233d1d24227ab878aa438dd70a",
+      "bytes": 1630,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux5-production-browser-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux5-production-observation-20261011.json",
+      "sha256": "1e225f9802b851390b7d6c5afff7024254ddacdb14e1bb24d321975311711429",
+      "source_sha256": "1e225f9802b851390b7d6c5afff7024254ddacdb14e1bb24d321975311711429",
+      "bytes": 7469,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux5-production-observation-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux5-production-readonly-20261011.json",
+      "sha256": "5c43ffd939202f8c6f80fe79de6ea0aec4475139b3c3f2b40ade7d5be170a8d9",
+      "source_sha256": "5c43ffd939202f8c6f80fe79de6ea0aec4475139b3c3f2b40ade7d5be170a8d9",
+      "bytes": 50784,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux5-production-readonly-20261011.json"
     },
     {
       "path": "lab/sub2api_e2e/ux5-source-reconstruction.json",
@@ -25184,61 +25216,6 @@
   ],
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
-    "status": "PASS_SCOPED_ACCEPTANCE",
-    "checked_at_utc": "2026-10-11T05:02:27.481237+00:00",
-    "deployment_status": "UX4_ACTIVE_UI_HTTP_PROTOCOL_AND_SETTLEMENT_ACCEPTED",
-    "source_commit": "7e0215f62539a52a3c7884560152a11599f7fe1e",
-    "changed_or_added_count": 35,
-    "changed_or_added_paths": [
-      "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "LIVE-DEPLOYMENT.md",
-      "UPDATELOG.md",
-      "deploy/sub2api/Prepare-SingleCore.ps1",
-      "deploy/sub2api/UX4-RECOVERY-20261011.md",
-      "deploy/sub2api/singlecore-candidate.patch",
-      "deploy/sub2api/singlecore-source.json",
-      "lab/sub2api_e2e/UX4-E2E-20261011.md",
-      "lab/sub2api_e2e/audit_ux4_protocol_funding.py",
-      "lab/sub2api_e2e/test_verify_ux4_public_20261011.py",
-      "lab/sub2api_e2e/ux4-backend-team-scope-20261011.json",
-      "lab/sub2api_e2e/ux4-backup-20261011.json",
-      "lab/sub2api_e2e/ux4-cancelled-plan-r1-20261011.json",
-      "lab/sub2api_e2e/ux4-candidate-validation-20261011.json",
-      "lab/sub2api_e2e/ux4-dark-css-final-dom-20261011.json",
-      "lab/sub2api_e2e/ux4-final-r2-build.json",
-      "lab/sub2api_e2e/ux4-final-r2-http-20261011.json",
-      "lab/sub2api_e2e/ux4-final-r3-build.json",
-      "lab/sub2api_e2e/ux4-final-r3-http-20261011.json",
-      "lab/sub2api_e2e/ux4-first-final-guard-20261011.json",
-      "lab/sub2api_e2e/ux4-first-http-failure-diagnosis-20261011.json",
-      "lab/sub2api_e2e/ux4-independent-review-20261011.md",
-      "lab/sub2api_e2e/ux4-navigation-review-20261011.json",
-      "lab/sub2api_e2e/ux4-preflight-20261011.json",
-      "lab/sub2api_e2e/ux4-production-activation-20261011.json",
-      "lab/sub2api_e2e/ux4-production-browser-20261011.json",
-      "lab/sub2api_e2e/ux4-production-observation-20261011.json",
-      "lab/sub2api_e2e/ux4-production-preflight-20261011.json",
-      "lab/sub2api_e2e/ux4-production-protocol-20261011.json",
-      "lab/sub2api_e2e/ux4-production-protocol-funding-20261011.json",
-      "lab/sub2api_e2e/ux4-production-readonly-20261011.json",
-      "lab/sub2api_e2e/ux4-source-reconstruction-r2.json",
-      "lab/sub2api_e2e/ux4-source-reconstruction-r3.json",
-      "lab/sub2api_e2e/verify_ux4_public_20261011.py"
-    ],
-    "checks": {
-      "changed_git_blob_hashes": true,
-      "all_manifest_git_blob_hashes": true,
-      "known_private_runtime_values_excluded": true,
-      "private_runtime_files_excluded": true,
-      "local_document_links": 199,
-      "frozen_patch_and_metadata_unchanged": true,
-      "active_binary_matches_candidate": true,
-      "patch_reconstruction_files": 405
-    },
-    "note": "UX4 ACTIVE 2026-10-11 12:44:28.612 CST; gate37.591s and same300-migration authority. Finalr3 HTTP85/85, live readonly47/47 over82 HTTP requests, SSE1 plus same-socket WS2 passed; three settled usage/dedup rows, no acceptance-window reservation. Existing admin browser session verified top setup/alltime, six neutral-blue plans, model navigation and pure-text language labels; production English dark390px menu and pricing also checked. Existing10s collector65/65 each for6paths over640.997s afterACTIVE, maxgap10.014s; maintenance failures retained. Full preview frontend998/89 and later targeted tests are overlapping phases, not summed or claimed as rerun on finalr3. P2 English mobile team-table nickname truncation and horizontal scrolling remain. Real merchant payment, physical mobile, all historical features and long-term stability are not certified."
-  },
-  "publication_review": {
     "status": "PASS_CODE_AND_DOCUMENT_DELIVERY",
     "checked_at_utc": "2026-10-11T05:40:54.845629+00:00",
     "deployment_status": "CANDIDATE_VERIFIED_AWAITING_WINDOWS_ELEVATION",
@@ -25271,6 +25248,36 @@
     },
     "active_binary_sha_at_review": "1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821",
     "note": "UX5: setup left/trend right, aligned cards and headings, consistent controls, removed archive banner only. Balances and statistics unchanged. Final83/83 existing frontend tests, typecheck, clean embedded build and405-file reconstruction; Chinese/light and English/dark desktop plus390px candidate UI verified. Windows UAC did not start the activation worker. UX5 is not yet live; production HTTP/browser acceptance remains pending. Previous UX4 inference evidence was not rerun."
+  },
+  "publication_review": {
+    "status": "PASS_CODE_AND_DOCUMENT_DELIVERY",
+    "checked_at_utc": "2026-10-11T06:20:53.446035+00:00",
+    "deployment_status": "LIVE_UI_HTTP_ACCEPTED_PROXY_SAMPLE_EXCEPTION",
+    "source_commit": "b059ab268d9fa26fc63639f4978d48cb01ac1135",
+    "changed_or_added_count": 10,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/UX5-WORKBENCH-20261011.md",
+      "lab/sub2api_e2e/ux5-candidate-validation-20261011.json",
+      "lab/sub2api_e2e/ux5-production-activation-20261011.json",
+      "lab/sub2api_e2e/ux5-production-browser-20261011.json",
+      "lab/sub2api_e2e/ux5-production-observation-20261011.json",
+      "lab/sub2api_e2e/ux5-production-readonly-20261011.json"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "all_manifest_git_blob_hashes": true,
+      "known_private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 180,
+      "frozen_patch_and_metadata_unchanged": true,
+      "patch_reconstruction_files": 405
+    },
+    "active_binary_sha_at_review": "ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3",
+    "note": "UX5: setup left/trend right, aligned cards and headings, consistent controls, removed archive banner only. Balances and statistics unchanged. Final83/83 existing frontend tests, typecheck, clean embedded build and405-file reconstruction; Chinese/light and English/dark desktop plus390px candidate UI verified. UX5 activated at 2026-10-11 14:11:05.245 CST; maintenance gate34.797276s. Public47/47 checks and production desktop UI passed. Existing observer afterACTIVE454.909s: direct/backend/bridge/two tunnels46/46 each, local SG proxy45/46 with one8.063s first-byte timeout at14:16:40; adjacent samples200 and other paths healthy. Maintenance11failed samples retained. Prior UAC and browser automation timeouts retained. No new model/SSE/WS/payment tests; English/mobile verified on identical candidate. No long-term stability claim."
   },
   "publication_review_history": [
     {
@@ -26139,6 +26146,40 @@
         "patch_reconstruction_files": 405
       },
       "note": "UX4 ACTIVE 2026-10-11 12:44:28.612 CST; gate37.591s and same300-migration authority. Finalr3 HTTP85/85, live readonly47/47 over82 HTTP requests, SSE1 plus same-socket WS2 passed; three settled usage/dedup rows, no acceptance-window reservation. Existing admin browser session verified top setup/alltime, six neutral-blue plans, model navigation and pure-text language labels; production English dark390px menu and pricing also checked. Existing10s collector65/65 each for6paths over640.997s afterACTIVE, maxgap10.014s; maintenance failures retained. Full preview frontend998/89 and later targeted tests are overlapping phases, not summed or claimed as rerun on finalr3. P2 English mobile team-table nickname truncation and horizontal scrolling remain. Real merchant payment, physical mobile, all historical features and long-term stability are not certified."
+    },
+    {
+      "status": "PASS_CODE_AND_DOCUMENT_DELIVERY",
+      "checked_at_utc": "2026-10-11T05:40:54.845629+00:00",
+      "deployment_status": "CANDIDATE_VERIFIED_AWAITING_WINDOWS_ELEVATION",
+      "source_commit": "b059ab268d9fa26fc63639f4978d48cb01ac1135",
+      "changed_or_added_count": 14,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/UX5-WORKBENCH-20261011.md",
+        "deploy/sub2api/singlecore-candidate.patch",
+        "deploy/sub2api/singlecore-source.json",
+        "lab/sub2api_e2e/test_verify_ux5_public_20261011.py",
+        "lab/sub2api_e2e/ux5-backup-20261011.json",
+        "lab/sub2api_e2e/ux5-candidate-validation-20261011.json",
+        "lab/sub2api_e2e/ux5-final-build.json",
+        "lab/sub2api_e2e/ux5-preflight-20261011.json",
+        "lab/sub2api_e2e/ux5-source-reconstruction.json",
+        "lab/sub2api_e2e/verify_ux5_public_20261011.py"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "all_manifest_git_blob_hashes": true,
+        "known_private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 176,
+        "frozen_patch_and_metadata_unchanged": true,
+        "patch_reconstruction_files": 405
+      },
+      "active_binary_sha_at_review": "1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821",
+      "note": "UX5: setup left/trend right, aligned cards and headings, consistent controls, removed archive banner only. Balances and statistics unchanged. Final83/83 existing frontend tests, typecheck, clean embedded build and405-file reconstruction; Chinese/light and English/dark desktop plus390px candidate UI verified. Windows UAC did not start the activation worker. UX5 is not yet live; production HTTP/browser acceptance remains pending. Previous UX4 inference evidence was not rerun."
     }
   ]
 }

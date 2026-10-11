@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "phase": "ACTIVE",
+  "operation_id": "native-ux5-20261011-r2",
+  "phase_times": {
+    "DRAINING": 1791699030.4480836,
+    "STOPPING_NATIVE": 1791699030.6537092,
+    "STARTING_NATIVE": 1791699055.6280046,
+    "VERIFIED_PRIVATE": 1791699065.2399478,
+    "ACTIVE": 1791699065.2453592
+  },
+  "first_failure": null,
+  "database_restored": false,
+  "old_legacy_services_started": false,
+  "database_migrations": false,
+  "active_at_utc": "2026-10-11T06:11:05.245359+00:00",
+  "maintenance_gate_seconds": 34.797276,
+  "source_receipt_sha256": "d6106b3375b20ffc0dddd9caa04193aa4550696ad6ec92048906a06d46b435a8",
+  "active_binary_sha256": "ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3",
+  "expected_version": "realyu-singlecore-v0.2.15-20261011-ux5",
+  "database_authority": "Same existing PostgreSQL authority, 300 migrations, latest308; no restore or DDL.",
+  "limitations": [
+    "Maintenance gate is not exact user-perceived outage duration.",
+    "Completed operation must not be run again."
+  ]
+}

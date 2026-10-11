@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "target": "https://api.realyu.fun/dashboard",
+  "method": "CUA existing admin session; no new browser login",
+  "viewport_width": 1280,
+  "document_width": 1280,
+  "setup": {
+    "bottom": 617.8125152587891,
+    "height": 384.3333435058594,
+    "width": 363.8020935058594,
+    "x": 224.6666717529297,
+    "y": 233.4791717529297
+  },
+  "trend": {
+    "bottom": 617.8125152587891,
+    "height": 384.3333435058594,
+    "width": 654.8646240234375,
+    "x": 600.46875,
+    "y": 233.4791717529297
+  },
+  "checks": {
+    "top_bottom_and_title_alignment": true,
+    "archive_banner_absent": true,
+    "recent_card_absent": true,
+    "command_masked_before_capture": true,
+    "cumulative_requests_and_balance_match_pre_release_snapshot": true,
+    "currency_cny": true,
+    "primary_secondary_button_layout_visible": true
+  },
+  "screenshot": {
+    "sha256": "c1c2710b81d50bed09eae6015506b0961368834257edb92ee615cb0800e4d88f",
+    "exported": false
+  },
+  "first_automation_failures": [
+    "Initial createBrowserTab timed out at30s, but inventory confirmed created tab11.",
+    "cua.getTab initial state exceeded30s; documented tabs.get plus DOM snapshot succeeded.",
+    "Combined dashboard verification exceeded60s. Rebound same tab and checked masked-key state; separate DOM and screenshot operations succeeded."
+  ],
+  "limitations": [
+    "Production desktop Chinese/light only; English/dark/mobile were verified on the same candidate before release.",
+    "Browser control timeouts do not alone establish site failure.",
+    "No customer nickname, wallet value or private screenshot exported to Git."
+  ]
+}

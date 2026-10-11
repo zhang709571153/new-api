@@ -1,0 +1,251 @@
+{
+  "status": "OBSERVED_FAILURES",
+  "source": "Existing ten-second collector only; no new probe or service",
+  "active_at": "2026-10-11T06:11:05.245359+00:00",
+  "last_saved_sample": "2026-10-11T06:18:40.154390+00:00",
+  "read_at": "2026-10-11T06:18:48.598832+00:00",
+  "last_sample_age_seconds_at_read": 8.444,
+  "observed_post_active_seconds": 454.909,
+  "targets": {
+    "public-direct": {
+      "samples": 46,
+      "healthy": 46,
+      "failed": 0,
+      "max_sample_gap_seconds": 10.015,
+      "healthy_percent": 100.0
+    },
+    "public-via-local-proxy": {
+      "samples": 46,
+      "healthy": 45,
+      "failed": 1,
+      "max_sample_gap_seconds": 10.015,
+      "healthy_percent": 97.826
+    },
+    "backend": {
+      "samples": 46,
+      "healthy": 46,
+      "failed": 0,
+      "max_sample_gap_seconds": 10.015,
+      "healthy_percent": 100.0
+    },
+    "bridge": {
+      "samples": 46,
+      "healthy": 46,
+      "failed": 0,
+      "max_sample_gap_seconds": 10.015,
+      "healthy_percent": 100.0
+    },
+    "tunnel-primary": {
+      "samples": 46,
+      "healthy": 46,
+      "failed": 0,
+      "max_sample_gap_seconds": 10.014,
+      "healthy_percent": 100.0
+    },
+    "tunnel-replica": {
+      "samples": 46,
+      "healthy": 46,
+      "failed": 0,
+      "max_sample_gap_seconds": 10.014,
+      "healthy_percent": 100.0
+    }
+  },
+  "cutover_window_failures": [
+    {
+      "timestamp": "2026-10-11T06:10:30.074489+00:00",
+      "target": "public-direct",
+      "probe_id": "8914edb0eb3a4064b55ba4de940ccb19",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb3be68a55782-SEA",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 953
+    },
+    {
+      "timestamp": "2026-10-11T06:10:30.074489+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "3971e7d0b5844637a00a2ff5fa3b86ca",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb3bc9ae69fc8-SIN",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 531
+    },
+    {
+      "timestamp": "2026-10-11T06:10:40.071376+00:00",
+      "target": "public-direct",
+      "probe_id": "be4802bdcc3f44ed821b5006493ce16f",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb3fcbbec23ef-SEA",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 953
+    },
+    {
+      "timestamp": "2026-10-11T06:10:40.071376+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "1131181df46142fd9a9415899d8d95cd",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb3fa5af43dc8-SIN",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 469
+    },
+    {
+      "timestamp": "2026-10-11T06:10:40.072385+00:00",
+      "target": "bridge",
+      "probe_id": "d5bd5f6f66ca4ef6ab35be0552fa1f3f",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": null,
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 62
+    },
+    {
+      "timestamp": "2026-10-11T06:10:50.069514+00:00",
+      "target": "public-direct",
+      "probe_id": "3d730914dbc247799288cd24c6b77d44",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb43fbc9da336-SEA",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 1969
+    },
+    {
+      "timestamp": "2026-10-11T06:10:50.069514+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "3d7dd8074b2244e98e5e31b503449a1f",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb438d9fdf904-SIN",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 484
+    },
+    {
+      "timestamp": "2026-10-11T06:10:50.069514+00:00",
+      "target": "bridge",
+      "probe_id": "b3c209bc6cd24dd6b2da8b7dd20667a4",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": null,
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 47
+    },
+    {
+      "timestamp": "2026-10-11T06:11:00.063938+00:00",
+      "target": "public-direct",
+      "probe_id": "13ac5559c73d4929878e36033628c931",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb47b48bbc3ba-LHR",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 1516
+    },
+    {
+      "timestamp": "2026-10-11T06:11:00.063938+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "2fcfcdf9624c42bebb3bf2681a682df5",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": "a48bb4780f03fd10-SIN",
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 719
+    },
+    {
+      "timestamp": "2026-10-11T06:11:00.064952+00:00",
+      "target": "bridge",
+      "probe_id": "619d9e8b2a5b4c3e839f20eec306045c",
+      "http_status": 503,
+      "cf_error": null,
+      "cf_ray": null,
+      "category": "http_503",
+      "failure_stage": "http_contract",
+      "curl_exit": 0,
+      "duration_ms": 109
+    }
+  ],
+  "post_active_failures": [
+    {
+      "timestamp": "2026-10-11T06:16:40.135053+00:00",
+      "target": "public-via-local-proxy",
+      "probe_id": "b12fd766ab284055b3ac046bffa5d486",
+      "http_status": null,
+      "cf_error": null,
+      "cf_ray": null,
+      "category": "timeout",
+      "failure_stage": "waiting_first_byte",
+      "curl_exit": 28,
+      "duration_ms": 8063,
+      "other_targets_same_sample_healthy": true,
+      "previous_sample": {
+        "timestamp": "2026-10-11T06:16:30.137138+00:00",
+        "healthy": true,
+        "http_status": 200,
+        "probe_id": "213ab46332264b9cbc445d03ed94aa2e"
+      },
+      "next_sample": {
+        "timestamp": "2026-10-11T06:16:50.142433+00:00",
+        "healthy": true,
+        "http_status": 200,
+        "probe_id": "36184bb00f894495b0c78184dc870b81"
+      }
+    }
+  ],
+  "latest_tunnels": {
+    "tunnel-primary": {
+      "connected": 4,
+      "ha_connections": 4.0,
+      "counter_deltas": {
+        "cloudflared_tunnel_request_errors": 0,
+        "cloudflared_tunnel_response_by_code": 10.0,
+        "cloudflared_tunnel_total_requests": 9.0,
+        "cloudflared_tunnel_tunnel_register_success": 0
+      },
+      "counter_reset_or_initial_sample": false
+    },
+    "tunnel-replica": {
+      "connected": 4,
+      "ha_connections": 4.0,
+      "counter_deltas": {
+        "cloudflared_tunnel_request_errors": 0,
+        "cloudflared_tunnel_response_by_code": 0,
+        "cloudflared_tunnel_total_requests": 1.0,
+        "cloudflared_tunnel_tunnel_register_success": 0
+      },
+      "counter_reset_or_initial_sample": false
+    }
+  },
+  "proxy_sample_transport": {
+    "remote_ip": "127.0.0.1",
+    "remote_port": 17897,
+    "proxy_used": 1,
+    "http_connect": 200,
+    "size_download": 154
+  },
+  "limitations": [
+    "Health contract sampling only; independent protocol evidence records real inference.",
+    "Not continuous request coverage, long-term stability or an SLA.",
+    "Sample timestamps cannot establish exact user outage duration; the maintenance gate receipt is separate.",
+    "This release does not re-certify all outbound node routing or bandwidth."
+  ]
+}

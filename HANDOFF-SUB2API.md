@@ -2,7 +2,7 @@
 
 ## 2026-10-11 — UX5工作台布局与对齐
 
-最新代码已包含UX5双栏及对齐改进，候选通过，等待 Windows 正常提权；当前线上仍为 UX4。源码b059ab268d9fa26fc63639f4978d48cb01ac1135，405文件完整重建；binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。新机按现有Windows交接重新构建及封本机计划，不重放本站旧operation。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。
+最新代码已包含UX5双栏及对齐改进，UX5已上线，公网及浏览器验收通过；监测保留一次本机代理样本超时。源码b059ab268d9fa26fc63639f4978d48cb01ac1135，405文件完整重建；binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。新机按现有Windows交接重新构建及封本机计划，不重放本站旧operation。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。
 
 ## 2026-10-11 12:44:28 — 最新UX4 r3已部署，限定范围验收通过
 

@@ -2,7 +2,7 @@
 
 ## 2026-10-11 — UX5工作台布局与对齐
 
-UX5：候选通过，等待 Windows 正常提权；当前线上仍为 UX4。新operation native-ux5-20261011-r2，binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。r1已过期，不执行。生产身份以实际manifest与ACTIVE回执为准；同PG/300migration/原Key与代理。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。
+UX5：UX5已上线，公网及浏览器验收通过；监测保留一次本机代理样本超时。新operation native-ux5-20261011-r2，binary SHA ed4a0f9524693c8e3047a5f637dfae6c9176099a116207a138e896f43b174ab3。r1已过期，不执行。生产身份以实际manifest与ACTIVE回执为准；同PG/300migration/原Key与代理。 见[UX5交付与部署](deploy/sub2api/UX5-WORKBENCH-20261011.md)。
 
 ## 2026-10-11 12:44:28 — UX4已ACTIVE，限定范围验收通过
 
