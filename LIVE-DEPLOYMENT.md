@@ -1,5 +1,15 @@
 # Local Sub2API deployment record
 
+## 2026-10-11 21:43:34 CST — UX7 release aborted before stop; UX5 remains live
+
+The authorized r2 attempt ran elevated but could not drain existing connections within30s. It recorded `ABORTED_BEFORE_STOP` and reopened admission; the gate interval was30.207s. No API service stop, migration, wallet write, merchant enable or authority change occurred. The installed-but-unreferenced candidate directory is not a live deployment. Do not rerun this completed operation.
+
+Metadata-only bridge evidence at21:45:49 showed a Responses WebSocket started21:16:33 and two Responses POST requests still at request-arrival phase. This proves persistent/incomplete requests, not that the WebSocket was idle. Await the user's choice between a short client reconnect and pausing the clients before another release; do not silently ignore the zero-connection guard.
+
+After reopening through21:53:22, existing10s samples show public direct52/59 and via-proxy52/59; backend, bridge and both Tunnel readiness59/59.14 public failures were1 TLS timeout and13 first-byte timeouts; no evidence attributes them to a node switch or missing proxy. Both public paths recovered by the saved21:46:52 sample and then had40 consecutive healthy samples. Both Tunnels remained4 connections; maximum interval10.016s.8 maintenance failures and all14 later failures remain in [the evidence](lab/sub2api_e2e/ux7-abort-observation-20261011.json). Sampling is not continuous request coverage or long-term stability.
+
+Native ZPay restoration preparation was read-only: existing merchant query PASS, zero new orders/provider changes, balance recharge remains closed. [Exact API procedure and real-payment acceptance](deploy/sub2api/NATIVE-ZPAY-RESTORATION.md). Latest native source is frozen f994144 and was pushed in handoff1f4056a; browser rendering and real new payment remain unverified.
+
 ## 2026-10-11 21:35 CST — UX7 prepared; live remains UX5
 
 Final candidate source `f9941441e79062ae860b1cc0f429656c0e9c4ed3`, EXE SHA256 `0734fee22619df881f7a014b4383df17e1a9310e5a467627a691741aa21e02c4`; full433-file reconstruction and25 final-binary synthetic HTTP checks passed. Read-only plan `native-ux7-20261011-r2`, SHA256 `b81eeaffe583ca0dd256f9053559bf69a4fd61f037a8d56be12b00815a78a9bc`, is prepared, not activated. Both samples observed3 in-flight requests; execution must still drain within30s or abort and reopen. Current authority has300 migrations, UX7 requires302 after reviewed309/310. Native recharge remains disabled and no real new payment has been completed. [Delivery, first failures and limits](deploy/sub2api/UX7-PAYGO-ADMIN-20261011.md).
