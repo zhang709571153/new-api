@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "a2f8d5361415c7f2fdcc9f6c527b6647310272f02805a3d25624ddb0cff44a5b",
-      "source_sha256": "a2f8d5361415c7f2fdcc9f6c527b6647310272f02805a3d25624ddb0cff44a5b",
-      "bytes": 44368,
+      "sha256": "57b4cbfb5f0e0dd1bfe9f446ce0164d9de5edbfe7f7a8f55523b5cb16f1bc0b0",
+      "source_sha256": "57b4cbfb5f0e0dd1bfe9f446ce0164d9de5edbfe7f7a8f55523b5cb16f1bc0b0",
+      "bytes": 45513,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "02e1f93267e68de4603207745af4265d8ce2ac9ac2e05f7be21ad5d53e7f61e1",
-      "source_sha256": "02e1f93267e68de4603207745af4265d8ce2ac9ac2e05f7be21ad5d53e7f61e1",
-      "bytes": 20743,
+      "sha256": "a88dd5cbf029ce6c8942d131c5f3b1cfaed9c3a7ead0d0b82dbf85668459f99c",
+      "source_sha256": "a88dd5cbf029ce6c8942d131c5f3b1cfaed9c3a7ead0d0b82dbf85668459f99c",
+      "bytes": 21105,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2756,6 +2756,14 @@
       "bytes": 4731,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/Test-SgHy2Package.ps1"
+    },
+    {
+      "path": "deploy/sub2api/UI-VISUAL-BASELINE-20261011.md",
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/UI-VISUAL-BASELINE-20261011.md",
+      "sha256": "ded116becef4fc09a3d89d05fb8e4f891c4fc4b87dfefc4a5b80134859c5b7b5",
+      "source_sha256": "ded116becef4fc09a3d89d05fb8e4f891c4fc4b87dfefc4a5b80134859c5b7b5",
+      "bytes": 9676
     },
     {
       "path": "deploy/sub2api/UX-CANDIDATE-VALIDATION-20261010.md",
