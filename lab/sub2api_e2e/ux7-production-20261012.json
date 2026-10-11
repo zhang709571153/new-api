@@ -1,0 +1,26 @@
+{
+  "operation_id": "native-ux7-20261011-r3",
+  "phase": "ACTIVE",
+  "phase_times_utc": {
+    "DRAINING": "2026-10-11T15:56:34.120012+00:00",
+    "STOPPING_NATIVE": "2026-10-11T15:56:34.177252+00:00",
+    "STARTING_NATIVE": "2026-10-11T15:56:58.443685+00:00",
+    "VERIFIED_PRIVATE": "2026-10-11T15:57:05.432022+00:00",
+    "ACTIVE": "2026-10-11T15:57:05.435854+00:00"
+  },
+  "maintenance_gate_seconds": 31.315842,
+  "live_version": "realyu-singlecore-v0.2.15-20261011-ux7",
+  "source_commit": "f9941441e79062ae860b1cc0f429656c0e9c4ed3",
+  "binary_sha256": "0734fee22619df881f7a014b4383df17e1a9310e5a467627a691741aa21e02c4",
+  "migration_count": 302,
+  "reviewed_migrations": {
+    "309_realyu_recharge_precision.sql": "72e75892e3ee0f65552e75902ce7cb2b8a763790a557f0da458eb06587999c23",
+    "310_realyu_admin_entitlements.sql": "e8a6da52c33068dc15d4a868d78e56656ba35664bad0b720614e463db74147a7"
+  },
+  "database_restored": false,
+  "old_legacy_services_started": false,
+  "wallet_values_changed_by_update": false,
+  "native_payment_enabled_after_release": true,
+  "readonly_http_checks_passed": 47,
+  "payment_status": "READY_FOR_ALIPAY_TEST_WAITING_FOR_REAL_PAYMENT"
+}

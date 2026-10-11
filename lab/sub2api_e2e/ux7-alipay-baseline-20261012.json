@@ -1,0 +1,57 @@
+{
+  "observed_at": "2026-10-11T16:13:35.261470+00:00",
+  "status": "READY_FOR_ALIPAY_TEST_WAITING_FOR_REAL_PAYMENT",
+  "new_orders_created": 0,
+  "payment_executed": false,
+  "fake_callback_sent": false,
+  "live_version": "realyu-singlecore-v0.2.15-20261011-ux7",
+  "checkout_info": {
+    "enabled": true,
+    "alipay": true,
+    "currency": "CNY",
+    "managed_recharge": true,
+    "plan_count": 6
+  },
+  "native_order": {
+    "currency": "CNY",
+    "pay_amount": 10,
+    "fee_rate": 0,
+    "bonus_amount": 0,
+    "status": "PENDING",
+    "paid_at": null,
+    "completed_at": null
+  },
+  "migration_count": 302,
+  "wallet_unchanged_since_before_order": true,
+  "test_account_balance_order_count": 1,
+  "credit_snapshot_cash_cny": "10",
+  "merchant_query": {
+    "code": 1,
+    "same_order": true,
+    "same_merchant": true,
+    "money": "10.00",
+    "type": "alipay9",
+    "status": 0
+  },
+  "browser": {
+    "tool": "cua_repl",
+    "official_cashier_host": "excashier.alipay.com",
+    "amount_visible_cny": "10.00",
+    "qr_code_visually_verified": true,
+    "payment_not_submitted": true,
+    "checkout_tab_retained": true,
+    "screenshot_contains_private_payment_link_not_in_git": true
+  },
+  "first_attempts_preserved": [
+    "create response optional currency asserted incorrectly; same-order DB and API readback recovered without another POST",
+    "cashier verifier first rejected observed api.z-pay.cn redirect",
+    "cookie-less HTTP followed official Alipay error page; cookie-aware flow and actual browser then verified QR",
+    "browser CUA binding timed out; documented tabs API recovered same browser",
+    "closing readonly login check returned HTTP 403 with default urllib headers; original exception retained in tool output without response body or CF-Ray; subsequent authorized check using the established acceptance headers passed, root cause not established"
+  ],
+  "limits": [
+    "No actual debit, paid callback, completed order or credited wallet was observed",
+    "No production role-specific admin UI acceptance in this payment check",
+    "Native email success template still has USD wording; SMTP not tested"
+  ]
+}

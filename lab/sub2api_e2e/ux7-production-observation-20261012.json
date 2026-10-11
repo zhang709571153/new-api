@@ -1,0 +1,348 @@
+{
+  "scope": "Existing 10-second same-host HTTP contract samples, not model E2E, continuous availability or long-term stability",
+  "phase_classification": "By probe start timestamp. The 23:56:32.995 public-direct probe began before the gate but its 2625ms response overlaps maintenance; its 503 must not be attributed to a pre-maintenance outage.",
+  "observed_at": "2026-10-11T16:13:42.782633+00:00",
+  "maintenance_gate_seconds": 31.315842,
+  "active_at": "2026-10-11T15:57:05.435854+00:00",
+  "first_sample": "2026-10-11T15:57:12.988453+00:00",
+  "last_sample": "2026-10-11T16:13:33.023990+00:00",
+  "max_saved_sample_gap_seconds": 10.011458,
+  "latest_freshness_seconds": 9.759,
+  "malformed_lines_seen": 0,
+  "groups": [
+    {
+      "phase": "active",
+      "target": "backend",
+      "total": 99,
+      "healthy": 99,
+      "success_percent": 100.0
+    },
+    {
+      "phase": "active",
+      "target": "bridge",
+      "total": 99,
+      "healthy": 99,
+      "success_percent": 100.0
+    },
+    {
+      "phase": "active",
+      "target": "public-direct",
+      "total": 99,
+      "healthy": 98,
+      "success_percent": 98.9899
+    },
+    {
+      "phase": "active",
+      "target": "public-via-local-proxy",
+      "total": 99,
+      "healthy": 97,
+      "success_percent": 97.9798
+    },
+    {
+      "phase": "active",
+      "target": "tunnel-primary",
+      "total": 99,
+      "healthy": 99,
+      "success_percent": 100.0,
+      "connections_min_max": [
+        4,
+        4
+      ]
+    },
+    {
+      "phase": "active",
+      "target": "tunnel-replica",
+      "total": 99,
+      "healthy": 99,
+      "success_percent": 100.0,
+      "connections_min_max": [
+        4,
+        4
+      ]
+    },
+    {
+      "phase": "maintenance",
+      "target": "backend",
+      "total": 3,
+      "healthy": 3,
+      "success_percent": 100.0
+    },
+    {
+      "phase": "maintenance",
+      "target": "bridge",
+      "total": 3,
+      "healthy": 0,
+      "success_percent": 0.0
+    },
+    {
+      "phase": "maintenance",
+      "target": "public-direct",
+      "total": 3,
+      "healthy": 0,
+      "success_percent": 0.0
+    },
+    {
+      "phase": "maintenance",
+      "target": "public-via-local-proxy",
+      "total": 3,
+      "healthy": 0,
+      "success_percent": 0.0
+    },
+    {
+      "phase": "maintenance",
+      "target": "tunnel-primary",
+      "total": 3,
+      "healthy": 3,
+      "success_percent": 100.0,
+      "connections_min_max": [
+        4,
+        4
+      ]
+    },
+    {
+      "phase": "maintenance",
+      "target": "tunnel-replica",
+      "total": 3,
+      "healthy": 3,
+      "success_percent": 100.0,
+      "connections_min_max": [
+        4,
+        4
+      ]
+    },
+    {
+      "phase": "pre_window",
+      "target": "backend",
+      "total": 12,
+      "healthy": 12,
+      "success_percent": 100.0
+    },
+    {
+      "phase": "pre_window",
+      "target": "bridge",
+      "total": 12,
+      "healthy": 12,
+      "success_percent": 100.0
+    },
+    {
+      "phase": "pre_window",
+      "target": "public-direct",
+      "total": 12,
+      "healthy": 10,
+      "success_percent": 83.3333
+    },
+    {
+      "phase": "pre_window",
+      "target": "public-via-local-proxy",
+      "total": 12,
+      "healthy": 12,
+      "success_percent": 100.0
+    },
+    {
+      "phase": "pre_window",
+      "target": "tunnel-primary",
+      "total": 12,
+      "healthy": 12,
+      "success_percent": 100.0,
+      "connections_min_max": [
+        4,
+        4
+      ]
+    },
+    {
+      "phase": "pre_window",
+      "target": "tunnel-replica",
+      "total": 12,
+      "healthy": 12,
+      "success_percent": 100.0,
+      "connections_min_max": [
+        4,
+        4
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "phase": "pre_window",
+      "timestamp": "2026-10-11T15:56:22.997422+00:00",
+      "target": "public-direct",
+      "healthy": false,
+      "http_status": null,
+      "cf_error": null,
+      "probe_id": "f8f0a01c5ce64967a88321421433a7f4",
+      "cf_ray": null,
+      "curl_exit": 28,
+      "failure_stage": "tcp_connect",
+      "duration_ms": 4047
+    },
+    {
+      "phase": "pre_window",
+      "timestamp": "2026-10-11T15:56:32.995535+00:00",
+      "target": "public-direct",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "fe413ffc89114ab3b8d01b356cebcb21",
+      "cf_ray": "a48f0e3f09006f1c-CDG",
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 2625
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:56:42.986813+00:00",
+      "target": "public-direct",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "f1ecc52e827b4672bda51e34b5e7bb4c",
+      "cf_ray": "a48f0e751f816e7d-SEA",
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 1453
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:56:42.986813+00:00",
+      "target": "public-via-local-proxy",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "acaed46a37644b36be405816c176e86d",
+      "cf_ray": "a48f0e72fc5f0d7e-SIN",
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 547
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:56:42.986813+00:00",
+      "target": "bridge",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "142edc7ae7554a178fd0b30b8cd493d2",
+      "cf_ray": null,
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 31
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:56:52.986167+00:00",
+      "target": "public-direct",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "eb6b507b91ac4e508f434232758d2287",
+      "cf_ray": "a48f0eb3ed8c9982-SEA",
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 1172
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:56:52.986167+00:00",
+      "target": "public-via-local-proxy",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "9710bde69df34138951d5c6d524e3e55",
+      "cf_ray": "a48f0eb16d88ce5e-SIN",
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 390
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:56:52.986167+00:00",
+      "target": "bridge",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "96ebcce9c1164a178dc7e80609055b5b",
+      "cf_ray": null,
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 109
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:57:02.997702+00:00",
+      "target": "public-direct",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "f2afefaaa8124706800ef73d63a625b4",
+      "cf_ray": "a48f0ef19fe0a35f-SEA",
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 1031
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:57:02.997702+00:00",
+      "target": "public-via-local-proxy",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "00258cf480384f1a9a87db4bbfe0fc0e",
+      "cf_ray": "a48f0eef997afdcf-SIN",
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 359
+    },
+    {
+      "phase": "maintenance",
+      "timestamp": "2026-10-11T15:57:02.997702+00:00",
+      "target": "bridge",
+      "healthy": false,
+      "http_status": 503,
+      "cf_error": null,
+      "probe_id": "bd28a440e24f4b99be82e2251696e6d9",
+      "cf_ray": null,
+      "curl_exit": 0,
+      "failure_stage": "http_contract",
+      "duration_ms": 62
+    },
+    {
+      "phase": "active",
+      "timestamp": "2026-10-11T16:05:23.011833+00:00",
+      "target": "public-direct",
+      "healthy": false,
+      "http_status": null,
+      "cf_error": null,
+      "probe_id": "5d1073fde73e457386b66f8aa5cab9dd",
+      "cf_ray": null,
+      "curl_exit": 28,
+      "failure_stage": "tcp_connect",
+      "duration_ms": 4125
+    },
+    {
+      "phase": "active",
+      "timestamp": "2026-10-11T16:06:43.006293+00:00",
+      "target": "public-via-local-proxy",
+      "healthy": false,
+      "http_status": null,
+      "cf_error": null,
+      "probe_id": "9238be1c40cc471198d546f6ea511bba",
+      "cf_ray": null,
+      "curl_exit": 28,
+      "failure_stage": "tls_handshake",
+      "duration_ms": 4110
+    },
+    {
+      "phase": "active",
+      "timestamp": "2026-10-11T16:07:33.009320+00:00",
+      "target": "public-via-local-proxy",
+      "healthy": false,
+      "http_status": null,
+      "cf_error": null,
+      "probe_id": "0b0e2af2791447a3ac11eea867c37730",
+      "cf_ray": null,
+      "curl_exit": 28,
+      "failure_stage": "tls_handshake",
+      "duration_ms": 4063
+    }
+  ]
+}

@@ -9,10 +9,11 @@
 - 仓库：`https://github.com/zhang709571153/new-api.git`
 - 部署分支：`codex/sub2api-handoff-20261009`。不要使用默认 `realyu` 分支或根目录 New API 程序作为新业务核心。
 - 本入口编写前已核实 GitHub 与本地提交均为 `5c2764f570e399ebcb46b1703cde2473b521ab9e`，工作区干净；本入口随后的提交继续沿此分支。
-- 默认重建输入：`realyu-singlecore-v0.2.15-20261011-ux7`，源码 `f9941441e79062ae860b1cc0f429656c0e9c4ed3`。21:35最后已确认线上为UX5，UX7发布状态以根目录LIVE最新记录为准。
+- 默认重建输入：`realyu-singlecore-v0.2.15-20261011-ux7`，源码 `f9941441e79062ae860b1cc0f429656c0e9c4ed3`。源机已于2026-10-11 23:57:05 CST ACTIVE；实际版本、后续变化与验收边界查根目录LIVE。
 - 以 `singlecore-source.json` 的固定 Sub2API 上游加完整补丁交付。此次重新比对 433 个改动文件全部一致，Git 内补丁 SHA256 与 manifest 一致；原生开发目录的本地 remote 不是独立 GitHub 发布仓库。
 - 补丁 SHA256：`2944d711c92fd0cf332c92745c31294c619ccf4e53b78f3753145ed37f4c06a0`。UX7本机候选 binary SHA256：`0734fee22619df881f7a014b4383df17e1a9310e5a467627a691741aa21e02c4`。不同工具链重新构建不能仅因文件名相同声称与旧 binary 一致，应记录自己的构建哈希及来源。
-- 21:35的源机 PG 有300条migration记录，最新308；UX7新增309/310，完成后应有302条。必须核实最新完整map，不能沿用旧300项校验。历史归档已进入原生PG。新机恢复当前完整库，不重跑旧 SQLite/S0/S1 客户导入。
+- 源机已完成309/310，共302条migration记录。必须核实最新完整map，不能沿用旧300项校验。历史归档已进入原生PG。新机恢复当前完整库，不重跑旧 SQLite/S0/S1 客户导入。
+- 原生ZPay支付宝充值现已启用，真实扫码页已验证，已存在待支付订单。必须保留全部订单、provider及其稳定加密密钥、原商户回调和查单能力；不能再次执行首次启用或恢复旧快照。实付到账仍待验收，详见[NATIVE-ZPAY-RESTORATION](NATIVE-ZPAY-RESTORATION.md)。
 - 本机 15:27 采样六路径健康，仅证明源机当次健康。服务器报告仍是 10月9日的 Windows Server 2025 Datacenter、4 vCPU/16 GiB；须在目标机重新核对实际状态。
 
 ## 2. 服务器立即可做

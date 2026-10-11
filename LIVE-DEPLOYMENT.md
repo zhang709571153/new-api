@@ -1,5 +1,17 @@
 # Local Sub2API deployment record
 
+## 2026-10-12 00:13 CST — UX7 ACTIVE; native Alipay checkout verified
+
+**Live is `realyu-singlecore-v0.2.15-20261011-ux7`.** Authorized operation `native-ux7-20261011-r3` completed ACTIVE at 2026-10-11 23:57:05.436 CST; the admission gate lasted **31.316 seconds**. The actual manifest/SCM EXE matches source `f9941441e79062ae860b1cc0f429656c0e9c4ed3` and SHA256 `0734fee22619df881f7a014b4383df17e1a9310e5a467627a691741aa21e02c4`. Reviewed migrations 309/310 completed, **302 total**. Same PostgreSQL authority and Redis; no DB restore, legacy restart, wallet rewrite or network change. [Release receipt](lab/sub2api_e2e/ux7-production-20261012.json).
+
+Public/local version, service identity, authentication, history/summary/trend scopes and public content acceptance passed **47/47**. This is read-only HTTP acceptance, not a fresh inference/WS or complete role-specific visual suite. [HTTP checks](lab/sub2api_e2e/ux7-production-http-20261012.json).
+
+The existing ZPay merchant was restored through the native API after release: `easypay` with `compatibilityMode=zpay`, popup/Alipay, native public webhook, and personal balance recharge enabled. Zero fee, multiplier one, no bonus; original six plans unchanged. **One real ¥10 native order reached the official Alipay cashier with a visibly rendered QR code and ¥10.00 amount in CUA.** Merchant query independently returned the same order/merchant, ¥10.00, `alipay9`, unpaid. Native order is PENDING; cash/credit snapshot is ¥10 and the wallet is unchanged. **Ready for Alipay testing; actual payment, public paid callback and one-time credit remain unverified.** Do not describe this as completed payment E2E. [Payment baseline](lab/sub2api_e2e/ux7-alipay-baseline-20261012.json) · [Recovery and acceptance procedure](deploy/sub2api/NATIVE-ZPAY-RESTORATION.md).
+
+Existing 10-second samples after ACTIVE through 00:13:33 CST: backend/bridge/both Tunnel contracts each 99/99; public direct **98/99**, public via SG **97/99**. Both Tunnels had 4 connections; maximum saved interval 10.011458 seconds. All failures, including pre-gate and maintenance samples, remain in [observation evidence](lab/sub2api_e2e/ux7-production-observation-20261012.json). These bounded samples are not continuous availability or long-term stability; a green readiness endpoint does not override failed public samples.
+
+Do not replay completed r2/r3 plans or the first-enable helper: recharge is now open and a real pending order exists. Keep provider, original credentials and callbacks for in-flight orders. New-host migration must preserve **current 302-migration PG, payment/provider data and stable encryption keys**, not the old pre-release snapshot. SMTP wording and new administrator-page browser acceptance remain explicitly outstanding. Older UX5/disabled-payment notes below are historical.
+
 ## 2026-10-11 21:43:34 CST — UX7 release aborted before stop; UX5 remains live
 
 The authorized r2 attempt ran elevated but could not drain existing connections within30s. It recorded `ABORTED_BEFORE_STOP` and reopened admission; the gate interval was30.207s. No API service stop, migration, wallet write, merchant enable or authority change occurred. The installed-but-unreferenced candidate directory is not a live deployment. Do not rerun this completed operation.

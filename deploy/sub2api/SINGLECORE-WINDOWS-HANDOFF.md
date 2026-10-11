@@ -1,5 +1,9 @@
 # RealYu 单核心迁移到另一台 Windows Server
 
+## 2026-10-12 — 实际生产UX7/302迁移，支付已开
+
+UX7/f994144已于23:57:05 CST ACTIVE，维护31.316秒，正式HTTP47/47。原生ZPay商户及支付宝充值已恢复，真实¥10官方二维码验证通过，实付到账待验收。新服务器必须取得最新302项migration完整PG、所有订单/provider数据及稳定加密密钥、必要Redis状态；不可重跑开发机完成计划、首次支付启用、旧库导入或旧300项备份校验。见[LIVE](../../LIVE-DEPLOYMENT.md)和[支付交接](NATIVE-ZPAY-RESTORATION.md)。下方均为历史节点。
+
 ## 2026-10-11 21:35 — UX7 接手覆盖说明
 
 默认源码改为UX7/f994144，433文件完整补丁包含充值、调用时延与平台管理员团队/订阅能力。实际线上和商户启用另查根目录[LIVE](../../LIVE-DEPLOYMENT.md)。UX7需要309/310，共302项migration；下方300/308及更早结构仅为历史，禁止把旧校验器直接用于新库。新机恢复最新完整PG与必要Redis状态，不重导SQLite，不重放开发机计划。参见[UX7交付](UX7-PAYGO-ADMIN-20261011.md)与[整站入口](SERVER-MIGRATION-START-HERE-20261011.md)。

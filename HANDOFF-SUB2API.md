@@ -1,5 +1,11 @@
 # RealYu / Sub2API 部署与迁移交接
 
+## 2026-10-12 — UX7已ACTIVE，支付宝已恢复
+
+23:57:05 CST的r3已正式切换到UX7/f994144，实际EXE SHA为0734fee2开头的完整冻结值，维护31.316秒，现库302项migration。原生支付宝入口已开，真实¥10订单已取得官方扫码页；订单仍PENDING，实付到账尚未验收。见[LIVE实际回执](LIVE-DEPLOYMENT.md)、[支付宝测试基线](lab/sub2api_e2e/ux7-alipay-baseline-20261012.json)与[整站迁移入口](deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md)。
+
+后续迁机必须带走最新订单/provider及稳定加密密钥、PG和必要Redis状态；不重跑首次支付启用、已完成更新或旧SQLite导入，不用发布前快照覆盖新交易。以下“线上UX5/支付未启用”均是历史时点。
+
 ## 2026-10-11 21:35 — 最新默认重建输入为 UX7
 
 完整补丁/manifest已更新为UX7，源码 `f9941441e79062ae860b1cc0f429656c0e9c4ed3`，433文件实际复原一致。包含UX6图标/头像、调用时延、CNY充值与ZPay兼容、独立平台团队和可审计订阅调整。当前线上仍UX5；实际发布和支付启用以[LIVE](LIVE-DEPLOYMENT.md)后续回执为准。UX7新增309/310、完整库302项migration，不能继续用300项308工具验收新库。见[UX7交付](deploy/sub2api/UX7-PAYGO-ADMIN-20261011.md)与[整站迁机入口](deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md)。下方UX6及更早记录保留为历史。
