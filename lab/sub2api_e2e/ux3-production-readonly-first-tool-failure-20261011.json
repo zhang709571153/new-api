@@ -1,0 +1,14 @@
+{
+  "status": "TOOL_FAILURE_BEFORE_HTTP",
+  "original_runtime_result_sha256": "5bc91217ecbccf45196becb7142feb04b8b6e877617cd1bd888a79cf6995488f",
+  "at": "2026-10-11T00:25:06.810256+00:00",
+  "error": "TypeError",
+  "cause": "Windows Medium integrity could not read LocalService ExecutablePath; None passed to path normalization",
+  "http_requests": 0,
+  "model_requests": 0,
+  "production_mutations": false,
+  "repaired_tool_contract": "Require running RealYuApi ancestry and exact listener filename when full path is unavailable; manifest file SHA and all three UX3 version responses checked separately",
+  "offline_regressions": 6,
+  "followup": "ux3-production-readonly-20261011.json",
+  "original_first_failure_preserved": true
+}

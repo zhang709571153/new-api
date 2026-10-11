@@ -1,0 +1,608 @@
+{
+  "format": 1,
+  "kind": "realyu-ux3-candidate-validation",
+  "status": "DEPLOYED_SCOPED_ACCEPTANCE_PASS_WITH_NETWORK_OBSERVATION",
+  "recorded_at": "2026-10-11T00:24:42.450426+00:00",
+  "production_release_status": "ACTIVE_WITH_ONE_RECOVERED_PROXY_SAMPLE_FAILURE",
+  "active_version_at_preflight": "realyu-singlecore-v0.2.15-20261011-ux2",
+  "candidate": {
+    "version": "realyu-singlecore-v0.2.15-20261011-ux3",
+    "source_commit": "3f13f202765f2d9473664f3ec239f71d187adecf",
+    "source_clean": true,
+    "binary_vcs_modified": false,
+    "binary_sha256": "353428ccb6a09a3f512bc8bced5c23364c0d4f7cb46f5cecccaea24782446569",
+    "source_metadata_sha256": "32b49cd349bf653f9ac40f4effd10e11a63bf5b7a2083f36d36b9ef6016abad5",
+    "patch_sha256": "0840cba9656fbea1aeba3d47da24732cebebe9bf2cfd682c4be8f79ff8b54f45",
+    "changed_files": 399,
+    "upstream_tag": "v0.2.15",
+    "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+    "build_evidence": {
+      "private_runtime_file": "ux3-20261011T081405-build.json",
+      "sha256": "3912d9785e231f99f7fd430f5adf292bced44a80e27e97b95580c1ed169d75e2"
+    }
+  },
+  "scope": {
+    "database_migrations": false,
+    "baseline_migration_count": 300,
+    "baseline_latest_migration": "308_realyu_usage_history.sql",
+    "history_reimport": false,
+    "payment_merchant_enablement": false,
+    "managed_external_recharge_enabled": false,
+    "funding_priority_change": false,
+    "api_key_rotation": false,
+    "production_configuration_changes_by_validation": false
+  },
+  "validation": {
+    "frontend_full": {
+      "status": "PASS",
+      "test_files": 87,
+      "tests": 958,
+      "phase": "2026-10-11 08:00:50 build before final mobile/template terminology correction",
+      "evidence": {
+        "private_runtime_file": "ux3-20261011T080050-frontend-tests.log",
+        "sha256": "75d077b9044dffd10cb79569c33a78507a4ed54b7183c7d399ba29d0fef5b38b"
+      },
+      "typecheck_exit": 0,
+      "backend_selected_packages": 8,
+      "backend_packages_with_tests": 6,
+      "backend_packages_no_matched_tests": 2,
+      "build_evidence": {
+        "private_runtime_file": "ux3-20261011T080050-build.json",
+        "sha256": "fa030c4efbe2c31e23a234bc7052923b0fb693d2159c648cba3ec54d6b835e93"
+      },
+      "note": "Some jsdom AggregateError diagnostics remain in the retained log; the test runner reports 958 passed, exit 0."
+    },
+    "frontend_final_targeted": {
+      "status": "PASS",
+      "test_files": 3,
+      "tests": 36,
+      "source_commit": "3f13f202765f2d9473664f3ec239f71d187adecf",
+      "started_at_cst": "2026-10-11 08:22:18",
+      "duration_seconds": 7.45,
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/final2-team-locale-tests.log",
+        "sha256": "f48e8d830cba867020345bfa394e4e85706931cd8e686a766d02530f9fb238ff"
+      },
+      "overlaps_full_suite": true,
+      "note": "Not 36 additional unique tests; do not sum this with 958."
+    },
+    "postgres": {
+      "status": "PASS",
+      "real_isolated_pg_test_roots": 16,
+      "migration_added": false,
+      "history_reimport_required": false,
+      "freeze_evidence": {
+        "private_runtime_file": "ux3-audit-20261011/usage-backend-freeze.json",
+        "sha256": "60aa89cd1e5fde6488f6184f79b461f167f9bab57e32e7145c0370930d8fb7c6"
+      },
+      "evidence": [
+        {
+          "private_runtime_file": "ux3-audit-20261011/usage-backend-pg-first.log",
+          "sha256": "f17c914e116c856d8f320674268cbd462b15eef374d465afb99c822acffc7358"
+        },
+        {
+          "private_runtime_file": "ux3-audit-20261011/usage-managed-trend-final.log",
+          "sha256": "be483f37f2e6c7f1ad694003fd2cd95e6eab62045302145e1227a19e28b37b9c"
+        }
+      ],
+      "handler_selected_regression": "PASS",
+      "service_for_same_command": "COMPILED_NO_MATCHED_TESTS"
+    },
+    "http_final_binary": {
+      "status": "PASS",
+      "passed": 49,
+      "total": 49,
+      "candidate_sha256": "353428ccb6a09a3f512bc8bced5c23364c0d4f7cb46f5cecccaea24782446569",
+      "evidence": {
+        "private_runtime_file": "ux3-http-e2e/20261011T001558Z-c55d66b09c/result.json",
+        "sha256": "09a0e1c1aa8ef6292c29a09a6d3cb14844cfa2f3de359993dc282fbcab0bbadb"
+      },
+      "started_at": "2026-10-11T00:16:02.013183+00:00",
+      "finished_at": "2026-10-11T00:16:07.194142+00:00",
+      "financial_fingerprint_unchanged": true,
+      "financial_fingerprint_sha256": "2084343393927e66f15a7fa4e35b700e9dd3ac56bcbb39b6176f1e58dfe482e8",
+      "production_modified": false,
+      "paid_model_called": false,
+      "fixtures_modified": false,
+      "paygo_guard": {
+        "payment_enabled": false,
+        "reason": "PAYMENT_DISABLED",
+        "merchant_verified": false
+      },
+      "scope": [
+        "self/personal/platform and team authorization",
+        "former member and role10 denial",
+        "old/native trend-list-summary agreement",
+        "explicit time zones and inclusive/exclusive date boundaries",
+        "whole-filter member summary independent of details pagination",
+        "CNY display with USD API amounts",
+        "closed PAYGO without order or credit",
+        "USD public catalogue without supply fields"
+      ],
+      "limits": [
+        "No browser, production, real merchant or model call",
+        "Existing fixture has no HTTP DST transition; true PG tests cover repeated DST hours",
+        "No fixture writes; nickname compares actual fixture values, nonempty override is covered by PG tests"
+      ]
+    },
+    "patch_reconstruction": {
+      "status": "PASS",
+      "reconstructed_files": 399,
+      "private_runtime_included": false,
+      "evidence": {
+        "private_runtime_file": "ux3-source-reconstruction-final2.json",
+        "sha256": "a1c35035638a60497359f3b697b93b2702d4e93134b70a67aaa3b2d87b4fec88"
+      }
+    },
+    "production_readonly_backup": {
+      "status": "PASS",
+      "captured_at": "2026-10-11T00:08:45.083066Z",
+      "restore_verified_at": "2026-10-11T00:08:50.812094Z",
+      "source_port": 28490,
+      "restore_port": 29490,
+      "restore_target_new_unique_database": true,
+      "migration_count": 300,
+      "table_count": 127,
+      "total_rows_verified": 90979,
+      "all_table_hashes_match": true,
+      "schema_sha256": "4b27ba25c1ab6cc6d44107715fa33733fa2ebe9f7055ff91b7be24b8983f4662",
+      "backup_sha256": "aeedc6d04081b277b71f930362da47d0fc5b424ce60ca112da411f6f3174ca33",
+      "backup_size_bytes": 5029910,
+      "evidence": {
+        "private_runtime_file": "production-pg-backup308-20261011/20261011T000844Z_59186858cc/summary.redacted.json",
+        "sha256": "32471e662e82c5952cdb0c1ab9db569d8d141479b22b98918c599f127f8d1333"
+      },
+      "acceptance": {
+        "private_runtime_file": "production-pg-backup308-20261011/20261011T000844Z_59186858cc/acceptance.redacted.json",
+        "sha256": "a8f41cb8c6ca26b377fde7200f59e4931dc9cc978b4a32baadb1d2b301621a75"
+      },
+      "limitation": "Consistent logical snapshot only. LSN is observation, not PITR. Never restore over authority after subsequent financial writes. Ownership/ACL require separate reviewed provisioning."
+    },
+    "release_preparation": {
+      "status": "PREFLIGHT_PASS_NOT_EXECUTED",
+      "plan_sha256": "ef9341f4da330ca8ac6169eef79576e86a0c9bf38e68071fb19ab8e97e4c7dd0",
+      "wrapper_sha256": "c7ad14db674403cfa96884cf56091de7adcd6dc52996a92b30f61f6dcabafbf2",
+      "verified_files": 711,
+      "drain_seconds": 30,
+      "schema_free": true,
+      "offline_guard_tests": 7,
+      "read_only_powershell_51": "PASS",
+      "initial_observation_busy": true,
+      "last_observation_active_requests": 0,
+      "last_observation_reserved_funding": 0,
+      "last_observation_active_batch_jobs": 0,
+      "last_observation_at_cst": "2026-10-11 08:17:36",
+      "evidence": {
+        "private_runtime_file": "production-ux3-update-20261011-r1/preflight.redacted.json",
+        "sha256": "3b99b492f1eab2957ac22463c06860c8e3db88bc1a4a0bbdff4438eab5fbbe87"
+      },
+      "note": "Preparation and idle sampling are not production activation or a reserved maintenance window."
+    }
+  },
+  "independent_reviews": {
+    "contract": {
+      "status": "COMPLETED_NO_UNRESOLVED_P0_P1_IN_REVIEWED_SCOPE",
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/independent-contract-review.md",
+        "sha256": "da7abec2dc548c89816438a09dbc096b9ed07105638a9212d6804a082e8eb0b5"
+      },
+      "resolved": [
+        "filter back/forward retained stale records",
+        "recharge deep link not consumed",
+        "pending create-order query race"
+      ],
+      "independent_payment_tests": 42,
+      "independent_workbench_tests": 11,
+      "note": "Reviewer initially read-only; root then authorized only the pending-order guard fix and regression. Does not attest all 35 requirements."
+    },
+    "visual": {
+      "status": "KEY_PAGE_SAMPLES_PASS_NO_UNRESOLVED_P0_P1",
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/independent-visual-review.md",
+        "sha256": "6806567608d1caa6a20745e8877a5580b66a9173e7b677fdd81c63f7b81fc24d"
+      },
+      "reviewed_source_commit": "3f13f202765f2d9473664f3ec239f71d187adecf",
+      "screenshots_opened": 16,
+      "resolved": [
+        "workbench content below oversized setup card",
+        "weekly entitlement visibility separate from paygo",
+        "dark secondary text contrast",
+        "mobile summary lost member name and clipped long model",
+        "weekly cap terminology"
+      ],
+      "limits": [
+        "Snapshot review is not full accessibility certification.",
+        "Last Top up nowrap and menu terminology were source-reviewed, not independently recaptured.",
+        "No equivalent old-account old-viewport pixel comparison.",
+        "No claim of all locale/theme/breakpoint combinations, keyboard interaction, real touch or screen reader coverage."
+      ]
+    }
+  },
+  "first_failures_retained": [
+    {
+      "item": "PAYGO tab initial convergence",
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/paygo-tests-r1.log",
+        "sha256": "e0abdee3bc3ffbe31ae08eafa179e0d027a8aa6a78e77c0879f67426c1f51407"
+      }
+    },
+    {
+      "item": "PAYGO recharge deep link",
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/paygo-deeplink-r1.log",
+        "sha256": "ec4659feffdf96b04b8f0e6074781103251ea35cdc597f8ab1086736b9da05f3"
+      }
+    },
+    {
+      "item": "query change during pending create-order",
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/f2-pending-order-regression-before-fix.log",
+        "sha256": "24c0e540b95ee6b3fd173c36483f26eebbe0dcdff5f3bf26354fc2367c1cbe6b"
+      }
+    },
+    {
+      "item": "wrong PATH pnpm stopped before tests; dependency purge not allowed",
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/f2-pending-order-first-failure.log",
+        "sha256": "286fbdf8074b3c98b438e34a753e53b179b3e3fa2cf6594a01a28023511e38a3"
+      }
+    },
+    {
+      "item": "mobile expanded team summary clipped member/model text",
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/after-team-en-mobile-summary-final.png",
+        "sha256": "dcc57bd0416e0a83b9dffd084e7a0580eaa8f61300dd9e0230edbe4086a6684f"
+      },
+      "corrected_evidence": {
+        "private_runtime_file": "ux3-audit-20261011/after-team-zh-mobile-expanded-final2.png",
+        "sha256": "f1b38b8c6cedf1f1e59b4b0a27cebead9576371a3bb723b366d934d3b555bb84"
+      }
+    },
+    {
+      "item": "backup guard fixture initially lacked baseline305; fixed fixture, production backup first run passed",
+      "evidence": {
+        "private_runtime_file": "pg-backup308-guard-tests-20261011.log",
+        "sha256": "bda317a238a0fd82bd41b929e3f74190df2f65c833e06d29d81e79d593f46f79"
+      },
+      "corrected_evidence": {
+        "private_runtime_file": "pg-backup308-guard-tests-20261011-r2.log",
+        "sha256": "6a1962e473c07c940167f25e8bdc3afcf6c48bc5982d515f708d423d3f3e6afd"
+      }
+    }
+  ],
+  "known_remaining_gaps": [
+    "Managed administrator weekly subscription grant/edit and atomic team creation.",
+    "Team purchase, renewal, upgrade, refund and business lifecycle.",
+    "Administrator user-row managed subscription summary.",
+    "Actual external PAYGO merchant collection, exact CNY-to-USD fulfillment, callbacks and refunds.",
+    "Single personal/team selector governing all workbench funds and statistics.",
+    "Third chart type/model distribution and complete team filter deep links.",
+    "One refresh snapshot for the whole workbench and automatic week/expiry refresh.",
+    "End-to-end audit of persisted usage/error IP data.",
+    "Physical mobile, all accessibility combinations, and four actual client installer acceptance."
+  ],
+  "data_handling": {
+    "credentials_or_customer_rows_included": false,
+    "raw_private_logs_or_screenshots_copied_to_git": false,
+    "private_receipts_env_databases_included": false,
+    "private_file_references_are_audit_locators_not_public_artifacts": true
+  },
+  "claim_limits": [
+    "Not all 35 requirements are complete.",
+    "Layered test counts overlap and must not be added.",
+    "Candidate test results do not substitute for live browser or ordinary-user authorization acceptance.",
+    "Real merchant payment was not tested. Live model verification is limited to the three listed SSE/WS calls; PDF, web-search, images and four client installations were not rerun in UX3.",
+    "Ledger acceptance is a read-only post-request consistency check for the three acceptance calls, not an independent before/after wallet snapshot or all-customer audit.",
+    "Live browser acceptance is limited to an existing administrator, English, light mode, requested 1280x720 and 390x844 viewports. Ordinary-user live login/403 and physical mobile were not run.",
+    "Finite sampled tests and this release acceptance do not establish long-term stability.",
+    "Post-ACTIVE health sampling recorded one recovered SG-proxy TLS-handshake failure; do not claim all six paths had zero failures or infer exact outage duration or release causality."
+  ],
+  "deployment": {
+    "phase": "ACTIVE",
+    "operation_id": "native-ux3-20261011-r1",
+    "active_at_cst": "2026-10-11T08:24:45.448269+08:00",
+    "maintenance_seconds": 32.518,
+    "database_restored": false,
+    "old_legacy_services_started": false,
+    "database_migrations": false,
+    "worker_session": 0,
+    "worker_binary_sha256": "353428ccb6a09a3f512bc8bced5c23364c0d4f7cb46f5cecccaea24782446569",
+    "receipt": {
+      "private_runtime_file": "production-ux3-update-20261011-r1/update-receipt.json",
+      "sha256": "7bae5893587f4a0070d7ad4f01f414ccba171207f03e9771660c427e57c5fc47"
+    },
+    "worker_observation": {
+      "private_runtime_file": "production-ux3-update-20261011-r1/worker-observation-1791678285437543100.json",
+      "sha256": "6eb936242f4e791718b64c315d3938ea2a07a0e4de8338704bb714d4d9a60788"
+    },
+    "uac_attempts": [
+      {
+        "attempt": 1,
+        "status": "CANCELLED_NOT_STARTED",
+        "evidence": "release-owner report; no update execution started"
+      },
+      {
+        "attempt": 2,
+        "status": "APPROVED_AND_ACTIVE",
+        "started_at_cst": "2026-10-11 08:24",
+        "evidence": "successful updater receipt and actual worker observation"
+      }
+    ],
+    "public_acceptance": "HTTP_PROTOCOL_LEDGER_AND_SCOPED_ADMIN_BROWSER_PASS",
+    "note": "The previous preparation record remains a historical preflight observation, not the deployment result."
+  },
+  "production_acceptance": {
+    "public_readonly": {
+      "status": "PASS",
+      "checks_passed": 32,
+      "checks_total": 32,
+      "http_requests": 55,
+      "evidence": {
+        "private_runtime_file": "ux3-production-readonly/20261011T002628Z-1f6e3ee39d/result.json",
+        "sha256": "541244b721f62e9babad95a680bbac7f39b260343ea0fb8d06c73b0e985ad7a0"
+      },
+      "model_requests": 0,
+      "financial_or_configuration_mutations": false,
+      "ordinary_user_live_login_403": "NOT_RUN",
+      "limits": [
+        "Ordinary-user live login/403 NOT_RUN: no existing authorized credentials; no forged JWT or account mutation",
+        "HTTP metadata/body hashes only; no customer rows, nicknames, identities, keys, tokens or full HTML exported",
+        "No model/SSE/WS/real payment/browser behavior in this read-only run",
+        "Fixed past window avoids current requests; a late settlement may still change a historical row between requests and needs review, never a silent retry",
+        "Login may update native authentication timestamps/session cache; no financial/configuration mutation is attempted"
+      ],
+      "claim": "Public HTML/API and authenticated administrator fixed-window projections; not browser behavior or live ordinary-user login."
+    },
+    "real_upstream_protocol": {
+      "status": "PASS",
+      "model": "gpt-5.6-sol",
+      "model_requests": 3,
+      "responses_sse": 1,
+      "websocket_connections": 1,
+      "same_socket_turns": 2,
+      "same_socket_continuation": true,
+      "automatic_retries": 0,
+      "tls_verification": true,
+      "trust_ambient_proxy": false,
+      "delta_final_consistent_all": true,
+      "completed_items_preserved_all": true,
+      "evidence": {
+        "private_runtime_file": "production-ux3-protocol-20261011-0828/summary.json",
+        "sha256": "aec70bcb811f655fdededb0cb17d86352c32a73cf2bfde89c99dc70aa8759a4c"
+      },
+      "not_run_cases": [
+        "PDF",
+        "web_search",
+        "image_generation",
+        "real_merchant_payment",
+        "four_client_installations"
+      ],
+      "ledger_reconciliation": "PASS_SEPARATE_READONLY_POSTREQUEST_AUDIT",
+      "browser_e2e": "NOT_RUN",
+      "long_term_stability": "NOT_PROVEN",
+      "redacted_git_report": "lab/sub2api_e2e/ux3-production-protocol-20261011.json"
+    },
+    "browser": {
+      "status": "PASS_WITH_EXPLICIT_SCOPE",
+      "recorded_at": "2026-10-11T00:36:27.384110+00:00",
+      "evidence": {
+        "git_file": "lab/sub2api_e2e/ux3-production-browser-20261011.json",
+        "sha256": "fa04b70d559d49555c9c0c7e4e6b7b174a3f7bb7a71006ecd02b918bdf0678c3"
+      },
+      "evidence_source": "Release owner actual CUA interaction and screenshots; this documentation task did not repeat browser actions.",
+      "actor_role": "existing authorized native administrator",
+      "locale": "en",
+      "theme": "light",
+      "requested_viewports": [
+        {
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "width": 390,
+          "height": 844
+        }
+      ],
+      "checks": [
+        "Existing-credential form sign-in reaches dashboard",
+        "English light desktop shows personal funds, full trend and recent requests in first viewport",
+        "English light mobile shows fund and usage cards followed by the trend",
+        "Mobile document clientWidth and scrollWidth both equal 382; no full-page horizontal overflow"
+      ],
+      "mobile_root_client_width": 382,
+      "mobile_root_scroll_width": 382,
+      "screenshots": [
+        {
+          "private_runtime_file": "ux3-audit-20261011/live-workbench-en-desktop.private.png",
+          "sha256": "1be79494d762c4cd83e3e0dd17948776210af26a77d4a7f9524c651463783ed6",
+          "uploaded_to_git": false
+        },
+        {
+          "private_runtime_file": "ux3-audit-20261011/live-workbench-en-mobile.private.png",
+          "sha256": "cc1a5314b300f176a72448d4e1a3a7f839fb08c8bba8d500e1fc54d37538cfde",
+          "uploaded_to_git": false
+        }
+      ],
+      "first_tool_failures": {
+        "preserved_in_chat_tool_transcript": true,
+        "count": 3,
+        "kind": "30-second CUA create/bind or DOM-observation timeout",
+        "classification": "observation failure; does not itself establish website outage",
+        "resolved_by": "existing-tab screenshot inspection, authorized explicit credential form entry and subsequent dashboard observation"
+      },
+      "not_run_live": [
+        "ordinary-user form login",
+        "physical mobile OS",
+        "all language/theme combinations",
+        "real merchant payment",
+        "all administrator pages"
+      ],
+      "candidate_browser_review_remains_valid": true,
+      "claim": "Existing administrator English/light desktop and mobile workbench only; broader isolated candidate coverage is not live ordinary-user, all-locale/theme, or physical-device acceptance."
+    },
+    "ledger": {
+      "status": "PASS",
+      "captured_at": "2026-10-11T08:33:58.392470+08:00",
+      "evidence": {
+        "private_runtime_file": "ux3-protocol-funding-audit/20261011T003358Z-28e1b51921/result.json",
+        "sha256": "da80cd611ee050d51324b3311e7817c2ee3134222e6533ed75fedc880432837e"
+      },
+      "redacted_git_report": "lab/sub2api_e2e/ux3-production-protocol-funding-20261011.json",
+      "transaction_read_only": true,
+      "audit_model_requests": 0,
+      "audit_production_writes": 0,
+      "total_usage_rows": 3,
+      "total_settled_requests": 3,
+      "total_billing_dedup_rows": 3,
+      "window_funding_rows": 3,
+      "window_usage_rows": 3,
+      "window_reserved_rows": 0,
+      "total_funding_quota": 227,
+      "total_actual_cost_usd": "0.0004540000",
+      "cases": [
+        {
+          "name": "responses-stream",
+          "status": "PASS",
+          "usage_rows": 1,
+          "billing_dedup_rows": 1,
+          "funding_status": "settled",
+          "funding_quota": 172,
+          "actual_cost_usd": "0.0003440000",
+          "exact_cost_quota_matches": true,
+          "scope_matches": true
+        },
+        {
+          "name": "websocket-turn-1",
+          "status": "PASS",
+          "usage_rows": 1,
+          "billing_dedup_rows": 1,
+          "funding_status": "settled",
+          "funding_quota": 14,
+          "actual_cost_usd": "0.0000280000",
+          "exact_cost_quota_matches": true,
+          "scope_matches": true
+        },
+        {
+          "name": "websocket-turn-2",
+          "status": "PASS",
+          "usage_rows": 1,
+          "billing_dedup_rows": 1,
+          "funding_status": "settled",
+          "funding_quota": 41,
+          "actual_cost_usd": "0.0000820000",
+          "exact_cost_quota_matches": true,
+          "scope_matches": true
+        }
+      ],
+      "correlation": "Exact acceptance key + fixed protocol window + three unique input/output/cache signatures; native HTTP/WS logs bind protocol request IDs to that key. Upstream response ID is not the funding request primary key.",
+      "limitations": [
+        "Read-only post-request consistency check, not an independent pre/post wallet snapshot.",
+        "No direct response_id foreign key exists; correlation is documented and requires a unique match.",
+        "Reserved count applies only to the acceptance key and fixed acceptance window, not all customer traffic."
+      ]
+    },
+    "first_tool_failure": {
+      "status": "RETAINED_PRENETWORK_ENVIRONMENT_FAILURE",
+      "error_type": "PackageNotFoundError",
+      "network_requests_executed": 0,
+      "model_requests_attempted": 0,
+      "evidence": {
+        "private_runtime_file": "ux3-audit-20261011/protocol-first-tool-failure.json",
+        "sha256": "b74c676c4c5a73d5eea260de122b1fd67289b27a54cc138f7082d03801858ef0"
+      },
+      "resolution": "Used an existing SDK environment with httpx; did not repeat a charged request."
+    },
+    "network_observation": {
+      "status": "OBSERVED_FAILURES",
+      "evidence": {
+        "git_file": "lab/sub2api_e2e/ux3-production-observation-20261011.json",
+        "sha256": "1f207b8c1353f9a0b9acaad87b6c3dbbc92b495511b47620e855e9664d63f6ce"
+      },
+      "source": "Existing ten-second collector only; no new probe or service",
+      "active_at": "2026-10-11T00:24:45.448269+00:00",
+      "last_saved_sample": "2026-10-11T00:40:18.613613+00:00",
+      "last_sample_age_seconds_at_read": 3.713,
+      "targets": {
+        "public-direct": {
+          "samples": 94,
+          "healthy": 94,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "public-via-local-proxy": {
+          "samples": 94,
+          "healthy": 93,
+          "failed": 1,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 98.936
+        },
+        "backend": {
+          "samples": 94,
+          "healthy": 94,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "bridge": {
+          "samples": 94,
+          "healthy": 94,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "tunnel-primary": {
+          "samples": 94,
+          "healthy": 94,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "tunnel-replica": {
+          "samples": 94,
+          "healthy": 94,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        }
+      },
+      "post_active_failures": [
+        {
+          "timestamp": "2026-10-11T00:33:18.578923+00:00",
+          "target": "public-via-local-proxy",
+          "probe_id": "e52abd9750414261875b9242ef7b25f1",
+          "http_status": null,
+          "cf_error": null,
+          "cf_ray": null,
+          "category": "timeout",
+          "failure_stage": "tls_handshake",
+          "curl_exit": 28,
+          "duration_ms": 4110,
+          "proxy_connect_http_status": 200,
+          "other_targets_same_sample_healthy": true,
+          "previous_saved_target_sample": {
+            "timestamp": "2026-10-11T00:33:08.573342+00:00",
+            "healthy": true,
+            "http_status": 200,
+            "category": "healthy",
+            "probe_id": "aaad52ab3ff848af8074ef5477e2ebd4"
+          },
+          "next_saved_target_sample": {
+            "timestamp": "2026-10-11T00:33:28.587683+00:00",
+            "healthy": true,
+            "http_status": 200,
+            "category": "healthy",
+            "probe_id": "610c3da01dc3420ebae009e3f783c3e3"
+          }
+        }
+      ],
+      "production_changes": false,
+      "claim": "One observed TLS-handshake failure on explicit SG proxy path, healthy saved samples before and after and five other targets healthy concurrently. Not proof of a new UX application P0, exact user outage duration, or all-path zero failures.",
+      "limitations": [
+        "Health contract sampling only; independent protocol evidence records actual inference.",
+        "Not continuous request coverage, long-term stability or an SLA.",
+        "Sample start times cannot give exact user outage duration; the maintenance gate receipt is recorded separately."
+      ]
+    }
+  }
+}

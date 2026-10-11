@@ -1,0 +1,55 @@
+{
+  "status": "PASS_WITH_EXPLICIT_SCOPE",
+  "recorded_at": "2026-10-11T00:36:27.384110+00:00",
+  "version": "realyu-singlecore-v0.2.15-20261011-ux3",
+  "target": "https://api.realyu.fun/dashboard",
+  "method": "CUA browser interaction and actual screenshots; no external browser driver",
+  "actor_role": "existing authorized native administrator",
+  "checks": [
+    "Existing-credential form sign-in reaches dashboard",
+    "English light desktop shows personal funds, full trend and recent requests in first viewport",
+    "English light mobile shows fund and usage cards followed by the trend",
+    "Mobile document clientWidth and scrollWidth both equal 382; no full-page horizontal overflow"
+  ],
+  "requested_viewports": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "screenshots": [
+    {
+      "file_on_origin_host": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux3-audit-20261011\\live-workbench-en-desktop.private.png",
+      "sha256": "1be79494d762c4cd83e3e0dd17948776210af26a77d4a7f9524c651463783ed6",
+      "uploaded_to_git": false
+    },
+    {
+      "file_on_origin_host": "C:\\srv\\realyu-singlecore-dev\\runtime\\ux3-audit-20261011\\live-workbench-en-mobile.private.png",
+      "sha256": "cc1a5314b300f176a72448d4e1a3a7f839fb08c8bba8d500e1fc54d37538cfde",
+      "uploaded_to_git": false
+    }
+  ],
+  "first_tool_failures": {
+    "preserved_in_chat_tool_transcript": true,
+    "count": 3,
+    "kind": "30-second CUA create/bind or DOM-observation timeout",
+    "classification": "observation failure; does not itself establish website outage",
+    "resolved_by": "existing-tab screenshot inspection, authorized explicit credential form entry and subsequent dashboard observation"
+  },
+  "cleanup": {
+    "temporary_tabs_closed": true,
+    "viewport_reset": true
+  },
+  "not_run_live": [
+    "ordinary-user form login",
+    "physical mobile OS",
+    "all language/theme combinations",
+    "real merchant payment",
+    "all administrator pages"
+  ],
+  "additional_scope": "Isolated synthetic-account browser evidence and independent review cover the broader Chinese/English and light/dark matrix. It is not production-role acceptance."
+}

@@ -1,0 +1,90 @@
+{
+  "images": [
+    {
+      "file": "ux3-visual/after-admin-zh-dark-desktop-final.jpg",
+      "sha256": "00de734c3ea09ca3574162daacbf003dd0dccf50ff57c8931d5d3c6dec31f02c",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-paygo-en-mobile-dark-r3.jpg",
+      "sha256": "13c3dd5587a38a7ef415f8e5b4e037786c3731564c2f0651f9e8f79db64863f1",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-team-en-mobile-summary-final.jpg",
+      "sha256": "dcc57bd0416e0a83b9dffd084e7a0580eaa8f61300dd9e0230edbe4086a6684f",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-team-owner-en-dark-menu-r4.jpg",
+      "sha256": "467180802da72a86ed2b7c612b3d829eb765e46e605cd5393a4d17defd4647e5",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-team-owner-en-dark-mobile-menu-r4.jpg",
+      "sha256": "40fc9b8124406a4a0c1f68902c9b928360ffba2bc82205135f0ac94645fad1fc",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-team-zh-desktop-summary-final2.jpg",
+      "sha256": "281778c9f5c7217ebdea9fded962029a4a5727b04bbd68bf80a52df7867e66d0",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-team-zh-mobile-expanded-final2.jpg",
+      "sha256": "f1b38b8c6cedf1f1e59b4b0a27cebead9576371a3bb723b366d934d3b555bb84",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-team-zh-mobile-summary-final2.jpg",
+      "sha256": "5ef91a6991ca0ee1e763184fb295594a99debb078d9f548d13f5d00c2ea7b112",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-workbench-admin-dark-desktop-r2.jpg",
+      "sha256": "14af8dd454a5cf6fb59d40ad6be9f81dc6a3288df190025aa288e69e8fd1d3a0",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-workbench-member-en-mobile-dark-settled-r3.jpg",
+      "sha256": "0780b710b13c05fade458f2fc19fac8c76925108a9247df5a6a7b0257a6f72e8",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-workbench-member-en-mobile-r3.jpg",
+      "sha256": "d868e42fca48740972e22b99ccab44afea0eca9d530a95a1449cfb7a1b318829",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-workbench-member-en-mobile-settled-r3.jpg",
+      "sha256": "2919f91b21c0f0ac0d3e0525249e7d822277b824ae564a2357b529fbd2fda49c",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-workbench-member-light-desktop-r3.jpg",
+      "sha256": "72bd725b689948a810e287f53e87c3863a23f2536336a5fed6d9deee60c0afda",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/after-workbench-owner-light-desktop-r2.jpg",
+      "sha256": "54faad0bafbcdcd018937a7083ddf7e2f983291fbec368e356c92dcc10182c27",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/before-admin-desktop.jpg",
+      "sha256": "7c4de08597b212ee469120a4868b86aa768a116f85ff84521f28f98f4a8db695",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/before-team-fixture-desktop.jpg",
+      "sha256": "582d0f6bc881265809e7c737ab1db03a960735e5188a8723f7ba2e6b30308485",
+      "fixture_only": true
+    },
+    {
+      "file": "ux3-visual/before-workbench-desktop.jpg",
+      "sha256": "29b7d7c1f01a6603cffcf54cb3273efe57768fe4086a1565086d0161a546c7ec",
+      "fixture_only": true
+    }
+  ],
+  "production_screenshots_included": false
+}

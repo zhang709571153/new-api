@@ -1,0 +1,259 @@
+{
+  "status": "PASS",
+  "target": "https://api.realyu.fun/v1",
+  "expected_version": "realyu-singlecore-v0.2.15-20261011-ux3",
+  "proxy": "http://127.0.0.1:17897",
+  "dependencies": {
+    "httpx": "0.28.1",
+    "websockets": "17.2"
+  },
+  "maximum_model_requests": 3,
+  "automatic_retries": 0,
+  "model": "gpt-5.6-sol",
+  "started_at": "2026-10-11T00:27:12.037369+00:00",
+  "cases": [
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "at": "2026-10-11T00:27:12.446003+00:00",
+      "response_id_sha256": "b054b23cfa987266e9dddef2dbb4efed63f42cf6d754db49d064b329b018e99a",
+      "usage": {
+        "input_tokens": 4408,
+        "input_tokens_details": {
+          "cached_tokens": 4224,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 16,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4424,
+        "attribution": {
+          "items": {
+            "msg_0ca8f6834fb6cb3f016acad7e13ccc81918cb1909732c30649": {
+              "input_tokens": 24,
+              "cached_tokens": 0,
+              "cache_write_tokens": 0,
+              "output_tokens": 0,
+              "content": [
+                {
+                  "input_tokens": 24,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 0
+                }
+              ]
+            },
+            "msg_0ca8f6834fb6cb3f016acad7e1dffc81919dafc507c7526607": {
+              "input_tokens": 2,
+              "cached_tokens": 0,
+              "cache_write_tokens": 0,
+              "output_tokens": 16,
+              "content": [
+                {
+                  "input_tokens": 2,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 16
+                }
+              ]
+            }
+          },
+          "request_fields": {
+            "instructions": {
+              "input_tokens": 4382,
+              "cached_tokens": 4224,
+              "cache_write_tokens": 0,
+              "output_tokens": 0
+            }
+          }
+        }
+      },
+      "delta_final_consistent": true,
+      "exact_marker_match": true,
+      "seconds": 1.656
+    },
+    {
+      "name": "websocket",
+      "status": "PASS",
+      "at": "2026-10-11T00:27:14.107267+00:00",
+      "same_socket_continuation": true,
+      "handshake_status": 101,
+      "probe_id_sha256": "ffe1223578dc51a5c3d1e7b9c2a22d7c9e6ea1bfb535595bae81af58202bd4d0",
+      "turns": [
+        {
+          "name": "websocket-turn-1",
+          "status": "PASS",
+          "http_status": 101,
+          "probe_id_sha256": "ffe1223578dc51a5c3d1e7b9c2a22d7c9e6ea1bfb535595bae81af58202bd4d0",
+          "cf_ray": "a489bce6ed19d176-SIN",
+          "request_id_sha256": "ce882522c54b81aef14c75acbaa06f5a71465c1d45cda070412d5706068ce1dd",
+          "bytes": 8057,
+          "response_id_sha256": "ea705cd009d96c53971ac054d6c4050e612098d06220e6f05ee26e50cdf57675",
+          "completion_status": "completed",
+          "response_model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 31,
+            "input_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0
+            },
+            "output_tokens": 5,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 36,
+            "attribution": {
+              "items": {
+                "msg_0a2d3016a33fcc90016acad7e36cf48191a96245b620f74b5f": {
+                  "input_tokens": 29,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 0,
+                  "content": [
+                    {
+                      "input_tokens": 29,
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "output_tokens": 0
+                    }
+                  ]
+                },
+                "msg_0a2d3016a33fcc90016acad7e4301081919da8f8909aa21356": {
+                  "input_tokens": 2,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 5,
+                  "content": [
+                    {
+                      "input_tokens": 2,
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "output_tokens": 5
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "output_types": [
+            "message"
+          ],
+          "final_characters": 3,
+          "events": 12,
+          "delta_characters": 3,
+          "delta_final_consistent": true,
+          "completed_items_preserved": true,
+          "compact_terminal_output": false,
+          "output_reconstructed_from_done_items": false,
+          "seconds": 1.797
+        },
+        {
+          "name": "websocket-turn-2",
+          "status": "PASS",
+          "http_status": 101,
+          "probe_id_sha256": "ffe1223578dc51a5c3d1e7b9c2a22d7c9e6ea1bfb535595bae81af58202bd4d0",
+          "cf_ray": "a489bce6ed19d176-SIN",
+          "request_id_sha256": "ce882522c54b81aef14c75acbaa06f5a71465c1d45cda070412d5706068ce1dd",
+          "bytes": 13388,
+          "response_id_sha256": "4831db97d03830ca71ba481012bbd2dbdd0260e89ec541a9d7112cbc2f0739bf",
+          "completion_status": "completed",
+          "response_model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 52,
+            "input_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0
+            },
+            "output_tokens": 22,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 74,
+            "attribution": {
+              "items": {
+                "msg_0a2d3016a33fcc90016acad7e36cf48191a96245b620f74b5f": {
+                  "input_tokens": 29,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 0,
+                  "content": [
+                    {
+                      "input_tokens": 29,
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "output_tokens": 0
+                    }
+                  ]
+                },
+                "msg_0a2d3016a33fcc90016acad7e4301081919da8f8909aa21356": {
+                  "input_tokens": 7,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 0,
+                  "content": [
+                    {
+                      "input_tokens": 7,
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "output_tokens": 0
+                    }
+                  ]
+                },
+                "msg_0a2d3016a33fcc90016acad7e5667c8191bcf2cfdab7e7cdf0": {
+                  "input_tokens": 14,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 0,
+                  "content": [
+                    {
+                      "input_tokens": 14,
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "output_tokens": 0
+                    }
+                  ]
+                },
+                "msg_0a2d3016a33fcc90016acad7e603e481918d15a2cd03105145": {
+                  "input_tokens": 2,
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "output_tokens": 22,
+                  "content": [
+                    {
+                      "input_tokens": 2,
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "output_tokens": 22
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "output_types": [
+            "message"
+          ],
+          "final_characters": 28,
+          "events": 29,
+          "delta_characters": 28,
+          "delta_final_consistent": true,
+          "completed_items_preserved": true,
+          "compact_terminal_output": false,
+          "output_reconstructed_from_done_items": false,
+          "seconds": 1.937
+        }
+      ],
+      "cf_ray": "a489bce6ed19d176-SIN",
+      "request_id_sha256": "ce882522c54b81aef14c75acbaa06f5a71465c1d45cda070412d5706068ce1dd",
+      "seconds": 4.266
+    }
+  ],
+  "model_requests_attempted": 3,
+  "seconds": 6.328,
+  "source_summary_sha256": "aec70bcb811f655fdededb0cb17d86352c32a73cf2bfde89c99dc70aa8759a4c",
+  "ledger_reconciliation": "PASS; see ux3-production-protocol-funding-20261011.json",
+  "limitations": [
+    "SSE plus same-socket two-turn WS only; PDF/search/image tools and installed desktop clients were not rerun in this UX-only release."
+  ]
+}

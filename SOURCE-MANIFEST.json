@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "d2668662f3c5b9112af18e4fe2775d043fb9a6e6fc1fd31377c4d978e034555a",
-      "source_sha256": "d2668662f3c5b9112af18e4fe2775d043fb9a6e6fc1fd31377c4d978e034555a",
-      "bytes": 36411,
+      "sha256": "7b3a854e9e76ef591983c09ddba7da311f568710873d5edb14f55eaa2e90bdf6",
+      "source_sha256": "7b3a854e9e76ef591983c09ddba7da311f568710873d5edb14f55eaa2e90bdf6",
+      "bytes": 39622,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "f29749f0950d01d21395d55690357c433fbb384eae5794eefbbe500819a1e229",
-      "source_sha256": "f29749f0950d01d21395d55690357c433fbb384eae5794eefbbe500819a1e229",
-      "bytes": 16658,
+      "sha256": "bc04f97d303fa9105bb73fdc67d0a9fa5be5ef9fe00c883da71b72822792f6d8",
+      "source_sha256": "bc04f97d303fa9105bb73fdc67d0a9fa5be5ef9fe00c883da71b72822792f6d8",
+      "bytes": 19869,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "3d11ebb158b9d277f3d795723541856ca7cb2c1262c1058f281bb14fb86c48b5",
-      "source_sha256": "3d11ebb158b9d277f3d795723541856ca7cb2c1262c1058f281bb14fb86c48b5",
-      "bytes": 18215,
+      "sha256": "96df45daf2137c1677618c33d82ed4efc956ac71af7f8639fa4751169cc81e50",
+      "source_sha256": "96df45daf2137c1677618c33d82ed4efc956ac71af7f8639fa4751169cc81e50",
+      "bytes": 21426,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "d1f6f49959d93707a88f0ccc756270ce99ad834c665ed6e3ec188098764496cd",
-      "source_sha256": "d1f6f49959d93707a88f0ccc756270ce99ad834c665ed6e3ec188098764496cd",
-      "bytes": 16224,
+      "sha256": "97cb0997e3b258a9a4ba1a51f45de193f99dc8722e9b4a856400584c38e33f0b",
+      "source_sha256": "97cb0997e3b258a9a4ba1a51f45de193f99dc8722e9b4a856400584c38e33f0b",
+      "bytes": 18180,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2575,9 +2575,9 @@
     },
     {
       "path": "deploy/sub2api/Prepare-SingleCore.ps1",
-      "sha256": "33dc137a840cbb812b027f3e893fc1d1a7ecb3301231c784d9eb0bef6666b7b3",
-      "source_sha256": "33dc137a840cbb812b027f3e893fc1d1a7ecb3301231c784d9eb0bef6666b7b3",
-      "bytes": 9633,
+      "sha256": "9bc5c1385910ed19a93436e583e79acb8b26390155596d306d815073bb4d54a5",
+      "source_sha256": "9bc5c1385910ed19a93436e583e79acb8b26390155596d306d815073bb4d54a5",
+      "bytes": 9779,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/Prepare-SingleCore.ps1"
     },
@@ -2796,6 +2796,22 @@
       "bytes": 8217,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/UX2-RELEASE-20261011.md"
+    },
+    {
+      "path": "deploy/sub2api/UX3-RECOVERY-20261011.md",
+      "sha256": "7e2695100b865c8028b18407b58bc961233a07fbe52baec5ef128fb2b8b41dd6",
+      "source_sha256": "7e2695100b865c8028b18407b58bc961233a07fbe52baec5ef128fb2b8b41dd6",
+      "bytes": 20462,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/UX3-RECOVERY-20261011.md"
+    },
+    {
+      "path": "deploy/sub2api/UX3-WINDOWS-UPDATE-20261011.md",
+      "sha256": "bb9bb0d45eedf8aee299566e42fdb488ab506ddffd9b370994df1742ab0da972",
+      "source_sha256": "bb9bb0d45eedf8aee299566e42fdb488ab506ddffd9b370994df1742ab0da972",
+      "bytes": 9350,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/UX3-WINDOWS-UPDATE-20261011.md"
     },
     {
       "path": "deploy/sub2api/admin-ingress.example.yml",
@@ -3103,9 +3119,9 @@
     },
     {
       "path": "deploy/sub2api/singlecore-candidate.patch",
-      "sha256": "c414a0376a9ce112ff31f45c8e74475eb8b35b2f9575b62c38e63d5e9c5a007b",
-      "source_sha256": "c414a0376a9ce112ff31f45c8e74475eb8b35b2f9575b62c38e63d5e9c5a007b",
-      "bytes": 1815437,
+      "sha256": "0840cba9656fbea1aeba3d47da24732cebebe9bf2cfd682c4be8f79ff8b54f45",
+      "source_sha256": "0840cba9656fbea1aeba3d47da24732cebebe9bf2cfd682c4be8f79ff8b54f45",
+      "bytes": 1978340,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore-candidate.patch"
     },
@@ -3135,9 +3151,9 @@
     },
     {
       "path": "deploy/sub2api/singlecore-source.json",
-      "sha256": "3c1e133770ec26c1ca6e0a6e006459da661d206aeca09fbeed834e7d5ed91287",
-      "source_sha256": "3c1e133770ec26c1ca6e0a6e006459da661d206aeca09fbeed834e7d5ed91287",
-      "bytes": 71331,
+      "sha256": "32b49cd349bf653f9ac40f4effd10e11a63bf5b7a2083f36d36b9ef6016abad5",
+      "source_sha256": "32b49cd349bf653f9ac40f4effd10e11a63bf5b7a2083f36d36b9ef6016abad5",
+      "bytes": 74327,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore-source.json"
     },
@@ -3212,6 +3228,14 @@
       "bytes": 1854,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore_pg_backup307.py"
+    },
+    {
+      "path": "deploy/sub2api/singlecore_pg_backup308.py",
+      "sha256": "3feb863488bd6dc4424bb7942617ddb500737f4d11ddcf0d1ca4b81804a28152",
+      "source_sha256": "3feb863488bd6dc4424bb7942617ddb500737f4d11ddcf0d1ca4b81804a28152",
+      "bytes": 2363,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/singlecore_pg_backup308.py"
     },
     {
       "path": "deploy/sub2api/singlecore_pricing.py",
@@ -3388,6 +3412,14 @@
       "bytes": 1822,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/test_singlecore_pg_backup307.py"
+    },
+    {
+      "path": "deploy/sub2api/test_singlecore_pg_backup308.py",
+      "sha256": "3cdbd866d004fd9c4d236748451e82d349b3665fbde95dd51f4d7036ad66a917",
+      "source_sha256": "3cdbd866d004fd9c4d236748451e82d349b3665fbde95dd51f4d7036ad66a917",
+      "bytes": 4118,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/test_singlecore_pg_backup308.py"
     },
     {
       "path": "deploy/sub2api/test_singlecore_pricing.py",
@@ -3942,6 +3974,22 @@
       "source_path": "lab/sub2api_e2e/SINGLECORE-PUBLIC-ACCEPTANCE.md"
     },
     {
+      "path": "lab/sub2api_e2e/UX3-PROTOCOL-FUNDING-20261011.md",
+      "sha256": "b8ba53870a52a5bd05bce71560370c84fa496ba455be05f4ff7488df8fc03cfe",
+      "source_sha256": "b8ba53870a52a5bd05bce71560370c84fa496ba455be05f4ff7488df8fc03cfe",
+      "bytes": 2627,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/UX3-PROTOCOL-FUNDING-20261011.md"
+    },
+    {
+      "path": "lab/sub2api_e2e/UX3-READONLY-ACCEPTANCE-20261011.md",
+      "sha256": "ccda824a23adc282c07767a5b62bd0622d3adccd1a60d66571b622809e41aedf",
+      "source_sha256": "ccda824a23adc282c07767a5b62bd0622d3adccd1a60d66571b622809e41aedf",
+      "bytes": 4061,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/UX3-READONLY-ACCEPTANCE-20261011.md"
+    },
+    {
       "path": "lab/sub2api_e2e/acceptance-gaps.json",
       "sha256": "ea28d051f1acf1b38c234f0d52e62c6b314dcc9888ba3474f3e33d0c577dd978",
       "source_sha256": "be1ae9ff365f41a7d78bf66f32e9073124b4dea93c8813c9fdf2dad754982da9",
@@ -3964,6 +4012,14 @@
       "sha256": "e7b796ec9e410dfc05afda9ce93084f0ac23969f6017b2a6393612ca1f3a442e",
       "bytes": 4954,
       "git_mode": "100644"
+    },
+    {
+      "path": "lab/sub2api_e2e/audit_ux3_protocol_funding.py",
+      "sha256": "c0f85aa80c85218ce7d34c8795f1c92fdc379b9c5cfb3cfb1cf7cfd1f8876cf0",
+      "source_sha256": "c0f85aa80c85218ce7d34c8795f1c92fdc379b9c5cfb3cfb1cf7cfd1f8876cf0",
+      "bytes": 11743,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/audit_ux3_protocol_funding.py"
     },
     {
       "path": "lab/sub2api_e2e/bootstrap-summary.json",
@@ -4926,6 +4982,14 @@
       "source_path": "lab/sub2api_e2e/test_production_funding_audit.py"
     },
     {
+      "path": "lab/sub2api_e2e/test_verify_ux3_public_20261011.py",
+      "sha256": "80f20fd3de86212dda71bcec410cf944d5e0e03b86d89cbdb847121189e0bc23",
+      "source_sha256": "80f20fd3de86212dda71bcec410cf944d5e0e03b86d89cbdb847121189e0bc23",
+      "bytes": 4622,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/test_verify_ux3_public_20261011.py"
+    },
+    {
       "path": "lab/sub2api_e2e/usage-history-backend-20261011.json",
       "sha256": "0a6c752bab8dc6c5748f2c4223bbf0a3a074df85f9c6b11fb64c3f24cdb05e8a",
       "source_sha256": "0a6c752bab8dc6c5748f2c4223bbf0a3a074df85f9c6b11fb64c3f24cdb05e8a",
@@ -5182,12 +5246,244 @@
       "source_path": "lab/sub2api_e2e/ux2-screenshots/r5-docs-en-mobile-final.png"
     },
     {
+      "path": "lab/sub2api_e2e/ux3-candidate-validation-20261011.json",
+      "sha256": "514a95d38ec61af1c36012f77525663b817fb50d53f6e4d6bd2451f5c9426e89",
+      "source_sha256": "514a95d38ec61af1c36012f77525663b817fb50d53f6e4d6bd2451f5c9426e89",
+      "bytes": 26770,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-candidate-validation-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-independent-contract-review.md",
+      "sha256": "ba5f7e93412710fb666883620324713bc41e2cb8f75cb33c0b90a2ecfbc1f3eb",
+      "source_sha256": "ba5f7e93412710fb666883620324713bc41e2cb8f75cb33c0b90a2ecfbc1f3eb",
+      "bytes": 11730,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-independent-contract-review.md"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-independent-visual-review.md",
+      "sha256": "5efebfb501c6b1bb14cbfccc3d7cb297d72b7e6b94140cd673523179c6696037",
+      "source_sha256": "5efebfb501c6b1bb14cbfccc3d7cb297d72b7e6b94140cd673523179c6696037",
+      "bytes": 16457,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-independent-visual-review.md"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-production-browser-20261011.json",
+      "sha256": "fa04b70d559d49555c9c0c7e4e6b7b174a3f7bb7a71006ecd02b918bdf0678c3",
+      "source_sha256": "fa04b70d559d49555c9c0c7e4e6b7b174a3f7bb7a71006ecd02b918bdf0678c3",
+      "bytes": 2216,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-production-browser-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-production-observation-20261011.json",
+      "sha256": "1f207b8c1353f9a0b9acaad87b6c3dbbc92b495511b47620e855e9664d63f6ce",
+      "source_sha256": "1f207b8c1353f9a0b9acaad87b6c3dbbc92b495511b47620e855e9664d63f6ce",
+      "bytes": 5981,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-production-observation-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-production-protocol-20261011.json",
+      "sha256": "12117da3bbea132afbeb389e64179a3553dc581fddf31e0506622ae6c45f1ff5",
+      "source_sha256": "12117da3bbea132afbeb389e64179a3553dc581fddf31e0506622ae6c45f1ff5",
+      "bytes": 8929,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-production-protocol-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-production-protocol-funding-20261011.json",
+      "sha256": "bf25c4be6a9e8465460611042d69e642faec2ff9b7b277db0d76d10d9d340039",
+      "source_sha256": "bf25c4be6a9e8465460611042d69e642faec2ff9b7b277db0d76d10d9d340039",
+      "bytes": 3330,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-production-protocol-funding-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-production-readonly-20261011.json",
+      "sha256": "2b06da69a2da24fe706312c967cbcd6e1eb4981d3ca7f17b7d02d6d0c3548abf",
+      "source_sha256": "2b06da69a2da24fe706312c967cbcd6e1eb4981d3ca7f17b7d02d6d0c3548abf",
+      "bytes": 33352,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-production-readonly-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-production-readonly-first-tool-failure-20261011.json",
+      "sha256": "9ce3b9de2580bf39e0fcef7e19e2d50051047cc4cb57783bb61249adfd42e10d",
+      "source_sha256": "9ce3b9de2580bf39e0fcef7e19e2d50051047cc4cb57783bb61249adfd42e10d",
+      "bytes": 734,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-production-readonly-first-tool-failure-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-protocol-first-tool-failure-20261011.json",
+      "sha256": "e145a1a3c1c3877c9172f9c25d9c527994faab3fd1fde2bec9c848536c898f88",
+      "source_sha256": "e145a1a3c1c3877c9172f9c25d9c527994faab3fd1fde2bec9c848536c898f88",
+      "bytes": 343,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-protocol-first-tool-failure-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual-manifest.json",
+      "sha256": "2912440ed2bcf95fbfc6e3332af8da037a06c31f77e310e0c34f5e2b154aa6d5",
+      "source_sha256": "2912440ed2bcf95fbfc6e3332af8da037a06c31f77e310e0c34f5e2b154aa6d5",
+      "bytes": 3319,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual-manifest.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-admin-zh-dark-desktop-final.jpg",
+      "sha256": "00de734c3ea09ca3574162daacbf003dd0dccf50ff57c8931d5d3c6dec31f02c",
+      "source_sha256": "00de734c3ea09ca3574162daacbf003dd0dccf50ff57c8931d5d3c6dec31f02c",
+      "bytes": 73297,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-admin-zh-dark-desktop-final.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-paygo-en-mobile-dark-r3.jpg",
+      "sha256": "13c3dd5587a38a7ef415f8e5b4e037786c3731564c2f0651f9e8f79db64863f1",
+      "source_sha256": "13c3dd5587a38a7ef415f8e5b4e037786c3731564c2f0651f9e8f79db64863f1",
+      "bytes": 12097,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-paygo-en-mobile-dark-r3.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-team-en-mobile-summary-final.jpg",
+      "sha256": "dcc57bd0416e0a83b9dffd084e7a0580eaa8f61300dd9e0230edbe4086a6684f",
+      "source_sha256": "dcc57bd0416e0a83b9dffd084e7a0580eaa8f61300dd9e0230edbe4086a6684f",
+      "bytes": 37266,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-team-en-mobile-summary-final.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-menu-r4.jpg",
+      "sha256": "467180802da72a86ed2b7c612b3d829eb765e46e605cd5393a4d17defd4647e5",
+      "source_sha256": "467180802da72a86ed2b7c612b3d829eb765e46e605cd5393a4d17defd4647e5",
+      "bytes": 91249,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-menu-r4.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-mobile-menu-r4.jpg",
+      "sha256": "40fc9b8124406a4a0c1f68902c9b928360ffba2bc82205135f0ac94645fad1fc",
+      "source_sha256": "40fc9b8124406a4a0c1f68902c9b928360ffba2bc82205135f0ac94645fad1fc",
+      "bytes": 41704,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-mobile-menu-r4.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-team-zh-desktop-summary-final2.jpg",
+      "sha256": "281778c9f5c7217ebdea9fded962029a4a5727b04bbd68bf80a52df7867e66d0",
+      "source_sha256": "281778c9f5c7217ebdea9fded962029a4a5727b04bbd68bf80a52df7867e66d0",
+      "bytes": 74011,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-team-zh-desktop-summary-final2.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-expanded-final2.jpg",
+      "sha256": "f1b38b8c6cedf1f1e59b4b0a27cebead9576371a3bb723b366d934d3b555bb84",
+      "source_sha256": "f1b38b8c6cedf1f1e59b4b0a27cebead9576371a3bb723b366d934d3b555bb84",
+      "bytes": 32236,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-expanded-final2.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-summary-final2.jpg",
+      "sha256": "5ef91a6991ca0ee1e763184fb295594a99debb078d9f548d13f5d00c2ea7b112",
+      "source_sha256": "5ef91a6991ca0ee1e763184fb295594a99debb078d9f548d13f5d00c2ea7b112",
+      "bytes": 32180,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-summary-final2.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-workbench-admin-dark-desktop-r2.jpg",
+      "sha256": "14af8dd454a5cf6fb59d40ad6be9f81dc6a3288df190025aa288e69e8fd1d3a0",
+      "source_sha256": "14af8dd454a5cf6fb59d40ad6be9f81dc6a3288df190025aa288e69e8fd1d3a0",
+      "bytes": 65405,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-workbench-admin-dark-desktop-r2.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-dark-settled-r3.jpg",
+      "sha256": "0780b710b13c05fade458f2fc19fac8c76925108a9247df5a6a7b0257a6f72e8",
+      "source_sha256": "0780b710b13c05fade458f2fc19fac8c76925108a9247df5a6a7b0257a6f72e8",
+      "bytes": 33557,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-dark-settled-r3.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-r3.jpg",
+      "sha256": "d868e42fca48740972e22b99ccab44afea0eca9d530a95a1449cfb7a1b318829",
+      "source_sha256": "d868e42fca48740972e22b99ccab44afea0eca9d530a95a1449cfb7a1b318829",
+      "bytes": 94165,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-r3.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-settled-r3.jpg",
+      "sha256": "2919f91b21c0f0ac0d3e0525249e7d822277b824ae564a2357b529fbd2fda49c",
+      "source_sha256": "2919f91b21c0f0ac0d3e0525249e7d822277b824ae564a2357b529fbd2fda49c",
+      "bytes": 85887,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-settled-r3.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-light-desktop-r3.jpg",
+      "sha256": "72bd725b689948a810e287f53e87c3863a23f2536336a5fed6d9deee60c0afda",
+      "source_sha256": "72bd725b689948a810e287f53e87c3863a23f2536336a5fed6d9deee60c0afda",
+      "bytes": 67544,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-workbench-member-light-desktop-r3.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/after-workbench-owner-light-desktop-r2.jpg",
+      "sha256": "54faad0bafbcdcd018937a7083ddf7e2f983291fbec368e356c92dcc10182c27",
+      "source_sha256": "54faad0bafbcdcd018937a7083ddf7e2f983291fbec368e356c92dcc10182c27",
+      "bytes": 59859,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/after-workbench-owner-light-desktop-r2.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/before-admin-desktop.jpg",
+      "sha256": "7c4de08597b212ee469120a4868b86aa768a116f85ff84521f28f98f4a8db695",
+      "source_sha256": "7c4de08597b212ee469120a4868b86aa768a116f85ff84521f28f98f4a8db695",
+      "bytes": 41105,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/before-admin-desktop.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/before-team-fixture-desktop.jpg",
+      "sha256": "582d0f6bc881265809e7c737ab1db03a960735e5188a8723f7ba2e6b30308485",
+      "source_sha256": "582d0f6bc881265809e7c737ab1db03a960735e5188a8723f7ba2e6b30308485",
+      "bytes": 68913,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/before-team-fixture-desktop.jpg"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux3-visual/before-workbench-desktop.jpg",
+      "sha256": "29b7d7c1f01a6603cffcf54cb3273efe57768fe4086a1565086d0161a546c7ec",
+      "source_sha256": "29b7d7c1f01a6603cffcf54cb3273efe57768fe4086a1565086d0161a546c7ec",
+      "bytes": 48653,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux3-visual/before-workbench-desktop.jpg"
+    },
+    {
       "path": "lab/sub2api_e2e/validation-summary.json",
       "sha256": "b46d89195db0949ad98d7615ef7da39f3d2b0c01cb5924f6160e666ffe84b646",
       "source_sha256": "526f37baa073f4793510411e0dbcc4331d0e21a3455ba796a7f5eddd62994baf",
       "bytes": 9627,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/validation-summary.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/verify_ux3_public_20261011.py",
+      "sha256": "63ef6cd2adf6ea2ff7bd68744eea0efa54a8f484099edfbc5d25f0446ac5c186",
+      "source_sha256": "63ef6cd2adf6ea2ff7bd68744eea0efa54a8f484099edfbc5d25f0446ac5c186",
+      "bytes": 23936,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/verify_ux3_public_20261011.py"
     },
     {
       "path": "lab/verify_database_matrix.py",
@@ -24601,61 +24897,6 @@
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
     "status": "PASS",
-    "checked_at_utc": "2026-10-10T17:33:37.915236+00:00",
-    "review_scope": "UX2 candidate: original RealYu visual and workflow recovery, canonical personal/team keys, actor-isolated historical usage, dual-language responsive browser acceptance, public USD catalog and SEO/GEO, preserved first failures, clean source/fullpatch reconstruction, PostgreSQL rehearsal and Windows 308 handoff.",
-    "changed_or_added_count": 38,
-    "changed_or_added_paths": [
-      "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "LIVE-DEPLOYMENT.md",
-      "UPDATELOG.md",
-      "deploy/sub2api/HISTORY-SCALE-REHEARSAL-20261011.md",
-      "deploy/sub2api/Prepare-SingleCore.ps1",
-      "deploy/sub2api/SEO-GEO-20261011.md",
-      "deploy/sub2api/UX-E2E-MATRIX.md",
-      "deploy/sub2api/UX-HANDOFF-SMOKE-CHECKLIST.md",
-      "deploy/sub2api/UX-RECOVERY-20261011.md",
-      "deploy/sub2api/UX2-HISTORY-UPDATE-20261011.md",
-      "deploy/sub2api/UX2-RELEASE-20261011.md",
-      "deploy/sub2api/prepare_history_update_inputs.example.py",
-      "deploy/sub2api/singlecore-candidate.patch",
-      "deploy/sub2api/singlecore-source.json",
-      "deploy/sub2api/singlecore_history_rehearsal.py",
-      "deploy/sub2api/singlecore_history_update.py",
-      "deploy/sub2api/singlecore_pg_backup307.py",
-      "deploy/sub2api/test_prepare_history_update_inputs.py",
-      "deploy/sub2api/test_singlecore_history_rehearsal.py",
-      "deploy/sub2api/test_singlecore_history_update.py",
-      "deploy/sub2api/test_singlecore_pg_backup307.py",
-      "lab/sub2api_e2e/canonical-setup-snapshot-20261011.json",
-      "lab/sub2api_e2e/singlecore-patch-reconstruction-20261011-ux2.json",
-      "lab/sub2api_e2e/usage-history-backend-20261011.json",
-      "lab/sub2api_e2e/usage-history-backup307-20261011.json",
-      "lab/sub2api_e2e/usage-history-full-scale-20261011.json",
-      "lab/sub2api_e2e/usage-history-http-20261011-r5.json",
-      "lab/sub2api_e2e/usage-history-http-20261011.json",
-      "lab/sub2api_e2e/ux2-browser-20261011.json",
-      "lab/sub2api_e2e/ux2-candidate-validation-20261011.json",
-      "lab/sub2api_e2e/ux2-elevation-20261011.json",
-      "lab/sub2api_e2e/ux2-screenshots/r3-home-zh-desktop-light.png",
-      "lab/sub2api_e2e/ux2-screenshots/r3-member-en-desktop-light.png",
-      "lab/sub2api_e2e/ux2-screenshots/r3-member-en-mobile-light.png",
-      "lab/sub2api_e2e/ux2-screenshots/r5-accounts-zh-mobile-final.png",
-      "lab/sub2api_e2e/ux2-screenshots/r5-admin-usage-zh-mobile-dark-content.png",
-      "lab/sub2api_e2e/ux2-screenshots/r5-docs-en-mobile-final.png"
-    ],
-    "checks": {
-      "changed_git_blob_hashes": true,
-      "private_runtime_values_excluded": true,
-      "private_runtime_files_excluded": true,
-      "local_document_links": 168,
-      "pinned_upstream_and_patch": true
-    },
-    "deployment_status": "UX2_CANDIDATE_ACCEPTED_ELEVATION_NOT_STARTED_PRODUCTION_UNCHANGED",
-    "note": "UX2 clean source f98d4b6, 383-file fullpatch reconstruction, frontend 892/82, typecheck/build, selected Go packages, isolated HTTP 51/51 and real dual-language desktop/narrow browser workflows passed. Three product first failures were fixed and reverified; mixed browser observations and corrected harness assertions are not one uniform test count. Full 31295-record history rehearsal preserved 122 prior business tables. UAC launch did not start, no UX2 ACTIVE receipt exists, production schema remains 299 and archive empty. Existing UX remains live. Do not claim production history import, real merchant, installed desktop, physical Safari/Android, search indexing or long-term SLA."
-  },
-  "publication_review": {
-    "status": "PASS",
     "checked_at_utc": "2026-10-10T23:05:38.477335+00:00",
     "deployment_status": "UX2_ACTIVE_HISTORY_IMPORTED_PUBLIC_ACCEPTANCE_PASS",
     "review_scope": "Actual production activation, immutable history archive and replay, public HTTP/protocol, financial reconciliation and browser smoke; aggregate evidence only.",
@@ -24682,6 +24923,70 @@
       "local_document_links": 170
     },
     "note": "ACTIVE 2026-10-11 06:51:29 CST, maintenance 33.942s, schema300. Historical source31295 archived, replay idempotent, visible31291 plus4 prior quarantine. HTTP22/22; catalog/SSE/same-socket WS3/3; 3 acceptance+2 concurrent funding changes settled without residuals. Production Chinese desktop/English390px public browser checks passed. Prior candidate full role matrix remains separately counted. No physical mobile, real merchant, installer or long-term SLA claim."
+  },
+  "publication_review": {
+    "status": "PASS_WITH_OBSERVATION_EXCEPTION",
+    "checked_at_utc": "2026-10-11T00:43:39.372546+00:00",
+    "deployment_status": "UX3_ACTIVE_UI_HTTP_PROTOCOL_AND_SETTLEMENT_ACCEPTED",
+    "source_commit": "3f13f202765f2d9473664f3ec239f71d187adecf",
+    "changed_or_added_count": 44,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/Prepare-SingleCore.ps1",
+      "deploy/sub2api/UX3-RECOVERY-20261011.md",
+      "deploy/sub2api/UX3-WINDOWS-UPDATE-20261011.md",
+      "deploy/sub2api/singlecore-candidate.patch",
+      "deploy/sub2api/singlecore-source.json",
+      "deploy/sub2api/singlecore_pg_backup308.py",
+      "deploy/sub2api/test_singlecore_pg_backup308.py",
+      "lab/sub2api_e2e/UX3-PROTOCOL-FUNDING-20261011.md",
+      "lab/sub2api_e2e/UX3-READONLY-ACCEPTANCE-20261011.md",
+      "lab/sub2api_e2e/audit_ux3_protocol_funding.py",
+      "lab/sub2api_e2e/test_verify_ux3_public_20261011.py",
+      "lab/sub2api_e2e/ux3-candidate-validation-20261011.json",
+      "lab/sub2api_e2e/ux3-independent-contract-review.md",
+      "lab/sub2api_e2e/ux3-independent-visual-review.md",
+      "lab/sub2api_e2e/ux3-production-browser-20261011.json",
+      "lab/sub2api_e2e/ux3-production-observation-20261011.json",
+      "lab/sub2api_e2e/ux3-production-protocol-20261011.json",
+      "lab/sub2api_e2e/ux3-production-protocol-funding-20261011.json",
+      "lab/sub2api_e2e/ux3-production-readonly-20261011.json",
+      "lab/sub2api_e2e/ux3-production-readonly-first-tool-failure-20261011.json",
+      "lab/sub2api_e2e/ux3-protocol-first-tool-failure-20261011.json",
+      "lab/sub2api_e2e/ux3-visual-manifest.json",
+      "lab/sub2api_e2e/ux3-visual/after-admin-zh-dark-desktop-final.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-paygo-en-mobile-dark-r3.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-team-en-mobile-summary-final.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-menu-r4.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-mobile-menu-r4.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-team-zh-desktop-summary-final2.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-expanded-final2.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-summary-final2.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-workbench-admin-dark-desktop-r2.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-dark-settled-r3.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-r3.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-settled-r3.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-workbench-member-light-desktop-r3.jpg",
+      "lab/sub2api_e2e/ux3-visual/after-workbench-owner-light-desktop-r2.jpg",
+      "lab/sub2api_e2e/ux3-visual/before-admin-desktop.jpg",
+      "lab/sub2api_e2e/ux3-visual/before-team-fixture-desktop.jpg",
+      "lab/sub2api_e2e/ux3-visual/before-workbench-desktop.jpg",
+      "lab/sub2api_e2e/verify_ux3_public_20261011.py"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "all_manifest_git_blob_hashes": true,
+      "known_private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 173,
+      "frozen_patch_and_metadata_unchanged": true,
+      "active_binary_matches_candidate": true,
+      "patch_reconstruction_files": 399
+    },
+    "note": "UX3 ACTIVE 2026-10-11 08:24:45 CST; maintenance gate32.518s, same300-migration authority. Full frontend958/87 and final targeted36/3 are overlapping phases, not added. Final candidate HTTP49/49; live readonly32/32 across55 HTTP requests; SSE1 and same-socket WS2 passed and each has1 settled usage/dedup, no acceptance-window reservation remains. Existing authorized admin form login and English light desktop/mobile visual pass; broader role/language/theme matrix is isolated. Existing10s collector retained one08:33:18 proxy TLS timeout, neighboring samples and other five paths healthy. Not all historical business requirements, real merchant payment, physical mobile or long-term stability are complete."
   },
   "publication_review_history": [
     {
@@ -25402,6 +25707,35 @@
       },
       "deployment_status": "UX2_CANDIDATE_ACCEPTED_ELEVATION_NOT_STARTED_PRODUCTION_UNCHANGED",
       "note": "UX2 clean source f98d4b6, 383-file fullpatch reconstruction, frontend 892/82, typecheck/build, selected Go packages, isolated HTTP 51/51 and real dual-language desktop/narrow browser workflows passed. Three product first failures were fixed and reverified; mixed browser observations and corrected harness assertions are not one uniform test count. Full 31295-record history rehearsal preserved 122 prior business tables. UAC launch did not start, no UX2 ACTIVE receipt exists, production schema remains 299 and archive empty. Existing UX remains live. Do not claim production history import, real merchant, installed desktop, physical Safari/Android, search indexing or long-term SLA."
+    },
+    {
+      "status": "PASS",
+      "checked_at_utc": "2026-10-10T23:05:38.477335+00:00",
+      "deployment_status": "UX2_ACTIVE_HISTORY_IMPORTED_PUBLIC_ACCEPTANCE_PASS",
+      "review_scope": "Actual production activation, immutable history archive and replay, public HTTP/protocol, financial reconciliation and browser smoke; aggregate evidence only.",
+      "changed_or_added_count": 13,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/UX-HANDOFF-SMOKE-CHECKLIST.md",
+        "deploy/sub2api/UX2-HISTORY-UPDATE-20261011.md",
+        "deploy/sub2api/UX2-RELEASE-20261011.md",
+        "lab/sub2api_e2e/ux2-production-20261011.json",
+        "lab/sub2api_e2e/ux2-production-browser-20261011.json",
+        "lab/sub2api_e2e/ux2-production-http-20261011.json",
+        "lab/sub2api_e2e/ux2-production-observation-20261011.json",
+        "lab/sub2api_e2e/ux2-screenshots/production-docs-en-mobile.png",
+        "lab/sub2api_e2e/ux2-screenshots/production-home-zh-desktop.png"
+      ],
+      "checks": {
+        "private_values_excluded": true,
+        "frozen_source_patch_metadata_unchanged": true,
+        "active_binary_matches_candidate": true,
+        "local_document_links": 170
+      },
+      "note": "ACTIVE 2026-10-11 06:51:29 CST, maintenance 33.942s, schema300. Historical source31295 archived, replay idempotent, visible31291 plus4 prior quarantine. HTTP22/22; catalog/SSE/same-socket WS3/3; 3 acceptance+2 concurrent funding changes settled without residuals. Production Chinese desktop/English390px public browser checks passed. Prior candidate full role matrix remains separately counted. No physical mobile, real merchant, installer or long-term SLA claim."
     }
   ]
 }

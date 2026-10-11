@@ -1,0 +1,10 @@
+{
+  "status": "FAIL",
+  "stage": "tool_dependency_preflight",
+  "error_type": "PackageNotFoundError",
+  "python": "C:\\srv\\realyu-singlecore-dev\\runtime\\venv\\Scripts\\python.exe",
+  "network_requests_executed": 0,
+  "model_requests_attempted": 0,
+  "output_directory_created": false,
+  "retained_at": "2026-10-11T08:25:34.1081113+08:00"
+}

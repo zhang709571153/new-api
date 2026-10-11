@@ -108,6 +108,8 @@ try {
                     'src/utils/__tests__/realyuSeo.spec.ts'
                     'src/utils/__tests__/realyuUsageDisplay.spec.ts'
                     'src/views/user/__tests__/RealYuUsageView.spec.ts'
+                    'src/views/user/__tests__/RealYuWorkbench.spec.ts'
+                    'src/components/payment/__tests__/AmountInput.spec.ts'
                     'src/router/__tests__/realyu-usage-access.spec.ts'
                 )
                 # A frozen older manifest may predate the UX-only test files.
