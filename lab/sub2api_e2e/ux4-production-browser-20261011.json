@@ -1,0 +1,123 @@
+{
+  "status": "PASS_SCOPED_VISUAL_ACCEPTANCE",
+  "recorded_at_utc": "2026-10-11T04:56:30.332308+00:00",
+  "target": "https://api.realyu.fun",
+  "expected_version": "realyu-singlecore-v0.2.15-20261011-ux4",
+  "session": "Existing administrator browser session; no new browser form login in this run.",
+  "method": "Actual CUA clicks, DOM-derived measurements and full-viewport screenshots.",
+  "desktop_viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "mobile_viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "checks": [
+    {
+      "name": "workspace-top-setup-and-all-time-default",
+      "pass": true,
+      "route": "/dashboard",
+      "locale": "zh-CN",
+      "theme": "light",
+      "evidence": "27-production-workbench-masked.jpg",
+      "details": "One-click setup at top; all-time 1343 calls / 112446830 tokens; recent rows and trend present; no incomplete archive warning. Setup credential masked before screenshot."
+    },
+    {
+      "name": "workspace-cny-balance-and-hierarchy",
+      "pass": true,
+      "route": "/dashboard",
+      "details": "Available plan allowance and PAYGO balance separately shown with larger numbers; helper text secondary."
+    },
+    {
+      "name": "language-text-english-chinese",
+      "pass": true,
+      "details": "Clicked both directions; central trigger and dropdown show English / 中文 without regional-indicator emoji."
+    },
+    {
+      "name": "pricing-desktop-preserves-navigation",
+      "pass": true,
+      "route": "/pricing",
+      "locale": "zh-CN",
+      "theme": "light",
+      "evidence": "28-production-model-navigation.jpg",
+      "details": "Sidebar and header retained; one h1 with model section h2; model prices shown in USD."
+    },
+    {
+      "name": "plans-six-real-offers-blue-neutral",
+      "pass": true,
+      "route": "/purchase",
+      "locale": "zh-CN",
+      "theme": "light",
+      "evidence": "29-production-plans-zh.jpg",
+      "details": "Six 28-day personal offers at CNY98/198/398/698/1398/2598; three desktop columns, blue accents, emphasized price and weekly allowance. No purchase clicked."
+    },
+    {
+      "name": "paygo-entry-visible-disabled-by-current-merchant-state",
+      "pass": true,
+      "route": "/purchase",
+      "details": "Compact PAYGO balance row; recharge unavailable consistent with current server configuration. No merchant or payment setting changed."
+    },
+    {
+      "name": "mobile-english-dark-pricing",
+      "pass": true,
+      "route": "/pricing",
+      "locale": "en",
+      "theme": "dark",
+      "evidence": "30-production-pricing-mobile-en-dark.jpg",
+      "body_scroll_width": 382,
+      "viewport_width": 390,
+      "details": "English text trigger, readable secondary copy, no page horizontal overflow."
+    },
+    {
+      "name": "mobile-pricing-navigation-open",
+      "pass": true,
+      "route": "/pricing",
+      "locale": "en",
+      "theme": "dark",
+      "evidence": "31-production-mobile-navigation.jpg",
+      "navigation_left": 0,
+      "navigation_right": 208,
+      "details": "Actual Toggle menu click opens usable sidebar with Workspace, Usage, Plans, Teams & usage, Model pricing and Docs."
+    },
+    {
+      "name": "browser-cleanup",
+      "pass": true,
+      "details": "Restored Chinese and light theme; reset temporary viewport; closed only owned tab8, leaving user tab unchanged."
+    }
+  ],
+  "private_screenshot_manifest": [
+    {
+      "name": "27-production-workbench-masked.jpg",
+      "sha256": "b32a79f209e348bd7d00e63c123195af9c27f0ab3e2c890968a478811f0aa966",
+      "exported": false
+    },
+    {
+      "name": "28-production-model-navigation.jpg",
+      "sha256": "753ca740cc5fe5b8c6f880b6800d5ab0974bc706f3bb22429757a1cf161ed756",
+      "exported": false
+    },
+    {
+      "name": "29-production-plans-zh.jpg",
+      "sha256": "0a3ccb194e860aaf338ef2a7ca8b5851c51ca365b32202d968c23976c802ddbb",
+      "exported": false
+    },
+    {
+      "name": "30-production-pricing-mobile-en-dark.jpg",
+      "sha256": "4baf9468a3af35bf1842c88e0414350d21367c4205908314c1cdc8f229a997b0",
+      "exported": false
+    },
+    {
+      "name": "31-production-mobile-navigation.jpg",
+      "sha256": "873f9639ec674634c26ec5ec96e96398a6095d580ad47ee27fc400735fea4472",
+      "exported": false
+    }
+  ],
+  "limitations": [
+    "Screenshots contain real account data and remain private; masked in a filename is not a public-data guarantee.",
+    "Production browser verification is one existing administrator session, not all roles or physical mobile devices.",
+    "Candidate browser and API evidence cover owner/member authorization and team typography; production readonly API separately checks real manageable teams.",
+    "No actual purchase, recharge, API-key reveal or installer execution in this production browser pass.",
+    "Candidate English mobile team tables still require horizontal scrolling; long names with former-member state can truncate (P2)."
+  ]
+}

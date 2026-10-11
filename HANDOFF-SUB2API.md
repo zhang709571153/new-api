@@ -1,5 +1,15 @@
 # RealYu / Sub2API 部署与迁移交接
 
+## 2026-10-11 12:44:28 — 最新UX4 r3已部署，限定范围验收通过
+
+本轮交付源码为clean commit `7e0215f62539a52a3c7884560152a11599f7fe1e`，完整patch SHA `b0688d7dea49955fbf0deee0eb2534da1947f625df86493aaa0acc87cbd1058c`，405文件实际重建一致；已部署binary SHA `1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821`。12:44:28.612 ACTIVE、维护37.591秒。候选85项与公网47项分开通过，真实SSE一次/同连接WS两轮及3笔后验账务一致；线上管理员工作台/模型导航/六套餐已实看。[浏览器范围](lab/sub2api_e2e/ux4-production-browser-20261011.json)和[既有观测](lab/sub2api_e2e/ux4-production-observation-20261011.json)各自记录限制，生产浏览器9项包含390×844英文暗色价格页及菜单，页面宽382≤390；不宣称普通成员登录、全部角色/实体设备或长期稳定。
+
+旧operation r1 UAC取消无回执，新operation r2已完成，不能再执行。此轮同PG/300migration、无DDL，不重导历史、恢复库或启动旧服务；新机迁移仍需当前原生PG一致快照与私有配置，不复制旧SQLite或重放本机计划。目标机验证完整patch后应形成自己的clean commit及本机pins，不能冒称复原开发机Git历史；凭据、数据和私有plan不入Git。见[UX4矩阵/部署流程](deploy/sub2api/UX4-RECOVERY-20261011.md)、[分层验收](lab/sub2api_e2e/UX4-E2E-20261011.md)；生产以[LIVE](LIVE-DEPLOYMENT.md)和实际回执为准。
+
+既有10秒采样从ACTIVE至12:55:09.609，共640.997秒，六路径各65/65健康；最大间隔10.014秒，读取时新鲜度5.951秒，两Tunnel均4连接。维护期10个失败样本（9个503、1个backend连接失败）保留，ACTIVE后此窗口0失败；采样不等于连续可用或长期稳定，也不用于推算精确用户中断时长。
+
+独立发布复核未发现阻止交付的已确认P0/P1；85项候选、47项公网与3笔账务证据一致，生产截图未导出。隔离29481候选已按PID、启动时间、exe SHA和端口匹配停止，生产未动。
+
 ## 2026-10-11 08:24:45 — UX3 已ACTIVE，本轮限定范围验收通过
 
 正常Windows提权首次取消，未启动更新；第二次08:24批准后，`realyu-singlecore-v0.2.15-20261011-ux3` 在同一PG权威上ACTIVE。08:24:12.930排空至08:24:45.448开门，维护 **32.518秒**，没有恢复数据库、启动旧服务、新增migration、重导历史、启用商户或切换网络。实际SCM worker为Session0且程序SHA与final2一致。

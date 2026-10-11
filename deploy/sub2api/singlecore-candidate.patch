@@ -3057,10 +3057,10 @@ index 0000000000000000000000000000000000000000..cac09aed6115d23ac5c0cafad919627a
 +}
 diff --git a/backend/internal/handler/realyu_usage_history_handler.go b/backend/internal/handler/realyu_usage_history_handler.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..014095c98e62362d06d03038032b7318a0ef49cb
+index 0000000000000000000000000000000000000000..1469137419718fed6e1608bf0e40a75478eae567
 --- /dev/null
 +++ b/backend/internal/handler/realyu_usage_history_handler.go
-@@ -0,0 +1,94 @@
+@@ -0,0 +1,111 @@
 +package handler
 +
 +import (
@@ -3074,14 +3074,31 @@ index 0000000000000000000000000000000000000000..014095c98e62362d06d03038032b7318
 +
 +func parseRealYuHistoryFilter(c *gin.Context) (service.RealYuUsageHistoryFilter, error) {
 +	f := service.RealYuUsageHistoryFilter{Scope: c.DefaultQuery("scope", "self"), Model: c.Query("model"), Page: 1, PageSize: 25}
-+	if f.Scope != "self" && f.Scope != "personal" && f.Scope != "platform" || len(f.Model) > 500 {
++	if f.Scope != "self" && f.Scope != "personal" && f.Scope != "platform" && f.Scope != "team" || len(f.Model) > 500 {
 +		return f, service.ErrRealYuTeamInput
 +	}
-+	// A viewer cannot select another actor, even when they own a team.
-+	for _, key := range []string{"actor_user_id", "member_id", "team_id"} {
-+		if _, ok := c.GetQuery(key); ok {
++	query := c.Request.URL.Query()
++	// Reject ambiguous authorization selectors instead of accepting their first value.
++	if len(query["scope"]) > 1 {
++		return f, service.ErrRealYuTeamInput
++	}
++	for _, key := range []string{"actor_user_id", "member_id"} {
++		if _, ok := query[key]; ok {
 +			return f, service.ErrRealYuTeamInput
 +		}
++	}
++	if values, exists := query["team_id"]; exists {
++		if f.Scope != "team" || len(values) != 1 {
++			return f, service.ErrRealYuTeamInput
++		}
++		id, err := strconv.ParseInt(values[0], 10, 64)
++		if err != nil || id <= 0 {
++			return f, service.ErrRealYuTeamInput
++		}
++		f.TeamID = id
++	}
++	if f.Scope == "team" && f.TeamID == 0 {
++		return f, service.ErrRealYuTeamInput
 +	}
 +	if values, exists := c.Request.URL.Query()["user_id"]; exists {
 +		if f.Scope != "platform" || len(values) != 1 {
@@ -3157,10 +3174,10 @@ index 0000000000000000000000000000000000000000..014095c98e62362d06d03038032b7318
 +}
 diff --git a/backend/internal/handler/realyu_usage_history_handler_test.go b/backend/internal/handler/realyu_usage_history_handler_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..96d1935a51cd15fb7f2f1c85a2fd11e4b039287e
+index 0000000000000000000000000000000000000000..9e51e4f2742ef0a7de0a7457445cdbd348c1916d
 --- /dev/null
 +++ b/backend/internal/handler/realyu_usage_history_handler_test.go
-@@ -0,0 +1,149 @@
+@@ -0,0 +1,183 @@
 +package handler
 +
 +import (
@@ -3190,7 +3207,7 @@ index 0000000000000000000000000000000000000000..96d1935a51cd15fb7f2f1c85a2fd11e4
 +	r.actor = a
 +	r.trendFilter = f
 +	r.calls++
-+	return &service.RealYuUsageTrend{Scope: f.Scope, Timezone: f.Timezone, Granularity: f.Granularity, Start: f.Start, End: f.End, Series: []service.RealYuUsageTrendBucket{}}, r.err
++	return &service.RealYuUsageTrend{Scope: f.Scope, TeamID: f.TeamID, Timezone: f.Timezone, Granularity: f.Granularity, Start: f.Start, End: f.End, Series: []service.RealYuUsageTrendBucket{}}, r.err
 +}
 +
 +func (r *historyHTTPRepo) UsageHistory(_ context.Context, a int64, f service.RealYuUsageHistoryFilter) (*service.RealYuUsageHistoryPage, error) {
@@ -3198,13 +3215,13 @@ index 0000000000000000000000000000000000000000..96d1935a51cd15fb7f2f1c85a2fd11e4
 +	r.filter = f
 +	r.calls++
 +	read := int64(0)
-+	return &service.RealYuUsageHistoryPage{Scope: f.Scope, Total: 1, Page: f.Page, PageSize: f.PageSize, Items: []service.RealYuUsageHistoryItem{{ID: "legacy:1", Source: "legacy", Scope: "personal", ActorUserID: &a, CostUSD: "0.000002", CacheReadTokens: &read, CreatedAt: time.Date(2026, 9, 20, 0, 0, 0, 0, time.UTC)}}}, r.err
++	return &service.RealYuUsageHistoryPage{Scope: f.Scope, TeamID: f.TeamID, Total: 1, Page: f.Page, PageSize: f.PageSize, Items: []service.RealYuUsageHistoryItem{{ID: "legacy:1", Source: "legacy", Scope: "personal", ActorUserID: &a, CostUSD: "0.000002", CacheReadTokens: &read, CreatedAt: time.Date(2026, 9, 20, 0, 0, 0, 0, time.UTC)}}}, r.err
 +}
 +func (r *historyHTTPRepo) UsageHistorySummary(_ context.Context, a int64, f service.RealYuUsageHistoryFilter) (*service.RealYuUsageHistorySummary, error) {
 +	r.actor = a
 +	r.filter = f
 +	r.calls++
-+	return &service.RealYuUsageHistorySummary{Scope: f.Scope}, r.err
++	return &service.RealYuUsageHistorySummary{Scope: f.Scope, TeamID: f.TeamID}, r.err
 +}
 +func historyHTTP(t *testing.T, r *historyHTTPRepo, auth bool, path string) *httptest.ResponseRecorder {
 +	t.Helper()
@@ -3308,6 +3325,40 @@ index 0000000000000000000000000000000000000000..96d1935a51cd15fb7f2f1c85a2fd11e4
 +		rec = historyHTTP(t, r, true, "/summary?scope=platform")
 +		require.Equal(t, tc.status, rec.Code)
 +		require.NotContains(t, rec.Body.String(), "SECRET_DATABASE_DETAIL")
++	}
++}
++
++func TestRealYuHistoryHTTPTeamScopeIsExplicitAndUnambiguous(t *testing.T) {
++	for _, path := range []string{"/usage", "/summary", "/trend"} {
++		r := new(historyHTTPRepo)
++		rec := historyHTTP(t, r, true, path+"?scope=team&team_id=101")
++		require.Equal(t, 200, rec.Code, path)
++		require.Equal(t, "no-store", rec.Header().Get("Cache-Control"))
++		require.JSONEq(t, `{"scope":"team","team_id":101}`, func() string {
++			var b struct {
++				Data map[string]any `json:"data"`
++			}
++			require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &b))
++			v, err := json.Marshal(map[string]any{"scope": b.Data["scope"], "team_id": b.Data["team_id"]})
++			require.NoError(t, err)
++			return string(v)
++		}())
++		if path == "/trend" {
++			require.EqualValues(t, 101, r.trendFilter.TeamID)
++		} else {
++			require.EqualValues(t, 101, r.filter.TeamID)
++		}
++		for _, query := range []string{"scope=team", "scope=team&team_id=", "scope=team&team_id=0", "scope=team&team_id=-1", "scope=team&team_id=bad", "scope=team&team_id=9223372036854775808", "scope=team&team_id=101&team_id=102", "scope=team&scope=self&team_id=101", "scope=self&team_id=101", "scope=personal&team_id=101", "scope=platform&team_id=101", "scope=team&team_id=101&user_id=2", "scope=team&team_id=101&actor_user_id=", "scope=team&team_id=101&member_id="} {
++			r = new(historyHTTPRepo)
++			rec = historyHTTP(t, r, true, path+"?"+query)
++			require.Equal(t, 400, rec.Code, path+"?"+query)
++			require.Zero(t, r.calls)
++		}
++		r = &historyHTTPRepo{err: service.ErrRealYuTeamAccess}
++		rec = historyHTTP(t, r, true, path+"?scope=team&team_id=101")
++		require.Equal(t, 403, rec.Code)
++		rec = historyHTTP(t, new(historyHTTPRepo), false, path+"?scope=team&team_id=101")
++		require.Equal(t, 401, rec.Code)
 +	}
 +}
 diff --git a/backend/internal/handler/realyu_usage_trend_handler.go b/backend/internal/handler/realyu_usage_trend_handler.go
@@ -8848,10 +8899,10 @@ index 0000000000000000000000000000000000000000..18493dfa71fa7945f76f4d9459f5e6cd
 +}
 diff --git a/backend/internal/repository/realyu_usage_history_repo.go b/backend/internal/repository/realyu_usage_history_repo.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d7f83448a
+index 0000000000000000000000000000000000000000..a6759155105ac52b8a8ac259ac6593d838b53b04
 --- /dev/null
 +++ b/backend/internal/repository/realyu_usage_history_repo.go
-@@ -0,0 +1,163 @@
+@@ -0,0 +1,180 @@
 +package repository
 +
 +import (
@@ -8889,7 +8940,8 @@ index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d
 + FROM usage_logs u LEFT JOIN realyu_funding_requests f ON f.request_id=u.request_id AND f.api_key_id=u.api_key_id
 + WHERE (f.request_id IS NULL OR (f.status='settled' AND f.actor_user_id=u.user_id))
 + ), filtered AS (
-+ SELECT * FROM history WHERE ($1::bigint=0 OR actor_user_id=$1) AND ($2::text IN ('self','platform') OR scope='personal')
++ SELECT * FROM history WHERE ($1::bigint=0 OR actor_user_id=$1)
++ AND ($2::text IN ('self','platform') OR ($2::text='personal' AND scope='personal') OR ($2::text='team' AND scope='team' AND team_id=$6::bigint))
 + AND ($3::text='' OR model=$3) AND ($4::timestamptz IS NULL OR created_at >= $4) AND ($5::timestamptz IS NULL OR created_at < $5)
 + ) `
 +const realyuHistoryAggregate = `COUNT(*),COALESCE(SUM(input_tokens),0),COALESCE(SUM(output_tokens),0),COALESCE(SUM(total_tokens),0),
@@ -8899,6 +8951,8 @@ index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d
 +func historyArgs(actor int64, f service.RealYuUsageHistoryFilter) []any {
 +	if f.Scope == "platform" {
 +		actor = f.UserID
++	} else if f.Scope == "team" {
++		actor = 0 // Authorization is checked against this exact team in the same snapshot.
 +	}
 +	var start, end any
 +	if !f.Start.IsZero() {
@@ -8907,10 +8961,13 @@ index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d
 +	if !f.End.IsZero() {
 +		end = f.End
 +	}
-+	return []any{actor, f.Scope, f.Model, start, end}
++	return []any{actor, f.Scope, f.Model, start, end, f.TeamID}
 +}
 +func validHistoryFilter(f service.RealYuUsageHistoryFilter) bool {
-+	return (f.Scope == "self" || f.Scope == "personal" || f.Scope == "platform") && f.UserID >= 0 && (f.Scope == "platform" || f.UserID == 0) && len(f.Model) <= 500 && f.Page >= 1 && f.Page <= 100000 && f.PageSize >= 1 && f.PageSize <= 100 && (f.Start.IsZero() || f.End.IsZero() || f.End.After(f.Start))
++	return (f.Scope == "self" || f.Scope == "personal" || f.Scope == "platform" || f.Scope == "team") &&
++		f.UserID >= 0 && (f.Scope == "platform" || f.UserID == 0) &&
++		((f.Scope == "team" && f.TeamID > 0) || (f.Scope != "team" && f.TeamID == 0)) &&
++		len(f.Model) <= 500 && f.Page >= 1 && f.Page <= 100000 && f.PageSize >= 1 && f.PageSize <= 100 && (f.Start.IsZero() || f.End.IsZero() || f.End.After(f.Start))
 +}
 +
 +func historyActor(ctx context.Context, tx *sql.Tx, actor int64, f service.RealYuUsageHistoryFilter) error {
@@ -8923,6 +8980,17 @@ index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d
 +	}
 +	if f.Scope == "platform" && !a.admin {
 +		return service.ErrRealYuTeamAccess
++	}
++	if f.Scope == "team" {
++		team, err := teamAccess(ctx, tx, a, f.TeamID, false)
++		if err != nil {
++			return err
++		}
++		// Full-team history is a management view. Membership alone does not
++		// authorize it; members retain their own immutable history via self.
++		if !team.CanManage || team.ClosedAt != 0 {
++			return service.ErrRealYuTeamAccess
++		}
 +	}
 +	return nil
 +}
@@ -8955,7 +9023,7 @@ index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d
 +	if err = historyActor(ctx, tx, actor, f); err != nil {
 +		return nil, err
 +	}
-+	p := &service.RealYuUsageHistoryPage{Scope: f.Scope, Page: f.Page, PageSize: f.PageSize, Items: []service.RealYuUsageHistoryItem{}}
++	p := &service.RealYuUsageHistoryPage{Scope: f.Scope, TeamID: f.TeamID, Page: f.Page, PageSize: f.PageSize, Items: []service.RealYuUsageHistoryItem{}}
 +	args := historyArgs(actor, f)
 +	err = scanHistoryStats(tx.QueryRowContext(ctx, realyuSelfUsageCTE+`SELECT `+realyuHistoryAggregate+` FROM filtered`, args...), &p.Stats)
 +	if err != nil {
@@ -8966,7 +9034,7 @@ index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d
 +	if err != nil {
 +		return nil, err
 +	}
-+	rows, err := tx.QueryContext(ctx, realyuSelfUsageCTE+`SELECT f.id,f.source,f.scope,f.actor_user_id,CASE WHEN f.actor_user_id IS NULL THEN NULL ELSE COALESCE(NULLIF(m.nickname,''),NULLIF(u.username,''),'#'||f.actor_user_id::text) END,CASE WHEN f.actor_user_id IS NULL THEN 'deleted_actor' ELSE 'recorded_actor' END,f.team_id,f.model,f.created_at,f.input_tokens,f.output_tokens,f.total_tokens,f.cache_read_tokens,f.cache_creation_tokens,f.token_semantics,f.cost_usd::text,f.duration_ms FROM filtered f LEFT JOIN users u ON u.id=f.actor_user_id LEFT JOIN realyu_team_members m ON m.team_id=f.team_id AND m.user_id=f.actor_user_id ORDER BY f.created_at DESC,f.id DESC LIMIT $6 OFFSET $7`, append(args, f.PageSize, (f.Page-1)*f.PageSize)...)
++	rows, err := tx.QueryContext(ctx, realyuSelfUsageCTE+`SELECT f.id,f.source,f.scope,f.actor_user_id,CASE WHEN f.actor_user_id IS NULL THEN NULL ELSE COALESCE(NULLIF(m.nickname,''),NULLIF(u.username,''),'#'||f.actor_user_id::text) END,CASE WHEN f.actor_user_id IS NULL THEN 'deleted_actor' ELSE 'recorded_actor' END,f.team_id,f.model,f.created_at,f.input_tokens,f.output_tokens,f.total_tokens,f.cache_read_tokens,f.cache_creation_tokens,f.token_semantics,f.cost_usd::text,f.duration_ms FROM filtered f LEFT JOIN users u ON u.id=f.actor_user_id LEFT JOIN realyu_team_members m ON m.team_id=f.team_id AND m.user_id=f.actor_user_id ORDER BY f.created_at DESC,f.id DESC LIMIT $7 OFFSET $8`, append(args, f.PageSize, (f.Page-1)*f.PageSize)...)
 +	if err != nil {
 +		return nil, err
 +	}
@@ -8999,13 +9067,13 @@ index 0000000000000000000000000000000000000000..bac91838b0f4305f448f8ea387d20e6d
 +	if err = historyActor(ctx, tx, actor, f); err != nil {
 +		return nil, err
 +	}
-+	p := &service.RealYuUsageHistorySummary{Scope: f.Scope}
++	p := &service.RealYuUsageHistorySummary{Scope: f.Scope, TeamID: f.TeamID}
 +	args := historyArgs(actor, f)
 +	err = scanHistoryStats(tx.QueryRowContext(ctx, realyuSelfUsageCTE+`SELECT `+realyuHistoryAggregate+` FROM filtered`, args...), &p.AllTime)
 +	if err != nil {
 +		return nil, err
 +	}
-+	err = scanHistoryStats(tx.QueryRowContext(ctx, realyuSelfUsageCTE+`SELECT `+realyuHistoryAggregate+` FROM filtered WHERE created_at >= $6 AND created_at < $7`, append(args, f.Today, f.Tomorrow)...), &p.Today)
++	err = scanHistoryStats(tx.QueryRowContext(ctx, realyuSelfUsageCTE+`SELECT `+realyuHistoryAggregate+` FROM filtered WHERE created_at >= $7 AND created_at < $8`, append(args, f.Today, f.Tomorrow)...), &p.Today)
 +	if err != nil {
 +		return nil, err
 +	}
@@ -9128,6 +9196,249 @@ index 0000000000000000000000000000000000000000..5217a1bba88621efa9671a185002f4f2
 +		if m.UserID == 2 {
 +			require.Equal(t, expectedTokens, m.CumulativeTokens)
 +		}
++	}
++}
+diff --git a/backend/internal/repository/realyu_usage_team_scope_pg_test.go b/backend/internal/repository/realyu_usage_team_scope_pg_test.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..efa46be9408c13bae213e0d6d1dedf7c7a8b25a6
+--- /dev/null
++++ b/backend/internal/repository/realyu_usage_team_scope_pg_test.go
+@@ -0,0 +1,237 @@
++//go:build realyu_funding_pg
++
++package repository
++
++import (
++	"context"
++	"database/sql"
++	"sync"
++	"testing"
++	"time"
++
++	"github.com/Wei-Shaw/sub2api/internal/service"
++	"github.com/shopspring/decimal"
++	"github.com/stretchr/testify/require"
++)
++
++func teamHistoryFixture(t *testing.T) (*sql.DB, *RealYuTeamRepository, service.RealYuUsageHistoryFilter) {
++	t.Helper()
++	db := historyPG(t)
++	_, err := db.Exec(`UPDATE realyu_team_members SET status='active',nickname='synthetic member A' WHERE team_id=101 AND user_id=2;
++ INSERT INTO realyu_legacy_team_usage(source_log_id,team_id,actor_user_id,model,input_tokens,output_tokens,cost_quota,created_at,snapshot_sha256)
++ VALUES(6,102,2,'other-team-only',111,222,777,'2026-09-22',repeat('b',64));`)
++	require.NoError(t, err)
++	addFundingSub(t, db, 201, 101, 1000, 0, false)
++	for _, v := range []struct {
++		key, actor, quota int64
++		id                string
++	}{{12, 2, 101, "team-history-a"}, {13, 3, 50, "team-history-b"}} {
++		req := fundingReq(v.id, v.key, v.actor, v.quota)
++		_, err = NewRealYuFundingRepository(db, true).Reserve(context.Background(), req)
++		require.NoError(t, err)
++		_, err = settleFunding(t, db, req)
++		require.NoError(t, err)
++		_, err = db.Exec(`INSERT INTO usage_logs(user_id,api_key_id,request_id,model,input_tokens,output_tokens,cache_read_tokens,actual_cost,created_at) VALUES($1,$2,$3,'native-team',17,7,9,99,'2026-10-01T02:00:00Z')`, v.actor, v.key, v.id)
++		require.NoError(t, err)
++	}
++	f := historyFilter()
++	f.Scope, f.TeamID, f.PageSize = "team", 101, 1
++	f.Today = time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC)
++	f.Tomorrow = f.Today.AddDate(0, 0, 1)
++	return db, NewRealYuTeamRepository(db, true), f
++}
++
++func historyFinancialFingerprint(t *testing.T, db *sql.DB) string {
++	t.Helper()
++	var value string
++	err := db.QueryRow(`SELECT md5(jsonb_build_array(
++ (SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM users t),
++ (SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM api_keys t),
++ (SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM realyu_funding_subscriptions t),
++ (SELECT jsonb_agg(to_jsonb(t) ORDER BY request_id,api_key_id) FROM realyu_funding_requests t),
++ (SELECT jsonb_agg(to_jsonb(t) ORDER BY team_id,user_id,subscription_id,weekly_reset_at) FROM realyu_member_period_usage t),
++ (SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM usage_billing_dedup t),
++ (SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM usage_logs t))::text)`).Scan(&value)
++	require.NoError(t, err)
++	return value
++}
++
++func TestRealYuHistoryPGTeamManagerMergedScopeAndStatistics(t *testing.T) {
++	db, repo, f := teamHistoryFixture(t)
++	ctx := context.Background()
++	before := historyFinancialFingerprint(t, db)
++	first, err := repo.UsageHistory(ctx, 1, f)
++	require.NoError(t, err)
++	require.EqualValues(t, 101, first.TeamID)
++	require.EqualValues(t, 4, first.Total) // two immutable legacy rows + two settled native rows
++	require.Len(t, first.Items, 1)
++	require.EqualValues(t, 2, first.Stats.LegacyRequests)
++	require.EqualValues(t, 2, first.Stats.NativeRequests)
++	require.EqualValues(t, 0, first.Stats.UnknownScopeRequests)
++	expected := decimal.NewFromInt(2 + 888 + 101 + 50).Div(decimal.NewFromInt(500000))
++	actual, err := decimal.NewFromString(first.Stats.CostUSD)
++	require.NoError(t, err)
++	require.True(t, expected.Equal(actual)) // uses receipt quota, never the deliberately wrong native actual_cost=99
++	seen := map[string]bool{}
++	foundNickname, foundUnknownCache := false, false
++	for page := 1; page <= 4; page++ {
++		f.Page = page
++		p, e := repo.UsageHistory(ctx, 1, f)
++		require.NoError(t, e)
++		require.Equal(t, first.Stats, p.Stats) // complete range, not just this page
++		require.Len(t, p.Items, 1)
++		i := p.Items[0]
++		require.False(t, seen[i.ID])
++		seen[i.ID] = true
++		require.EqualValues(t, 101, *i.TeamID)
++		require.Equal(t, "team", i.Scope)
++		if *i.ActorUserID == 2 {
++			require.Equal(t, "synthetic member A", *i.ActorNickname)
++			foundNickname = true
++		}
++		if i.Source == "legacy" && i.CacheCreationTokens == nil {
++			foundUnknownCache = true
++		}
++	}
++	require.True(t, foundNickname)
++	require.True(t, foundUnknownCache)
++	f.Page = 1
++	summary, err := repo.UsageHistorySummary(ctx, 1, f)
++	require.NoError(t, err)
++	require.Equal(t, first.Stats, summary.AllTime)
++	require.EqualValues(t, 2, summary.Today.Requests)
++	require.EqualValues(t, 101, summary.TeamID)
++	for _, granularity := range []string{"day", "hour"} {
++		tr := service.RealYuUsageTrendFilter{RealYuUsageHistoryFilter: f, Granularity: granularity, Timezone: "Asia/Shanghai"}
++		tr.Start, tr.End = time.Date(2026, 9, 20, 0, 0, 0, 0, time.UTC), f.Tomorrow
++		trend, e := repo.UsageHistoryTrend(ctx, 1, tr)
++		require.NoError(t, e)
++		require.EqualValues(t, 101, trend.TeamID)
++		require.Equal(t, first.Stats, trend.Stats)
++		assertTrendSums(t, trend)
++	}
++	// The same manager may own two teams; concurrent reads must never reuse another team's filter.
++	var wg sync.WaitGroup
++	results := make(chan bool, 16)
++	for n := 0; n < 16; n++ {
++		wg.Add(1)
++		go func(n int) {
++			defer wg.Done()
++			filter := f
++			want := int64(4)
++			if n%2 == 1 {
++				filter.TeamID, want = 102, 1
++			}
++			p, e := repo.UsageHistory(ctx, 1, filter)
++			results <- e == nil && p.TeamID == filter.TeamID && p.Total == want && len(p.Items) == 1 && *p.Items[0].TeamID == filter.TeamID
++		}(n)
++	}
++	wg.Wait()
++	close(results)
++	for pass := range results {
++		require.True(t, pass)
++	}
++	filtered := f
++	filtered.Model = "old-team"
++	modelPage, err := repo.UsageHistory(ctx, 1, filtered)
++	require.NoError(t, err)
++	require.EqualValues(t, 1, modelPage.Total)
++	require.Equal(t, "legacy:4", modelPage.Items[0].ID)
++	filtered = f
++	filtered.Start = time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC)
++	filtered.End = filtered.Start.Add(2 * time.Hour)
++	boundaryPage, err := repo.UsageHistory(ctx, 1, filtered)
++	require.NoError(t, err)
++	require.Zero(t, boundaryPage.Total) // end-exclusive excludes both native rows at exactly 02:00
++	filtered.Start, filtered.End = filtered.End, filtered.End.Add(time.Hour)
++	boundaryPage, err = repo.UsageHistory(ctx, 1, filtered)
++	require.NoError(t, err)
++	require.EqualValues(t, 2, boundaryPage.Total) // inclusive start includes each once
++	self, err := repo.UsageHistory(ctx, 2, historyFilter())
++	require.NoError(t, err)
++	require.EqualValues(t, 6, self.Total) // personal + unknown + both teams + own new native team call
++	personalFilter := historyFilter()
++	personalFilter.Scope = "personal"
++	personal, err := repo.UsageHistory(ctx, 2, personalFilter)
++	require.NoError(t, err)
++	require.EqualValues(t, 2, personal.Total)
++	require.Zero(t, personal.TeamID)
++	require.Equal(t, before, historyFinancialFingerprint(t, db))
++	canceled, cancel := context.WithCancel(ctx)
++	cancel()
++	stale, err := repo.UsageHistory(canceled, 1, f)
++	require.ErrorIs(t, err, context.Canceled)
++	require.Nil(t, stale)
++}
++
++func TestRealYuHistoryPGTeamScopeFreshAuthorizationAllReaders(t *testing.T) {
++	db, repo, f := teamHistoryFixture(t)
++	ctx := context.Background()
++	assertAccess := func(actor int64, filter service.RealYuUsageHistoryFilter, allowed bool) {
++		t.Helper()
++		_, a := repo.UsageHistory(ctx, actor, filter)
++		_, b := repo.UsageHistorySummary(ctx, actor, filter)
++		tr := service.RealYuUsageTrendFilter{RealYuUsageHistoryFilter: filter, Granularity: "day", Timezone: "UTC"}
++		tr.Start, tr.End = filter.Today, filter.Tomorrow
++		_, c := repo.UsageHistoryTrend(ctx, actor, tr)
++		for _, err := range []error{a, b, c} {
++			if allowed {
++				require.NoError(t, err)
++			} else {
++				require.ErrorIs(t, err, service.ErrRealYuTeamAccess)
++			}
++		}
++	}
++	for _, actor := range []int64{1, 9, 10, 11} {
++		assertAccess(actor, f, true)
++	}
++	for _, actor := range []int64{2, 3, 4, 6} {
++		assertAccess(actor, f, false)
++	}
++	f.TeamID = 104
++	assertAccess(10, f, false) // legacy role10 does not manage its peer
++	assertAccess(9, f, true)
++	f.TeamID = 99999
++	assertAccess(9, f, false)
++	f.TeamID = 101
++	_, err := db.Exec(`UPDATE realyu_teams SET owner_user_id=4 WHERE id=101`)
++	require.NoError(t, err)
++	assertAccess(1, f, false) // a previously authorized owner is immediately revoked
++	assertAccess(4, f, true)
++	_, err = db.Exec(`UPDATE users SET role='user' WHERE id=9; UPDATE realyu_legacy_user_metadata SET source_role=1 WHERE user_id=10`)
++	require.NoError(t, err)
++	assertAccess(9, f, false)
++	assertAccess(10, f, false)
++	_, err = db.Exec(`UPDATE users SET status='disabled' WHERE id=4`)
++	require.NoError(t, err)
++	assertAccess(4, f, false)
++	_, err = db.Exec(`UPDATE users SET status='active' WHERE id=4; UPDATE realyu_teams SET closed_at=1 WHERE id=101; UPDATE users SET role='admin' WHERE id=9`)
++	require.NoError(t, err)
++	assertAccess(4, f, false)
++	assertAccess(9, f, false)
++	// Closing a team does not erase an actor's own immutable history.
++	self, err := repo.UsageHistory(ctx, 2, historyFilter())
++	require.NoError(t, err)
++	require.EqualValues(t, 6, self.Total)
++}
++
++func TestRealYuHistoryPGTeamScopeRejectsMixedFilters(t *testing.T) {
++	_, repo, f := teamHistoryFixture(t)
++	for _, bad := range []service.RealYuUsageHistoryFilter{
++		func() service.RealYuUsageHistoryFilter { v := f; v.TeamID = 0; return v }(),
++		func() service.RealYuUsageHistoryFilter { v := f; v.TeamID = -1; return v }(),
++		func() service.RealYuUsageHistoryFilter { v := f; v.UserID = 2; return v }(),
++		func() service.RealYuUsageHistoryFilter { v := f; v.Scope = "self"; return v }(),
++		func() service.RealYuUsageHistoryFilter { v := f; v.Scope = "personal"; return v }(),
++		func() service.RealYuUsageHistoryFilter { v := f; v.Scope = "platform"; return v }(),
++	} {
++		_, err := repo.UsageHistory(context.Background(), 9, bad)
++		require.ErrorIs(t, err, service.ErrRealYuTeamInput)
++		_, err = repo.UsageHistorySummary(context.Background(), 9, bad)
++		require.ErrorIs(t, err, service.ErrRealYuTeamInput)
++		tr := service.RealYuUsageTrendFilter{RealYuUsageHistoryFilter: bad, Granularity: "day", Timezone: "UTC"}
++		tr.Start, tr.End = f.Today, f.Tomorrow
++		_, err = repo.UsageHistoryTrend(context.Background(), 9, tr)
++		require.ErrorIs(t, err, service.ErrRealYuTeamInput)
 +	}
 +}
 diff --git a/backend/internal/repository/realyu_usage_trend_pg_test.go b/backend/internal/repository/realyu_usage_trend_pg_test.go
@@ -9319,7 +9630,7 @@ index 0000000000000000000000000000000000000000..94b4107a6cc6e169d92ea85ffeb0734e
 +}
 diff --git a/backend/internal/repository/realyu_usage_trend_repo.go b/backend/internal/repository/realyu_usage_trend_repo.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..b58822e5d875d4868a5a2383c8127c3da9bebbfb
+index 0000000000000000000000000000000000000000..7ee871c8e4b1d2b6f2d9b850e3b9824393b9b58b
 --- /dev/null
 +++ b/backend/internal/repository/realyu_usage_trend_repo.go
 @@ -0,0 +1,62 @@
@@ -9348,7 +9659,7 @@ index 0000000000000000000000000000000000000000..b58822e5d875d4868a5a2383c8127c3d
 +	if err = historyActor(ctx, tx, actor, f.RealYuUsageHistoryFilter); err != nil {
 +		return nil, err
 +	}
-+	out := &service.RealYuUsageTrend{Scope: f.Scope, Timezone: f.Timezone, Granularity: f.Granularity, Start: f.Start, End: f.End, Series: []service.RealYuUsageTrendBucket{}}
++	out := &service.RealYuUsageTrend{Scope: f.Scope, TeamID: f.TeamID, Timezone: f.Timezone, Granularity: f.Granularity, Start: f.Start, End: f.End, Series: []service.RealYuUsageTrendBucket{}}
 +	if err = tx.QueryRowContext(ctx, `SELECT transaction_timestamp()`).Scan(&out.AsOf); err != nil {
 +		return nil, err
 +	}
@@ -9362,8 +9673,8 @@ index 0000000000000000000000000000000000000000..b58822e5d875d4868a5a2383c8127c3d
 +	}
 +	// PostgreSQL's timezone-aware timestamptz truncation preserves distinct
 +	// repeated DST hours. A day advances by a local calendar date, not 24 hours.
-+	q := realyuSelfUsageCTE + `, bucketed AS (SELECT *,date_trunc($6::text,created_at,$7::text) AS bucket_start FROM filtered)
-+ SELECT bucket_start,CASE WHEN $6::text='hour' THEN bucket_start+INTERVAL '1 hour' ELSE ((bucket_start AT TIME ZONE $7::text)+INTERVAL '1 day') AT TIME ZONE $7::text END,` + realyuHistoryAggregate + ` FROM bucketed GROUP BY bucket_start ORDER BY bucket_start ASC`
++	q := realyuSelfUsageCTE + `, bucketed AS (SELECT *,date_trunc($7::text,created_at,$8::text) AS bucket_start FROM filtered)
++ SELECT bucket_start,CASE WHEN $7::text='hour' THEN bucket_start+INTERVAL '1 hour' ELSE ((bucket_start AT TIME ZONE $8::text)+INTERVAL '1 day') AT TIME ZONE $8::text END,` + realyuHistoryAggregate + ` FROM bucketed GROUP BY bucket_start ORDER BY bucket_start ASC`
 +	rows, err := tx.QueryContext(ctx, q, append(args, f.Granularity, f.Timezone)...)
 +	if err != nil {
 +		return nil, err
@@ -15671,10 +15982,10 @@ index 0000000000000000000000000000000000000000..2c33c4ce8bd6597fdf0ffb72aa33e282
 +}
 diff --git a/backend/internal/service/realyu_usage_history.go b/backend/internal/service/realyu_usage_history.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..e665b1ccde6d4844ad1fced1ec94d44b911ab45e
+index 0000000000000000000000000000000000000000..18c6161e9e7952961a8fcbb96b68a1427bd50c4c
 --- /dev/null
 +++ b/backend/internal/service/realyu_usage_history.go
-@@ -0,0 +1,122 @@
+@@ -0,0 +1,126 @@
 +package service
 +
 +import (
@@ -15721,6 +16032,7 @@ index 0000000000000000000000000000000000000000..e665b1ccde6d4844ad1fced1ec94d44b
 +}
 +type RealYuUsageTrend struct {
 +	Scope       string                     `json:"scope"`
++	TeamID      int64                      `json:"team_id,omitempty"`
 +	Timezone    string                     `json:"tz"`
 +	Granularity string                     `json:"granularity"`
 +	Start       time.Time                  `json:"start"`
@@ -15733,6 +16045,7 @@ index 0000000000000000000000000000000000000000..e665b1ccde6d4844ad1fced1ec94d44b
 +type RealYuUsageHistoryFilter struct {
 +	Scope          string
 +	UserID         int64 // platform only; zero means all attributed actors
++	TeamID         int64 // team only; requires current management permission
 +	Model          string
 +	Start, End     time.Time // zero = unbounded; end exclusive
 +	Today          time.Time // start of requested calendar day, populated by the handler
@@ -15784,6 +16097,7 @@ index 0000000000000000000000000000000000000000..e665b1ccde6d4844ad1fced1ec94d44b
 +}
 +type RealYuUsageHistoryPage struct {
 +	Scope    string                     `json:"scope"`
++	TeamID   int64                      `json:"team_id,omitempty"`
 +	Items    []RealYuUsageHistoryItem   `json:"items"`
 +	Total    int64                      `json:"total"`
 +	Page     int                        `json:"page"`
@@ -15793,6 +16107,7 @@ index 0000000000000000000000000000000000000000..e665b1ccde6d4844ad1fced1ec94d44b
 +}
 +type RealYuUsageHistorySummary struct {
 +	Scope    string                     `json:"scope"`
++	TeamID   int64                      `json:"team_id,omitempty"`
 +	AllTime  RealYuUsageHistoryStats    `json:"all_time"`
 +	Today    RealYuUsageHistoryStats    `json:"today"`
 +	Coverage RealYuUsageHistoryCoverage `json:"coverage"`
@@ -18450,6 +18765,112 @@ index 0000000000000000000000000000000000000000..f7347a44d59c3d21d99a02d020771fdf
 +
 +if __name__ == "__main__":
 +    unittest.main()
+diff --git a/deploy/realyu/test_ux4_usage_http_e2e.py b/deploy/realyu/test_ux4_usage_http_e2e.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..397c69db12bc449dc47fb85bb2a267923b8a8a9d
+--- /dev/null
++++ b/deploy/realyu/test_ux4_usage_http_e2e.py
+@@ -0,0 +1,100 @@
++import copy
++from decimal import Decimal
++import json
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest.mock import Mock, patch
++
++import ux4_usage_http_e2e as e
++
++
++class UX4Safety(unittest.TestCase):
++    def test_offline_default_does_not_read_runtime(self):
++        child = subprocess.run([sys.executable, str(Path(e.__file__)), "--runtime", "MISSING_NOT_READ"], capture_output=True, text=True)
++        self.assertEqual(0, child.returncode)
++        self.assertEqual({"status": "PREPARED_NOT_RUN", "network_accessed": False, "database_accessed": False,
++                          "requires": "reviewed candidate receipt/version/SHA and existing synthetic history fixture receipt"}, json.loads(child.stdout))
++
++    def test_extension_inherits_exact_target_and_write_guards(self):
++        for target in ("http://127.0.0.1:18300", "https://api.realyu.fun", "http://localhost:29481"):
++            with self.subTest(target=target), self.assertRaises(e.CheckError):
++                e.base.HTTP(target)
++        http = e.base.HTTP("http://127.0.0.1:29481")
++        http.opener = Mock()
++        for path in ("/v1/responses", "/api/v1/keys", "/api/v1/payment/orders"):
++            with self.subTest(path=path), self.assertRaises(e.CheckError):
++                http.request("POST", path, "owner", {})
++        http.opener.open.assert_not_called()
++
++    def test_team_echo_never_accepts_other_team_self_missing_or_bool(self):
++        e.check_scope({"scope": "team", "team_id": 11}, 11)
++        for value in ({"scope": "self", "team_id": 11}, {"scope": "team", "team_id": 12},
++                      {"scope": "team"}, {"scope": "team", "team_id": True}):
++            with self.subTest(value=value), self.assertRaises(e.CheckError):
++                e.check_scope(value, 11)
++
++    def test_first_failure_preserved_and_no_external_exception_text(self):
++        with tempfile.TemporaryDirectory() as directory:
++            out = Path(directory)
++            recorder = e.base.Recorder(out, {"candidate_sha256": "a" * 64, "checks": []})
++            recorder.case("baseline", lambda: e.check(False, "BASELINE_FIRST_FAILURE"))
++            first = (out / "first-failure.json").read_bytes()
++            recorder.case("extension", lambda: (_ for _ in ()).throw(ValueError("PRIVATE_SENTINEL")))
++            self.assertEqual(first, (out / "first-failure.json").read_bytes())
++            self.assertNotIn("PRIVATE_SENTINEL", (out / "progress.json").read_text())
++
++    def test_duplicate_team_parameter_is_not_collapsed_by_url_builder(self):
++        url = e.base.url(e.HISTORY, [("scope", "team"), ("team_id", 11), ("team_id", 12)])
++        self.assertEqual(2, url.count("team_id="))
++
++    def test_pacing_honors_window_without_retrying_rate_limit_failures(self):
++        client = e.PacedHTTP(e.base.HTTP("http://127.0.0.1:29481"))
++        now = [0.0]
++        sleeps = []
++        def sleep(seconds):
++            sleeps.append(seconds)
++            now[0] += seconds
++        with patch.object(e.time, "monotonic", side_effect=lambda: now[0]), \
++             patch.object(e.time, "sleep", side_effect=sleep), \
++             patch.object(e.base.HTTP, "request", return_value=(429, {"reason": "RATE_LIMITED"})) as request:
++            for _ in range(41):
++                self.assertEqual(429, client.request("GET", e.HISTORY, "owner")[0])
++            self.assertEqual(41, request.call_count)
++            self.assertGreaterEqual(now[0], 61)
++            self.assertTrue(all(0 < seconds <= 5 for seconds in sleeps))
++
++
++class UX4Facts(unittest.TestCase):
++    def data(self):
++        row = dict(id="legacy:100", team=11, actor=21, scope="team", source="legacy", attribution="team",
++                   input=100, output=10, total=110, read=None, create=0, cost=Decimal("0.000002"),
++                   created=e.base.instant("2026-10-01T00:00:00Z"), model="synthetic-model")
++        item = dict(id=row["id"], scope="team", team_id=11, source="legacy", attribution="team", actor_user_id=21,
++                    actor_nickname="Synthetic nickname", input_tokens=100, output_tokens=10, total_tokens=110,
++                    cache_read_tokens=None, cache_creation_tokens=0, cost_usd="0.00000200",
++                    created_at="2026-10-01T00:00:00Z", model="synthetic-model")
++        return row, item, {(11, 21): "Synthetic nickname"}
++
++    def test_both_endpoints_match_actual_source_facts(self):
++        row, item, names = self.data()
++        e.compare_items([item], [row], 11, names)
++        old_item = {**item, "member_id": item["actor_user_id"], "nickname": item["actor_nickname"]}
++        e.compare_items([old_item], [row], 11, names, team_endpoint=True)
++
++    def test_one_quota_cache_null_nickname_scope_and_duplicates_fail(self):
++        row, original, names = self.data()
++        for field, value in (("cost_usd", "0.000004"), ("cache_read_tokens", 0), ("actor_nickname", "Wrong"),
++                             ("team_id", 12), ("actor_user_id", 22), ("scope", "personal"), ("total_tokens", 111),
++                             ("created_at", "2026-10-01T00:00:01Z"), ("source_actor_id", 21)):
++            item = {**original, field: value}
++            with self.subTest(field=field), self.assertRaises(e.CheckError):
++                e.compare_items([item], [row], 11, names)
++        with self.assertRaises(e.CheckError):
++            e.compare_items([original, copy.deepcopy(original)], [row], 11, names)
++
++
++if __name__ == "__main__":
++    unittest.main()
 diff --git a/deploy/realyu/test_ux_history_http_e2e.py b/deploy/realyu/test_ux_history_http_e2e.py
 new file mode 100644
 index 0000000000000000000000000000000000000000..2b3ab0c96be5bcf38fd23934e04f0573573767ee
@@ -18937,6 +19358,245 @@ index 0000000000000000000000000000000000000000..15b351c14ca8c46c14bc4416d5342042
 +        if not path.exists():
 +            old.write_new(path, result)
 +        old.write_new(out / "blocked.json", result)
++        print(json.dumps({**result, "evidence_dir": str(out)}))
++        return 2
++    finally:
++        if conn:
++            conn.close()
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/deploy/realyu/ux4_usage_http_e2e.py b/deploy/realyu/ux4_usage_http_e2e.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..d5aca6862ee74e9752218e4b68e2c79d0a9c3742
+--- /dev/null
++++ b/deploy/realyu/ux4_usage_http_e2e.py
+@@ -0,0 +1,233 @@
++"""Candidate-only UX4 team-scope HTTP checks, extending the frozen UX3 49 checks.
++
++Offline unless --candidate-ready is explicit. The existing guard pins the process,
++binary SHA, version, loopback listener and synthetic PostgreSQL installation.
++Credentials, JWTs, response bodies and actor details stay in memory. There is no
++fixture seed, successful payment, model call, service operation or production path.
++"""
++from __future__ import annotations
++
++import argparse
++from collections import defaultdict, deque
++from datetime import datetime, timedelta, timezone
++from decimal import Decimal
++import json
++from pathlib import Path
++import time
++import uuid
++from zoneinfo import ZoneInfo
++
++import ux3_usage_http_e2e as base
++
++check, CheckError = base.check, base.CheckError
++HISTORY = base.HISTORY
++
++
++class PacedHTTP(base.HTTP):
++    """Bound this runner's bursts without retrying or changing server limits.
++
++    The native default heavy-query cap is 60/user/minute. Count all authenticated
++    requests conservatively and allow at most 40 in any 61-second window. Other
++    clients sharing a fixture can still cause 429; that is retained as a failure.
++    """
++    def __init__(self, client):
++        self.__dict__.update(client.__dict__)
++        self.sent = defaultdict(deque)
++
++    def request(self, method, path, role=None, body=None):
++        if role:
++            times = self.sent[role]
++            while True:
++                now = time.monotonic()
++                while times and now - times[0] >= 61:
++                    times.popleft()
++                if len(times) < 40:
++                    times.append(now)
++                    break
++                time.sleep(min(5, max(0.001, times[0] + 61 - now)))
++        return super().request(method, path, role, body)
++
++
++def check_scope(value, team_id):
++    check(value.get("scope") == "team" and type(value.get("team_id")) is int
++          and value["team_id"] == team_id, "TEAM_RESPONSE_SCOPE_MISMATCH")
++
++
++def compare_items(items, rows, team_id, nicknames, team_endpoint=False):
++    """Compare source facts rather than trusting agreement between two APIs."""
++    expected = {row["id"]: row for row in rows}
++    check(len(expected) == len(rows), "FIXTURE_SOURCE_ID_DUPLICATE")
++    check(len(items) == len(rows) and {item["id"] for item in items} == set(expected),
++          "TEAM_SOURCE_IDS_OR_DUPLICATES")
++    ordered = [row["id"] for row in sorted(rows, key=lambda row: (row["created"], row["id"]), reverse=True)]
++    check([item["id"] for item in items] == ordered, "TEAM_SOURCE_ORDER_MISMATCH")
++    for item in items:
++        row = expected[item["id"]]
++        check(row["team"] == team_id and row["scope"] == "team", "FIXTURE_TEAM_SCOPE_MISMATCH")
++        if not team_endpoint:
++            check(item.get("scope") == "team" and item.get("team_id") == team_id,
++                  "TEAM_ITEM_SCOPE_MISMATCH")
++            check(item.get("source") == row["source"] and item.get("attribution") == row["attribution"],
++                  "TEAM_ITEM_ATTRIBUTION_MISMATCH")
++            check("source_actor_id" not in item, "INTERNAL_SOURCE_ACTOR_EXPOSED")
++        check(item["member_id" if team_endpoint else "actor_user_id"] == row["actor"],
++              "TEAM_ACTOR_MISMATCH")
++        check(item["nickname" if team_endpoint else "actor_nickname"] == nicknames[(team_id, row["actor"])],
++              "TEAM_NICKNAME_MISMATCH")
++        for field, source in (("input_tokens", "input"), ("output_tokens", "output"),
++                              ("total_tokens", "total"), ("cache_read_tokens", "read"),
++                              ("cache_creation_tokens", "create")):
++            check(item[field] == row[source], "TEAM_ITEM_" + field.upper() + "_MISMATCH")
++        check(isinstance(item["cost_usd"], str) and Decimal(item["cost_usd"]) == row["cost"],
++              "TEAM_ITEM_COST_MISMATCH")
++        check(base.instant(item["created_at"]) == row["created"], "TEAM_ORIGINAL_DATE_MISMATCH")
++        check(item["model"] == row["model"], "TEAM_MODEL_MISMATCH")
++
++
++def run_team_scope(conn, fixture, http, args, out, result):
++    baseline = base.old.money_fingerprint(conn)
++    check(base.old.digest(baseline) == result["financial_before_sha256"], "BASELINE_FINANCIAL_STATE_CHANGED")
++    result["baseline_checks"] = {"suite": "frozen-ux3", "total": result["total"], "passed": result["passed"]}
++    check(result["total"] == 49, "FROZEN_UX3_CHECK_COUNT_CHANGED")
++    result["status"] = "RUNNING"
++    recorder = base.Recorder(out, result)
++    case = recorder.case
++    with conn.transaction():
++        conn.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY")
++        allrows = base.old.expected_rows(conn)
++        names = dict(conn.execute("SELECT id,COALESCE(NULLIF(username,''),'#'||id::text) FROM users"))
++        nicknames = {(team, actor): nickname or names.get(actor, "#" + str(actor))
++                     for team, actor, nickname in conn.execute("SELECT team_id,user_id,nickname FROM realyu_team_members")}
++    check(allrows and len(allrows) <= 1000, "ISOLATED_FIXTURE_SIZE_OUT_OF_RANGE")
++    team_id = fixture["teams"]["a"]
++    teamrows = [row for row in allrows if row["scope"] == "team" and row["team"] == team_id]
++    check(len(teamrows) > 1 and {row["source"] for row in teamrows} == {"legacy", "native"},
++          "TEAM_OLD_AND_NATIVE_FIXTURES_REQUIRED")
++    check(len({row["actor"] for row in teamrows}) > 1, "MULTIPLE_TEAM_ACTORS_REQUIRED")
++    check(any(row["read"] is None or row["create"] is None for row in teamrows), "TEAM_UNKNOWN_CACHE_FIXTURE_REQUIRED")
++    for row in teamrows:
++        nicknames.setdefault((team_id, row["actor"]), names.get(row["actor"], "#" + str(row["actor"])))
++    start = min(row["created"] for row in allrows).astimezone(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
++    end = max(row["created"] for row in allrows).astimezone(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
++    check(end - start <= timedelta(days=31), "FIXTURE_RANGE_REQUIRES_REVIEW")
++    params = {"scope": "team", "team_id": team_id, "start": start.isoformat(), "end": end.isoformat(), "tz": "Asia/Shanghai"}
++    team_endpoint = "/api/v1/realyu/teams/" + str(team_id) + "/usage"
++
++    def projection(role, extra=None):
++        query = {**params, **(extra or {})}
++        lo, hi = base.instant(query["start"]), base.instant(query["end"])
++        want = [row for row in teamrows if lo <= row["created"] < hi
++                and (not query.get("model") or row["model"] == query["model"])]
++        one = http.get(base.url(HISTORY, {**query, "page": 1, "page_size": 1}), role)
++        two = http.get(base.url(HISTORY, {**query, "page": 2, "page_size": 1}), role)
++        for page in (one, two):
++            check_scope(page, team_id)
++            check(page["total"] == len(want), "TEAM_PAGE_TOTAL_MISMATCH")
++            base.old.compare_stats(page["stats"], want)
++        check(one["stats"] == two["stats"] and one["coverage"] == two["coverage"], "TEAM_PAGE_CHANGED_FULL_STATISTICS")
++        items, old_items = [], []
++        old_query = {key: value for key, value in query.items() if key not in ("scope", "team_id")}
++        old_page = http.get(base.url(team_endpoint, {**old_query, "page": 1, "page_size": 1}), role)
++        check(old_page["total"] == len(want), "TEAM_OLD_ENDPOINT_TOTAL_MISMATCH")
++        base.compare_team_stats(old_page["stats"], want)
++        for number in range(1, (len(want) + 99) // 100 + 1):
++            page = http.get(base.url(HISTORY, {**query, "page": number, "page_size": 100}), role)
++            check_scope(page, team_id)
++            base.old.compare_stats(page["stats"], want)
++            items.extend(page["items"])
++            old_items.extend(http.get(base.url(team_endpoint, {**old_query, "page": number, "page_size": 100}), role)["items"])
++        compare_items(items, want, team_id, nicknames)
++        compare_items(old_items, want, team_id, nicknames, team_endpoint=True)
++        check([item["id"] for item in items] == [item["id"] for item in old_items], "TEAM_ENDPOINT_SOURCE_IDS_DIFFER")
++        summary = http.get(base.url(HISTORY + "/summary", query), role)
++        check_scope(summary, team_id)
++        base.old.compare_stats(summary["all_time"], want)
++        today = datetime.now(ZoneInfo(query["tz"])).replace(hour=0, minute=0, second=0, microsecond=0)
++        base.old.compare_stats(summary["today"], [row for row in want if today <= row["created"] < today + timedelta(days=1)])
++        for granularity in ("day", "hour"):
++            trend = http.get(base.url(HISTORY + "/trend", {**query, "granularity": granularity}), role)
++            check_scope(trend, team_id)
++            base.compare_trend(trend, want, query["tz"], granularity, lo, hi)
++
++    for role in ("owner", "admin"):
++        case(role + "-team-jwt-list-summary-day-hour-exact", lambda role=role: projection(role))
++        legacy = next(row for row in teamrows if row["source"] == "legacy")
++        case(role + "-team-filtered-model-and-cache", lambda role=role: projection(role, {"model": legacy["model"]}))
++        case(role + "-team-original-date-inclusive", lambda role=role: projection(role, {
++            "start": legacy["created"].isoformat(), "end": (legacy["created"] + timedelta(seconds=1)).isoformat()}))
++        case(role + "-team-original-date-exclusive", lambda role=role: projection(role, {
++            "start": (legacy["created"] - timedelta(seconds=1)).isoformat(), "end": legacy["created"].isoformat()}))
++
++    endpoints = (("list", HISTORY), ("summary", HISTORY + "/summary"), ("trend", HISTORY + "/trend"))
++
++    def rejected(endpoint, role, query, expected):
++        status, _ = http.request("GET", base.url(endpoint, query), role)
++        check(status == expected, "TEAM_EXPECTED_HTTP_" + str(expected) + "_ACTUAL_" + str(status))
++
++    for name, endpoint in endpoints:
++        for role in ("member", "former"):
++            case(role + "-team-" + name + "-forbidden", lambda endpoint=endpoint, role=role: rejected(endpoint, role, params, 403))
++        case("anonymous-team-" + name + "-denied", lambda endpoint=endpoint: rejected(endpoint, None, params, 401))
++        for field in ("member_id", "user_id", "actor_user_id"):
++            case("team-" + name + "-forged-" + field, lambda endpoint=endpoint, field=field:
++                 rejected(endpoint, "owner", {**params, field: fixture["users"]["member"]["id"]}, 400))
++        case("team-" + name + "-duplicate-team-id", lambda endpoint=endpoint:
++             rejected(endpoint, "owner", list(params.items()) + [("team_id", fixture["teams"]["b"])], 400))
++        case("team-" + name + "-missing-team-id", lambda endpoint=endpoint:
++             rejected(endpoint, "owner", {key: value for key, value in params.items() if key != "team_id"}, 400))
++        case("team-" + name + "-zero-team-id", lambda endpoint=endpoint:
++             rejected(endpoint, "owner", {**params, "team_id": 0}, 400))
++    case("ux4-financial-fingerprint-unchanged", lambda: check(baseline == base.old.money_fingerprint(conn), "FINANCIAL_STATE_CHANGED"))
++    result.update(status="PASS" if all(item["pass"] for item in result["checks"]) else "FAIL",
++                  passed=sum(item["pass"] for item in result["checks"]), total=len(result["checks"]),
++                  financial_after_sha256=base.old.digest(base.old.money_fingerprint(conn)),
++                  finished_at=datetime.now(timezone.utc).isoformat())
++    result["ux4_extension_checks"] = result["total"] - result["baseline_checks"]["total"]
++    result["limits"].extend(["The UX4 extension performs GETs only with existing login JWTs",
++                             "Concurrent permission revocation and DST are covered by isolated PostgreSQL tests, not manufactured through HTTP writes"])
++    return result
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--candidate-ready", action="store_true")
++    parser.add_argument("--base-url", default="http://127.0.0.1:29481")
++    parser.add_argument("--runtime", type=Path, default=base.RUNTIME)
++    parser.add_argument("--candidate-receipt", type=Path)
++    parser.add_argument("--fixture-receipt", type=Path)
++    parser.add_argument("--expected-version")
++    parser.add_argument("--expected-sha256")
++    parser.add_argument("--out-root", type=Path)
++    args = parser.parse_args()
++    if not args.candidate_ready:
++        print(json.dumps({"status": "PREPARED_NOT_RUN", "network_accessed": False, "database_accessed": False,
++                          "requires": "reviewed candidate receipt/version/SHA and existing synthetic history fixture receipt"}))
++        return 0
++    outroot = args.out_root or args.runtime / "ux4-http-e2e"
++    outroot.mkdir(parents=True, exist_ok=True)
++    out = outroot / (datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:10])
++    out.mkdir()
++    conn = None
++    try:
++        conn, fixture, http = base.guard(args)
++        http = PacedHTTP(http)
++        result = base.run(conn, fixture, http, args, out)
++        base.old.write_new(out / "ux3-baseline.json", result)
++        result = run_team_scope(conn, fixture, http, args, out, result)
++        base.old.write_new(out / "result.json", result)
++        print(json.dumps({"status": result["status"], "checks": result["total"], "passed": result["passed"], "report": str(out / "result.json")}))
++        return 0 if result["status"] == "PASS" else 1
++    except Exception as error:
++        result = {"status": "BLOCKED", "code": base.safe_code(error), "production_modified": False, "paid_model_called": False}
++        if not (out / "first-failure.json").exists():
++            base.old.write_new(out / "first-failure.json", result)
++        base.old.write_new(out / "blocked.json", result)
 +        print(json.dumps({**result, "evidence_dir": str(out)}))
 +        return 2
 +    finally:
@@ -22989,10 +23649,10 @@ index 0000000000000000000000000000000000000000..3605c0e8b7d76f9faf521ff5a960a30d
 +}
 diff --git a/frontend/src/api/realyuUsage.ts b/frontend/src/api/realyuUsage.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..c0f7a28264e7c588c63654e8fd9a832e17d19f66
+index 0000000000000000000000000000000000000000..773ebe28551e2d07c10c2b98ca1fee58bb8e9a20
 --- /dev/null
 +++ b/frontend/src/api/realyuUsage.ts
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,44 @@
 +import { apiClient } from './client'
 +
 +export interface RealYuUsageStats {
@@ -23013,16 +23673,18 @@ index 0000000000000000000000000000000000000000..c0f7a28264e7c588c63654e8fd9a832e
 +  cost_usd: string; duration_ms: number | null; token_semantics: string
 +}
 +export interface RealYuUsageQuery {
-+  scope?: 'self' | 'personal' | 'platform'; page?: number; page_size?: number
++  scope?: 'self' | 'personal' | 'platform' | 'team'; page?: number; page_size?: number
++  // Required only for team scope; the server verifies current management permission.
++  team_id?: number
 +  start?: string; end?: string; model?: string; user_id?: number; tz?: string
 +}
-+export interface RealYuUsageSummary { scope: string; all_time: RealYuUsageStats; today: RealYuUsageStats; coverage: RealYuUsageCoverage }
++export interface RealYuUsageSummary { scope: string; team_id?: number; all_time: RealYuUsageStats; today: RealYuUsageStats; coverage: RealYuUsageCoverage }
 +export interface RealYuUsagePage {
-+  scope: string; items: RealYuUsageRecord[]; total: number; page: number; page_size: number
++  scope: string; team_id?: number; items: RealYuUsageRecord[]; total: number; page: number; page_size: number
 +  stats: RealYuUsageStats; coverage: RealYuUsageCoverage
 +}
 +export interface RealYuUsageTrend {
-+  scope: string; tz: string; granularity: 'day' | 'hour'; start: string; end: string; as_of: string
++  scope: string; team_id?: number; tz: string; granularity: 'day' | 'hour'; start: string; end: string; as_of: string
 +  stats: RealYuUsageStats; coverage: RealYuUsageCoverage
 +  series: (RealYuUsageStats & { bucket_start: string; bucket_end: string })[]
 +}
@@ -25304,6 +25966,43 @@ index 5fdac9c99832ea7afd787e1146b4fdca84f31ff6..f8a9610b327588ece0986bc2cd5fe45d
 +  expect(chartData.datasets[0].data).toEqual([500])
 +  wrapper.unmount()
 +})
+diff --git a/frontend/src/components/common/LocaleSwitcher.vue b/frontend/src/components/common/LocaleSwitcher.vue
+index 417e5a23b2042f0abb0356188a0409297262bc1d..9a554c5ca439ae06c20b025bae1e491aa6a3fbe8 100644
+--- a/frontend/src/components/common/LocaleSwitcher.vue
++++ b/frontend/src/components/common/LocaleSwitcher.vue
+@@ -1,13 +1,14 @@
+ <template>
+   <div class="relative" ref="dropdownRef">
+     <button
++      type="button"
+       @click="toggleDropdown"
+       :disabled="switching"
+       class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-700"
+       :title="currentLocale?.name"
++      :aria-expanded="isOpen"
+     >
+-      <span class="text-base">{{ currentLocale?.flag }}</span>
+-      <span class="hidden sm:inline">{{ currentLocale?.code.toUpperCase() }}</span>
++      <span>{{ currentLocale?.name || currentLocaleCode }}</span>
+       <Icon
+         name="chevronDown"
+         size="xs"
+@@ -24,6 +25,7 @@
+         <button
+           v-for="locale in availableLocales"
+           :key="locale.code"
++          type="button"
+           :disabled="switching"
+           @click="selectLocale(locale.code)"
+           class="flex w-full items-center gap-2 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-dark-700"
+@@ -32,7 +34,6 @@
+               locale.code === currentLocaleCode
+           }"
+         >
+-          <span class="text-base">{{ locale.flag }}</span>
+           <span>{{ locale.name }}</span>
+           <Icon v-if="locale.code === currentLocaleCode" name="check" size="sm" class="ml-auto text-primary-500" />
+         </button>
 diff --git a/frontend/src/components/common/SubscriptionProgressMini.vue b/frontend/src/components/common/SubscriptionProgressMini.vue
 index bc55c16411721df421fd8bf1c5ca4e05f5eaf54b..48b98444207a7c0b7c9922427efc9457442182c1 100644
 --- a/frontend/src/components/common/SubscriptionProgressMini.vue
@@ -26087,34 +26786,81 @@ index 4ae61e990eed8713d89e9dcb9f71d597b1d2064b..a5bd32c2873283475d94354500e5b051
  function paymentAmountSymbol(order: PaymentOrder): string {
    return currencySymbol(order.currency)
 diff --git a/frontend/src/components/payment/SubscriptionPlanCard.vue b/frontend/src/components/payment/SubscriptionPlanCard.vue
-index 0d60f67791a3d332bc216d6f8215e445b733b890..8f3a39a1a4c9e805073dbad890cf316a9b79201b 100644
+index 0d60f67791a3d332bc216d6f8215e445b733b890..50e71a30a190110084964baab47129953065693a 100644
 --- a/frontend/src/components/payment/SubscriptionPlanCard.vue
 +++ b/frontend/src/components/payment/SubscriptionPlanCard.vue
-@@ -27,7 +27,7 @@
-         <div class="shrink-0 text-right">
-           <div class="flex items-baseline gap-1">
-             <span class="text-xs text-gray-400 dark:text-dark-500">{{ planCurrencySymbol }}</span>
+@@ -1,22 +1,21 @@
+ <template>
+   <div
+     :class="[
+-      'group relative flex flex-col overflow-hidden rounded-2xl border transition-all',
+-      'hover:shadow-xl hover:-translate-y-0.5',
++      'group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border transition-colors',
+       borderClass,
+       'bg-white dark:bg-dark-800',
+     ]"
+   >
+     <!-- Colored top accent bar -->
+-    <div :class="['h-1.5', accentClass]" />
++    <div :class="['h-1', accentClass]" />
+ 
+     <div class="flex flex-1 flex-col p-4">
+       <!-- Header: name + badge + price -->
+-      <div class="mb-3 flex items-start justify-between gap-2">
+-        <div class="min-w-0 flex-1">
++      <div class="mb-4 space-y-3">
++        <div class="min-w-0">
+           <h3
+             :title="plan.name"
+-            class="h-12 min-w-0 break-words [overflow-wrap:anywhere] text-base font-bold leading-6 text-gray-900 dark:text-white line-clamp-2"
++            class="min-w-0 break-words [overflow-wrap:anywhere] text-lg font-semibold leading-6 text-gray-900 dark:text-white line-clamp-2"
+           >
+             {{ plan.name }}
+           </h3>
+@@ -24,19 +23,19 @@
+             {{ plan.description }}
+           </p>
+         </div>
+-        <div class="shrink-0 text-right">
+-          <div class="flex items-baseline gap-1">
+-            <span class="text-xs text-gray-400 dark:text-dark-500">{{ planCurrencySymbol }}</span>
 -            <span :class="['text-2xl font-extrabold tracking-tight', textClass]">{{ plan.price }}</span>
-+            <span :class="['text-2xl font-extrabold tracking-tight', textClass]">{{ plan.managed_entitlement ? (plan.managed_entitlement.price_cents / 100).toFixed(2) : plan.price }}</span>
-             <span v-if="plan.currency" class="text-xs font-medium text-gray-400 dark:text-dark-500">{{ plan.currency }}</span>
+-            <span v-if="plan.currency" class="text-xs font-medium text-gray-400 dark:text-dark-500">{{ plan.currency }}</span>
++        <div>
++          <div class="flex flex-wrap items-baseline gap-x-1.5">
++            <span class="text-base text-gray-600 dark:text-dark-300">{{ planCurrencySymbol }}</span>
++            <span :class="['text-3xl font-semibold tracking-tight tabular-nums', textClass]">{{ plan.managed_entitlement ? (plan.managed_entitlement.price_cents / 100).toFixed(2) : plan.price }}</span>
++            <span v-if="plan.currency" class="text-xs text-gray-500 dark:text-dark-400">{{ plan.managed_entitlement ? 'CNY' : plan.currency }}</span>
++            <span class="text-xs text-gray-500 dark:text-dark-400">/ {{ validitySuffix }}</span>
            </div>
-           <div class="flex items-center justify-end gap-1">
-@@ -44,7 +44,13 @@
+-          <div class="flex items-center justify-end gap-1">
++          <div class="mt-2 flex items-center gap-1">
+             <span :class="['inline-flex shrink-0 rounded-full px-2 py-0.5 text-[11px] font-medium', badgeLightClass]">
+               {{ pLabel }}
+             </span>
+-            <span class="text-[11px] text-gray-400 dark:text-dark-500">/ {{ validitySuffix }}</span>
+           </div>
+-          <div v-if="plan.original_price" class="mt-0.5 flex items-center justify-end gap-1.5">
++          <div v-if="plan.original_price" class="mt-1 flex items-center gap-1.5">
+             <span class="text-xs text-gray-400 line-through dark:text-dark-500">{{ planCurrencySymbol }}{{ plan.original_price }}<template v-if="plan.currency"> {{ plan.currency }}</template></span>
+             <span :class="['rounded px-1 py-0.5 text-[10px] font-semibold', discountClass]">{{ discountText }}</span>
+           </div>
+@@ -44,7 +43,13 @@
        </div>
  
        <!-- Group quota info (compact) -->
 -      <div class="mb-3 grid grid-cols-2 gap-x-3 gap-y-1 rounded-lg bg-gray-50 px-3 py-2 text-xs dark:bg-dark-700/50">
 +      <div v-if="plan.managed_entitlement" class="mb-3 space-y-2 rounded-lg bg-gray-50 px-3 py-2 text-xs dark:bg-dark-700/50" data-testid="managed-entitlement">
-+        <p class="font-medium">{{ t(`realyuPurchase.${plan.managed_entitlement.funding_scope}`) }}</p>
-+        <div class="flex justify-between"><span>{{ t('realyuPurchase.weekly') }}</span><span>{{ formatCustomerQuota(plan.managed_entitlement.weekly_amount_quota) }}</span></div>
-+        <div class="flex justify-between"><span>{{ t('realyuPurchase.total') }}</span><span>{{ formatCustomerQuota(plan.managed_entitlement.total_amount_quota) }}</span></div>
-+        <p>{{ t(plan.managed_entitlement.allow_wallet_overflow ? 'realyuPurchase.walletOverflow' : 'realyuPurchase.noWalletOverflow') }}</p>
++        <p class="text-gray-500 dark:text-dark-400">{{ t(`realyuPurchase.${plan.managed_entitlement.funding_scope}`) }}</p>
++        <div class="flex flex-wrap items-baseline justify-between gap-x-2"><span>{{ t('realyuPurchase.weekly') }}</span><span class="text-lg font-semibold tabular-nums">{{ formatCustomerQuota(plan.managed_entitlement.weekly_amount_quota) }}</span></div>
++        <div class="flex flex-wrap items-baseline justify-between gap-x-2"><span>{{ t('realyuPurchase.total') }}</span><span class="text-base font-medium tabular-nums">{{ formatCustomerQuota(plan.managed_entitlement.total_amount_quota) }}</span></div>
++        <p class="text-gray-500 dark:text-dark-400">{{ t(plan.managed_entitlement.allow_wallet_overflow ? 'realyuPurchase.walletOverflow' : 'realyuPurchase.noWalletOverflow') }}</p>
 +      </div>
 +      <div v-else class="mb-3 grid grid-cols-2 gap-x-3 gap-y-1 rounded-lg bg-gray-50 px-3 py-2 text-xs dark:bg-dark-700/50">
          <div class="flex items-center justify-between">
            <span class="text-gray-400 dark:text-dark-500">{{ t('payment.planCard.rate') }}</span>
            <span class="font-medium text-gray-700 dark:text-gray-300">{{ rateDisplay }}</span>
-@@ -55,15 +61,15 @@
+@@ -55,15 +60,15 @@
          </div>
          <div v-if="plan.daily_limit_usd != null" class="flex items-center justify-between">
            <span class="text-gray-400 dark:text-dark-500">{{ t('payment.planCard.dailyLimit') }}</span>
@@ -26133,12 +26879,13 @@ index 0d60f67791a3d332bc216d6f8215e445b733b890..8f3a39a1a4c9e805073dbad890cf316a
          </div>
          <div v-if="plan.daily_limit_usd == null && plan.weekly_limit_usd == null && plan.monthly_limit_usd == null" class="flex items-center justify-between">
            <span class="text-gray-400 dark:text-dark-500">{{ t('payment.planCard.quota') }}</span>
-@@ -95,16 +101,18 @@
+@@ -95,21 +100,24 @@
        <!-- Subscribe Button -->
        <button
          type="button"
+-        :class="['w-full rounded-xl py-2.5 text-sm font-semibold transition-all active:scale-[0.98]', btnClass]"
 +        :disabled="disabled || (!!plan.managed_entitlement && (!plan.for_sale || !plan.managed_entitlement.capabilities.purchase))"
-         :class="['w-full rounded-xl py-2.5 text-sm font-semibold transition-all active:scale-[0.98]', btnClass]"
++        :class="['w-full rounded-xl py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50', btnClass]"
          @click="emit('select', plan)"
        >
 -        {{ isRenewal ? t('payment.renewNow') : t('payment.subscribeNow') }}
@@ -26153,7 +26900,13 @@ index 0d60f67791a3d332bc216d6f8215e445b733b890..8f3a39a1a4c9e805073dbad890cf316a
  import { computed } from 'vue'
  import { useI18n } from 'vue-i18n'
  import type { SubscriptionPlan } from '@/types/payment'
-@@ -124,13 +132,13 @@ import {
+ import type { UserSubscription } from '@/types'
+ import { useAppStore } from '@/stores/app'
++import { isRealYuLogo } from '@/utils/branding'
+ import { hasPeakRate as groupHasPeakRate, formatPeakRateWindow, serverTimezoneLabel } from '@/utils/peak-rate'
+ import { planValiditySuffix } from './validity'
+ import { currencySymbol } from '@/components/payment/currency'
+@@ -124,23 +132,24 @@ import {
    platformLabel,
  } from '@/utils/platformColors'
  
@@ -26169,7 +26922,25 @@ index 0d60f67791a3d332bc216d6f8215e445b733b890..8f3a39a1a4c9e805073dbad890cf316a
  )
  
  // Derived color classes from central config
-@@ -155,7 +163,7 @@ const rateDisplay = computed(() => {
+-const accentClass = computed(() => platformAccentBarClass(platform.value))
+-const borderClass = computed(() => platformBorderClass(platform.value))
+-const badgeLightClass = computed(() => platformBadgeLightClass(platform.value))
+-const textClass = computed(() => platformTextClass(platform.value))
+-const iconClass = computed(() => platformIconClass(platform.value))
+-const btnClass = computed(() => platformButtonClass(platform.value))
+-const discountClass = computed(() => platformDiscountClass(platform.value))
++const branded = computed(() => isRealYuLogo(appStore.siteLogo))
++const accentClass = computed(() => branded.value ? 'bg-primary-600' : platformAccentBarClass(platform.value))
++const borderClass = computed(() => branded.value ? 'border-gray-200 hover:border-primary-400 dark:border-dark-600 dark:hover:border-primary-500' : platformBorderClass(platform.value))
++const badgeLightClass = computed(() => branded.value ? 'bg-gray-100 text-gray-600 dark:bg-dark-700 dark:text-dark-300' : platformBadgeLightClass(platform.value))
++const textClass = computed(() => branded.value ? 'text-gray-900 dark:text-white' : platformTextClass(platform.value))
++const iconClass = computed(() => branded.value ? 'text-primary-600 dark:text-primary-400' : platformIconClass(platform.value))
++const btnClass = computed(() => branded.value ? 'bg-primary-700 text-white hover:bg-primary-800' : platformButtonClass(platform.value))
++const discountClass = computed(() => branded.value ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300' : platformDiscountClass(platform.value))
+ const pLabel = computed(() => platformLabel(platform.value))
+ 
+ const discountText = computed(() => {
+@@ -155,7 +164,7 @@ const rateDisplay = computed(() => {
  })
  
  const appStore = useAppStore()
@@ -26178,7 +26949,7 @@ index 0d60f67791a3d332bc216d6f8215e445b733b890..8f3a39a1a4c9e805073dbad890cf316a
  
  const hasPeakRate = computed(() => groupHasPeakRate(props.plan))
  
-@@ -176,5 +184,5 @@ const modelScopeLabels = computed(() => {
+@@ -176,5 +185,5 @@ const modelScopeLabels = computed(() => {
    return scopes.map(s => MODEL_SCOPE_LABELS[s] || s)
  })
  
@@ -26203,7 +26974,7 @@ index 44e6144fd1bb1d6e7a95ac97e09bc6c14fb2cbb8..e04c514e932ecf3bf1e18af27e635585
      const wrapper = mountInput(10)
      const input = wrapper.get('input')
 diff --git a/frontend/src/components/payment/__tests__/SubscriptionPlanCard.spec.ts b/frontend/src/components/payment/__tests__/SubscriptionPlanCard.spec.ts
-index 853af980ba8dc43a2ef8a9a635d6f6f9181d2e4c..321caf4e84fd7075a6046f7a819ebd7329fa23ed 100644
+index 853af980ba8dc43a2ef8a9a635d6f6f9181d2e4c..2c1bb7192fd3e729204d935b0b540f598a9dbbe3 100644
 --- a/frontend/src/components/payment/__tests__/SubscriptionPlanCard.spec.ts
 +++ b/frontend/src/components/payment/__tests__/SubscriptionPlanCard.spec.ts
 @@ -1,8 +1,9 @@
@@ -26273,39 +27044,62 @@ index 853af980ba8dc43a2ef8a9a635d6f6f9181d2e4c..321caf4e84fd7075a6046f7a819ebd73
    });
  
    it("uses the configured currency symbol while preserving USD for legacy plans", () => {
-@@ -126,11 +156,11 @@ describe("SubscriptionPlanCard", () => {
+@@ -99,7 +129,6 @@ describe("SubscriptionPlanCard", () => {
+     expect(title.attributes("title")).toBe(name);
+     expect(title.classes()).toEqual(expect.arrayContaining([
+       "min-w-0",
+-      "h-12",
+       "break-words",
+       "line-clamp-2",
+       "[overflow-wrap:anywhere]",
+@@ -119,18 +148,15 @@ describe("SubscriptionPlanCard", () => {
+     const price = wrapper.findAll("span").find((node) => node.text() === "123.45");
+ 
+     expect(title.element.parentElement?.classList).toContain("min-w-0");
+-    expect(title.element.parentElement?.classList).toContain("flex-1");
+     expect(badge?.classes()).toContain("shrink-0");
+     expect([...(badge?.element.parentElement?.classList ?? [])]).toEqual(expect.arrayContaining([
+       "flex",
        "items-center",
-       "justify-end",
+-      "justify-end",
      ]));
 -    expect(badge?.element.parentElement?.textContent).toContain("/ 30payment.days");
-+    expect(badge?.element.parentElement?.textContent).toContain("/ 30days");
-     expect(badge?.element.parentElement?.parentElement?.classList).toContain("shrink-0");
-     expect(price?.element.parentElement?.parentElement?.classList).toContain("shrink-0");
+-    expect(badge?.element.parentElement?.parentElement?.classList).toContain("shrink-0");
+-    expect(price?.element.parentElement?.parentElement?.classList).toContain("shrink-0");
++    expect(price?.element.parentElement?.textContent).toContain("/ 30days");
++    expect(title.element.contains(price?.element ?? null)).toBe(false);
      expect(wrapper.get("p").text()).toBe("Includes advanced models and priority support.");
 -    expect(wrapper.get("button").text()).toBe("payment.subscribeNow");
 +    expect(wrapper.get("button").text()).toBe("Subscribe now");
    });
  
    it("keeps short plan titles compact and aligned", () => {
-@@ -146,6 +176,6 @@ describe("SubscriptionPlanCard", () => {
+@@ -140,12 +166,11 @@ describe("SubscriptionPlanCard", () => {
+ 
+     expect(title.text()).toBe("Pro");
+     expect(title.attributes("title")).toBe("Pro");
+-    expect(title.classes()).toEqual(expect.arrayContaining(["text-base", "font-bold", "h-12"]));
++    expect(title.classes()).not.toContain("h-12");
+     expect([...(badge?.element.parentElement?.classList ?? [])]).toEqual(expect.arrayContaining([
+       "flex",
        "items-center",
-       "justify-end",
+-      "justify-end",
      ]));
 -    expect(badge?.element.parentElement?.textContent).toContain("/ 30payment.days");
-+    expect(badge?.element.parentElement?.textContent).toContain("/ 30days");
++    expect(wrapper.text()).toContain("/ 30days");
    });
  });
 diff --git a/frontend/src/components/realyu/RealYuPaygoCard.vue b/frontend/src/components/realyu/RealYuPaygoCard.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..44798d76e25ee5819dea8a8ae50b6b835277b735
+index 0000000000000000000000000000000000000000..8629df8722aee27865de1fbc5ddc0ce7945bbc1a
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuPaygoCard.vue
 @@ -0,0 +1,24 @@
 +<template>
-+  <section class="card flex items-center justify-between gap-4 p-4 sm:p-5" data-testid="realyu-paygo">
-+    <div class="min-w-0">
++  <section class="card flex items-center justify-between gap-4 p-3 sm:px-4" data-testid="realyu-paygo">
++    <div class="flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-1">
 +      <h2 class="text-sm text-gray-500 dark:text-dark-400">{{ t('realyuPaygo.balance') }}</h2>
-+      <p class="mt-1 break-words text-2xl font-semibold tabular-nums text-gray-900 dark:text-white">{{ formatCustomerMoney(balance) }}</p>
++      <p class="break-words text-2xl font-semibold tabular-nums text-gray-900 dark:text-white">{{ formatCustomerMoney(balance) }}</p>
 +    </div>
 +    <button
 +      type="button"
@@ -26657,10 +27451,10 @@ index 0000000000000000000000000000000000000000..617a68d78bc1cf41f3690c172dcbe0d8
 +</script>
 diff --git a/frontend/src/components/realyu/RealYuUsageOverview.vue b/frontend/src/components/realyu/RealYuUsageOverview.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..5416a623edb2b8d4f29a029d1dff6e57cf245107
+index 0000000000000000000000000000000000000000..0bb4bc19136e13382d72d10b0da3cee3d8380286
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuUsageOverview.vue
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,43 @@
 +<template>
 +  <section class="space-y-2" :aria-label="t('realyuUx.usageOverview')">
 +    <div class="realyu-toolbar">
@@ -26688,7 +27482,8 @@ index 0000000000000000000000000000000000000000..5416a623edb2b8d4f29a029d1dff6e57
 +import { formatRealYuTokens } from '@/utils/realyuDisplay'
 +const props = withDefaults(defineProps<{ scope?: 'self' | 'personal' | 'platform' }>(), { scope: 'self' })
 +const { t, locale } = useI18n()
-+const period = ref<'today' | 'all_time'>('today')
++// An empty current day must not hide the migrated lifetime totals on first visit.
++const period = ref<'today' | 'all_time'>('all_time')
 +const summary = ref<RealYuUsageSummary | null>(null)
 +const loading = ref(false), error = ref(false)
 +const current = computed(() => summary.value?.[period.value])
@@ -26705,10 +27500,10 @@ index 0000000000000000000000000000000000000000..5416a623edb2b8d4f29a029d1dff6e57
 +</script>
 diff --git a/frontend/src/components/realyu/RealYuWorkspaceSetup.vue b/frontend/src/components/realyu/RealYuWorkspaceSetup.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..447c1a1cd6cda1513def9b63ec4b1adf9e935b9f
+index 0000000000000000000000000000000000000000..cf044fc5b963af02d05849f9fe41b033338d70a0
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuWorkspaceSetup.vue
-@@ -0,0 +1,206 @@
+@@ -0,0 +1,203 @@
 +<!--
 +Setup layout adapted from new-api codex-guide.tsx.
 +Copyright (C) 2023-2026 QuantumNous
@@ -26730,12 +27525,8 @@ index 0000000000000000000000000000000000000000..447c1a1cd6cda1513def9b63ec4b1adf
 +-->
 +<template>
 +  <section v-if="enabled" class="card min-w-0 space-y-2 p-3" data-testid="workspace-setup" :aria-label="t('realyuSetup.title')">
-+    <div class="flex flex-wrap items-center justify-between gap-2">
-+      <h2 class="text-sm font-semibold">{{ t('realyuSetup.title') }}</h2>
-+      <RouterLink to="/docs" class="text-xs text-primary-700 hover:underline dark:text-primary-300" data-testid="setup-docs">{{ t('realyuSetup.docs') }}</RouterLink>
-+    </div>
-+
 +    <div class="flex min-w-0 flex-wrap items-center gap-2">
++      <h2 class="mr-1 text-base font-semibold">{{ t('realyuSetup.title') }}</h2>
 +      <div class="setup-segments" role="group" :aria-label="t('realyuSetup.scope')">
 +        <button v-for="kind in scopeKinds" :key="kind" type="button" class="setup-segment" :class="{ 'setup-segment-active': scope === kind }" :aria-pressed="scope === kind" :data-testid="`setup-scope-${kind}`" @click="scope = kind">{{ t(`realyuSetup.${kind}`) }}</button>
 +      </div>
@@ -26745,6 +27536,7 @@ index 0000000000000000000000000000000000000000..447c1a1cd6cda1513def9b63ec4b1adf
 +      <div class="setup-segments" role="tablist" :aria-label="t('realyuSetup.platform')" data-testid="setup-platform" @keydown="moveSegmentFocus($event)">
 +        <button v-for="item in platforms" :id="`${controlID}-platform-${item.value}`" :key="item.value" type="button" role="tab" class="setup-segment" :class="{ 'setup-segment-active': platform === item.value }" :aria-selected="platform === item.value" :aria-controls="`${controlID}-command`" :tabindex="platform === item.value ? 0 : -1" :data-testid="`setup-platform-${item.value}`" @click="platform = item.value">{{ item.label }}</button>
 +      </div>
++      <RouterLink to="/docs" class="ml-auto text-xs text-primary-700 hover:underline dark:text-primary-300" data-testid="setup-docs">{{ t('realyuSetup.docs') }}</RouterLink>
 +    </div>
 +
 +    <p v-if="loading" class="text-sm text-gray-500 dark:text-gray-400" role="status">{{ t('realyuSetup.loading') }}</p>
@@ -26756,14 +27548,14 @@ index 0000000000000000000000000000000000000000..447c1a1cd6cda1513def9b63ec4b1adf
 +    <p v-else-if="selected && !canConfigure" data-testid="setup-unavailable" class="text-sm text-gray-500 dark:text-gray-400">{{ t('realyuSetup.unavailable') }}</p>
 +    <p v-else-if="selected?.realyu_scope?.kind === 'team'" class="text-sm text-gray-500 dark:text-gray-400" data-testid="setup-team-name">{{ t('realyuSetup.teamScope', { name: selected.realyu_scope.team_name || `#${selected.realyu_scope.team_id}` }) }}</p>
 +
-+    <div :id="`${controlID}-command`" role="tabpanel" :aria-labelledby="`${controlID}-client-${client} ${controlID}-platform-${platform}`" class="min-w-0 overflow-hidden rounded-lg bg-gray-100 dark:bg-dark-700">
-+      <textarea class="input min-w-0 resize-y break-all rounded-b-none font-mono text-xs" rows="2" :value="(visible && command) || setupCommandPreview(platform, client)" readonly spellcheck="false" autocomplete="off" :aria-label="t('realyuSetup.command')" data-testid="setup-command" @focus="selectCommand" />
-+      <div class="flex flex-wrap items-center justify-end gap-2 px-2 py-1.5">
-+        <p class="min-w-40 flex-1 text-xs leading-relaxed text-gray-500 dark:text-gray-400">{{ t(client === 'codex' ? 'realyuSetup.codexSteps' : 'realyuSetup.workbuddySteps') }}</p>
++    <div :id="`${controlID}-command`" role="tabpanel" :aria-labelledby="`${controlID}-client-${client} ${controlID}-platform-${platform}`" class="flex min-w-0 flex-wrap items-center gap-2 sm:flex-nowrap">
++      <textarea class="input min-w-0 flex-1 basis-full resize-y break-all font-mono text-xs sm:basis-0" rows="2" :value="(visible && command) || setupCommandPreview(platform, client)" readonly spellcheck="false" autocomplete="off" :aria-label="t('realyuSetup.command')" data-testid="setup-command" @focus="selectCommand" />
++      <div class="ml-auto flex shrink-0 items-center gap-2">
 +        <button type="button" class="btn btn-secondary btn-sm" :disabled="!canConfigure || busy" :aria-label="t(visible ? 'realyuSetup.hide' : 'realyuSetup.show')" :title="t(visible ? 'realyuSetup.hide' : 'realyuSetup.show')" data-testid="setup-reveal" @click="toggleVisibility"><Icon :name="visible ? 'eyeOff' : 'eye'" size="sm" aria-hidden="true" /></button>
-+        <button type="button" class="btn btn-secondary btn-sm" :disabled="!canConfigure || busy" data-testid="setup-copy" @click="useKey('copy')">{{ t('realyuSetup.copy') }}</button>
++        <button type="button" class="btn btn-primary btn-sm" :disabled="!canConfigure || busy" data-testid="setup-copy" @click="useKey('copy')">{{ t('realyuSetup.copy') }}</button>
 +      </div>
 +    </div>
++    <p class="text-xs leading-relaxed text-gray-500 dark:text-gray-400">{{ t(client === 'codex' ? 'realyuSetup.codexSteps' : 'realyuSetup.workbuddySteps') }}</p>
 +    <p v-if="actionError" class="text-sm text-red-600 dark:text-red-400" role="alert" data-testid="setup-action-error">{{ actionError }}</p>
 +    <p v-if="copied" class="text-sm text-emerald-600 dark:text-emerald-400" role="status">{{ t('realyuSetup.copied') }}</p>
 +  </section>
@@ -27205,10 +27997,10 @@ index 0000000000000000000000000000000000000000..6f4dc80af9ffdf3ca9e03923188effbe
 +})
 diff --git a/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts b/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..a1a716e89ab6f8942da4df92a69199ea6465922f
+index 0000000000000000000000000000000000000000..47310c9172a97a24273acd2cd5d308e612782a37
 --- /dev/null
 +++ b/frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts
-@@ -0,0 +1,119 @@
+@@ -0,0 +1,131 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 +import { createI18n } from 'vue-i18n'
@@ -27258,13 +28050,13 @@ index 0000000000000000000000000000000000000000..a1a716e89ab6f8942da4df92a69199ea
 +    const view = render(locale); await flushPromises()
 +    expect(view.get('h2').text()).toBe(locale === 'en' ? 'Usage overview' : '使用概览')
 +    expect(summaryApi).toHaveBeenCalledWith({ scope: 'self', tz: 'Asia/Shanghai' }, expect.any(AbortSignal))
-+    expect(view.text()).toContain('¥8.7500')
++    expect(view.text()).toContain('¥17.5000')
 +    expect(view.text()).not.toContain('¥61.2500')
 +    expect(view.get('[title]').attributes('title')).toBe('1,234,567')
 +    expect(view.text()).not.toContain('realyuUx.')
 +    if (locale === 'en') expect(view.text()).not.toMatch(/[\u4e00-\u9fff]/)
-+    await view.findAll('button')[1]!.trigger('click')
-+    expect(view.text()).toContain('¥17.5000')
++    await view.findAll('button')[0]!.trigger('click')
++    expect(view.text()).toContain('¥8.7500')
 +    expect(summaryApi).toHaveBeenCalledTimes(1)
 +  })
 +
@@ -27273,7 +28065,7 @@ index 0000000000000000000000000000000000000000..a1a716e89ab6f8942da4df92a69199ea
 +    const view = render(); await flushPromises()
 +    expect(view.get('[role="alert"]').text()).toContain('Usage could not be loaded')
 +    expect(view.text()).not.toContain('¥0.0000')
-+    const zero = summary(); zero.today = { ...stats('0'), requests: 0, total_tokens: 0 }
++    const zero = summary(); zero.all_time = { ...stats('0'), requests: 0, total_tokens: 0 }
 +    summaryApi.mockResolvedValueOnce(zero)
 +    await view.get('[role="alert"] button').trigger('click'); await flushPromises()
 +    expect(view.find('[role="alert"]').exists()).toBe(false)
@@ -27282,14 +28074,14 @@ index 0000000000000000000000000000000000000000..a1a716e89ab6f8942da4df92a69199ea
 +
 +  it('removes prior totals immediately when a new scope fails', async () => {
 +    const view = render(); await flushPromises()
-+    expect(view.text()).toContain('¥8.7500')
++    expect(view.text()).toContain('¥17.5000')
 +    const next = deferred<RealYuUsageSummary>(); summaryApi.mockReturnValueOnce(next.promise)
 +    await view.setProps({ scope: 'personal' })
-+    expect(view.text()).not.toContain('¥8.7500')
++    expect(view.text()).not.toContain('¥17.5000')
 +    expect(view.get('[aria-busy]').attributes('aria-busy')).toBe('true')
 +    next.reject(new Error('synthetic failed scope')); await flushPromises()
 +    expect(view.find('[role="alert"]').exists()).toBe(true)
-+    expect(view.text()).not.toContain('¥8.7500')
++    expect(view.text()).not.toContain('¥17.5000')
 +    expect(view.get('[aria-busy]').attributes('aria-busy')).toBe('false')
 +  })
 +
@@ -27297,7 +28089,7 @@ index 0000000000000000000000000000000000000000..a1a716e89ab6f8942da4df92a69199ea
 +    const old = deferred<RealYuUsageSummary>(); summaryApi.mockReturnValueOnce(old.promise)
 +    const view = render()
 +    const oldSignal = summaryApi.mock.calls[0]![1] as AbortSignal
-+    const current = summary(); current.scope = 'platform'; current.today = stats('3')
++    const current = summary(); current.scope = 'platform'; current.all_time = stats('3')
 +    summaryApi.mockResolvedValueOnce(current)
 +    await view.setProps({ scope: 'platform' }); await flushPromises()
 +    expect(oldSignal.aborted).toBe(true)
@@ -27317,6 +28109,18 @@ index 0000000000000000000000000000000000000000..a1a716e89ab6f8942da4df92a69199ea
 +    expect(view.text()).not.toContain('¥')
 +    expect(view.text()).not.toContain('$')
 +    expect(view.text()).toContain('—')
++  })
++
++  it('shows migrated cumulative usage by default even when no requests were made today', async () => {
++    const value = summary(); value.today = { ...stats('0'), requests: 0, total_tokens: 0 }
++    summaryApi.mockResolvedValueOnce(value)
++    const view = render(); await flushPromises()
++    expect(view.findAll('button')[1]!.attributes('aria-pressed')).toBe('true')
++    expect(view.text()).toContain('¥17.5000')
++    expect(view.text()).toContain('40')
++    await view.findAll('button')[0]!.trigger('click')
++    expect(view.text()).toContain('¥0.0000')
++    expect(view.text()).not.toContain('¥17.5000')
 +  })
 +
 +  it('aborts an in-flight summary when the overview leaves the page', () => {
@@ -27653,10 +28457,10 @@ index 0000000000000000000000000000000000000000..1b089954d86dd096c01479199c79c818
 +</script>
 diff --git a/frontend/src/components/realyu/public/RealYuHomeModels.vue b/frontend/src/components/realyu/public/RealYuHomeModels.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..87fd4f5c5f3605ace83d76a163052a2414ee857c
+index 0000000000000000000000000000000000000000..71d8366469c6267ad0da27643e00076ee35c4f27
 --- /dev/null
 +++ b/frontend/src/components/realyu/public/RealYuHomeModels.vue
-@@ -0,0 +1,137 @@
+@@ -0,0 +1,139 @@
 +<!--
 +Copyright (C) 2023-2026 QuantumNous
 +
@@ -27711,7 +28515,7 @@ index 0000000000000000000000000000000000000000..87fd4f5c5f3605ace83d76a163052a24
 +      </div>
 +      <div class="realyu-home-muted mt-4 space-y-1 text-center text-xs leading-relaxed">
 +        <p>{{ t('realyuPublic.ratesNote') }}</p><p>{{ t('realyuPublic.extraCharges') }}</p>
-+        <RouterLink to="/model-plaza" class="inline-block pt-2 underline underline-offset-4">{{ t('realyuPublic.catalog') }}</RouterLink>
++        <RouterLink v-if="app.cachedPublicSettings?.model_plaza_enabled === true" to="/model-plaza" class="inline-block pt-2 underline underline-offset-4">{{ t('realyuPublic.catalog') }}</RouterLink>
 +      </div>
 +      <details v-if="selected?.intervals?.length" :key="selected.id" class="realyu-estimator mt-6 min-w-0 rounded-2xl p-5" data-testid="public-price-tiers">
 +        <summary class="cursor-pointer text-sm font-medium">{{ presentation(selected.id).name }} · {{ t('realyuPublic.contextTiers') }}</summary>
@@ -27755,11 +28559,13 @@ index 0000000000000000000000000000000000000000..87fd4f5c5f3605ace83d76a163052a24
 +import { useI18n } from 'vue-i18n'
 +import Icon from '@/components/icons/Icon.vue'
 +import { apiClient } from '@/api/client'
++import { useAppStore } from '@/stores/app'
 +import { compareModelNames, modelDisplayName } from '@/utils/realyuModelCatalog'
 +import { canEstimate, estimateModelCost, isPrice, parsePublicCatalog, type PublicModelRate } from './realyuPublicModels'
 +
 +defineProps<{ standalone?: boolean }>()
 +const { t, locale } = useI18n()
++const app = useAppStore()
 +const catalog = ref<PublicModelRate[]>([]), loading = ref(true), loadFailed = ref(false)
 +const selectedID = ref(''), input = ref(100_000), output = ref(20_000)
 +let request: AbortController | undefined, disposed = false
@@ -27850,21 +28656,23 @@ index 0000000000000000000000000000000000000000..d28825efc27e48957ceef6746f1079a1
 +</style>
 diff --git a/frontend/src/components/realyu/public/__tests__/RealYuHomeModels.spec.ts b/frontend/src/components/realyu/public/__tests__/RealYuHomeModels.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..a624ba22db06f94de35a220309c06be6e7c90c1d
+index 0000000000000000000000000000000000000000..8fd4c2c223308a007f6b3589dd424c1406b52b65
 --- /dev/null
 +++ b/frontend/src/components/realyu/public/__tests__/RealYuHomeModels.spec.ts
-@@ -0,0 +1,92 @@
+@@ -0,0 +1,115 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { mount, flushPromises, type VueWrapper } from '@vue/test-utils'
++import { reactive } from 'vue'
 +import { createI18n } from 'vue-i18n'
 +import RealYuHomeModels from '../RealYuHomeModels.vue'
 +import { canEstimate, estimateModelCost, parsePublicCatalog, type PublicModelRate } from '../realyuPublicModels'
 +import en from '@/i18n/locales/en/realyuPublic'
 +import zh from '@/i18n/locales/zh/realyuPublic'
 +
-+const { get } = vi.hoisted(() => ({ get: vi.fn() }))
++const { get, stores } = vi.hoisted(() => ({ get: vi.fn(), stores: {} as Record<string, any> }))
 +vi.unmock('vue-i18n')
 +vi.mock('@/api/client', () => ({ apiClient: { get } }))
++vi.mock('@/stores/app', () => ({ useAppStore: () => stores.app }))
 +function model(overrides: Partial<PublicModelRate> = {}): PublicModelRate {
 +  return { id: 'gpt-6.1-sol', pricing_type: 'token', input_price: 2, output_price: 8, cache_read_price: 0.2, has_adjustments: false, ...overrides }
 +}
@@ -27874,10 +28682,31 @@ index 0000000000000000000000000000000000000000..a624ba22db06f94de35a220309c06be6
 +  wrapper = mount(RealYuHomeModels, { global: { plugins: [createI18n({ legacy: false, locale, messages: { en, zh } })], stubs: { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } } })
 +  return wrapper
 +}
-+beforeEach(() => { vi.resetAllMocks(); get.mockResolvedValue({ data: data() }) })
++beforeEach(() => {
++  vi.resetAllMocks(); get.mockResolvedValue({ data: data() })
++  stores.app = reactive({ cachedPublicSettings: { model_plaza_enabled: true } })
++})
 +afterEach(() => { wrapper?.unmount(); wrapper = undefined })
 +
 +describe('public USD pricing and estimates', () => {
++  it.each([false, undefined, null])('does not offer a closed or unknown model directory (%s)', setting => {
++    stores.app.cachedPublicSettings = setting === null ? null : { model_plaza_enabled: setting }
++    const view = render()
++    return flushPromises().then(() => {
++      expect(view.find('a[href="/model-plaza"]').exists()).toBe(false)
++      expect(view.find('[data-model-id]').exists()).toBe(true)
++    })
++  })
++  it('shows the catalogue link only after an enabled setting arrives and removes it if closed', async () => {
++    stores.app.cachedPublicSettings = null
++    const view = render(); await flushPromises()
++    expect(view.find('a[href="/model-plaza"]').exists()).toBe(false)
++    stores.app.cachedPublicSettings = { model_plaza_enabled: true }; await flushPromises()
++    expect(view.find('a[href="/model-plaza"]').exists()).toBe(true)
++    stores.app.cachedPublicSettings.model_plaza_enabled = false; await flushPromises()
++    expect(view.find('a[href="/model-plaza"]').exists()).toBe(false)
++    expect(get).toHaveBeenCalledTimes(1)
++  })
 +  it('uses already multiplied USD per-million prices once and preserves zero as a real price', () => {
 +    expect(estimateModelCost(model(), 100_000, 20_000)).toBe(0.36)
 +    expect(estimateModelCost(model({ input_price: 0, output_price: 0 }), 100_000, 20_000)).toBe(0)
@@ -27948,15 +28777,16 @@ index 0000000000000000000000000000000000000000..a624ba22db06f94de35a220309c06be6
 +})
 diff --git a/frontend/src/components/realyu/public/__tests__/RealYuPublicViews.spec.ts b/frontend/src/components/realyu/public/__tests__/RealYuPublicViews.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..9ce8e5407cf2f23ffd5f96351ea32b3fc7300dca
+index 0000000000000000000000000000000000000000..f9499f90ae3f34e7c5d393c03b283fd01a01dd73
 --- /dev/null
 +++ b/frontend/src/components/realyu/public/__tests__/RealYuPublicViews.spec.ts
-@@ -0,0 +1,113 @@
+@@ -0,0 +1,174 @@
 +import { readFileSync } from 'node:fs'
 +import { resolve } from 'node:path'
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { mount, flushPromises, type VueWrapper } from '@vue/test-utils'
 +import { reactive } from 'vue'
++import { compileStyle, parse } from 'vue/compiler-sfc'
 +import { createI18n } from 'vue-i18n'
 +import RealYuHomeView from '@/views/RealYuHomeView.vue'
 +import RealYuDocsView from '@/views/RealYuDocsView.vue'
@@ -27980,13 +28810,13 @@ index 0000000000000000000000000000000000000000..9ce8e5407cf2f23ffd5f96351ea32b3f
 +  template: '<a :href="href"><slot /></a>',
 +}
 +const publicLayout = { template: '<div data-testid="public-shell"><slot /></div>' }
-+const appLayout = { template: '<div data-testid="authenticated-shell"><aside /><slot /></div>' }
++const appLayout = { template: '<div data-testid="authenticated-shell"><header><h1>Application page</h1></header><aside /><main><slot /></main></div>' }
 +let wrapper: VueWrapper | undefined
 +function render(component: any, locale = 'en', props = {}, realPublicLayout = false) {
 +  wrapper = mount(component, { props, attachTo: document.body, global: {
 +    plugins: [createI18n({ legacy: false, locale, messages: { en, zh } })],
 +    stubs: { RouterLink: routerLink, AppLayout: appLayout, ...(realPublicLayout ? {} : { RealYuPublicLayout: publicLayout }),
-+      RealYuHomeModels: { props: ['standalone'], template: '<div data-testid="models" :data-standalone="standalone" />' }, RealYuHomeAtmosphere: true,
++      RealYuHomeModels: { props: { standalone: Boolean }, template: '<section data-testid="models" :data-standalone="standalone"><component :is="standalone ? \'h1\' : \'h2\'" id="home-models-title">Model prices</component></section>' }, RealYuHomeAtmosphere: true,
 +      ThemeToggle: { template: '<button aria-label="Toggle theme" />' }, LocaleSwitcher: { template: '<button aria-label="Language" />' },
 +    },
 +  } })
@@ -28000,6 +28830,29 @@ index 0000000000000000000000000000000000000000..9ce8e5407cf2f23ffd5f96351ea32b3f
 +afterEach(() => { wrapper?.unmount(); wrapper = undefined; document.body.innerHTML = '' })
 +
 +describe('faithful public pages in Chinese and English', () => {
++  it('compiles the scoped dark price override onto the price surface without changing the public homepage', () => {
++    const filename = resolve('src/views/RealYuHomeView.vue')
++    const { descriptor } = parse(readFileSync(filename, 'utf8'), { filename })
++    const scopedStyle = descriptor.styles.find(style => style.scoped)
++    expect(scopedStyle).toBeDefined()
++    const compiled = compileStyle({ source: scopedStyle!.content, filename, id: 'data-v-pricing-theme-test', scoped: true })
++    expect(compiled.errors).toEqual([])
++    const sheet = document.createElement('style')
++    sheet.textContent = compiled.code; document.head.appendChild(sheet)
++    const darkHost = document.createElement('div'); darkHost.className = 'dark'
++    const pricing = document.createElement('section'); pricing.className = 'realyu-home realyu-pricing-in-app'; pricing.setAttribute('data-v-pricing-theme-test', '')
++    const publicHome = document.createElement('main'); publicHome.className = 'realyu-home'; publicHome.setAttribute('data-v-pricing-theme-test', '')
++    darkHost.append(pricing, publicHome); document.body.appendChild(darkHost)
++    try {
++      const rules = Array.from(sheet.sheet!.cssRules).filter((rule): rule is CSSStyleRule => 'selectorText' in rule && 'style' in rule)
++      const darkOverrides = rules.filter(rule => rule.style.getPropertyValue('--home-muted').includes('brand-dark-400'))
++      expect(darkOverrides.some(rule => pricing.matches(rule.selectorText))).toBe(true)
++      expect(darkOverrides.some(rule => publicHome.matches(rule.selectorText))).toBe(false)
++      expect(getComputedStyle(pricing).getPropertyValue('--home-muted').trim()).toBe('rgb(var(--brand-dark-400, 148 163 184))')
++      darkHost.classList.remove('dark')
++      expect(getComputedStyle(pricing).getPropertyValue('--home-muted').trim()).toBe('#6b7280')
++    } finally { sheet.remove(); darkHost.remove() }
++  })
 +  it.each(['en', 'zh'])('restores the original %s hero and benefits without exposing personal totals', locale => {
 +    const view = render(RealYuHomeView, locale)
 +    expect(view.get('h1').text()).toBe(locale === 'zh' ? '让 AI，\n触手可及。' : 'AI, within reach.')
@@ -28021,8 +28874,45 @@ index 0000000000000000000000000000000000000000..9ce8e5407cf2f23ffd5f96351ea32b3f
 +  })
 +  it('renders pricing-only mode without repeating the home hero', () => {
 +    const view = render(RealYuHomeView, 'en', { pricingOnly: true })
++    expect(view.find('[data-testid="public-shell"]').exists()).toBe(true)
++    expect(view.find('[data-testid="authenticated-shell"]').exists()).toBe(false)
 +    expect(view.find('.realyu-home-hero').exists()).toBe(false)
 +    expect(view.get('[data-testid="models"]').attributes('data-standalone')).toBe('true')
++    expect(view.findAll('h1')).toHaveLength(1)
++    expect(view.get('#home-models-title').element.tagName).toBe('H1')
++  })
++  it.each([false, true])('keeps pricing inside the existing application navigation for signed-in users (admin=%s)', isAdmin => {
++    stores.auth.isAuthenticated = true; stores.auth.isAdmin = isAdmin
++    const view = render(RealYuHomeView, 'en', { pricingOnly: true })
++    expect(view.find('[data-testid="authenticated-shell"] aside').exists()).toBe(true)
++    expect(view.find('[data-testid="public-shell"]').exists()).toBe(false)
++    expect(view.findAll('header')).toHaveLength(1)
++    expect(view.findAll('main')).toHaveLength(1)
++    expect(view.get('[data-testid="realyu-home"]').element.tagName).toBe('SECTION')
++    expect(view.find('.realyu-home-hero').exists()).toBe(false)
++    expect(view.findComponent({ name: 'RealYuHomeAtmosphere' }).exists()).toBe(false)
++    expect(view.get('[data-testid="models"]').attributes('data-standalone')).toBe('false')
++    expect(view.findAll('h1')).toHaveLength(1)
++    expect(view.get('#home-models-title').element.tagName).toBe('H2')
++  })
++  it('returns to public pricing on sign-out and retains the public homepage when its route props are reused', async () => {
++    stores.auth.isAuthenticated = true
++    const view = render(RealYuHomeView, 'en', { pricingOnly: true })
++    stores.auth.isAuthenticated = false; await flushPromises()
++    expect(view.find('[data-testid="public-shell"]').exists()).toBe(true)
++    expect(view.find('[data-testid="authenticated-shell"]').exists()).toBe(false)
++    expect(view.get('[data-testid="models"]').attributes('data-standalone')).toBe('true')
++    expect(view.findAll('h1')).toHaveLength(1)
++    stores.auth.isAuthenticated = true; await flushPromises()
++    expect(view.find('[data-testid="authenticated-shell"]').exists()).toBe(true)
++    expect(view.get('[data-testid="models"]').attributes('data-standalone')).toBe('false')
++    await view.setProps({ pricingOnly: false })
++    expect(view.find('[data-testid="public-shell"]').exists()).toBe(true)
++    expect(view.find('[data-testid="authenticated-shell"]').exists()).toBe(false)
++    expect(view.find('.realyu-home-hero').exists()).toBe(true)
++    expect(view.find('a[href="/dashboard"]').exists()).toBe(true)
++    expect(view.get('[data-testid="models"]').attributes('data-standalone')).toBe('false')
++    expect(view.findAll('h1')).toHaveLength(1)
 +  })
 +  it('public header uses the existing logo, one theme button, and public pricing/docs links without customer information', async () => {
 +    const view = render(RealYuPublicLayout, 'en', {}, true); await flushPromises()
@@ -30041,10 +30931,10 @@ index 0000000000000000000000000000000000000000..5eba5d2e5a80c40e3678e054c37dc17b
 +}
 diff --git a/frontend/src/i18n/locales/en/realyuUx.ts b/frontend/src/i18n/locales/en/realyuUx.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..3b7988b4cbd961695045926ffcbd18902b200d6c
+index 0000000000000000000000000000000000000000..5bebd4d64f055927ac9bec9d3bb1855de282ce6c
 --- /dev/null
 +++ b/frontend/src/i18n/locales/en/realyuUx.ts
-@@ -0,0 +1,34 @@
+@@ -0,0 +1,37 @@
 +export default {
 +  realyuUx: {
 +    platformManagement: 'Platform management', overview: 'Overview', allUsage: 'All usage records',
@@ -30056,6 +30946,9 @@ index 0000000000000000000000000000000000000000..3b7988b4cbd961695045926ffcbd1890
 +    rangeLimit: 'Choose 1–366 days. Hourly charts support up to 31 days.', person: 'Member',
 +    today: 'Today', lifetime: 'All time', spending: 'Amount spent', requests: 'Requests', tokens: 'Tokens used',
 +    usageOverview: 'Usage overview', history: 'Usage records', recentUsage: 'Recent requests', viewAll: 'View all',
++    myCalls: 'My calls', teamCalls: 'Team calls', nickname: 'Nickname', selectTeam: 'Choose a team',
++    teamUnavailable: 'This team is closed or you do not have management access. Choose another team or return to My calls.',
++    teamsLoadFailed: 'Teams could not be loaded. You can still view your own calls.',
 +    self: 'All my usage', personal: 'Personal only', team: 'Team', unknown: 'Historical request',
 +    date: 'Time', model: 'Model', source: 'Record source', legacy: 'Before migration', native: 'Current',
 +    input: 'Input', output: 'Output', cacheRead: 'Cache read', cacheWrite: 'Cache write',
@@ -30421,10 +31314,10 @@ index 0000000000000000000000000000000000000000..d2e7d09b558c7b03d67d8859c6ee11ca
 +}
 diff --git a/frontend/src/i18n/locales/zh/realyuUx.ts b/frontend/src/i18n/locales/zh/realyuUx.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..d6922b8c7be62149e05760de36039ada687df329
+index 0000000000000000000000000000000000000000..57bcf3461b1a425e34eb39329a3d4af8df5e065b
 --- /dev/null
 +++ b/frontend/src/i18n/locales/zh/realyuUx.ts
-@@ -0,0 +1,34 @@
+@@ -0,0 +1,37 @@
 +export default {
 +  realyuUx: {
 +    platformManagement: '平台管理', overview: '运营概览', allUsage: '全部调用记录',
@@ -30436,6 +31329,9 @@ index 0000000000000000000000000000000000000000..d6922b8c7be62149e05760de36039ada
 +    rangeLimit: '请选择 1–366 天；按小时查看时最多 31 天。', person: '成员',
 +    today: '今日', lifetime: '累计', spending: '实际消费', requests: '调用次数', tokens: 'Token 用量',
 +    usageOverview: '使用概览', history: '调用记录', recentUsage: '最近调用', viewAll: '查看全部',
++    myCalls: '我的调用', teamCalls: '团队调用', nickname: '昵称', selectTeam: '选择团队',
++    teamUnavailable: '无法查看该团队：团队已关闭或你没有管理权限。请选择其它团队或返回我的调用。',
++    teamsLoadFailed: '暂时无法加载团队列表，你仍可查看自己的调用。',
 +    self: '我的全部用量', personal: '仅个人用量', team: '团队', unknown: '历史调用',
 +    date: '时间', model: '模型', source: '记录来源', legacy: '迁移前', native: '当前',
 +    input: '输入', output: '输出', cacheRead: '缓存读取', cacheWrite: '缓存写入',
@@ -31976,6 +32872,41 @@ index 6b16017a46751f5cb304c3995fd68135ff980670..ade9e6499e40c10bc7aaf2f0614dfadf
  }
  
  function fmtNum(val: number | null | undefined): string {
+diff --git a/frontend/src/views/ModelPlazaView.vue b/frontend/src/views/ModelPlazaView.vue
+index 42c69c8717c7c5b312cb4df46ddc9353303f920c..155ec9ec3d07dab1ff09acca9f1e3633ab88179e 100644
+--- a/frontend/src/views/ModelPlazaView.vue
++++ b/frontend/src/views/ModelPlazaView.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <!-- 后台内嵌形态:?embedded=1 且已登录,套完整后台布局 -->
++  <!-- 已登录时保留完整应用导航，直接链接与应用内访问保持一致。 -->
+   <AppLayout v-if="isEmbedded">
+     <ModelPlazaContent :response="data" :loading="loading" :error="loadFailed" embedded />
+   </AppLayout>
+@@ -15,7 +15,6 @@
+ 
+ <script setup lang="ts">
+ import { computed, onMounted, ref } from 'vue'
+-import { useRoute } from 'vue-router'
+ import AppLayout from '@/components/layout/AppLayout.vue'
+ import PlazaNavBar from '@/components/modelPlaza/PlazaNavBar.vue'
+ import ModelPlazaContent from '@/components/modelPlaza/ModelPlazaContent.vue'
+@@ -23,12 +22,12 @@ import { getModelPlaza, type ModelPlazaResponse } from '@/api/modelPlaza'
+ import { useAppStore } from '@/stores/app'
+ import { useAuthStore } from '@/stores/auth'
+ 
+-const route = useRoute()
+ const appStore = useAppStore()
+ const authStore = useAuthStore()
+ 
+-// embedded=1 但未登录(如转发的链接)自动降级为独立形态。
+-const isEmbedded = computed(() => route.query.embedded === '1' && authStore.isAuthenticated)
++// A shared ?embedded=1 link never gives an anonymous visitor an authenticated
++// shell. Signed-in visits always use exactly one application layout/header.
++const isEmbedded = computed(() => authStore.isAuthenticated)
+ 
+ const data = ref<ModelPlazaResponse | null>(null)
+ const loading = ref(true)
 diff --git a/frontend/src/views/RealYuDocsView.vue b/frontend/src/views/RealYuDocsView.vue
 new file mode 100644
 index 0000000000000000000000000000000000000000..ba612b58cb4b535b75fbf5eb36c0ee0c17717cf6
@@ -32112,10 +33043,10 @@ index 0000000000000000000000000000000000000000..ba612b58cb4b535b75fbf5eb36c0ee0c
 +</style>
 diff --git a/frontend/src/views/RealYuHomeView.vue b/frontend/src/views/RealYuHomeView.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..008a39c4bb25627eb34557d872461ff7e197050b
+index 0000000000000000000000000000000000000000..5ffb37a59d88e05910be5fd6ebc41a88628f7515
 --- /dev/null
 +++ b/frontend/src/views/RealYuHomeView.vue
-@@ -0,0 +1,70 @@
+@@ -0,0 +1,93 @@
 +<!--
 +Copyright (C) 2023-2026 QuantumNous
 +
@@ -32135,9 +33066,9 @@ index 0000000000000000000000000000000000000000..008a39c4bb25627eb34557d872461ff7
 +For commercial licensing, please contact support@quantumnous.com
 +-->
 +<template>
-+  <RealYuPublicLayout>
-+    <main class="realyu-home" data-testid="realyu-home">
-+      <RealYuHomeAtmosphere />
++  <component :is="pricingInApp ? AppLayout : RealYuPublicLayout">
++    <component :is="pricingInApp ? 'section' : 'main'" class="realyu-home" :class="{ 'realyu-pricing-in-app': pricingInApp }" data-testid="realyu-home">
++      <RealYuHomeAtmosphere v-if="!pricingInApp" />
 +      <section v-if="!pricingOnly" class="realyu-home-hero mx-auto flex max-w-5xl flex-col items-center justify-center px-6 text-center">
 +        <div class="realyu-home-intro w-full min-w-0">
 +          <p class="realyu-hero-kicker mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium"><span aria-hidden="true" />{{ t('realyuPublic.kicker') }}</p>
@@ -32159,9 +33090,9 @@ index 0000000000000000000000000000000000000000..008a39c4bb25627eb34557d872461ff7
 +          <div class="min-w-0"><h2 class="text-lg font-semibold">{{ t(item.title) }}</h2><p class="realyu-home-muted mt-2 text-sm leading-relaxed">{{ t(item.text) }}</p></div>
 +        </div>
 +      </section>
-+      <RealYuHomeModels :standalone="pricingOnly" />
-+    </main>
-+  </RealYuPublicLayout>
++      <RealYuHomeModels :standalone="pricingOnly && !pricingInApp" />
++    </component>
++  </component>
 +</template>
 +
 +<script setup lang="ts">
@@ -32169,6 +33100,7 @@ index 0000000000000000000000000000000000000000..008a39c4bb25627eb34557d872461ff7
 +import { RouterLink } from 'vue-router'
 +import { useI18n } from 'vue-i18n'
 +import Icon from '@/components/icons/Icon.vue'
++import AppLayout from '@/components/layout/AppLayout.vue'
 +import RealYuPublicLayout from '@/components/realyu/public/RealYuPublicLayout.vue'
 +import RealYuHomeAtmosphere from '@/components/realyu/public/RealYuHomeAtmosphere.vue'
 +import RealYuHomeModels from '@/components/realyu/public/RealYuHomeModels.vue'
@@ -32176,9 +33108,12 @@ index 0000000000000000000000000000000000000000..008a39c4bb25627eb34557d872461ff7
 +import { useAuthStore } from '@/stores/auth'
 +import '@/components/realyu/public/home-atmosphere.css'
 +
-+defineProps<{ pricingOnly?: boolean }>()
++const props = defineProps<{ pricingOnly?: boolean }>()
 +const { t } = useI18n()
 +const app = useAppStore(), auth = useAuthStore()
++// Keep the public homepage public, but retain the application navigation when
++// a signed-in user opens prices from the workspace or follows a direct link.
++const pricingInApp = computed(() => Boolean(props.pricingOnly && auth.isAuthenticated))
 +const workspacePath = computed(() => auth.isAdmin ? '/admin/dashboard' : '/dashboard')
 +const benefits = [
 +  { icon: 'link', title: 'realyuPublic.connectTitle', text: 'realyuPublic.connectText' },
@@ -32186,6 +33121,111 @@ index 0000000000000000000000000000000000000000..008a39c4bb25627eb34557d872461ff7
 +  { icon: 'users', title: 'realyuPublic.teamTitle', text: 'realyuPublic.teamText' },
 +] as const
 +</script>
++
++<style scoped>
++.realyu-pricing-in-app {
++  --home-ink: var(--realyu-ink, #171717);
++  --home-muted: #6b7280;
++  --home-line: var(--realyu-border, #e8e8e8);
++  --home-card: var(--realyu-surface, #fff);
++  min-height: 0;
++  background: transparent;
++}
++:global(.dark .realyu-pricing-in-app) {
++  --home-muted: rgb(var(--brand-dark-400, 148 163 184));
++  background: transparent;
++}
++.realyu-pricing-in-app :deep(.realyu-model-section) { padding: .25rem 0 1rem; }
++.realyu-pricing-in-app :deep(.realyu-model-section > div:first-child) { margin-bottom: 1.25rem; }
++.realyu-pricing-in-app :deep(#home-models-title) { margin-top: .375rem; font-size: 1.5rem; line-height: 2rem; }
++.realyu-pricing-in-app :deep(#home-models-title + p) { margin-top: .5rem; font-size: .875rem; }
++</style>
+diff --git a/frontend/src/views/__tests__/ModelPlazaView.layout.spec.ts b/frontend/src/views/__tests__/ModelPlazaView.layout.spec.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..7d7f666dd3b0bff1593b59695aa131c9e8701577
+--- /dev/null
++++ b/frontend/src/views/__tests__/ModelPlazaView.layout.spec.ts
+@@ -0,0 +1,80 @@
++import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
++import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
++import { reactive } from 'vue'
++import { createMemoryHistory, createRouter, RouterView } from 'vue-router'
++import ModelPlazaView from '../ModelPlazaView.vue'
++
++const { stores, getModelPlaza } = vi.hoisted(() => ({
++  stores: {} as Record<string, any>, getModelPlaza: vi.fn(),
++}))
++vi.mock('@/stores/app', () => ({ useAppStore: () => stores.app }))
++vi.mock('@/stores/auth', () => ({ useAuthStore: () => stores.auth }))
++vi.mock('@/api/modelPlaza', () => ({ getModelPlaza }))
++
++let wrapper: VueWrapper | undefined
++async function render(path: string) {
++  const router = createRouter({
++    history: createMemoryHistory(),
++    routes: [{ path: '/model-plaza', component: ModelPlazaView }],
++  })
++  await router.push(path); await router.isReady()
++  wrapper = mount(RouterView, { global: {
++    plugins: [router],
++    stubs: {
++      AppLayout: { template: '<div data-testid="app-shell"><header /><aside /><main><slot /></main></div>' },
++      PlazaNavBar: { template: '<header data-testid="public-plaza-nav" />' },
++      ModelPlazaContent: {
++        props: { response: Object, loading: Boolean, error: Boolean, embedded: Boolean },
++        template: '<article data-testid="catalog" :data-embedded="embedded" :data-error="error">{{ response?.title }}</article>',
++      },
++    },
++  } })
++  await flushPromises()
++  return wrapper
++}
++
++beforeEach(() => {
++  stores.app = reactive({ fetchPublicSettings: vi.fn().mockResolvedValue(null) })
++  stores.auth = reactive({ isAuthenticated: false, isAdmin: false })
++  getModelPlaza.mockReset().mockResolvedValue({ title: 'Public catalog fixture' })
++})
++afterEach(() => { wrapper?.unmount(); wrapper = undefined })
++
++describe('model catalog navigation context', () => {
++  it.each(['/model-plaza', '/model-plaza?embedded=1'])('keeps the public navbar for anonymous visits to %s', async path => {
++    const view = await render(path)
++    expect(view.find('[data-testid="public-plaza-nav"]').exists()).toBe(true)
++    expect(view.find('[data-testid="app-shell"]').exists()).toBe(false)
++    expect(view.findAll('header')).toHaveLength(1)
++    expect(view.findAll('main')).toHaveLength(1)
++    expect(view.get('[data-testid="catalog"]').attributes('data-embedded')).toBe('false')
++    expect(view.text()).toContain('Public catalog fixture')
++    expect(getModelPlaza).toHaveBeenCalledTimes(1)
++  })
++  it.each([
++    ['/model-plaza', false], ['/model-plaza?embedded=1', false],
++    ['/model-plaza', true], ['/model-plaza?embedded=1', true],
++  ] as const)('preserves the application sidebar on %s for signed-in visitors (admin=%s)', async (path, isAdmin) => {
++    stores.auth.isAuthenticated = true; stores.auth.isAdmin = isAdmin
++    const view = await render(path)
++    expect(view.find('[data-testid="app-shell"] aside').exists()).toBe(true)
++    expect(view.find('[data-testid="public-plaza-nav"]').exists()).toBe(false)
++    expect(view.findAll('header')).toHaveLength(1)
++    expect(view.findAll('main')).toHaveLength(1)
++    expect(view.get('[data-testid="catalog"]').attributes('data-embedded')).toBe('true')
++    expect(view.text()).toContain('Public catalog fixture')
++    expect(getModelPlaza).toHaveBeenCalledTimes(1)
++  })
++  it('changes navigation once when authentication changes without duplicating or refetching the public catalog', async () => {
++    stores.auth.isAuthenticated = true
++    const view = await render('/model-plaza')
++    stores.auth.isAuthenticated = false; await flushPromises()
++    expect(view.find('[data-testid="public-plaza-nav"]').exists()).toBe(true)
++    expect(view.find('[data-testid="app-shell"]').exists()).toBe(false)
++    stores.auth.isAuthenticated = true; await flushPromises()
++    expect(view.find('[data-testid="app-shell"] aside').exists()).toBe(true)
++    expect(view.find('[data-testid="public-plaza-nav"]').exists()).toBe(false)
++    expect(view.findAll('header')).toHaveLength(1)
++    expect(getModelPlaza).toHaveBeenCalledTimes(1)
++  })
++})
 diff --git a/frontend/src/views/admin/DashboardView.vue b/frontend/src/views/admin/DashboardView.vue
 index 061f9e6f4bc95369c0ecf443309cf2108e1b2955..74f9bad93b6ef14dd60189f2f79a89826f8f47ac 100644
 --- a/frontend/src/views/admin/DashboardView.vue
@@ -33390,10 +34430,10 @@ index 4cedca99491800131aa42fdbc016872ddb9a53e9..097819dae32f7923bf933e18a093cf6b
  
  function terminalZeroCost(job: Pick<BatchImageJob, 'status' | 'actual_cost'>) {
 diff --git a/frontend/src/views/user/DashboardView.vue b/frontend/src/views/user/DashboardView.vue
-index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..ddca5834395b434f7d2e5ccf346ae4a64fabe0a6 100644
+index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..c2419dd12d7ffdf287c1d2085eb661fb8631c7d7 100644
 --- a/frontend/src/views/user/DashboardView.vue
 +++ b/frontend/src/views/user/DashboardView.vue
-@@ -1,40 +1,55 @@
+@@ -1,40 +1,56 @@
  <template>
    <AppLayout>
 -    <div class="space-y-6">
@@ -33407,6 +34447,7 @@ index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..ddca5834395b434f7d2e5ccf346ae4a6
 -        </div>
 -      </template>
 +    <div class="realyu-workbench space-y-3">
++      <RealYuWorkspaceSetup />
 +      <RealYuUsageOverview>
 +        <template #balance>
 +          <section class="card min-w-0 px-4 py-3" :aria-label="t('realyuUx.personalFunds')">
@@ -33415,18 +34456,18 @@ index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..ddca5834395b434f7d2e5ccf346ae4a6
 +              <router-link class="whitespace-nowrap text-xs text-primary-700 hover:underline dark:text-primary-300" to="/purchase?tab=recharge">{{ t('realyuUx.topUp') }}</router-link>
 +            </div>
 +            <dl class="mt-1 space-y-1 text-xs">
-+              <div class="flex flex-wrap items-baseline justify-between gap-x-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuUx.weeklyFunds') }}</dt><dd class="text-lg font-semibold tabular-nums" data-testid="workbench-weekly-available">{{ weeklyQuota == null ? '—' : formatCustomerQuota(weeklyQuota) }}</dd></div>
-+              <div class="flex flex-wrap items-baseline justify-between gap-x-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuUx.paygoBalance') }}</dt><dd class="font-medium tabular-nums">{{ formatCustomerMoney(authStore.user?.balance) }}</dd></div>
++              <div class="flex flex-wrap items-baseline justify-between gap-x-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuUx.weeklyFunds') }}</dt><dd class="text-xl font-semibold tabular-nums" data-testid="workbench-weekly-available">{{ weeklyQuota == null ? '—' : formatCustomerQuota(weeklyQuota) }}</dd></div>
++              <div class="flex flex-wrap items-baseline justify-between gap-x-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuUx.paygoBalance') }}</dt><dd class="text-xl font-semibold tabular-nums">{{ formatCustomerMoney(authStore.user?.balance) }}</dd></div>
 +            </dl>
 +            <p v-if="Number(authStore.user?.frozen_balance) > 0" class="mt-1 text-xs text-gray-500 dark:text-dark-400">{{ t('common.frozenBalance') }} {{ formatCustomerMoney(authStore.user?.frozen_balance) }}</p>
 +          </section>
 +        </template>
 +      </RealYuUsageOverview>
 +      <RealYuUsageAnalytics />
-+      <div class="realyu-workbench-tools">
-+        <RealYuPersonalEntitlements compact @loaded="entitlements = $event" />
-+        <RealYuWorkspaceSetup />
-+      </div>
++      <details class="text-sm">
++        <summary class="cursor-pointer py-1 text-gray-500 dark:text-dark-400">{{ t('realyuUx.subscriptionDetails') }}</summary>
++        <RealYuPersonalEntitlements compact class="mt-2" @loaded="entitlements = $event" />
++      </details>
      </div>
    </AppLayout>
  </template>
@@ -33825,10 +34866,14 @@ index 459220eda5f836640059e7428b78a380c3995ec8..703ce1f43cce5996864c8d21a00b8f4e
  import { useI18n } from 'vue-i18n'
  import { useRoute, useRouter } from 'vue-router'
 diff --git a/frontend/src/views/user/PaymentView.vue b/frontend/src/views/user/PaymentView.vue
-index 4727e1602ba157681ded5b2de59306fbab87e9fc..0734c620bb0fdb51b2e37e3e2ecf42f83a099d44 100644
+index 4727e1602ba157681ded5b2de59306fbab87e9fc..b8fffa627336fa496fffb060e8268d380217ca84 100644
 --- a/frontend/src/views/user/PaymentView.vue
 +++ b/frontend/src/views/user/PaymentView.vue
-@@ -4,7 +4,17 @@
+@@ -1,10 +1,20 @@
+ <template>
+   <AppLayout>
+-    <div class="mx-auto max-w-4xl space-y-6">
++    <div class="mx-auto max-w-5xl space-y-4">
        <div v-if="loading" class="flex items-center justify-center py-20">
          <div class="h-8 w-8 animate-spin rounded-full border-4 border-primary-500 border-t-transparent"></div>
        </div>
@@ -33937,7 +34982,13 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..0734c620bb0fdb51b2e37e3e2ecf42f8
                  <div class="space-y-2 text-sm">
                    <div class="flex justify-between">
                      <span class="text-gray-500 dark:text-gray-400">{{ t('payment.amountLabel') }}</span>
-@@ -211,7 +228,7 @@
+@@ -206,12 +223,12 @@
+             </template>
+             <!-- Plan list -->
+             <template v-else>
+-              <div v-if="checkout.plans.length === 0" class="card py-16 text-center">
++              <div v-if="checkout.plans.length === 0" class="card py-8 text-center">
+                 <Icon name="gift" size="xl" class="mx-auto mb-3 text-gray-300 dark:text-dark-600" />
                  <p class="text-gray-500 dark:text-gray-400">{{ t('payment.noPlans') }}</p>
                </div>
                <div v-else :class="planGridClass">
@@ -34302,10 +35353,10 @@ index e26b354e114f68d713f349ed691967eed332ad7f..4e98b2b679d21bb935cc491e3b8e1d70
          v-if="user && balanceLowNotifyEnabled"
 diff --git a/frontend/src/views/user/RealYuTeamsView.vue b/frontend/src/views/user/RealYuTeamsView.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d78bab538
+index 0000000000000000000000000000000000000000..ff41fcf8406a0e41587471eb5b5b3ee67a85c64b
 --- /dev/null
 +++ b/frontend/src/views/user/RealYuTeamsView.vue
-@@ -0,0 +1,443 @@
+@@ -0,0 +1,473 @@
 +<template>
 +  <AppLayout>
 +    <div class="w-full min-w-0 space-y-3">
@@ -34337,11 +35388,11 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +        <template v-else-if="overview">
 +          <section class="card space-y-3 p-4" :aria-label="t('realyuTeams.team')">
 +            <div class="flex flex-wrap items-center justify-between gap-2">
-+              <div class="flex min-w-0 flex-wrap items-center gap-2">
-+                <label v-if="teams.length > 1" class="text-sm"><span class="sr-only">{{ t('realyuTeams.team') }}</span><select class="input max-w-full" data-testid="team-select" :value="selectedID" :disabled="busy" @change="changeTeam"><option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }} · #{{ team.id }}</option></select></label>
-+                <h2 v-else class="break-words text-base font-semibold">{{ overview.team.name }}</h2>
++              <div class="flex min-w-0 max-w-full flex-wrap items-center gap-2">
++                <label v-if="teams.length > 1" class="min-w-0 max-w-full"><span class="sr-only">{{ t('realyuTeams.team') }}</span><select class="input realyu-team-title max-w-full" data-testid="team-select" :value="selectedID" :disabled="busy" @change="changeTeam"><option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }} · #{{ team.id }}</option></select></label>
++                <h2 v-else class="realyu-team-title break-words">{{ overview.team.name }}</h2>
 +                <span v-if="overview.team.closed_at" class="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-dark-700 dark:text-gray-300">{{ t('realyuTeams.closed') }}</span>
-+                <span v-if="overview.subscription_title" class="text-sm text-gray-500 dark:text-dark-400">{{ overview.subscription_title }}</span>
++                <span v-if="overview.subscription_title" class="text-xs text-gray-500 dark:text-dark-400">{{ overview.subscription_title }}</span>
 +              </div>
 +              <div class="flex items-center gap-2">
 +                <button class="btn btn-secondary btn-sm" :disabled="teamLoading || busy" @click="loadTeams(selectedID)">{{ t('realyuTeams.refresh') }}</button>
@@ -34349,9 +35400,9 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +              </div>
 +            </div>
 +            <dl class="flex flex-wrap items-baseline gap-x-8 gap-y-2 text-sm">
-+              <div class="flex items-baseline gap-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuTeams.weeklyAvailable', { currency: customerCurrencyCode }) }}</dt><dd class="text-xl font-semibold tabular-nums">{{ money(overview.weekly_available_quota) }}</dd></div>
-+              <div class="flex flex-wrap gap-x-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuTeams.weeklyReset') }}</dt><dd>{{ unixDate(overview.weekly_reset_at) }}</dd></div>
-+              <div class="flex flex-wrap gap-x-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuTeams.expires') }}</dt><dd>{{ overview.subscription_expires_at ? unixDate(overview.subscription_expires_at) : t('realyuTeams.noSubscription') }}</dd></div>
++              <div class="flex items-baseline gap-2"><dt class="text-gray-500 dark:text-dark-400">{{ t('realyuTeams.weeklyAvailable', { currency: customerCurrencyCode }) }}</dt><dd class="text-2xl font-semibold tracking-tight tabular-nums text-primary-700 dark:text-primary-300" data-testid="team-weekly-available">{{ money(overview.weekly_available_quota) }}</dd></div>
++              <div class="flex flex-wrap gap-x-2 text-xs text-gray-500 dark:text-dark-400"><dt>{{ t('realyuTeams.weeklyReset') }}</dt><dd>{{ unixDate(overview.weekly_reset_at) }}</dd></div>
++              <div class="flex flex-wrap gap-x-2 text-xs text-gray-500 dark:text-dark-400"><dt>{{ t('realyuTeams.expires') }}</dt><dd>{{ overview.subscription_expires_at ? unixDate(overview.subscription_expires_at) : t('realyuTeams.noSubscription') }}</dd></div>
 +            </dl>
 +            <details v-if="canManage && !overview.team.closed_at">
 +              <summary class="cursor-pointer text-sm font-medium">{{ t('realyuUx.teamSettings') }}</summary>
@@ -34372,24 +35423,26 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +          <section class="card overflow-hidden" :aria-label="t('realyuTeams.members')">
 +            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 px-4 py-3"><h2 class="font-semibold">{{ t('realyuTeams.members') }}</h2><p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuTeams.capNote') }}</p></div>
 +            <div class="relative overflow-x-auto">
-+              <table ref="membersTable" class="realyu-team-members w-full min-w-[42rem] table-fixed text-left text-sm">
++              <table ref="membersTable" class="realyu-team-members w-full min-w-[48rem] table-fixed text-left text-sm">
 +                <thead class="bg-gray-50 dark:bg-dark-700"><tr>
-+                  <th class="w-[24%] px-3 py-2.5" :aria-sort="sortARIA(memberSort === 'nickname' ? 'nickname' : 'user_id')"><button data-testid="sort-member-id" @click="sortMembers('user_id')">ID {{ sortArrow('user_id') }}</button> · <button data-testid="sort-member-nickname" @click="sortMembers('nickname')">{{ t('realyuTeams.nickname') }} {{ sortArrow('nickname') }}</button></th>
++                  <th scope="col" class="w-16 px-3 py-2.5 text-gray-500 dark:text-dark-400" :aria-sort="sortARIA('user_id')"><button data-testid="sort-member-id" @click="sortMembers('user_id')">ID {{ sortArrow('user_id') }}</button></th>
++                  <th scope="col" class="realyu-team-identity w-44 px-3 py-2.5" :aria-sort="sortARIA('nickname')"><button data-testid="sort-member-nickname" @click="sortMembers('nickname')">{{ t('realyuTeams.nickname') }} {{ sortArrow('nickname') }}</button></th>
 +                  <th v-for="column in memberAmountColumns" :key="column.key" class="px-3 py-2.5 text-right" :aria-sort="sortARIA(column.key)"><button :data-testid="`sort-member-${column.key}`" @click="sortMembers(column.key)">{{ t(`realyuTeams.${column.label}`, { currency: customerCurrencyCode }) }} {{ sortArrow(column.key) }}</button></th>
 +                  <th class="px-3 py-2.5 text-right" :aria-sort="sortARIA('cumulative_cost_usd')"><button data-testid="sort-member-cumulative_cost_usd" @click="sortMembers('cumulative_cost_usd')">{{ t('realyuTeams.cumulativeCost', { currency: customerCurrencyCode }) }} {{ sortArrow('cumulative_cost_usd') }}</button></th>
 +                  <th class="px-3 py-2.5 text-right" :aria-sort="sortARIA('cumulative_tokens')"><button data-testid="sort-member-cumulative_tokens" @click="sortMembers('cumulative_tokens')">{{ t('realyuTeams.cumulativeTokens') }} {{ sortArrow('cumulative_tokens') }}</button></th>
-+                  <th v-if="canManage" class="w-12 px-3 py-2.5 text-right"><span class="sr-only">{{ t('realyuTeams.actions') }}</span></th>
++                  <th v-if="canManage" class="realyu-team-action w-12 px-3 py-2.5 text-right"><span class="sr-only">{{ t('realyuTeams.actions') }}</span></th>
 +                </tr></thead>
 +                <tbody class="divide-y divide-gray-100 dark:divide-dark-700">
 +                  <tr v-for="member in sortedMembers" :key="member.user_id" :data-testid="`member-${member.user_id}`">
-+                    <td class="px-3 py-2"><span class="mr-2 font-mono text-xs text-gray-500 dark:text-dark-400">#{{ member.user_id }}</span><button v-if="canManage" class="inline-block max-w-40 truncate align-middle font-medium text-primary-700 hover:underline dark:text-primary-300" :title="member.nickname" @click="filterMember = member.user_id; applyFilter()">{{ member.nickname }}</button><span v-else class="inline-block max-w-40 truncate align-middle font-medium" :title="member.nickname">{{ member.nickname }}</span><span class="ml-2 text-xs text-gray-500 dark:text-dark-400">{{ t(`realyuTeams.${member.owner ? 'owner' : member.status}`) }}</span></td>
++                    <td class="whitespace-nowrap px-3 py-2 font-mono text-xs text-gray-500 dark:text-dark-400">#{{ member.user_id }}</td>
++                    <td class="realyu-team-identity px-3 py-2"><div class="flex min-w-0 items-center gap-2"><button v-if="canManage" class="min-w-0 truncate font-medium text-primary-700 hover:underline dark:text-primary-300" :title="member.nickname" @click="filterMember = member.user_id; applyFilter()">{{ member.nickname }}</button><span v-else class="min-w-0 truncate font-medium" :title="member.nickname">{{ member.nickname }}</span><span class="shrink-0 whitespace-nowrap text-xs text-gray-500 dark:text-dark-400">{{ t(`realyuTeams.${member.owner ? 'owner' : member.status}`) }}</span></div></td>
 +                    <td class="px-3 py-2 text-right tabular-nums">
 +                      <span v-if="member.owner">{{ t('realyuTeams.ownerCap') }}</span>
 +                      <span v-else>{{ money(member.weekly_cap_quota) }}</span>
 +                    </td>
-+                    <td class="px-3 py-2 text-right tabular-nums">{{ money(member.weekly_used_quota) }}</td><td class="px-3 py-2 text-right tabular-nums">{{ money(member.available_quota) }}</td>
++                    <td class="px-3 py-2 text-right tabular-nums">{{ money(member.weekly_used_quota) }}</td><td class="px-3 py-2 text-right font-semibold tabular-nums">{{ money(member.available_quota) }}</td>
 +                    <td class="px-3 py-2 text-right tabular-nums">{{ usdText(member.cumulative_cost_usd) }}</td><td class="px-3 py-2 text-right tabular-nums" :title="member.cumulative_tokens?.toLocaleString(locale)">{{ member.cumulative_tokens == null ? '—' : formatRealYuTokens(member.cumulative_tokens, locale) }}</td>
-+                    <td v-if="canManage" class="px-3 py-1 text-right">
++                    <td v-if="canManage" class="realyu-team-action px-3 py-1 text-right">
 +                      <RealYuTeamActionMenu v-if="canEditMember(member)" :test-id="`member-actions-${member.user_id}`" :label="t('realyuTeams.moreActions', { member: `${member.nickname} #${member.user_id}` })" :items="memberActions(member)" :disabled="busy" @select="memberAction(member, $event)" />
 +                    </td>
 +                  </tr>
@@ -34421,24 +35474,26 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +                <p v-if="usage.total === 0" data-testid="empty-usage">{{ t('realyuTeams.noUsage') }}</p>
 +                <template v-else>
 +                  <div class="relative overflow-x-auto">
-+                    <table class="realyu-team-summary w-full min-w-[32rem] table-fixed text-left text-sm" data-testid="usage-members">
++                    <table class="realyu-team-summary w-full min-w-[36rem] table-fixed text-left text-sm" data-testid="usage-members">
 +                      <caption class="sr-only">{{ t('realyuTeams.memberSummary') }}</caption>
 +                      <thead class="bg-gray-50 dark:bg-dark-700"><tr>
-+                        <th class="w-40 px-3 py-2.5" :aria-sort="usageSortARIA('nickname')"><button data-testid="sort-usage-nickname" @click="sortUsage('nickname')">{{ t('realyuTeams.member') }} {{ usageSortArrow('nickname') }}</button></th>
++                        <th scope="col" class="w-16 px-3 py-2.5 text-gray-500 dark:text-dark-400" :aria-sort="usageSortARIA('member_id')"><button data-testid="sort-usage-id" @click="sortUsage('member_id')">ID {{ usageSortArrow('member_id') }}</button></th>
++                        <th scope="col" class="realyu-team-identity w-40 px-3 py-2.5" :aria-sort="usageSortARIA('nickname')"><button data-testid="sort-usage-nickname" @click="sortUsage('nickname')">{{ t('realyuTeams.nickname') }} {{ usageSortArrow('nickname') }}</button></th>
 +                        <th v-for="column in usageAmountColumns" :key="column.key" class="px-3 py-2.5 text-right" :aria-sort="usageSortARIA(column.key)"><button :data-testid="`sort-usage-${column.key}`" @click="sortUsage(column.key)">{{ t(`realyuTeams.${column.label}`, { currency: customerCurrencyCode }) }} {{ usageSortArrow(column.key) }}</button></th>
-+                        <th class="w-12 px-3 py-2.5"><span class="sr-only">{{ t('realyuTeams.modelBreakdown') }}</span></th>
++                        <th class="realyu-team-action w-12 px-3 py-2.5"><span class="sr-only">{{ t('realyuTeams.modelBreakdown') }}</span></th>
 +                      </tr></thead>
 +                      <tbody class="divide-y divide-gray-100 dark:divide-dark-700">
 +                        <template v-for="member in sortedUsageMembers" :key="member.member_id">
 +                          <tr :data-testid="`usage-member-${member.member_id}`">
-+                            <td class="px-3 py-2.5"><span class="block truncate font-medium" :title="member.nickname">{{ member.nickname }}</span><span class="font-mono text-xs text-gray-500 dark:text-dark-400">#{{ member.member_id }}</span></td>
++                            <td class="whitespace-nowrap px-3 py-2.5 font-mono text-xs text-gray-500 dark:text-dark-400">#{{ member.member_id }}</td>
++                            <td class="realyu-team-identity px-3 py-2.5"><span class="block truncate font-medium" :title="member.nickname">{{ member.nickname }}</span></td>
 +                            <td class="px-3 py-2.5 text-right tabular-nums">{{ member.requests.toLocaleString(locale) }}</td>
 +                            <td class="px-3 py-2.5 text-right tabular-nums" :title="member.total_tokens.toLocaleString(locale)">{{ formatRealYuTokens(member.total_tokens, locale) }}</td>
 +                            <td class="px-3 py-2.5 text-right tabular-nums">{{ usdText(member.cost_usd) }}</td>
-+                            <td class="px-3 py-1 text-right"><button type="button" class="inline-flex h-9 w-9 items-center justify-center rounded-md text-gray-500 dark:text-dark-400 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:hover:bg-dark-700" :aria-label="t('realyuTeams.memberModels', { member: `${member.nickname} #${member.member_id}` })" :aria-expanded="expandedMembers.has(member.member_id)" :aria-controls="expandedMembers.has(member.member_id) ? `member-models-${member.member_id}` : undefined" :data-testid="`expand-usage-${member.member_id}`" @click="toggleMemberModels(member.member_id)"><span aria-hidden="true">{{ expandedMembers.has(member.member_id) ? '−' : '+' }}</span></button></td>
++                            <td class="realyu-team-action px-3 py-1 text-right"><button type="button" class="inline-flex h-9 w-9 items-center justify-center rounded-md text-gray-500 dark:text-dark-400 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:hover:bg-dark-700" :aria-label="t('realyuTeams.memberModels', { member: `${member.nickname} #${member.member_id}` })" :aria-expanded="expandedMembers.has(member.member_id)" :aria-controls="expandedMembers.has(member.member_id) ? `member-models-${member.member_id}` : undefined" :data-testid="`expand-usage-${member.member_id}`" @click="toggleMemberModels(member.member_id)"><span aria-hidden="true">{{ expandedMembers.has(member.member_id) ? '−' : '+' }}</span></button></td>
 +                          </tr>
 +                          <tr v-if="expandedMembers.has(member.member_id)" :id="`member-models-${member.member_id}`" :data-testid="`member-models-${member.member_id}`">
-+                            <td colspan="5" class="bg-gray-50/70 px-3 py-3 dark:bg-dark-900/40">
++                            <td colspan="6" class="bg-gray-50/70 px-3 py-3 dark:bg-dark-900/40">
 +                              <table class="w-full text-xs"><caption class="sr-only">{{ t('realyuTeams.memberModels', { member: `${member.nickname} #${member.member_id}` }) }}</caption><thead><tr><th class="pb-2">{{ t('realyuTeams.model') }}</th><th class="pb-2 text-right">{{ t('realyuTeams.requests') }}</th><th class="pb-2 text-right">{{ t('realyuTeams.totalTokens') }}</th><th class="pb-2 text-right">{{ t('realyuTeams.cost', { currency: customerCurrencyCode }) }}</th></tr></thead><tbody><tr v-for="bucket in memberModels(member.member_id)" :key="bucket.model"><td class="py-1.5">{{ bucket.model }}</td><td class="py-1.5 text-right tabular-nums">{{ bucket.requests.toLocaleString(locale) }}</td><td class="py-1.5 text-right tabular-nums" :title="bucket.total_tokens.toLocaleString(locale)">{{ formatRealYuTokens(bucket.total_tokens, locale) }}</td><td class="py-1.5 text-right tabular-nums">{{ usdText(bucket.cost_usd) }}</td></tr></tbody></table>
 +                            </td>
 +                          </tr>
@@ -34448,7 +35503,38 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +                  </div>
 +                  <details class="border-t border-gray-100 pt-3 dark:border-dark-700" data-testid="usage-details" :open="detailsOpen" @toggle="detailsOpen = ($event.target as HTMLDetailsElement).open">
 +                    <summary class="cursor-pointer text-sm font-medium">{{ t('realyuTeams.details') }} <span class="ml-1 font-normal text-gray-500 dark:text-dark-400">({{ usage.total.toLocaleString(locale) }})</span></summary>
-+                    <div class="mt-3 overflow-x-auto"><table class="w-full whitespace-nowrap text-left text-xs" data-testid="usage-items"><thead><tr><th class="p-2">{{ t('realyuTeams.time') }}</th><th class="p-2">{{ t('realyuTeams.member') }}</th><th class="p-2">{{ t('realyuTeams.model') }}</th><th class="p-2 text-right">{{ t('realyuTeams.totalTokens') }}</th><th class="p-2 text-right">{{ t('realyuTeams.input') }}</th><th class="p-2 text-right">{{ t('realyuTeams.output') }}</th><th class="p-2 text-right">{{ t('realyuTeams.cacheCreate') }}</th><th class="p-2 text-right">{{ t('realyuTeams.cacheRead') }}</th><th class="p-2 text-right">{{ t('realyuTeams.cost', { currency: customerCurrencyCode }) }}</th><th class="p-2 text-right">{{ t('realyuTeams.duration') }}</th><th class="p-2">{{ t('realyuTeams.recordID') }}</th></tr></thead><tbody><tr v-for="item in usage.items" :key="item.id" :data-testid="`usage-item-${item.id}`"><td class="p-2">{{ new Date(item.created_at).toLocaleString(locale, { timeZone: 'Asia/Shanghai' }) }}</td><td class="p-2">{{ item.nickname }} <span class="text-gray-500 dark:text-dark-400">#{{ item.member_id }}</span></td><td class="p-2">{{ item.model }}</td><td class="p-2 text-right tabular-nums">{{ item.total_tokens.toLocaleString(locale) }}</td><td class="p-2 text-right tabular-nums">{{ item.input_tokens.toLocaleString(locale) }}</td><td class="p-2 text-right tabular-nums">{{ item.output_tokens.toLocaleString(locale) }}</td><td class="p-2 text-right tabular-nums">{{ cacheText(item.cache_creation_tokens) }}</td><td class="p-2 text-right tabular-nums">{{ cacheText(item.cache_read_tokens) }}</td><td class="p-2 text-right tabular-nums">{{ usdText(item.cost_usd) }}</td><td class="p-2 text-right tabular-nums">{{ item.duration_ms }}</td><td class="p-2 font-mono text-gray-500 dark:text-dark-400">{{ item.id }}</td></tr></tbody></table></div>
++                    <div class="mt-3 overflow-x-auto">
++                      <table class="w-full whitespace-nowrap text-left text-xs" data-testid="usage-items">
++                        <thead><tr>
++                          <th class="p-2">{{ t('realyuTeams.time') }}</th>
++                          <th scope="col" class="p-2 text-gray-500 dark:text-dark-400">ID</th>
++                          <th scope="col" class="realyu-team-identity p-2">{{ t('realyuTeams.nickname') }}</th>
++                          <th class="p-2">{{ t('realyuTeams.model') }}</th>
++                          <th class="p-2 text-right">{{ t('realyuTeams.totalTokens') }}</th>
++                          <th class="p-2 text-right">{{ t('realyuTeams.input') }}</th>
++                          <th class="p-2 text-right">{{ t('realyuTeams.output') }}</th>
++                          <th class="p-2 text-right">{{ t('realyuTeams.cacheCreate') }}</th>
++                          <th class="p-2 text-right">{{ t('realyuTeams.cacheRead') }}</th>
++                          <th class="p-2 text-right">{{ t('realyuTeams.cost', { currency: customerCurrencyCode }) }}</th>
++                          <th class="p-2 text-right">{{ t('realyuTeams.duration') }}</th>
++                          <th class="p-2">{{ t('realyuTeams.recordID') }}</th>
++                        </tr></thead>
++                        <tbody><tr v-for="item in usage.items" :key="item.id" :data-testid="`usage-item-${item.id}`">
++                          <td class="p-2 text-gray-500 dark:text-dark-400">{{ new Date(item.created_at).toLocaleString(locale, { timeZone: 'Asia/Shanghai' }) }}</td>
++                          <td class="p-2 font-mono text-gray-500 dark:text-dark-400">#{{ item.member_id }}</td>
++                          <td class="realyu-team-identity p-2"><span class="block max-w-40 truncate font-medium" :title="item.nickname">{{ item.nickname }}</span></td>
++                          <td class="p-2">{{ item.model }}</td>
++                          <td class="p-2 text-right tabular-nums">{{ item.total_tokens.toLocaleString(locale) }}</td>
++                          <td class="p-2 text-right tabular-nums">{{ item.input_tokens.toLocaleString(locale) }}</td>
++                          <td class="p-2 text-right tabular-nums">{{ item.output_tokens.toLocaleString(locale) }}</td>
++                          <td class="p-2 text-right tabular-nums">{{ cacheText(item.cache_creation_tokens) }}</td>
++                          <td class="p-2 text-right tabular-nums">{{ cacheText(item.cache_read_tokens) }}</td>
++                          <td class="p-2 text-right tabular-nums">{{ usdText(item.cost_usd) }}</td>
++                          <td class="p-2 text-right tabular-nums">{{ item.duration_ms }}</td>
++                          <td class="p-2 font-mono text-gray-500 dark:text-dark-400">{{ item.id }}</td>
++                        </tr></tbody>
++                      </table>
++                    </div>
 +                    <Pagination :total="usage.total" :page="usage.page" :page-size="usage.page_size" :show-page-size-selector="false" @update:page="loadUsage" />
 +                  </details>
 +                </template>
@@ -34515,7 +35601,7 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +  return (memberSortDescending.value ? -comparison : comparison) || a.user_id - b.user_id
 +}))
 +const nicknameMember = ref<RealYuTeamMember | null>(null), nicknameDraft = ref(''), nicknameError = ref('')
-+type UsageSort = 'nickname' | 'requests' | 'total_tokens' | 'cost_usd'
++type UsageSort = 'member_id' | 'nickname' | 'requests' | 'total_tokens' | 'cost_usd'
 +const usageSort = ref<UsageSort>('cost_usd'), usageSortDescending = ref(true)
 +const usageAmountColumns = [
 +  { key: 'requests', label: 'requests' }, { key: 'total_tokens', label: 'totalTokens' }, { key: 'cost_usd', label: 'cost' },
@@ -34553,7 +35639,7 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +function sortARIA(field: MemberSort): 'none' | 'ascending' | 'descending' { return memberSort.value !== field ? 'none' : memberSortDescending.value ? 'descending' : 'ascending' }
 +function sortArrow(field: MemberSort) { return memberSort.value !== field ? '' : memberSortDescending.value ? '↓' : '↑' }
 +function sortUsage(field: UsageSort) {
-+  usageSortDescending.value = usageSort.value === field ? !usageSortDescending.value : field !== 'nickname'
++  usageSortDescending.value = usageSort.value === field ? !usageSortDescending.value : !['member_id', 'nickname'].includes(field)
 +  usageSort.value = field
 +}
 +function usageSortARIA(field: UsageSort): 'none' | 'ascending' | 'descending' { return usageSort.value !== field ? 'none' : usageSortDescending.value ? 'descending' : 'ascending' }
@@ -34733,28 +35819,23 @@ index 0000000000000000000000000000000000000000..0cc97b32f9b49f500a9cb8229b5b1d8d
 +</script>
 +
 +<style scoped>
++.realyu-team-title { font-size: 1.25rem; font-weight: 600; line-height: 1.35; }
 +.realyu-team-members th { white-space: normal; font-size: .75rem; line-height: 1.4; }
 +.realyu-team-members thead { background: var(--realyu-surface, #fff); }
 +.realyu-team-summary > thead { background: var(--realyu-surface, #fff); }
 +.realyu-team-summary > thead th { white-space: normal; font-size: .75rem; line-height: 1.4; }
-+.realyu-team-summary > thead th:first-child,
-+.realyu-team-summary > tbody > tr > td:first-child:not([colspan]) { position: sticky; left: 0; z-index: 1; background: var(--realyu-surface, #fff); }
-+.realyu-team-summary > thead th:last-child,
-+.realyu-team-summary > tbody > tr > td:last-child:not([colspan]) { position: sticky; right: 0; background: var(--realyu-surface, #fff); }
++.realyu-team-identity { position: sticky; left: 0; z-index: 1; background: var(--realyu-surface, #fff); }
++.realyu-team-action { position: sticky; right: 0; z-index: 1; background: var(--realyu-surface, #fff); }
 +.realyu-team-summary table { table-layout: fixed; }
 +.realyu-team-summary table td:first-child { overflow-wrap: anywhere; }
-+.realyu-team-members td:not(:first-child) { overflow-wrap: anywhere; }
-+.realyu-team-members th:first-child,
-+.realyu-team-members td:first-child { position: sticky; left: 0; z-index: 1; background: var(--realyu-surface, #fff); }
-+.realyu-team-members th:last-child,
-+.realyu-team-members td:last-child { position: sticky; right: 0; background: var(--realyu-surface, #fff); }
++.realyu-team-members td:not(:first-child):not(.realyu-team-identity) { overflow-wrap: anywhere; }
 +</style>
 diff --git a/frontend/src/views/user/RealYuUsageView.vue b/frontend/src/views/user/RealYuUsageView.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f840647313
+index 0000000000000000000000000000000000000000..b6ff159d687c4e66b05f8c8801300c1d2f77d657
 --- /dev/null
 +++ b/frontend/src/views/user/RealYuUsageView.vue
-@@ -0,0 +1,135 @@
+@@ -0,0 +1,215 @@
 +<template>
 +  <AppLayout>
 +    <div class="space-y-4">
@@ -34762,24 +35843,27 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +        <div class="flex flex-wrap items-center gap-3">
 +          <h1 class="text-lg font-semibold">{{ t(platform ? 'realyuUx.allUsage' : 'realyuUx.history') }}</h1>
 +          <div v-if="!platform" class="realyu-segmented">
-+            <button :aria-pressed="scope === 'self'" @click="changeScope('self')">{{ t('realyuUx.self') }}</button>
-+            <button :aria-pressed="scope === 'personal'" @click="changeScope('personal')">{{ t('realyuUx.personal') }}</button>
++            <button data-testid="my-calls" :aria-pressed="!teamMode" @click="changeScope(ownScope)">{{ t('realyuUx.myCalls') }}</button>
++            <button v-if="managedTeams.length" data-testid="team-calls" :aria-pressed="teamMode" @click="enterTeam">{{ t('realyuUx.teamCalls') }}</button>
 +          </div>
 +        </div>
 +        <router-link :to="platform ? '/admin/usage/diagnostics' : '/usage/diagnostics'" class="btn btn-secondary text-xs">{{ t('realyuUx.nativeDiagnostics') }}</router-link>
 +      </div>
 +
++      <p v-if="!platform && teamsFailed" role="alert" class="text-sm text-gray-600 dark:text-dark-300" data-testid="teams-load-error">{{ t('realyuUx.teamsLoadFailed') }} <button class="underline" :disabled="teamsLoading" @click="loadTeams">{{ t('common.tryAgain') }}</button></p>
 +      <form class="grid grid-cols-2 items-end gap-3 sm:flex sm:flex-wrap" @submit.prevent="apply">
++        <label v-if="!platform && !teamMode" class="col-span-2 min-w-0 text-xs sm:w-40">{{ t('realyuUx.scope') }}<select class="input mt-1 min-w-0" data-testid="own-scope" :value="scope" @change="changeOwnScope"><option value="self">{{ t('realyuUx.self') }}</option><option value="personal">{{ t('realyuUx.personal') }}</option></select></label>
++        <label v-if="teamMode && managedTeams.length" class="col-span-2 min-w-0 text-xs sm:w-48">{{ t('realyuUx.team') }}<select class="input mt-1 min-w-0" data-testid="usage-team-select" :value="selectedTeamID" :disabled="teamsLoading" @change="changeTeam"><option v-if="!selectedTeam" :value="selectedTeamID" disabled>{{ t('realyuUx.selectTeam') }}</option><option v-for="team in managedTeams" :key="team.id" :value="team.id">{{ team.name }} · #{{ team.id }}</option></select></label>
 +        <label class="min-w-0 text-xs sm:w-40">{{ t('realyuUx.startDate') }}<input v-model="startDate" type="date" class="input mt-1 min-w-0" /></label>
 +        <label class="min-w-0 text-xs sm:w-40">{{ t('realyuUx.endDate') }}<input v-model="endDate" type="date" class="input mt-1 min-w-0" :min="startDate || undefined" /></label>
 +        <label class="col-span-2 min-w-0 text-sm sm:min-w-48 sm:flex-1">{{ t('realyuUx.model') }}<input v-model="model" class="input mt-1 min-w-0" :placeholder="t('realyuUx.allModels')" maxlength="128" /></label>
 +        <label v-if="platform" class="col-span-2 text-sm sm:w-28">{{ t('realyuUx.actor') }}<input v-model="userID" class="input mt-1" type="number" min="1" step="1" /></label>
-+        <button class="btn btn-primary" type="submit" :disabled="loading">{{ t('realyuUx.apply') }}</button>
++        <button class="btn btn-primary" type="submit" :disabled="loading || (teamMode && teamsLoading)">{{ t('realyuUx.apply') }}</button>
 +        <button class="btn btn-secondary" type="button" @click="reset">{{ t('realyuUx.reset') }}</button>
 +      </form>
 +      <p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.dateZone') }}</p>
-+      <p v-if="error" role="alert" class="text-sm text-red-600">{{ t('realyuUx.loadFailed') }} <button class="underline" @click="load">{{ t('common.tryAgain') }}</button></p>
-+      <p v-if="loading" role="status" class="text-sm text-gray-500">{{ t('common.loading') }}</p>
++      <p v-if="error" role="alert" class="text-sm text-red-600" data-testid="usage-error">{{ t(error === 'team' ? 'realyuUx.teamUnavailable' : 'realyuUx.loadFailed') }} <button class="underline" @click="retryUsage">{{ t('common.tryAgain') }}</button></p>
++      <p v-if="loading || (teamMode && teamsLoading)" role="status" class="text-sm text-gray-500">{{ t('common.loading') }}</p>
 +      <template v-if="result">
 +        <div class="realyu-stat-grid">
 +          <div class="card px-4 py-3"><p class="text-xs text-gray-500 dark:text-dark-400">{{ t('realyuUx.spending') }}</p><p class="mt-1 text-xl font-semibold">{{ money(result.stats.cost_usd, 4) }}</p></div>
@@ -34790,15 +35874,15 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +        <div class="card relative min-w-0 overflow-hidden">
 +          <div class="overflow-x-auto">
 +            <table class="table w-full whitespace-nowrap text-sm">
-+              <thead><tr><th>{{ t('realyuUx.date') }}</th><th>{{ t('realyuUx.model') }}</th><th v-if="platform">{{ t('realyuUx.actor') }}</th><th>{{ t('realyuUx.scope') }}</th><th>{{ t('realyuUx.tokens') }}</th><th>{{ t('realyuUx.cost') }}</th><th><span class="sr-only">{{ t('realyuUx.details') }}</span></th></tr></thead>
++              <thead><tr><th>{{ t('realyuUx.date') }}</th><th>{{ t('realyuUx.model') }}</th><th v-if="showActors" class="text-gray-500 dark:text-dark-400">{{ t('realyuUx.actor') }}</th><th v-if="showActors" class="usage-actor-name">{{ t('realyuUx.nickname') }}</th><th>{{ t('realyuUx.scope') }}</th><th>{{ t('realyuUx.tokens') }}</th><th>{{ t('realyuUx.cost') }}</th><th><span class="sr-only">{{ t('realyuUx.details') }}</span></th></tr></thead>
 +              <tbody>
 +                <template v-for="item in result.items" :key="item.id">
 +                  <tr>
-+                    <td>{{ date(item.created_at) }}</td><td class="font-medium">{{ item.model }}</td><td v-if="platform"><span>{{ item.actor_nickname || t('realyuUx.missing') }}</span><span v-if="item.actor_user_id != null" class="ml-2 text-xs text-gray-500">#{{ item.actor_user_id }}</span></td>
++                    <td>{{ date(item.created_at) }}</td><td class="font-medium">{{ item.model }}</td><td v-if="showActors" class="font-mono text-xs text-gray-500 dark:text-dark-400">{{ item.actor_user_id == null ? t('realyuUx.missing') : `#${item.actor_user_id}` }}</td><td v-if="showActors" class="usage-actor-name"><span class="block max-w-40 truncate font-medium" :title="item.actor_nickname || undefined">{{ item.actor_nickname || t('realyuUx.missing') }}</span></td>
 +                    <td>{{ scopeLabel(item.scope) }}</td><td :title="item.total_tokens.toLocaleString(locale)">{{ token(item.total_tokens) }}</td><td>{{ money(item.cost_usd, 6) }}</td>
 +                    <td><button class="rounded-full px-2 py-1 text-primary-700 hover:bg-primary-50 dark:text-primary-300 dark:hover:bg-dark-700" :aria-expanded="expanded === item.id" @click="expanded = expanded === item.id ? null : item.id">{{ t('realyuUx.details') }}</button></td>
 +                  </tr>
-+                  <tr v-if="expanded === item.id"><td :colspan="platform ? 7 : 6" class="!whitespace-normal bg-gray-50 dark:bg-dark-900">
++                  <tr v-if="expanded === item.id"><td :colspan="showActors ? 8 : 6" class="!whitespace-normal bg-gray-50 dark:bg-dark-900">
 +                    <dl class="grid gap-x-6 gap-y-3 p-2 sm:grid-cols-3">
 +                      <div><dt class="text-gray-500">{{ t('realyuUx.requestID') }}</dt><dd class="break-all font-mono text-xs">{{ item.id }}</dd></div>
 +                      <div><dt class="text-gray-500">{{ t('realyuUx.source') }}</dt><dd>{{ t(`realyuUx.${item.source}`) }}</dd></div>
@@ -34811,7 +35895,7 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +                    <p v-if="item.scope === 'legacy_unknown'" class="mt-2 text-xs text-gray-500">{{ t('realyuUx.unknownFunding') }}</p>
 +                  </td></tr>
 +                </template>
-+                <tr v-if="result.items.length === 0"><td :colspan="platform ? 7 : 6" class="py-10 text-center text-gray-500">{{ t('realyuUx.empty') }}</td></tr>
++                <tr v-if="result.items.length === 0"><td :colspan="showActors ? 8 : 6" class="py-10 text-center text-gray-500">{{ t('realyuUx.empty') }}</td></tr>
 +              </tbody>
 +            </table>
 +          </div>
@@ -34832,14 +35916,25 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +import AppLayout from '@/components/layout/AppLayout.vue'
 +import { useAuthStore } from '@/stores/auth'
 +import { getRealYuUsage, type RealYuUsagePage, type RealYuUsageQuery } from '@/api/realyuUsage'
++import { realyuTeamsApi, type RealYuTeam } from '@/api/realyuTeams'
 +import { formatCustomerMoney as money } from '@/utils/customerMoney'
 +import { formatRealYuTokens } from '@/utils/realyuDisplay'
 +const { t, locale } = useI18n(), authStore = useAuthStore(), route = useRoute(), router = useRouter()
 +const platform = computed(() => route.path.startsWith('/admin/') && authStore.isAdmin)
-+const scope = ref<'self' | 'personal'>('self'), startDate = ref(''), endDate = ref(''), model = ref('')
++type OwnScope = 'self' | 'personal'
++type UsageScope = OwnScope | 'team'
++const scope = ref<UsageScope>('self'), ownScope = ref<OwnScope>('self')
++const startDate = ref(''), endDate = ref(''), model = ref('')
 +const userID = ref(String(route.query.user_id || '')), page = ref(1), expanded = ref<string | null>(null)
-+const result = ref<RealYuUsagePage | null>(null), error = ref(false), loading = ref(false)
-+let controller: AbortController | undefined
++const result = ref<RealYuUsagePage | null>(null), error = ref<'' | 'load' | 'team'>(''), loading = ref(false)
++const teams = ref<RealYuTeam[]>([]), selectedTeamID = ref(0)
++const teamsLoading = ref(false), teamsLoaded = ref(false), teamsFailed = ref(false)
++const managedTeams = computed(() => teams.value.filter(team => team.can_manage === true && team.closed_at === 0))
++const selectedTeam = computed(() => managedTeams.value.find(team => team.id === selectedTeamID.value))
++const teamMode = computed(() => !platform.value && scope.value === 'team')
++const showActors = computed(() => platform.value || teamMode.value)
++let controller: AbortController | undefined, teamsController: AbortController | undefined
++let disposed = false
 +let applied: RealYuUsageQuery = {}
 +let writtenRoute = ''
 +const routeKey = (path: string, query: Record<string, unknown>) => path + JSON.stringify(Object.fromEntries(Object.entries(query).sort(([a], [b]) => a.localeCompare(b))))
@@ -34847,13 +35942,52 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +const token = (value: number) => formatRealYuTokens(value, locale.value)
 +const date = (value: string) => new Intl.DateTimeFormat(locale.value, { dateStyle: 'short', timeStyle: 'medium', timeZone: 'Asia/Shanghai' }).format(new Date(value))
 +const scopeLabel = (value: string) => t(value === 'personal' ? 'realyuUx.personal' : value === 'team' ? 'realyuUx.team' : 'realyuUx.unknown')
-+async function load() {
-+  controller?.abort(); const request = new AbortController(); controller = request
-+  loading.value = true; error.value = false; result.value = null; expanded.value = null
-+  try { const value = await getRealYuUsage({ ...applied, scope: platform.value ? 'platform' : scope.value, page: page.value, page_size: 25 }, request.signal); if (!request.signal.aborted) result.value = value }
-+  catch { if (!request.signal.aborted) error.value = true }
-+  finally { if (!request.signal.aborted) loading.value = false }
++function clearUsage() {
++  controller?.abort(); controller = undefined
++  result.value = null; expanded.value = null; error.value = ''; loading.value = false
 +}
++async function loadTeams() {
++  teamsController?.abort()
++  const request = new AbortController(); teamsController = request
++  teamsLoading.value = true; teamsLoaded.value = false; teamsFailed.value = false; teams.value = []
++  if (teamMode.value) clearUsage()
++  try {
++    const value = await realyuTeamsApi.list(request.signal)
++    if (!disposed && !request.signal.aborted) { teams.value = value; teamsLoaded.value = true }
++  } catch {
++    if (!disposed && !request.signal.aborted) teamsFailed.value = true
++  } finally {
++    if (!disposed && !request.signal.aborted) teamsLoading.value = false
++  }
++  if (!disposed && !request.signal.aborted && teamMode.value) void load()
++}
++async function load() {
++  clearUsage()
++  if (teamMode.value) {
++    if (teamsLoading.value || teamsFailed.value || !teamsLoaded.value) return
++    if (!selectedTeam.value) { error.value = 'team'; return }
++  }
++  const request = new AbortController(); controller = request
++  const requestTeamID = teamMode.value ? selectedTeamID.value : undefined
++  const query: RealYuUsageQuery = { ...applied, scope: platform.value ? 'platform' : scope.value, page: page.value, page_size: 25 }
++  if (requestTeamID !== undefined) query.team_id = requestTeamID
++  loading.value = true
++  try {
++    const value = await getRealYuUsage(query, request.signal)
++    if (disposed || request.signal.aborted || controller !== request) return
++    // A successful response for another scope/team must never populate this view.
++    if (requestTeamID !== undefined && (value.scope !== 'team' || value.team_id !== requestTeamID)) { error.value = 'team'; return }
++    result.value = value
++  } catch (failure) {
++    if (!disposed && !request.signal.aborted && controller === request) {
++      const status = (failure as { response?: { status?: number } })?.response?.status
++      error.value = requestTeamID !== undefined && (status === 403 || status === 404) ? 'team' : 'load'
++    }
++  } finally {
++    if (!disposed && !request.signal.aborted && controller === request) loading.value = false
++  }
++}
++function retryUsage() { if (teamMode.value) void loadTeams(); else void load() }
 +function readDraft() {
 +  applied = { model: model.value.trim() || undefined }
 +  if (startDate.value) applied.start = new Date(startDate.value + 'T00:00:00+08:00').toISOString()
@@ -34867,6 +36001,7 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +  if (applied.model) query.model = applied.model
 +  if (applied.user_id && platform.value) query.user_id = String(applied.user_id)
 +  if (scope.value === 'personal' && !platform.value) query.scope = 'personal'
++  if (teamMode.value) { query.scope = 'team'; if (selectedTeamID.value > 0) query.team_id = String(selectedTeamID.value) }
 +  if (page.value > 1) query.page = String(page.value)
 +  const nextRoute = routeKey(route.path, query)
 +  writtenRoute = nextRoute !== routeKey(route.path, route.query) ? nextRoute : ''
@@ -34874,7 +36009,25 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +}
 +function apply() { readDraft(); page.value = 1; syncURL(); void load() }
 +function reset() { startDate.value = ''; endDate.value = ''; model.value = ''; userID.value = ''; apply() }
-+function changeScope(value: 'self' | 'personal') { scope.value = value; page.value = 1; syncURL(); void load() }
++function changeScope(value: UsageScope) {
++  scope.value = value
++  if (value !== 'team') ownScope.value = value
++  page.value = 1; syncURL(); void load()
++}
++function changeOwnScope(event: Event) {
++  const value = (event.target as HTMLSelectElement).value
++  if (value === 'self' || value === 'personal') changeScope(value)
++}
++function enterTeam() {
++  if (!managedTeams.value.length) return
++  if (!selectedTeam.value) selectedTeamID.value = managedTeams.value[0]!.id
++  changeScope('team')
++}
++function changeTeam(event: Event) {
++  const id = Number((event.target as HTMLSelectElement).value)
++  if (!managedTeams.value.some(team => team.id === id)) return
++  selectedTeamID.value = id; page.value = 1; syncURL(); void load()
++}
 +function turnPage(delta: number) { page.value += delta; syncURL(); void load() }
 +watch(() => [route.path, JSON.stringify(route.query), authStore.isAdmin], () => {
 +  if (writtenRoute === routeKey(route.path, route.query)) { writtenRoute = ''; return }
@@ -34883,13 +36036,21 @@ index 0000000000000000000000000000000000000000..ae8bdcd34d6e51189ed7f48b420d26f8
 +  if (startDate.value && endDate.value && startDate.value > endDate.value) { startDate.value = ''; endDate.value = '' }
 +  model.value = typeof route.query.model === 'string' ? route.query.model.slice(0, 128) : ''
 +  userID.value = platform.value && typeof route.query.user_id === 'string' ? route.query.user_id : ''
-+  scope.value = !platform.value && route.query.scope === 'personal' ? 'personal' : 'self'
++  scope.value = !platform.value && route.query.scope === 'team' ? 'team' : !platform.value && route.query.scope === 'personal' ? 'personal' : 'self'
++  if (scope.value !== 'team') ownScope.value = scope.value
++  const requestedTeam = typeof route.query.team_id === 'string' && /^[1-9]\d*$/.test(route.query.team_id) ? Number(route.query.team_id) : 0
++  selectedTeamID.value = scope.value === 'team' && Number.isSafeInteger(requestedTeam) ? requestedTeam : 0
 +  const requestedPage = Number(route.query.page)
 +  page.value = Number.isInteger(requestedPage) && requestedPage > 0 && requestedPage <= 100000 ? requestedPage : 1
-+  readDraft(); void load()
++  readDraft()
++  if (!platform.value && !teamsLoaded.value && !teamsLoading.value && !teamsFailed.value) void loadTeams()
++  void load()
 +}, { immediate: true })
-+onBeforeUnmount(() => controller?.abort())
++onBeforeUnmount(() => { disposed = true; controller?.abort(); teamsController?.abort() })
 +</script>
++<style scoped>
++.usage-actor-name { position: sticky; left: 0; z-index: 1; background: var(--realyu-surface, #fff); }
++</style>
 diff --git a/frontend/src/views/user/RedeemView.vue b/frontend/src/views/user/RedeemView.vue
 index 0e9bcc3b0c805da73898399450d081bf9e219570..eb32b8a9b9567ee358d27885e378f8a3b7261270 100644
 --- a/frontend/src/views/user/RedeemView.vue
@@ -35698,10 +36859,10 @@ index 57ee459266504bd2e75196713335dbb6bfdf7cf0..11c976241ed9a869e76d2125b69429c5
 +})
 diff --git a/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts b/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..d6f86e00638d180962a392155b311fd66f8ec8a1
+index 0000000000000000000000000000000000000000..28dbb12d49370aade3e8f193699c466b960ff4e9
 --- /dev/null
 +++ b/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts
-@@ -0,0 +1,419 @@
+@@ -0,0 +1,459 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 +import { configureCustomerCurrency } from '@/utils/customerMoney'
@@ -35769,14 +36930,46 @@ index 0000000000000000000000000000000000000000..d6f86e00638d180962a392155b311fd6
 +    expect(api.updateMember).not.toHaveBeenCalled()
 +    expect(api.usage).toHaveBeenCalledTimes(1)
 +  })
-+  it('places stable IDs before team nicknames and submits only a trimmed team nickname', async () => {
++  it('keeps member IDs in their own column and submits only a trimmed team nickname', async () => {
 +    const view = mountView(); await flushPromises()
-+    expect(view.get('[data-testid="member-2"] td').text()).toContain('#2Member')
++    const cells = view.get('[data-testid="member-2"]').findAll('td')
++    expect(cells[0]!.text()).toBe('#2')
++    expect(cells[1]!.get('button').text()).toBe('Member')
++    expect(cells[1]!.text()).not.toContain('#2')
 +    await chooseAction(view, 2, 'edit-nickname')
 +    await view.get('[data-testid="nickname-form"] input').setValue('  Team alias  ')
 +    await view.get('[data-testid="nickname-form"]').trigger('submit'); await flushPromises()
 +    expect(api.updateMember).toHaveBeenCalledWith(71, 2, { nickname: 'Team alias' })
 +    expect(view.find('[data-testid="nickname-form"]').exists()).toBe(false)
++  })
++  it('gives ID and nickname separate sortable headers and labelled cells in every team table', async () => {
++    const view = mountView(); await flushPromises()
++    const memberIDHeader = view.get('[data-testid="sort-member-id"]').element.closest('th')!
++    const memberNameHeader = view.get('[data-testid="sort-member-nickname"]').element.closest('th')!
++    expect(memberIDHeader).not.toBe(memberNameHeader)
++    expect(memberIDHeader.getAttribute('aria-sort')).toBe('ascending')
++    expect(memberNameHeader.getAttribute('aria-sort')).toBe('none')
++    await view.get('[data-testid="sort-member-nickname"]').trigger('click')
++    expect(memberNameHeader.getAttribute('aria-sort')).toBe('ascending')
++    expect(memberIDHeader.getAttribute('aria-sort')).toBe('none')
++    expect(view.findAll('tr[data-testid^="member-"]').map(row => row.attributes('data-testid'))).toEqual(['member-3', 'member-2', 'member-1'])
++
++    const summaryHeaders = view.get('[data-testid="usage-members"] thead tr').findAll('th')
++    expect(summaryHeaders[0]!.text()).toBe('ID')
++    expect(summaryHeaders[1]!.text()).toBe('realyuTeams.nickname')
++    const summaryCells = view.get('[data-testid="usage-member-3"]').findAll('td')
++    expect(summaryCells[0]!.text()).toBe('#3')
++    expect(summaryCells[1]!.text()).toBe('Former member')
++    expect(summaryCells[1]!.get('[title]').attributes('title')).toBe('Former member')
++
++    const detailHeaders = view.get('[data-testid="usage-items"] thead tr').findAll('th')
++    expect(detailHeaders[1]!.text()).toBe('ID')
++    expect(detailHeaders[2]!.text()).toBe('realyuTeams.nickname')
++    const detailCells = view.get('[data-testid="usage-item-legacy:44"]').findAll('td')
++    expect(detailCells[1]!.text()).toBe('#3')
++    expect(detailCells[2]!.text()).toBe('Former member')
++    expect(api.usage).toHaveBeenCalledTimes(1)
++    expect(api.updateMember).not.toHaveBeenCalled()
 +  })
 +  it('shows and sorts server cumulative team costs/tokens, with unknown historical fields last', async () => {
 +    configureCustomerCurrency({ customer_currency: 'CNY', customer_usd_to_cny: '7' })
@@ -35989,7 +37182,14 @@ index 0000000000000000000000000000000000000000..d6f86e00638d180962a392155b311fd6
 +    expect(view.get('[data-testid="member-models-2"]').text()).toContain('model-a')
 +    expect(view.get('[data-testid="member-models-2"]').text()).toContain('model-b')
 +    expect(view.get('[data-testid="member-models-2"]').text()).not.toContain('Former member')
++    expect(view.get('[data-testid="member-models-2"] > td').attributes('colspan')).toBe('6')
 +    expect(ids()).toHaveLength(3)
++    await view.get('[data-testid="sort-usage-id"]').trigger('click')
++    expect(ids()).toEqual(['usage-member-1', 'usage-member-2', 'usage-member-3'])
++    expect(view.get('[data-testid="sort-usage-id"]').element.closest('th')!.getAttribute('aria-sort')).toBe('ascending')
++    await view.get('[data-testid="sort-usage-id"]').trigger('click')
++    expect(ids()).toEqual(['usage-member-3', 'usage-member-2', 'usage-member-1'])
++    expect(view.get('[data-testid="member-models-2"]').text()).toContain('model-a')
 +    expect(api.usage).toHaveBeenCalledTimes(1)
 +    expect(api.updateMember).not.toHaveBeenCalled()
 +  })
@@ -36005,11 +37205,12 @@ index 0000000000000000000000000000000000000000..d6f86e00638d180962a392155b311fd6
 +    expect(view.get('[data-testid="cache-incomplete"]').text()).toBe('realyuTeams.cacheIncomplete')
 +    expect(view.get('[data-testid="usage-details"]').attributes('open')).toBeUndefined()
 +    const cells = view.get('[data-testid="usage-item-legacy:44"]').findAll('td').map(cell => cell.text())
-+    expect(cells[3]).toBe('125')
-+    expect(cells[6]).toBe('—')
-+    expect(cells[7]).toBe('0')
-+    expect(cells[10]).toBe('legacy:44')
-+    expect(cells[1]).toContain('Former member #3')
++    expect(cells[4]).toBe('125')
++    expect(cells[7]).toBe('—')
++    expect(cells[8]).toBe('0')
++    expect(cells[11]).toBe('legacy:44')
++    expect(cells[1]).toBe('#3')
++    expect(cells[2]).toBe('Former member')
 +  })
 +  it('keeps the cap dialog and exact amount on a failed save for retry', async () => {
 +    api.updateMember.mockRejectedValueOnce(new Error('synthetic conflict'))
@@ -36073,7 +37274,7 @@ index 0000000000000000000000000000000000000000..d6f86e00638d180962a392155b311fd6
 +    const data = overview(); data.members[1]!.weekly_cap_quota = 7142857
 +    api.overview.mockResolvedValue(data)
 +    const view = mountView(); await flushPromises()
-+    expect(view.text()).toContain('¥14.00')
++    expect(view.get('[data-testid="team-weekly-available"]').text()).toBe('¥14.00')
 +    expect(view.get('[data-testid="usage-stats"]').text()).toContain('¥3.50')
 +    await chooseAction(view, 2, 'edit-cap')
 +    expect((view.get('[data-testid="cap-form"] input').element as HTMLInputElement).value).toBe('99.999998')
@@ -36123,10 +37324,10 @@ index 0000000000000000000000000000000000000000..d6f86e00638d180962a392155b311fd6
 +})
 diff --git a/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts b/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83a6cd5b6e
+index 0000000000000000000000000000000000000000..371e871ab71040fb159af5b727e919b388c5853d
 --- /dev/null
 +++ b/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts
-@@ -0,0 +1,214 @@
+@@ -0,0 +1,400 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 +import { reactive } from 'vue'
@@ -36139,9 +37340,10 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +import enCommon from '@/i18n/locales/en/common'
 +import zhCommon from '@/i18n/locales/zh/common'
 +
-+const { usageApi, state } = vi.hoisted(() => ({ usageApi: vi.fn(), state: {} as Record<string, any> }))
++const { usageApi, teamsApi, state } = vi.hoisted(() => ({ usageApi: vi.fn(), teamsApi: vi.fn(), state: {} as Record<string, any> }))
 +vi.unmock('vue-i18n')
 +vi.mock('@/api/realyuUsage', () => ({ getRealYuUsage: usageApi }))
++vi.mock('@/api/realyuTeams', () => ({ realyuTeamsApi: { list: teamsApi } }))
 +vi.mock('@/stores/auth', () => ({ useAuthStore: () => state.auth }))
 +vi.mock('vue-router', () => ({ useRoute: () => state.route, useRouter: () => ({ push: async (location: { path: string; query: Record<string, string> }) => { state.route.path = location.path; state.route.query = location.query } }) }))
 +
@@ -36157,6 +37359,16 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +      cost_usd: '1.25000000000000000000', legacy_requests: 1, native_requests: 25, unknown_scope_requests: 1 },
 +    coverage: { legacy_archive_complete: true, cache_read_complete: false, cache_creation_complete: true,
 +      token_counting: 'source_reported_without_cache_double_count' },
++  }
++}
++const managedTeam = (id: number) => ({ id, owner_user_id: 101, name: `Synthetic team ${id}`, closed_at: 0, can_manage: true })
++function teamResult(id: number, page = 1): RealYuUsagePage {
++  const value = result(`synthetic-team-${id}-model`)
++  return { ...value, scope: 'team', team_id: id, page,
++    items: [
++      { ...value.items[0]!, id: `native:team-${id}-owner`, scope: 'team', team_id: id, actor_nickname: 'Synthetic owner' },
++      { ...value.items[0]!, id: `native:team-${id}-member`, scope: 'team', team_id: id, actor_user_id: 102, actor_nickname: 'Synthetic teammate' },
++    ],
 +  }
 +}
 +function deferred<T>() {
@@ -36177,6 +37389,7 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +const button = (view: VueWrapper, text: string) => view.findAll('button').find(item => item.text() === text)!
 +beforeEach(() => {
 +  usageApi.mockReset().mockResolvedValue(result())
++  teamsApi.mockReset().mockResolvedValue([])
 +  state.auth = reactive({ isAdmin: false, isAuthenticated: true })
 +  state.route = reactive({ path: '/usage', query: {} as Record<string, unknown> })
 +  configureCustomerCurrency({ customer_currency: 'CNY', customer_usd_to_cny: '7' })
@@ -36228,6 +37441,7 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +    state.auth.isAdmin = true; state.route.path = '/admin/usage'; state.route.query.user_id = '101'
 +    const view = render(); await flushPromises()
 +    expect(lastQuery()).toMatchObject({ scope: 'platform', user_id: 101, page: 1 })
++    expect(teamsApi).not.toHaveBeenCalled()
 +    expect(view.get('input[type="number"]').element).toHaveProperty('value', '101')
 +    expect(view.find('a[href="/admin/usage/diagnostics"]').exists()).toBe(true)
 +    await button(view, 'Next').trigger('click'); await flushPromises()
@@ -36290,7 +37504,7 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +    const view = render()
 +    const signal = usageApi.mock.calls[0]![1] as AbortSignal
 +    usageApi.mockResolvedValueOnce(result('synthetic-personal-model'))
-+    await button(view, 'Personal only').trigger('click'); await flushPromises()
++    await view.get('[data-testid="own-scope"]').setValue('personal'); await flushPromises()
 +    expect(signal.aborted).toBe(true)
 +    expect(lastQuery().scope).toBe('personal')
 +    old.resolve(result('synthetic-old-team-model')); await flushPromises()
@@ -36302,7 +37516,7 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +  it('ignores a cancelled rejection without clearing the current result and aborts on unmount', async () => {
 +    const old = deferred<RealYuUsagePage>(); usageApi.mockReturnValueOnce(old.promise)
 +    const view = render()
-+    await button(view, 'Personal only').trigger('click'); await flushPromises()
++    await view.get('[data-testid="own-scope"]').setValue('personal'); await flushPromises()
 +    old.reject(new Error('synthetic late cancellation')); await flushPromises()
 +    expect(view.find('[role="alert"]').exists()).toBe(false)
 +    expect(view.text()).toContain('synthetic-current-model')
@@ -36326,8 +37540,9 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +    state.auth.isAdmin = true; state.route.path = '/admin/usage'
 +    const value = result(); value.items[0]!.actor_nickname = 'Fixture nickname'; usageApi.mockResolvedValueOnce(value)
 +    const view = render(); await flushPromises()
-+    expect(view.get('tbody tr').text()).toContain('Fixture nickname')
-+    expect(view.get('tbody tr').text()).toContain('#101')
++    const cells = view.get('tbody tr').findAll('td')
++    expect(cells[2]!.text()).toBe('#101')
++    expect(cells[3]!.text()).toBe('Fixture nickname')
 +  })
 +
 +  it('reloads both backward and forward history after two locally applied filters', async () => {
@@ -36339,6 +37554,178 @@ index 0000000000000000000000000000000000000000..5bad9b7d11f8a0ce1f3897430b031e83
 +    state.route.query = first; await flushPromises(); expect(lastQuery().model).toBe('fixture-a')
 +    state.route.query = second; await flushPromises(); expect(lastQuery().model).toBe('fixture-b')
 +    expect(view.get('input[maxlength="128"]').element).toHaveProperty('value', 'fixture-b')
++  })
++
++  it.each(['en', 'zh'] as const)('shows only manageable open teams and renders server team totals and separate identities in %s', async locale => {
++    teamsApi.mockResolvedValue([
++      managedTeam(71), managedTeam(72),
++      { ...managedTeam(73), closed_at: 1791600000 },
++      { ...managedTeam(74), can_manage: false },
++    ])
++    const view = render(locale); await flushPromises()
++    expect(view.get('[data-testid="my-calls"]').attributes('aria-pressed')).toBe('true')
++    expect(view.get('[data-testid="team-calls"]').text()).toBe(locale === 'en' ? 'Team calls' : '团队调用')
++    usageApi.mockResolvedValueOnce(teamResult(71))
++    await view.get('[data-testid="team-calls"]').trigger('click'); await flushPromises()
++    expect(lastQuery()).toMatchObject({ scope: 'team', team_id: 71, page: 1, page_size: 25 })
++    expect(lastQuery().user_id).toBeUndefined()
++    expect(state.route.query).toEqual({ scope: 'team', team_id: '71' })
++    expect(view.find('[data-testid="own-scope"]').exists()).toBe(false)
++    expect(view.get('[data-testid="usage-team-select"]').findAll('option').map(option => option.attributes('value'))).toEqual(['71', '72'])
++    const rows = view.findAll('tbody > tr')
++    expect(rows).toHaveLength(2)
++    expect(rows[0]!.findAll('td')[2]!.text()).toBe('#101')
++    expect(rows[0]!.findAll('td')[3]!.text()).toBe('Synthetic owner')
++    expect(rows[1]!.findAll('td')[2]!.text()).toBe('#102')
++    expect(rows[1]!.findAll('td')[3]!.text()).toBe('Synthetic teammate')
++    expect(view.text()).toContain('¥8.7500')
++    expect(view.text()).toContain(locale === 'en' ? 'Page 1 · 26 records' : '第 1 页，共 26 条')
++    expect(view.text()).not.toContain('realyuUx.')
++    await rows[0]!.get('button').trigger('click')
++    expect(view.get('td[colspan]').attributes('colspan')).toBe('8')
++  })
++
++  it.each([
++    { name: 'ordinary member', teams: [{ ...managedTeam(71), can_manage: false }], teamID: '71' },
++    { name: 'closed team', teams: [{ ...managedTeam(71), closed_at: 1791600000 }], teamID: '71' },
++    { name: 'another team', teams: [managedTeam(72)], teamID: '71' },
++    { name: 'missing team ID', teams: [managedTeam(71)], teamID: undefined },
++    { name: 'unsafe team ID', teams: [managedTeam(71)], teamID: '9007199254740992' },
++  ])('rejects a $name deep link without falling back to successful self usage', async ({ teams, teamID }) => {
++    teamsApi.mockResolvedValue(teams)
++    state.route.query = { scope: 'team', ...(teamID ? { team_id: teamID } : {}) }
++    const view = render(); await flushPromises()
++    expect(usageApi).not.toHaveBeenCalled()
++    expect(view.get('[data-testid="usage-error"]').text()).toContain('management access')
++    expect(view.find('table').exists()).toBe(false)
++    expect(view.text()).not.toContain('No usage records in this range')
++    expect(state.route.query.scope).toBe('team')
++    if (!teams.some(team => team.can_manage && team.closed_at === 0)) expect(view.find('[data-testid="team-calls"]').exists()).toBe(false)
++    await view.get('[data-testid="my-calls"]').trigger('click'); await flushPromises()
++    expect(lastQuery().scope).toBe('self')
++    expect(lastQuery().team_id).toBeUndefined()
++    expect(view.text()).toContain('synthetic-current-model')
++  })
++
++  it('preserves the own page when loading teams fails and retries the list without reloading own totals', async () => {
++    teamsApi.mockRejectedValueOnce(new Error('synthetic list failure')).mockResolvedValueOnce([managedTeam(71)])
++    const view = render(); await flushPromises()
++    expect(view.get('[data-testid="teams-load-error"]').text()).toContain('still view your own calls')
++    expect(view.text()).toContain('synthetic-current-model')
++    expect(view.text()).toContain('¥8.7500')
++    expect(view.find('[data-testid="team-calls"]').exists()).toBe(false)
++    await view.get('[data-testid="teams-load-error"] button').trigger('click'); await flushPromises()
++    expect(view.find('[data-testid="teams-load-error"]').exists()).toBe(false)
++    expect(view.find('[data-testid="team-calls"]').exists()).toBe(true)
++    expect(usageApi).toHaveBeenCalledTimes(1)
++  })
++
++  it('keeps a team deep link failed on list error and does not revive it after returning to own calls', async () => {
++    teamsApi.mockRejectedValueOnce(new Error('synthetic list failure'))
++    state.route.query = { scope: 'team', team_id: '71' }
++    const view = render(); await flushPromises()
++    expect(usageApi).not.toHaveBeenCalled()
++    expect(view.find('[data-testid="teams-load-error"]').exists()).toBe(true)
++    const list = deferred<ReturnType<typeof managedTeam>[]>()
++    teamsApi.mockReturnValueOnce(list.promise)
++    await view.get('[data-testid="teams-load-error"] button').trigger('click')
++    await view.get('[data-testid="my-calls"]').trigger('click'); await flushPromises()
++    list.resolve([managedTeam(71)]); await flushPromises()
++    expect(usageApi).toHaveBeenCalledTimes(1)
++    expect(lastQuery().scope).toBe('self')
++    expect(view.text()).toContain('synthetic-current-model')
++  })
++
++  it('clears team data on a server revocation and rechecks the current team list on retry', async () => {
++    teamsApi.mockResolvedValueOnce([managedTeam(71)]).mockResolvedValueOnce([])
++    state.route.query = { scope: 'team', team_id: '71' }
++    usageApi.mockResolvedValueOnce(teamResult(71)).mockRejectedValueOnce({ response: { status: 403 } })
++    const view = render(); await flushPromises()
++    expect(view.text()).toContain('synthetic-team-71-model')
++    await view.get('form').trigger('submit'); await flushPromises()
++    expect(view.get('[data-testid="usage-error"]').text()).toContain('management access')
++    expect(view.text()).not.toContain('synthetic-team-71-model')
++    expect(view.text()).not.toContain('¥8.7500')
++    expect(state.route.query.scope).toBe('team')
++    await view.get('[data-testid="usage-error"] button').trigger('click'); await flushPromises()
++    expect(teamsApi).toHaveBeenCalledTimes(2)
++    expect(usageApi).toHaveBeenCalledTimes(2)
++    expect(view.find('[data-testid="team-calls"]').exists()).toBe(false)
++    expect(view.find('[data-testid="usage-error"]').exists()).toBe(true)
++  })
++
++  it.each(['scope', 'team_id'] as const)('rejects a successful response whose %s does not match the requested team', async field => {
++    teamsApi.mockResolvedValue([managedTeam(71)])
++    state.route.query = { scope: 'team', team_id: '71' }
++    const wrong = teamResult(71)
++    if (field === 'scope') wrong.scope = 'self'
++    else wrong.team_id = 72
++    usageApi.mockResolvedValueOnce(wrong)
++    const view = render(); await flushPromises()
++    expect(view.find('[data-testid="usage-error"]').exists()).toBe(true)
++    expect(view.find('table').exists()).toBe(false)
++    expect(view.text()).not.toContain('¥8.7500')
++  })
++
++  it('cancels and ignores late own and team requests while switching teams', async () => {
++    const own = deferred<RealYuUsagePage>(), first = deferred<RealYuUsagePage>(), second = deferred<RealYuUsagePage>()
++    teamsApi.mockResolvedValue([managedTeam(71), managedTeam(72)])
++    usageApi.mockReturnValueOnce(own.promise).mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise)
++    const view = render(); await flushPromises()
++    const ownSignal = usageApi.mock.calls[0]![1] as AbortSignal
++    await view.get('[data-testid="team-calls"]').trigger('click')
++    expect(ownSignal.aborted).toBe(true)
++    const teamSignal = usageApi.mock.calls[1]![1] as AbortSignal
++    await view.get('[data-testid="usage-team-select"]').setValue('72')
++    expect(teamSignal.aborted).toBe(true)
++    expect(view.find('table').exists()).toBe(false)
++    second.resolve(teamResult(72)); await flushPromises()
++    first.resolve(teamResult(71)); own.resolve(result('late-own-model')); await flushPromises()
++    expect(view.text()).toContain('synthetic-team-72-model')
++    expect(view.text()).not.toContain('synthetic-team-71-model')
++    expect(view.text()).not.toContain('late-own-model')
++    expect(view.find('[data-testid="usage-error"]').exists()).toBe(false)
++    expect(state.route.query).toEqual({ scope: 'team', team_id: '72' })
++  })
++
++  it('preserves team/date/model/page URLs through paging, team changes, and backward/forward navigation', async () => {
++    teamsApi.mockResolvedValue([managedTeam(71), managedTeam(72)])
++    usageApi.mockImplementation(async (query: RealYuUsageQuery) => query.scope === 'team' ? teamResult(query.team_id!, query.page) : result())
++    state.route.query = { scope: 'team', team_id: '71', start_date: '2026-10-01', end_date: '2026-10-02', model: 'applied-model', page: '2' }
++    const firstURL = { ...state.route.query }
++    const view = render(); await flushPromises()
++    expect(lastQuery()).toMatchObject({ scope: 'team', team_id: 71, page: 2, model: 'applied-model', start: '2026-09-30T16:00:00.000Z', end: '2026-10-02T16:00:00.000Z' })
++    await view.get('input[maxlength="128"]').setValue('unapplied-model')
++    await button(view, 'Previous').trigger('click'); await flushPromises()
++    expect(lastQuery()).toMatchObject({ scope: 'team', team_id: 71, page: 1, model: 'applied-model' })
++    await view.get('[data-testid="usage-team-select"]').setValue('72'); await flushPromises()
++    expect(lastQuery()).toMatchObject({ scope: 'team', team_id: 72, page: 1, model: 'applied-model' })
++    const secondURL = { ...state.route.query }
++    state.route.query = firstURL; await flushPromises()
++    expect(lastQuery()).toMatchObject({ scope: 'team', team_id: 71, page: 2, model: 'applied-model' })
++    state.route.query = secondURL; await flushPromises()
++    expect(lastQuery()).toMatchObject({ scope: 'team', team_id: 72, page: 1, model: 'applied-model' })
++    expect(view.get('[data-testid="usage-team-select"]').element).toHaveProperty('value', '72')
++    await view.get('[data-testid="my-calls"]').trigger('click'); await flushPromises()
++    await view.get('[data-testid="own-scope"]').setValue('personal'); await flushPromises()
++    expect(lastQuery().team_id).toBeUndefined()
++    expect(state.route.query.scope).toBe('personal')
++    expect(state.route.query.team_id).toBeUndefined()
++    await view.get('[data-testid="team-calls"]').trigger('click'); await flushPromises()
++    await view.get('[data-testid="my-calls"]').trigger('click'); await flushPromises()
++    expect(lastQuery().scope).toBe('personal')
++  })
++
++  it('aborts the team list on unmount and ignores its late response', async () => {
++    const list = deferred<ReturnType<typeof managedTeam>[]>()
++    teamsApi.mockReturnValueOnce(list.promise)
++    state.route.query = { scope: 'team', team_id: '71' }
++    const view = render()
++    const signal = teamsApi.mock.calls[0]![0] as AbortSignal
++    view.unmount(); wrapper = undefined
++    expect(signal.aborted).toBe(true)
++    list.resolve([managedTeam(71)]); await flushPromises()
++    expect(usageApi).not.toHaveBeenCalled()
 +  })
 +})
 diff --git a/frontend/src/views/user/__tests__/RealYuWorkbench.spec.ts b/frontend/src/views/user/__tests__/RealYuWorkbench.spec.ts

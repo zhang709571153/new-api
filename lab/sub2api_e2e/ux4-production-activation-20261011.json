@@ -1,0 +1,23 @@
+{
+  "operation_id": "native-ux4-20261011-r2",
+  "phase": "ACTIVE",
+  "phase_times": {
+    "DRAINING": 1791693831.0214913,
+    "STOPPING_NATIVE": 1791693831.2251983,
+    "STARTING_NATIVE": 1791693856.1070313,
+    "VERIFIED_PRIVATE": 1791693868.6074524,
+    "ACTIVE": 1791693868.6120696
+  },
+  "database_restored": false,
+  "old_legacy_services_started": false,
+  "active_at_utc": "2026-10-11T04:44:28.612070+00:00",
+  "maintenance_gate_seconds": 37.590578,
+  "source_receipt_sha256": "3ac8d29af192999ec614095ced3b172996d807445a1ab4c54b45f7906f3e3f13",
+  "active_binary_sha256": "1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821",
+  "expected_version": "realyu-singlecore-v0.2.15-20261011-ux4",
+  "database_authority": "Same existing PostgreSQL authority; no restore or DDL; 300 migrations, latest 308.",
+  "limitations": [
+    "Gate duration is not a measurement of every individual user request.",
+    "The completed operation must not be run again."
+  ]
+}

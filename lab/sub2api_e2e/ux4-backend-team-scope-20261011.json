@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "frozen_at": "2026-10-11T03:55:17.993822+00:00",
+  "implementation_scope": "Native candidate only; not built or deployed by this task",
+  "command": "go test -p 2 -tags realyu_funding_pg ./internal/repository ./internal/handler -run TestRealYu(History|Usage) -count=1 -v",
+  "database": "isolated loopback 29490/realyu_funding_e2e, per-test temporary schemas",
+  "root_tests_passed": 12,
+  "failures": 0,
+  "log": "team-scope-go-20261011T035346Z.log",
+  "log_sha256": "14dc9b8089068c3c6a2c19905856925331d0270a1790b5bef597760c5cb454bc",
+  "first_failure": {
+    "log": "team-scope-go-20261011T035034Z.log",
+    "cause": "New test expected a second legacy role10 fixture to be unprivileged, contrary to existing lower-owner management contract. Corrected test expectation; production authorization was not broadened."
+  },
+  "contract": {
+    "team_scope": "scope=team&team_id=positive",
+    "permission": "active viewer + existing teamAccess.CanManage + closed_at=0, in same repeatable-read transaction",
+    "members": "403 full-team scope; self retains own personal and team facts",
+    "filters": "team_id only team; user_id only platform; ambiguous selectors rejected",
+    "responses": "list/summary/trend echo optional team_id only team scope",
+    "limits": "page<=100000 page_size<=100, 15s context, trend day<=366calendar days/hour<=31days"
+  },
+  "coverage": [
+    "legacy/native exact merged amounts from immutable funding quota",
+    "list full-range totals independent of page",
+    "team summaries and day/hour buckets agree",
+    "native/legacy cache known/null preserved",
+    "scoped member nickname",
+    "model and inclusive-start/exclusive-end filters",
+    "owner/admin/legacy-role10 vs ordinary member/outsider",
+    "live role revocation/owner transfer/disabled viewer/closed team",
+    "16 interleaved parallel reads across two teams",
+    "canceled query returns no stale page",
+    "financial/key/usage fingerprints unchanged after queries"
+  ],
+  "not_run": [
+    "candidate process HTTP/browser",
+    "production team-scope endpoint (live remains UX3)",
+    "race detector"
+  ],
+  "files": {
+    "backend/internal/service/realyu_usage_history.go": "a74a2cce48b6788530cfc46d42f0f40d9045e34c4d014e1359884f189fbc0ccc",
+    "backend/internal/repository/realyu_usage_history_repo.go": "9864532b881f00d906e5a046236aae968201fdc0894418201846145949064d95",
+    "backend/internal/repository/realyu_usage_trend_repo.go": "88b710bc1d43f3db6857218d980450ba2725b2790bdd04876a84dffb0471215f",
+    "backend/internal/repository/realyu_usage_team_scope_pg_test.go": "48e8ca20f218645705564c795a30e3eacc339c501f9a5b4af23fbabb544790c3",
+    "backend/internal/handler/realyu_usage_history_handler.go": "ce3c63ff1b93d9909b828f65c2fff21188101e529c2729aad37755af23622e5e",
+    "backend/internal/handler/realyu_usage_history_handler_test.go": "22015dd336f2c091faa974d01f45a23e6f1e1e646617283542312ac63a81e802",
+    "frontend/src/api/realyuUsage.ts": "877708861e8dbba3dfe90b2a91688ae1970071c130770e39e0d865f788c993fe"
+  },
+  "supersedes_without_overwriting": "backend-team-scope-result.json",
+  "additional_trend_regression": {
+    "status": "PASS",
+    "root_tests_passed": 3,
+    "log": "trend-pg-existing-20261011T040008Z.log",
+    "sha256": "8a859d33010fd4eef587cf5f678cf2ec6b2afc8c18913a638bc60f4f769e649a",
+    "command": "go test -p 2 -tags realyu_funding_pg ./internal/repository -run TestRealYuTrendPG -count=1 -v",
+    "coverage": [
+      "unified day/hour date boundary and exact sums",
+      "DST repeated hours and calendar days",
+      "scope permissions/range limits/cancellation"
+    ]
+  },
+  "total_root_tests_passed": 15,
+  "completed_at": "2026-10-11T04:04:14.333069+00:00",
+  "independent_frontend_review": {
+    "status": "NO_CONFIRMED_P0_P1",
+    "source_sha256": "efb4b13e7906aa53be6d033557b341910beea8badd1bef450a4ad1af8f030258",
+    "file": "frontend/src/views/user/RealYuUsageView.vue",
+    "line_anchors": {
+      "manageable_open_team_filter": 94,
+      "clear_and_abort": 107,
+      "fresh_team_reload": 111,
+      "explicit_team_and_reply_binding": 126,
+      "no_silent_personal_fallback": 146,
+      "switch_team": 188,
+      "route_back_forward": 194,
+      "unmount": 211
+    },
+    "tests": 34,
+    "passed": 34,
+    "log": "usage-view-independent-direct-20261011T040154683Z.log",
+    "log_sha256": "6cdafa2562994b5b51d4267132ec632e06a38824535add4506d384ffa711bc04",
+    "first_tool_failure": {
+      "log": "usage-view-independent-20261011T040130961Z.log",
+      "cause": "Ambient newer pnpm dependency check attempted automatic install then refused module removal without TTY; no test ran. Existing Vitest entry point used directly; package/lock files unchanged."
+    },
+    "limits": [
+      "Review and component tests do not replace candidate browser acceptance",
+      "No new production team endpoint tests performed"
+    ]
+  }
+}

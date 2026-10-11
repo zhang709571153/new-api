@@ -1,0 +1,23 @@
+{
+  "h1": [
+    "Model pricing"
+  ],
+  "modelsHeading": "H2",
+  "muted": [
+    {
+      "color": "rgb(172, 172, 172)",
+      "text": "One connection. A choice of GPT models."
+    },
+    {
+      "color": "rgb(172, 172, 172)",
+      "text": "Explore the model rates and capabilities."
+    },
+    {
+      "color": "rgb(172, 172, 172)",
+      "text": "Input"
+    }
+  ],
+  "navigation": true,
+  "path": "/pricing",
+  "theme": "dark"
+}

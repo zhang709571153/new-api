@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "status": "CANCELLED_BEFORE_ACTIVATION",
+  "captured_at": "2026-10-11T04:37:57.445178+00:00",
+  "operation_id": "native-ux4-20261011-r1",
+  "old_plan_sha256": "c5760fa4fedf05911edfafa3984f418aefe62389e42208e32d7ed0d81e7654a6",
+  "parent_evidence": {
+    "exec_session_id": 93407,
+    "outcome": "UAC_CANCELLED",
+    "source": "parent reported completed launch result"
+  },
+  "independent_readonly_checks": {
+    "update_receipt_exists": false,
+    "matching_old_activation_shells": 0,
+    "old_plan_hash_unchanged": true
+  },
+  "activation_claimed": false,
+  "production_mutation_by_this_preparation": false,
+  "replacement_operation": "native-ux4-20261011-r2",
+  "limits": [
+    "No service action or UAC was performed by this preparation",
+    "Cancellation of the UAC interaction is parent evidence; local checks confirm no activation receipt or matching activation shell at this observation"
+  ]
+}

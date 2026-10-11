@@ -65,6 +65,7 @@ try {
                     'src/components/modelPlaza/__tests__/PlazaGroupSection.spec.ts'
                     'src/components/modelPlaza/__tests__/ModelPlazaContent.realyu.spec.ts'
                     'src/components/modelPlaza/__tests__/PlazaModelPricingTable.spec.ts'
+                    'src/views/__tests__/ModelPlazaView.layout.spec.ts'
                     'src/views/user/__tests__/SubscriptionsView.loading.spec.ts'
                     'src/utils/__tests__/customerMoney.spec.ts'
                     'src/views/user/__tests__/RealYuTeamsView.spec.ts'

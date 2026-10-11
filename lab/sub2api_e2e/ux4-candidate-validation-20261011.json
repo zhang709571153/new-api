@@ -1,0 +1,810 @@
+{
+  "format": 1,
+  "kind": "realyu-ux4-candidate-validation",
+  "status": "LIVE_SCOPED_ACCEPTED",
+  "recorded_at": "2026-10-11T13:01:39.656342+08:00",
+  "production_release_status": "ACTIVE_SCOPED_ACCEPTANCE_PASS",
+  "active_version_at_review": "realyu-singlecore-v0.2.15-20261011-ux4",
+  "final_artifact_status": "FROZEN_R3_DEPLOYED",
+  "candidate": {
+    "revision": "clean-r3",
+    "status": "DEPLOYED_SCOPED_ACCEPTED",
+    "version": "realyu-singlecore-v0.2.15-20261011-ux4",
+    "source_commit": "7e0215f62539a52a3c7884560152a11599f7fe1e",
+    "source_clean_at_build": true,
+    "binary_vcs_modified": false,
+    "binary_vcs_revision": "7e0215f62539a52a3c7884560152a11599f7fe1e",
+    "binary_runtime_file": "sub2api-ux4-final-r3.exe",
+    "binary_sha256": "1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821",
+    "source_metadata_local_file_sha256_at_review": "4a66dacf2b8b83dc1531f02356ad828bd0774275172fefcfedad2caa8b5ccbaf",
+    "patch_sha256": "b0688d7dea49955fbf0deee0eb2534da1947f625df86493aaa0acc87cbd1058c",
+    "changed_files": 405,
+    "upstream_tag": "v0.2.15",
+    "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+    "build_evidence": {
+      "private_runtime_file": "ux4-final-r3-build.json",
+      "sha256": "60d00ba56481ba75d85e58024045aa8a8fb3965bb8fb691db71376de53870c1b",
+      "vite_exit": 0,
+      "go_build_exit": 0,
+      "typecheck_status": "PASS_REPORTED_BY_BUILD_OWNER",
+      "typecheck_private_runtime_file": "ux4-text-language-typecheck.log",
+      "typecheck_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "reconstruction": {
+      "status": "PASS",
+      "files": 405,
+      "private_runtime_file": "ux4-source-reconstruction-r3.json",
+      "sha256": "8cfdf2d09221959afdbe71b1b79b0c6c796a91c96452b469f3d5b91900379391",
+      "private_runtime_included": false,
+      "checked_at": "2026-10-11T12:38:49.548174+08:00"
+    },
+    "http_evidence": {
+      "status": "PASS",
+      "passed": 85,
+      "total": 85,
+      "baseline_checks": 49,
+      "team_extension_checks": 36,
+      "started_at": "2026-10-11T12:39:55.732254+08:00",
+      "finished_at": "2026-10-11T12:41:02.799771+08:00",
+      "private_runtime_file": "ux4-final-r3-http-e2e/20261011T043952Z-33da149fa6/result.json",
+      "sha256": "de7ae4897d0826cdcd3ae5704f2bcfc83ddbc6c3bcee6a3b2617ea748f761df6",
+      "financial_fingerprint_unchanged": true,
+      "financial_fingerprint_sha256": "2084343393927e66f15a7fa4e35b700e9dd3ac56bcbb39b6176f1e58dfe482e8",
+      "production_modified": false,
+      "paid_model_called": false,
+      "fixtures_modified": false
+    }
+  },
+  "candidate_revisions": [
+    {
+      "revision": "clean-r1",
+      "status": "RETAINED_SUPERSEDED_FOR_DARK_DESCRIPTION_CSS_FIX",
+      "version": "realyu-singlecore-v0.2.15-20261011-ux4",
+      "source_commit": "0c58eaf08dde3a0a96c9f02d0c3f0c7d9e5dc7c6",
+      "source_clean_at_build": true,
+      "binary_vcs_modified": false,
+      "binary_vcs_revision": "0c58eaf08dde3a0a96c9f02d0c3f0c7d9e5dc7c6",
+      "binary_runtime_file": "sub2api-ux4-final.exe",
+      "binary_sha256": "c4f98fe888e14c6c1d836c0deb037fd4f768d546e0b606126d9e8c14f1d9700f",
+      "source_metadata_local_file_sha256_at_review": "2861437b2267975170e311b9af1afbff651ddc61e9eabcb219da62971be86e31",
+      "patch_sha256": "58253f6af1deaa92bed60c4b8f856faf4ded23db0de6b1fc3d7b1875f1ceb55a",
+      "changed_files": 404,
+      "upstream_tag": "v0.2.15",
+      "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+      "build_evidence": {
+        "private_runtime_file": "ux4-final-build.json",
+        "sha256": "88ec7c4ea8375004c729ddc0a04abfb83cb03afe4ea834ff18cbf9c93a97f164",
+        "vite_exit": 0,
+        "go_build_exit": 0
+      },
+      "reconstruction": {
+        "status": "PASS",
+        "files": 404,
+        "private_runtime_file": "ux4-source-reconstruction.json",
+        "sha256": "366a8989eb93406293429f1d0091b1884171f8c853a178b77a42be63fed4b30d",
+        "private_runtime_included": false
+      },
+      "http_evidence": {
+        "status": "PASS",
+        "passed": 85,
+        "total": 85,
+        "baseline_checks": 49,
+        "team_extension_checks": 36,
+        "started_at": "2026-10-11T12:22:33.996517+08:00",
+        "finished_at": "2026-10-11T12:23:41.192767+08:00",
+        "private_runtime_file": "ux4-final-http-e2e/20261011T042230Z-86490507ac/result.json",
+        "sha256": "7cec4038833132e1e11ab041335fbc3e1082a94c83f246c06b4ba62a14a2a37b",
+        "financial_fingerprint_unchanged": true,
+        "financial_fingerprint_sha256": "2084343393927e66f15a7fa4e35b700e9dd3ac56bcbb39b6176f1e58dfe482e8",
+        "production_modified": false,
+        "paid_model_called": false,
+        "fixtures_modified": false
+      }
+    },
+    {
+      "revision": "clean-r2",
+      "status": "RETAINED_SCOPED_PASS_SUPERSEDED_BY_REQUESTED_TEXT_LANGUAGE_UI",
+      "version": "realyu-singlecore-v0.2.15-20261011-ux4",
+      "source_commit": "2309268ca569eac91361f55ecad25a03dbbf25a4",
+      "source_clean_at_build": true,
+      "binary_vcs_modified": false,
+      "binary_vcs_revision": "2309268ca569eac91361f55ecad25a03dbbf25a4",
+      "binary_runtime_file": "sub2api-ux4-final-r2.exe",
+      "binary_sha256": "7467958c9ef4ba8441ee2541c4d04693c873f91934bfef2b717a05e31c387c7b",
+      "source_metadata_local_file_sha256_at_review": "b8a53c553e6a6a52cacbe3dcbbce01d501156359c850b832404548cae25a35f2",
+      "patch_sha256": "e4fc4c9002eca03f96eb663ef09da6b459ab947af678e8c5bb0c79429e5bd933",
+      "changed_files": 404,
+      "upstream_tag": "v0.2.15",
+      "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+      "build_evidence": {
+        "private_runtime_file": "ux4-final-r2-build.json",
+        "sha256": "fc94252fbb520f954c2813c4e1240d56b97999ad9b0461e2e998dd7cdc8d0099",
+        "vite_exit": 0,
+        "go_build_exit": 0
+      },
+      "reconstruction": {
+        "status": "PASS",
+        "files": 404,
+        "private_runtime_file": "ux4-source-reconstruction-r2.json",
+        "sha256": "ab4edb06e56abbb033abe785e187cc9994dfa7872018bcaf4ddf8cf227b4cf78",
+        "private_runtime_included": false
+      },
+      "http_evidence": {
+        "status": "PASS",
+        "passed": 85,
+        "total": 85,
+        "baseline_checks": 49,
+        "team_extension_checks": 36,
+        "started_at": "2026-10-11T12:30:32.156282+08:00",
+        "finished_at": "2026-10-11T12:31:39.520389+08:00",
+        "private_runtime_file": "ux4-final-r2-http-e2e/20261011T043028Z-b0fd9e4a34/result.json",
+        "sha256": "f6cbcbb9c67b6757cd53c525ea1332dcedb5f52be6ab9824109323c4a47e997b",
+        "financial_fingerprint_unchanged": true,
+        "financial_fingerprint_sha256": "2084343393927e66f15a7fa4e35b700e9dd3ac56bcbb39b6176f1e58dfe482e8",
+        "production_modified": false,
+        "paid_model_called": false,
+        "fixtures_modified": false
+      }
+    },
+    {
+      "revision": "clean-r3",
+      "status": "DEPLOYED_SCOPED_ACCEPTED",
+      "version": "realyu-singlecore-v0.2.15-20261011-ux4",
+      "source_commit": "7e0215f62539a52a3c7884560152a11599f7fe1e",
+      "source_clean_at_build": true,
+      "binary_vcs_modified": false,
+      "binary_vcs_revision": "7e0215f62539a52a3c7884560152a11599f7fe1e",
+      "binary_runtime_file": "sub2api-ux4-final-r3.exe",
+      "binary_sha256": "1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821",
+      "source_metadata_local_file_sha256_at_review": "4a66dacf2b8b83dc1531f02356ad828bd0774275172fefcfedad2caa8b5ccbaf",
+      "patch_sha256": "b0688d7dea49955fbf0deee0eb2534da1947f625df86493aaa0acc87cbd1058c",
+      "changed_files": 405,
+      "upstream_tag": "v0.2.15",
+      "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+      "build_evidence": {
+        "private_runtime_file": "ux4-final-r3-build.json",
+        "sha256": "60d00ba56481ba75d85e58024045aa8a8fb3965bb8fb691db71376de53870c1b",
+        "vite_exit": 0,
+        "go_build_exit": 0,
+        "typecheck_status": "PASS_REPORTED_BY_BUILD_OWNER",
+        "typecheck_private_runtime_file": "ux4-text-language-typecheck.log",
+        "typecheck_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reconstruction": {
+        "status": "PASS",
+        "files": 405,
+        "private_runtime_file": "ux4-source-reconstruction-r3.json",
+        "sha256": "8cfdf2d09221959afdbe71b1b79b0c6c796a91c96452b469f3d5b91900379391",
+        "private_runtime_included": false,
+        "checked_at": "2026-10-11T12:38:49.548174+08:00"
+      },
+      "http_evidence": {
+        "status": "PASS",
+        "passed": 85,
+        "total": 85,
+        "baseline_checks": 49,
+        "team_extension_checks": 36,
+        "started_at": "2026-10-11T12:39:55.732254+08:00",
+        "finished_at": "2026-10-11T12:41:02.799771+08:00",
+        "private_runtime_file": "ux4-final-r3-http-e2e/20261011T043952Z-33da149fa6/result.json",
+        "sha256": "de7ae4897d0826cdcd3ae5704f2bcfc83ddbc6c3bcee6a3b2617ea748f761df6",
+        "financial_fingerprint_unchanged": true,
+        "financial_fingerprint_sha256": "2084343393927e66f15a7fa4e35b700e9dd3ac56bcbb39b6176f1e58dfe482e8",
+        "production_modified": false,
+        "paid_model_called": false,
+        "fixtures_modified": false
+      }
+    }
+  ],
+  "scope": {
+    "database_migrations": false,
+    "baseline_migration_count": 300,
+    "baseline_latest_migration": "308_realyu_usage_history.sql",
+    "history_reimport": false,
+    "funding_priority_change": false,
+    "api_key_rotation": false,
+    "payment_merchant_enablement": false,
+    "managed_external_recharge_enabled": false,
+    "production_configuration_changes_by_this_documentation_task": false
+  },
+  "validation": {
+    "frontend_preview_full": {
+      "status": "PASS",
+      "test_files": 89,
+      "tests": 998,
+      "started_at_cst": "2026-10-11 11:58:29",
+      "evidence": {
+        "private_runtime_file": "ux4-20261011T115828-frontend-tests.log",
+        "sha256": "a68b191f8c83f7cc7fa672ab18dfe74163e893a593e62e279a063925914cc905"
+      },
+      "build_evidence": {
+        "private_runtime_file": "ux4-20261011T115828-build.json",
+        "sha256": "c1258461e9d8cd3eee19137edd55fb0233a5bb764ca0eb406d471dce28724253"
+      },
+      "typecheck_exit": 0,
+      "backend_selected_packages": 8,
+      "backend_packages_with_tests": 6,
+      "backend_packages_no_matched_tests": 2,
+      "note": "Preview-phase full run; later targeted changes were not represented as another complete 998-test run."
+    },
+    "frontend_r1_last_touch": {
+      "status": "PASS",
+      "test_files": 3,
+      "tests": 34,
+      "started_at_cst": "2026-10-11 12:18:30",
+      "duration_seconds": 3.19,
+      "evidence": {
+        "private_runtime_file": "ux4-final-touch-frontend.log",
+        "sha256": "4a7c720598139859e31ec6a7c7fc7136b2c1c2409baaec5f6e0fce8f17fc3e57"
+      },
+      "typecheck_status": "PASS_REPORTED_BY_BUILD_OWNER",
+      "typecheck_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "overlaps_full_suite_and_navigation": true
+    },
+    "frontend_navigation": {
+      "status": "PASS",
+      "test_files": 3,
+      "tests": 39,
+      "started_at": "2026-10-11T12:15:18+08:00",
+      "evidence": {
+        "private_runtime_file": "ux4-audit-20261011/navigation-fix-result-r2.json",
+        "sha256": "3c8c658b790edfcc44c1d9c8a5fdd056c3797d243710e5c15613f368a747ce5b"
+      },
+      "note": "The r2 suffix here is the navigation subtask result, not the pending binary r2. Navigation author is not an independent implementation reviewer of those files."
+    },
+    "frontend_targeted": [
+      {
+        "name": "workbench-setup-plans-payment",
+        "tests": 97,
+        "test_files": 5,
+        "status": "PASS",
+        "private_runtime_file": "ux4-root-targeted-tests-20261011-r1.log",
+        "sha256": "f8526691b59e624e46d24867fddd6060b57c6af914278f2bffc864f19cdc44e9"
+      },
+      {
+        "name": "team-view",
+        "tests": 28,
+        "test_files": 1,
+        "status": "PASS",
+        "private_runtime_file": "ux4-team-view-tests-20261011-r1.log",
+        "sha256": "394fb26f7505104627159d21f1cacb8799be225186f7af341da6008bf1c0581f"
+      },
+      {
+        "name": "usage-view-and-locales",
+        "tests": 37,
+        "test_files": 2,
+        "status": "PASS",
+        "usage_tests": 34,
+        "locale_tests": 3,
+        "private_runtime_file": "ux4-usage-view-tests-20261011-r1.log",
+        "sha256": "c89694e3fc18f67986aadff0810fd486605d0102c3cf995e1dbabb692c506b2c"
+      }
+    ],
+    "counts_are_not_additive": true,
+    "postgres": {
+      "status": "PASS",
+      "real_isolated_pg_test_roots": 15,
+      "history_and_handler_roots": 12,
+      "additional_existing_trend_roots": 3,
+      "evidence": {
+        "private_runtime_file": "ux4-audit-20261011/backend-team-scope-result-r2.json",
+        "sha256": "eabf535ac9b586ed68ea277738918d26c330215943458074df567fcc122e34e2"
+      },
+      "history_log_sha256": "14dc9b8089068c3c6a2c19905856925331d0270a1790b5bef597760c5cb454bc",
+      "trend_log_sha256": "8a859d33010fd4eef587cf5f678cf2ec6b2afc8c18913a638bc60f4f769e649a",
+      "production_write": false,
+      "race_detector_run": false,
+      "coverage": [
+        "Current active viewer and exact open-team CanManage authorization in one read-only repeatable-read transaction",
+        "Members denied full-team scope; own self scope retained",
+        "Cross-team isolation, live role revocation, owner transfer, disabled viewer and closed team",
+        "Page-independent full-filter sums, unified native and archived facts, known versus NULL cache",
+        "Day/hour, DST repeated hours, limits and cancellation",
+        "Financial, key and usage fingerprints unchanged by reads"
+      ]
+    },
+    "independent_usage_review": {
+      "status": "NO_CONFIRMED_P0_P1_IN_REVIEWED_SCOPE",
+      "component_tests": 34,
+      "overlaps_usage_suite": true,
+      "evidence": {
+        "private_runtime_file": "ux4-audit-20261011/usage-view-independent-direct-20261011T040154683Z.log",
+        "sha256": "6cdafa2562994b5b51d4267132ec632e06a38824535add4506d384ffa711bc04"
+      }
+    },
+    "browser_and_visual": {
+      "status": "SCOPED_CANDIDATE_PASS_WITH_OPEN_MOBILE_P2",
+      "executed_by": "Root CUA; independent reviewer inspected saved screenshots",
+      "production_browser": false,
+      "screenshot_runtime_files": [
+        "12-after-workbench-mobile-zh.jpg",
+        "15-after-owner-team-calls-zh.jpg",
+        "16-after-team-hierarchy-zh.jpg",
+        "17c-after-team-mobile-en-settled.jpg",
+        "18-after-team-mobile-en-horizontal.jpg",
+        "19-after-plans-mobile-en.jpg",
+        "20-final-model-catalog-mobile-en-dark.jpg",
+        "21b-final-pricing-desktop-zh-dark.jpg",
+        "22-final-plans-desktop-zh-dark.jpg",
+        "24-final-r2-pricing-en-dark.jpg"
+      ],
+      "review": {
+        "private_runtime_file": "ux4-audit-20261011/independent-review.md",
+        "sha256_at_review": "3c9e4afb9e2c9decec0cc9b44709e76a796c1b97f36c7c78f1251097d7737a4f"
+      },
+      "observed": [
+        "Own workbench setup precedes cumulative metrics; weekly allowance and PAYGO remain separate",
+        "Owner team usage shows server totals and separate ID/nickname columns",
+        "English mobile horizontal table keeps nickname sticky; root DOM width 382 within 390 viewport",
+        "Logged-in model shell retained; r1 heading 24px with one h1",
+        "r1 Chinese dark plans PAYGO bar approximately 66.7px high"
+      ],
+      "open_p2": "English former-member status crowds long nickname; initial fixed identity/actions consume much of viewport and weekly cap needs internal horizontal scroll.",
+      "limits": [
+        "Screenshots span preview, clean-r1 and final clean-r2; r2 specifically rechecks the corrected dark description.",
+        "17/17b are transitional; settled 17c/18 used",
+        "14 predates title correction; 19 predates PAYGO bar compression",
+        "No assertion covering every role/theme/locale/device/keyboard/screen-reader combination"
+      ],
+      "resolved_r1_issue": {
+        "description": "Scoped dark description selector did not match in r1; CSS-only r2 fixed it.",
+        "status": "PASS_ACTUAL_CUA_AND_DOM",
+        "evidence": {
+          "private_runtime_file": "ux4-audit-20261011/pricing-dark-final-r2-dom.json",
+          "sha256": "89e969864e2b2a9e21d25d139498d8f194734653fa05f97a373cc2e25a39488a"
+        },
+        "one_h1": true,
+        "model_heading": "H2",
+        "muted_color": "rgb(172, 172, 172)",
+        "navigation_present": true
+      }
+    }
+  },
+  "readonly_summary_diagnosis": {
+    "captured_at": "2026-10-11T03:46:54.067524+00:00",
+    "scope": "authenticated administrator's own self usage",
+    "self_today_requests": 0,
+    "self_today_total_tokens": 0,
+    "self_all_time_requests": 1343,
+    "self_all_time_total_tokens": 112446830,
+    "legacy_archive_complete": true,
+    "platform_today_requests": 716,
+    "evidence": {
+      "private_runtime_file": "ux4-audit-20261011/admin-summary-20261011T034654Z-ddfb76eb.json",
+      "sha256": "0db03d0fa7c47453cc0046600dc0593984327bc6c709b4a1e59ad4710f39b9db"
+    },
+    "inference": "Own today-zero is not evidence of global inactivity or lost historical records; default period changed to all_time without changing source data."
+  },
+  "backup": {
+    "status": "PASS",
+    "source_production_read_only": true,
+    "restore_isolated_only": true,
+    "captured_at": "2026-10-11T03:55:31.245342Z",
+    "restore_verified_at": "2026-10-11T03:55:36.428891Z",
+    "tables": 127,
+    "rows": 92838,
+    "migrations": 300,
+    "latest_migration": "308_realyu_usage_history.sql",
+    "all_table_hashes_match": true,
+    "schema_sha256": "4b27ba25c1ab6cc6d44107715fa33733fa2ebe9f7055ff91b7be24b8983f4662",
+    "schema_hash_method": "canonical-catalog-v2-live-column-order-literal-array-coercion-excludes-ownership-acl-sequence-current-value",
+    "dump_sha256": "bf53fd56e4bb2ab6340e71bae7259357d0815e91d7a7bba5b153958724cf95d9",
+    "dump_bytes": 5144842,
+    "schema_dump_sha256": "a84e5670c1d95ee0dce53b4b25141aed7e54ba4fced7d6a653f14e838f60e3ee",
+    "summary_evidence": {
+      "private_runtime_file": "production-pg-backup308-ux4-20261011/20261011T035529Z_f5e3d76f4d/summary.redacted.json",
+      "sha256": "252e762a0174f35164537cdfaef7ea4ff6bacdd6bdbaa440487b2fe24eb4e18b"
+    },
+    "limitations": [
+      "Logical consistent snapshot, not PITR",
+      "No ordinary release may restore this snapshot over later financial writes",
+      "Schema catalogue hash is not schema_dump file hash and excludes ownership/ACL/sequence current value"
+    ]
+  },
+  "preserved_first_failures": [
+    {
+      "phase": "isolated-pg",
+      "file": "ux4-audit-20261011/team-scope-go-20261011T035034Z.log",
+      "cause": "New fixture expected legacy role10 to be unprivileged; existing hierarchy authorizes that fixture. Expectation corrected without widening permissions."
+    },
+    {
+      "phase": "independent-component-test-tool",
+      "file": "ux4-audit-20261011/usage-view-independent-20261011T040130961Z.log",
+      "cause": "Ambient newer pnpm dependency self-check stopped without TTY before tests; existing runner then passed without dependency or lock change."
+    },
+    {
+      "phase": "private-plan-review",
+      "file": "ux4-audit-20261011/prepare-wrapper-red-proof-20261011.log",
+      "cause": "Two stale Activate-Ux3 wrapper literals detected and corrected to Ux4 before sealing a plan."
+    },
+    {
+      "phase": "preview-http",
+      "file": "ux4-http-e2e/20261011T041031Z-07b7034daf/result.json",
+      "sha256": "7bc29dcbe47fe7df1ea5054f594daf64526c9015cc7cd2ceed6f53601002e966",
+      "passed": 81,
+      "total": 85,
+      "cause": "Four HTTP 429 heavy-query rate limits occurred before invalid-parameter parsing.",
+      "resolution": "Server limit unchanged; runner paced at most 40 authenticated requests per role per 61 seconds with no failed-request retry."
+    },
+    {
+      "phase": "preview-http-extension-recheck",
+      "file": "ux4-http-e2e/20261011T041343Z-extension-e45a14e7/result.json",
+      "sha256": "5193eb59a9bfcf84015bfee5d0200ba1c18ee5c60289b717969e7e9cd5e3eae4",
+      "executed": 36,
+      "passed": 36,
+      "reused_baseline": 49,
+      "note": "Not a second complete 85-check execution."
+    },
+    {
+      "phase": "clean-r1-http-preflight",
+      "file": "ux4-final-http-e2e/20261011T042106Z-dfcec92b3c/blocked.json",
+      "sha256": "b108d40340de775279389acf5ac8a7fe8646125d02ed180b2d6c2ab23718f7d8",
+      "cause": "REVIEWED_RECEIPTS_REQUIRED; preserved separately from later complete successful operation."
+    },
+    {
+      "phase": "candidate-fixture-setting-tool",
+      "file": "ux4-audit-20261011/model-plaza-fixture-first-failure.json",
+      "cause": "Default Python lacked psycopg; import failed before network or writes. Existing venv used; only isolated fixture model_plaza_enabled changed."
+    },
+    {
+      "phase": "clean-r1-browser",
+      "file": "ux4-audit-20261011/21b-final-pricing-desktop-zh-dark.jpg",
+      "cause": "Scoped dark description selector did not match in r1; r2 CSS-only correction subsequently passed actual CUA and DOM checks.",
+      "resolution": "CSS-only clean-r2 correction verified by actual CUA screenshot and DOM evidence; first screenshot retained."
+    }
+  ],
+  "pending": [
+    "Delivery repository manifest verification, commit and push by root; no further production execution required by this report"
+  ],
+  "not_claimed": [
+    "No ordinary-user live login/403 test in this production acceptance",
+    "No real merchant payment or managed external PAYGO enablement",
+    "No newly repeated PDF/web-search/image/client-install acceptance",
+    "No all-device or all-role visual guarantee",
+    "No long-term stability or SLA guarantee"
+  ],
+  "credential_policy": "No credentials, private env/plan/receipt bodies, customer rows, production screenshots or database contents are included.",
+  "release_preparation": {
+    "status": "ACTIVE",
+    "operation_id": "native-ux4-20261011-r2",
+    "private_operation_directory": "production-ux4-update-20261011-r2",
+    "plan_sha256": "9ddb8cb60adad4bf9793dedba632051260fb7bed99a3d0c951ad9f7e39271d61",
+    "wrapper_sha256": "81030fa924675d0be93464896300a119228213baf1d423b194e508b0e37fe645",
+    "verified_files": 721,
+    "migration_count": 300,
+    "database_migrations": false,
+    "drain_seconds": 30,
+    "idle_in_both_samples": true,
+    "active_receipt_confirmed": true,
+    "evidence": {
+      "private_runtime_file": "production-ux4-update-20261011-r2/preflight.redacted.json",
+      "sha256": "a6b26ad08e9355fb7e35a33f73647be58bb0ebc94d3ebdc72951c7bfd767fa5e"
+    },
+    "limitation": "Completed plan must not be replayed; preflight sampling was not a reservation of a maintenance window."
+  },
+  "delivery_public_verifier": {
+    "copied_as_utf8_lf": true,
+    "verifier_file": "lab/sub2api_e2e/verify_ux4_public_20261011.py",
+    "verifier_sha256": "01dd26690ecab561c97871eeba1f7330470f3c8f3f28ba973d8d05d6aedbab5a",
+    "test_file": "lab/sub2api_e2e/test_verify_ux4_public_20261011.py",
+    "test_sha256": "e1fe57a4a2d552a172154b1b8a80c1a3c8fb5b81b793d94cb0bf20a1a87fb5eb",
+    "offline_tests": 11,
+    "offline_tests_passed": 11,
+    "separate_log_file": false,
+    "evidence": "Successful local unittest tool output; no network or private-file access in default invocation.",
+    "production_run_by_documentation_task": false,
+    "limits": [
+      "Fixed current-host paths require reviewed adaptation before another-machine use",
+      "Explicit --released and reviewed binary SHA required",
+      "Only existing administrator credentials; ordinary-user live login not manufactured",
+      "No model, payment or configuration writes; native login may update authentication/session metadata"
+    ]
+  },
+  "release_preparation_history": [
+    {
+      "status": "UAC_USER_CANCELLED_NOT_STARTED_SUPERSEDED_DO_NOT_EXECUTE",
+      "operation_id": "native-ux4-20261011-r1",
+      "private_operation_directory": "production-ux4-update-20261011-r1",
+      "plan_sha256": "c5760fa4fedf05911edfafa3984f418aefe62389e42208e32d7ed0d81e7654a6",
+      "wrapper_sha256": "b979cc5781a2ab89b700884e521919b19a038e665a0646aa1f9f8438f51dee30",
+      "verified_files": 720,
+      "migration_count": 300,
+      "database_migrations": false,
+      "drain_seconds": 30,
+      "idle_in_both_samples": true,
+      "active_receipt_confirmed": false,
+      "evidence": {
+        "private_runtime_file": "production-ux4-update-20261011-r1/preflight.redacted.json",
+        "sha256": "0ca05870c3e2ad2f6845d1df50193c5f0265ec10460f4b15c62f33bdd6ce4ce0"
+      },
+      "limitation": "Original pins and evidence retained; no update receipt. New text-language requirement requires a new operation and artifact identity. Do not execute or overwrite this superseded plan.",
+      "update_receipt_exists": false,
+      "production_version_after_cancellation": "realyu-singlecore-v0.2.15-20261011-ux3"
+    }
+  ],
+  "additional_requirement": {
+    "description": "All existing locale controls display plain Chinese / English text rather than flag emoji.",
+    "source_scope": "Central LocaleSwitcher template only",
+    "new_language_added": false,
+    "business_logic_changed": false,
+    "state": "PASS_CANDIDATE_ACTUAL_ZH_EN_SWITCH_AND_PRODUCTION_ZH_BUTTON",
+    "candidate_screenshot": "ux4-audit-20261011/25-final-r3-language-mobile-zh.jpg",
+    "root_width": 382,
+    "viewport_width": 390
+  },
+  "active_version": "realyu-singlecore-v0.2.15-20261011-ux4",
+  "production_release": {
+    "status": "ACTIVE",
+    "operation_id": "native-ux4-20261011-r2",
+    "active_at": "2026-10-11T12:44:28.612069+08:00",
+    "draining_unix": 1791693831.0214913,
+    "active_unix": 1791693868.6120696,
+    "maintenance_seconds": 37.5905783,
+    "database_restored": false,
+    "old_legacy_services_started": false,
+    "migration_count": 300,
+    "proxy_change": false,
+    "evidence": {
+      "private_runtime_file": "production-ux4-update-20261011-r2/update-receipt.json",
+      "sha256": "3ac8d29af192999ec614095ced3b172996d807445a1ab4c54b45f7906f3e3f13"
+    }
+  },
+  "production_acceptance": {
+    "status": "LIVE_SCOPED_ACCEPTED",
+    "http": {
+      "status": "PASS",
+      "checks_passed": 47,
+      "checks_total": 47,
+      "http_requests": 82,
+      "started_at": "2026-10-11T12:44:55.543853+08:00",
+      "finished_at": "2026-10-11T12:46:22.727637+08:00",
+      "evidence": {
+        "private_runtime_file": "ux4-production-readonly/20261011T044455Z-3bb7cb2058/result.json",
+        "sha256": "47f8d1333a8f530c2b056864e71925545d1a262c55f4148ee3ff47836c4c2f3a"
+      },
+      "actual_admin_team_history_summary_trend": true,
+      "ordinary_user_live_login_authorization": "NOT_RUN_NO_EXISTING_CREDENTIALS",
+      "configuration_or_financial_mutation": false,
+      "customer_rows_or_credentials_exported": false,
+      "limits": [
+        "Native login can update authentication timestamps/session cache",
+        "Fixed historical window can be affected by late settlements; failures are retained, not silently retried"
+      ]
+    },
+    "protocol": {
+      "status": "PASS",
+      "streaming_responses": 1,
+      "same_socket_websocket_turns": 2,
+      "websocket_connections": 1,
+      "model_requests": 3,
+      "automatic_retries": 0,
+      "sse_seconds": 4.672,
+      "websocket_case_seconds": 5.078,
+      "finished_at": "2026-10-11T12:45:06.280972+08:00",
+      "evidence": {
+        "private_runtime_file": "production-ux4-protocol-20261011/summary.json",
+        "sha256": "b9afd07961c8645651fc308af86314c67dd0b6f7e09023a5eda47c8c5e23375c"
+      }
+    },
+    "funding": {
+      "status": "PASS",
+      "usage_rows": 3,
+      "settled_requests": 3,
+      "billing_dedup_rows": 3,
+      "window_reserved_rows": 0,
+      "total_funding_quota": 226,
+      "total_actual_cost_usd": "0.0004520000",
+      "transaction_read_only": true,
+      "production_writes": 0,
+      "evidence": {
+        "private_runtime_file": "ux4-protocol-funding-audit/20261011T044604Z-1b1ff5ac34/result.json",
+        "sha256": "d8d469c6ef7c48ac73b8872fbeb100788b3d9ba2150c54d696fc2133c046a8b2"
+      },
+      "limitations": [
+        "Read-only post-request consistency check, not independent pre/post wallet snapshots",
+        "No direct response_id foreign key; documented correlation requires a unique match",
+        "Reserved count applies only to the acceptance key and fixed window, not all customer traffic"
+      ]
+    },
+    "browser": {
+      "status": "PASS_SCOPED_VISUAL_ACCEPTANCE",
+      "checks_passed": 9,
+      "checks_total": 9,
+      "recorded_at_utc": "2026-10-11T04:56:30.332308+00:00",
+      "evidence": {
+        "delivery_file": "ux4-production-browser-20261011.json",
+        "delivery_sha256": "5beb89713e9645797a29c393b1b740172d5069c055e865a3f20569e98fee8794"
+      },
+      "new_login_form_test": false,
+      "existing_admin_session_reused": true,
+      "ordinary_user_login_test": false,
+      "desktop_viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "mobile_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "observed": [
+        "workspace-top-setup-and-all-time-default",
+        "workspace-cny-balance-and-hierarchy",
+        "language-text-english-chinese",
+        "pricing-desktop-preserves-navigation",
+        "plans-six-real-offers-blue-neutral",
+        "paygo-entry-visible-disabled-by-current-merchant-state",
+        "mobile-english-dark-pricing",
+        "mobile-pricing-navigation-open",
+        "browser-cleanup"
+      ],
+      "production_screenshots_in_git": false,
+      "limitations": [
+        "Screenshots contain real account data and remain private; masked in a filename is not a public-data guarantee.",
+        "Production browser verification is one existing administrator session, not all roles or physical mobile devices.",
+        "Candidate browser and API evidence cover owner/member authorization and team typography; production readonly API separately checks real manageable teams.",
+        "No actual purchase, recharge, API-key reveal or installer execution in this production browser pass.",
+        "Candidate English mobile team tables still require horizontal scrolling; long names with former-member state can truncate (P2)."
+      ]
+    },
+    "observation": {
+      "status": "PASS",
+      "evidence": {
+        "delivery_file": "ux4-production-observation-20261011.json",
+        "delivery_sha256": "9f9142a979015e93f77d77977deeeb7f0b6bcecc20ce4892af31eb16713cb613"
+      },
+      "new_persistent_probes": false,
+      "active_at": "2026-10-11T04:44:28.612070+00:00",
+      "last_saved_sample": "2026-10-11T04:55:09.608636+00:00",
+      "read_at": "2026-10-11T04:55:15.559870+00:00",
+      "last_sample_age_seconds_at_read": 5.951,
+      "observed_post_active_seconds": 640.997,
+      "targets": {
+        "public-direct": {
+          "samples": 65,
+          "healthy": 65,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "public-via-local-proxy": {
+          "samples": 65,
+          "healthy": 65,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "backend": {
+          "samples": 65,
+          "healthy": 65,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "bridge": {
+          "samples": 65,
+          "healthy": 65,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "tunnel-primary": {
+          "samples": 65,
+          "healthy": 65,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        },
+        "tunnel-replica": {
+          "samples": 65,
+          "healthy": 65,
+          "failed": 0,
+          "max_sample_gap_seconds": 10.014,
+          "healthy_percent": 100.0
+        }
+      },
+      "planned_maintenance_failure_samples": 10,
+      "planned_maintenance_http_503_samples": 9,
+      "planned_maintenance_backend_connect_failure_samples": 1,
+      "post_active_failures": [],
+      "latest_tunnels": {
+        "tunnel-primary": {
+          "connected": 4,
+          "ha_connections": 4.0,
+          "counter_deltas": {
+            "cloudflared_tunnel_request_errors": 0,
+            "cloudflared_tunnel_response_by_code": 10.0,
+            "cloudflared_tunnel_total_requests": 10.0,
+            "cloudflared_tunnel_tunnel_register_success": 0
+          },
+          "counter_reset_or_initial_sample": false
+        },
+        "tunnel-replica": {
+          "connected": 4,
+          "ha_connections": 4.0,
+          "counter_deltas": {
+            "cloudflared_tunnel_request_errors": 0,
+            "cloudflared_tunnel_response_by_code": 0,
+            "cloudflared_tunnel_total_requests": 0,
+            "cloudflared_tunnel_tunnel_register_success": 0
+          },
+          "counter_reset_or_initial_sample": false
+        }
+      },
+      "proxy_sample_transport": {
+        "remote_ip": "127.0.0.1",
+        "remote_port": 17897,
+        "proxy_used": 1,
+        "http_connect": 200,
+        "size_download": 154
+      },
+      "limitations": [
+        "Health contract sampling only; independent protocol evidence records real inference.",
+        "Not continuous request coverage, long-term stability or an SLA.",
+        "Sample timestamps cannot establish exact user outage duration; the maintenance gate receipt is separate.",
+        "This release does not re-certify all outbound node routing or bandwidth."
+      ]
+    }
+  },
+  "prior_active_version_before_deployment": "realyu-singlecore-v0.2.15-20261011-ux3",
+  "delivery_evidence": {
+    "ux4-final-r3-build.json": {
+      "delivery_file": "ux4-final-r3-build.json",
+      "delivery_sha256": "97280fe1a800c7e041b419925418058bef906a0cfddba1b4167d7551ad9272d9"
+    },
+    "ux4-source-reconstruction-r3.json": {
+      "delivery_file": "ux4-source-reconstruction-r3.json",
+      "delivery_sha256": "e1e9b65b3de7fd8cd3172116b66fe06e49824589d818d42b8f29431c69b27772"
+    },
+    "ux4-final-r3-http-20261011.json": {
+      "delivery_file": "ux4-final-r3-http-20261011.json",
+      "delivery_sha256": "164960e95c09a3dcd169ff7b3c9dcbf62928b66b3e946532807538b408121c1f"
+    },
+    "ux4-production-preflight-20261011.json": {
+      "delivery_file": "ux4-production-preflight-20261011.json",
+      "delivery_sha256": "a6b26ad08e9355fb7e35a33f73647be58bb0ebc94d3ebdc72951c7bfd767fa5e"
+    },
+    "ux4-production-activation-20261011.json": {
+      "delivery_file": "ux4-production-activation-20261011.json",
+      "delivery_sha256": "c81d09bc601ba43c8bbd819c4323da973af323c2e94065a121ebfbe6cd0fd40f"
+    },
+    "ux4-production-readonly-20261011.json": {
+      "delivery_file": "ux4-production-readonly-20261011.json",
+      "delivery_sha256": "dda43e789bccd5396f8604566e5144e8b1cce5521a47e46a14a494110e8d195c"
+    },
+    "ux4-production-protocol-20261011.json": {
+      "delivery_file": "ux4-production-protocol-20261011.json",
+      "delivery_sha256": "1cd4a3f19c377ab40ba6292fa2532bfad832a2370aa198d270c6d829734160e0"
+    },
+    "ux4-production-protocol-funding-20261011.json": {
+      "delivery_file": "ux4-production-protocol-funding-20261011.json",
+      "delivery_sha256": "779cc0d0232c4b34195137753c726aea7c83b3531d6a9a6c2211ec8102ea4e6a"
+    },
+    "ux4-production-browser-20261011.json": {
+      "delivery_file": "ux4-production-browser-20261011.json",
+      "delivery_sha256": "5beb89713e9645797a29c393b1b740172d5069c055e865a3f20569e98fee8794"
+    },
+    "ux4-production-observation-20261011.json": {
+      "delivery_file": "ux4-production-observation-20261011.json",
+      "delivery_sha256": "9f9142a979015e93f77d77977deeeb7f0b6bcecc20ce4892af31eb16713cb613"
+    }
+  },
+  "final_independent_release_review": {
+    "status": "PASS_WITH_SCOPED_LIMITATIONS",
+    "reviewer": "migration_audit",
+    "confirmed_release_blocking_p0_p1": [],
+    "summary": "Candidate 85/85, production 47/47 with 82 HTTP requests, and three independent settled/dedup records agree; six reviewed production JSON contain no credentials, JWT or customer rows; five production screenshots were not exported.",
+    "scope": "Evidence and delivery review; not a new production request, all-code security audit or all-roles browser matrix."
+  },
+  "candidate_cleanup": {
+    "port": 29481,
+    "status": "STOPPED_OWNED_PROCESS_ONLY",
+    "reported_by": "root",
+    "identity_checks": [
+      "PID",
+      "process_start_time",
+      "exe_sha256",
+      "listener_port"
+    ],
+    "production_changed": false
+  }
+}

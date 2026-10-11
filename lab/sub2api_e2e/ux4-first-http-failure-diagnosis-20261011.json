@@ -1,0 +1,33 @@
+{
+  "captured_at": "2026-10-11T04:14:08.391671+00:00",
+  "first_result_preserved": true,
+  "first_run": {
+    "total": 85,
+    "pass": 81,
+    "baseline_pass": 49,
+    "extension_fail": 4
+  },
+  "cause": "Candidate panel heavy-query rate limit: four HTTP 429 replies before invalid parameter parsing",
+  "observed_statuses": [
+    429,
+    429,
+    429,
+    429
+  ],
+  "log_times_local": [
+    "2026-10-11T12:10:45.298+08:00",
+    "2026-10-11T12:10:45.376+08:00",
+    "2026-10-11T12:10:45.436+08:00",
+    "2026-10-11T12:10:45.499+08:00"
+  ],
+  "server_limit_changed": false,
+  "runner_change": "At most 40 authenticated requests per role in any 61-second window; no failed-request retry",
+  "unit_tests": {
+    "passed": 8,
+    "total": 8
+  },
+  "files": {
+    "ux4_usage_http_e2e.py": "0c9a9dbf359d724fe0e987b2c0ea96e1275ec6362c0ec217a93ab5ea3f4dacd0",
+    "test_ux4_usage_http_e2e.py": "9d30869df2f63ff181fe3cacd41704fbdcbd72829d2009ab916b5acaae0c6299"
+  }
+}

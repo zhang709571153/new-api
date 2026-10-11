@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "phase": "UX4 model navigation plus compiled scoped dark CSS regression",
+  "command": "corepack pnpm@9.15.9 exec vitest run src/components/realyu/public/__tests__/RealYuHomeModels.spec.ts src/components/realyu/public/__tests__/RealYuPublicViews.spec.ts src/views/__tests__/ModelPlazaView.layout.spec.ts",
+  "working_directory": "C:\\srv\\realyu-singlecore-dev\\source\\frontend",
+  "test_start": "2026-10-11T12:28:35+08:00",
+  "test_files": 3,
+  "tests_passed": 40,
+  "tests_failed": 0,
+  "duration_seconds": 2.59,
+  "diff_check_exit_code": 0,
+  "files": {
+    "frontend/src/views/RealYuHomeView.vue": "837f1ebd61fbf4116191e29f9ad01504fb384cb537a92a585cdcb41ff8308c97",
+    "frontend/src/views/ModelPlazaView.vue": "005d88132ec632d607a48afda4b344800076e8c0de9780e2ba40ddac2d7c16cb",
+    "frontend/src/components/realyu/public/RealYuHomeModels.vue": "bdd60d9cf4ad92abe2bb28cdd2aebce953ab8f4c624843f64ce5786cda7b59f2",
+    "frontend/src/components/realyu/public/__tests__/RealYuPublicViews.spec.ts": "50e9c7f1e5d9179f8283a0dfde5e0307a5e4f989acfb364ede1369ccdab3be01",
+    "frontend/src/components/realyu/public/__tests__/RealYuHomeModels.spec.ts": "acda9d1970b701901952be550b9a62baa09a9d8ffc25d15fad6fbc45d1d2af65",
+    "frontend/src/views/__tests__/ModelPlazaView.layout.spec.ts": "c4d25be1b84a1b432ded82d4c333c5c369bc6f1ff5fa25740dcd8f67411f7046"
+  },
+  "production_settings_read_only_observation": {
+    "model_plaza_enabled": true
+  },
+  "candidate_settings_before": false,
+  "candidate_setting_receipt": "model-plaza-fixture-setting-receipt.json",
+  "production_modified": false,
+  "committed": false,
+  "supersedes": "navigation-fix-result-r2.json",
+  "limits": [
+    "Component/router tests, not browser acceptance",
+    "Model navigation code is implemented by this reviewer and excluded from independent implementation review"
+  ],
+  "first_failure": {
+    "log": "pricing-dark-css-red.log",
+    "test_start": "2026-10-11T12:26:10+08:00",
+    "passed": 12,
+    "failed": 1,
+    "reason": "Old compiled dark rule did not match the pricing surface"
+  },
+  "green_log": "pricing-dark-css-green.log",
+  "compiled_css_proof": "pricing-dark-compiled-css-proof.json"
+}

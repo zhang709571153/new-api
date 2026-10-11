@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "target": "https://api.realyu.fun/v1",
+  "expected_version": "realyu-singlecore-v0.2.15-20261011-ux4",
+  "proxy": "http://127.0.0.1:17897",
+  "trust_ambient_proxy": false,
+  "tls_verification": true,
+  "dependencies": {
+    "httpx": "0.28.1",
+    "websockets": "17.2"
+  },
+  "maximum_model_requests": 3,
+  "automatic_retries": 0,
+  "model": "gpt-5.6-sol",
+  "started_at": "2026-10-11T04:44:56.102552+00:00",
+  "model_requests_attempted": 3,
+  "seconds": 10.171,
+  "source_summary_sha256": "b9afd07961c8645651fc308af86314c67dd0b6f7e09023a5eda47c8c5e23375c",
+  "cases": [
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "seconds": 4.672
+    },
+    {
+      "name": "websocket",
+      "status": "PASS",
+      "seconds": 5.078
+    }
+  ],
+  "requests": [
+    {
+      "name": "public-status-gate",
+      "status": "PASS",
+      "http_status": 200,
+      "cf_ray": "a48b3665386a5f93-SIN",
+      "seconds": 0.343,
+      "bytes": 154,
+      "body_complete": true,
+      "request_id_sha256": "0d9531561c0d5fbc16ad36f8ab2973520265bbada85163aa48b093d0a13749a8",
+      "probe_id_sha256": "1cbe68e2066cb04da0fbb2d468d2c3d81c82a8536f675039cf515b88e4817c09"
+    },
+    {
+      "name": "responses-stream",
+      "status": "PASS",
+      "http_status": 200,
+      "cf_ray": "a48b3666a9f75f93-SIN",
+      "seconds": 4.672,
+      "bytes": 75459,
+      "body_complete": true,
+      "completion_status": "completed",
+      "response_model": "gpt-5.6-sol",
+      "events": 21,
+      "delta_characters": 26,
+      "delta_final_consistent": true,
+      "completed_items_preserved": true,
+      "request_id_sha256": "cd3aec0e037dbe1208a1c329f458a1aaec1f1003b5454db1725613b2a3e33551",
+      "response_id_sha256": "ef1c3bd7eb239ea1fb703a2e6dbd23e0b348a31b5a47a5459b72b1f0e26d3935",
+      "probe_id_sha256": "dcf18ae4f389194d2d4c9b89b375ab7a9b6ece850484f6830c58749e17fc3c72",
+      "usage": {
+        "input_tokens": 4409,
+        "output_tokens": 17,
+        "total_tokens": 4426,
+        "input_tokens_details": {
+          "cached_tokens": 4224,
+          "cache_write_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      }
+    },
+    {
+      "name": "websocket-turn-1",
+      "status": "PASS",
+      "http_status": 101,
+      "cf_ray": "a48b36856c3d9d6f-SIN",
+      "seconds": 2.359,
+      "bytes": 8900,
+      "completion_status": "completed",
+      "response_model": "gpt-5.6-sol",
+      "events": 12,
+      "delta_characters": 3,
+      "delta_final_consistent": true,
+      "completed_items_preserved": true,
+      "request_id_sha256": "88533ba609fcc88aa9017d04eea25fb644cedb03d016650301089b4e16378b31",
+      "response_id_sha256": "c7f02facc6828ed00a1174db786d99ad1158b2ebf1eccc78f3dba84fdce0243e",
+      "probe_id_sha256": "fd6b254cce2e7a00e532baf95a007b6a7771fc3475151c965a32f4131c677765",
+      "usage": {
+        "input_tokens": 30,
+        "output_tokens": 5,
+        "total_tokens": 35,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      }
+    },
+    {
+      "name": "websocket-turn-2",
+      "status": "PASS",
+      "http_status": 101,
+      "cf_ray": "a48b36856c3d9d6f-SIN",
+      "seconds": 2.078,
+      "bytes": 13992,
+      "completion_status": "completed",
+      "response_model": "gpt-5.6-sol",
+      "events": 28,
+      "delta_characters": 28,
+      "delta_final_consistent": true,
+      "completed_items_preserved": true,
+      "request_id_sha256": "88533ba609fcc88aa9017d04eea25fb644cedb03d016650301089b4e16378b31",
+      "response_id_sha256": "9af707c3798207bb764d4474735c46c053fbdbffaa58fb1e549b24bdcbc782be",
+      "probe_id_sha256": "fd6b254cce2e7a00e532baf95a007b6a7771fc3475151c965a32f4131c677765",
+      "usage": {
+        "input_tokens": 51,
+        "output_tokens": 21,
+        "total_tokens": 72,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      }
+    }
+  ],
+  "ledger_reconciliation": "PASS; see ux4-production-protocol-funding-20261011.json",
+  "limitations": [
+    "One SSE request and two turns on one WebSocket only.",
+    "PDF, search, image tools and installed desktop clients were not rerun for this UX release.",
+    "No raw response text, prompts or authorization credentials exported."
+  ]
+}

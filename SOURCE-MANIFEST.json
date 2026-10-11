@@ -287,9 +287,9 @@
     },
     {
       "path": "DEVLOG.md",
-      "sha256": "7b3a854e9e76ef591983c09ddba7da311f568710873d5edb14f55eaa2e90bdf6",
-      "source_sha256": "7b3a854e9e76ef591983c09ddba7da311f568710873d5edb14f55eaa2e90bdf6",
-      "bytes": 39622,
+      "sha256": "a7e36f10b7b3ee48643bf3aad7d0032226667c6120c74afdcc9f2d67797849eb",
+      "source_sha256": "a7e36f10b7b3ee48643bf3aad7d0032226667c6120c74afdcc9f2d67797849eb",
+      "bytes": 42369,
       "git_mode": "100644",
       "source_path": "DEVLOG.md"
     },
@@ -311,9 +311,9 @@
     },
     {
       "path": "HANDOFF-SUB2API.md",
-      "sha256": "bc04f97d303fa9105bb73fdc67d0a9fa5be5ef9fe00c883da71b72822792f6d8",
-      "source_sha256": "bc04f97d303fa9105bb73fdc67d0a9fa5be5ef9fe00c883da71b72822792f6d8",
-      "bytes": 19869,
+      "sha256": "77aff43d8cb59baa96baef0008ec24a14ce1e8ed475a58feb452794c25ed4321",
+      "source_sha256": "77aff43d8cb59baa96baef0008ec24a14ce1e8ed475a58feb452794c25ed4321",
+      "bytes": 21951,
       "git_mode": "100644",
       "source_path": "HANDOFF-SUB2API.md"
     },
@@ -327,9 +327,9 @@
     },
     {
       "path": "LIVE-DEPLOYMENT.md",
-      "sha256": "96df45daf2137c1677618c33d82ed4efc956ac71af7f8639fa4751169cc81e50",
-      "source_sha256": "96df45daf2137c1677618c33d82ed4efc956ac71af7f8639fa4751169cc81e50",
-      "bytes": 21426,
+      "sha256": "4786d0e8b2ee769d62536872e3a1dc756e8dc9409c026829f0459cbadb8bfaf7",
+      "source_sha256": "4786d0e8b2ee769d62536872e3a1dc756e8dc9409c026829f0459cbadb8bfaf7",
+      "bytes": 23446,
       "git_mode": "100644",
       "source_path": "LIVE-DEPLOYMENT.md"
     },
@@ -399,9 +399,9 @@
     },
     {
       "path": "UPDATELOG.md",
-      "sha256": "97cb0997e3b258a9a4ba1a51f45de193f99dc8722e9b4a856400584c38e33f0b",
-      "source_sha256": "97cb0997e3b258a9a4ba1a51f45de193f99dc8722e9b4a856400584c38e33f0b",
-      "bytes": 18180,
+      "sha256": "a5c0b7056ed8699630c48103aa544e9f8b6e5daff8d98f4575639c73a531e5dd",
+      "source_sha256": "a5c0b7056ed8699630c48103aa544e9f8b6e5daff8d98f4575639c73a531e5dd",
+      "bytes": 19621,
       "git_mode": "100644",
       "source_path": "UPDATELOG.md"
     },
@@ -2575,9 +2575,9 @@
     },
     {
       "path": "deploy/sub2api/Prepare-SingleCore.ps1",
-      "sha256": "9bc5c1385910ed19a93436e583e79acb8b26390155596d306d815073bb4d54a5",
-      "source_sha256": "9bc5c1385910ed19a93436e583e79acb8b26390155596d306d815073bb4d54a5",
-      "bytes": 9779,
+      "sha256": "725ed1dfebc1f9e64ff7126208384a134a6fd86db586de42059a955a01177ea9",
+      "source_sha256": "725ed1dfebc1f9e64ff7126208384a134a6fd86db586de42059a955a01177ea9",
+      "bytes": 9851,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/Prepare-SingleCore.ps1"
     },
@@ -2812,6 +2812,14 @@
       "bytes": 9350,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/UX3-WINDOWS-UPDATE-20261011.md"
+    },
+    {
+      "path": "deploy/sub2api/UX4-RECOVERY-20261011.md",
+      "sha256": "4992bae05750b7ee804054f5b66f6a368d21af9f946d84729403b39df11539ad",
+      "source_sha256": "4992bae05750b7ee804054f5b66f6a368d21af9f946d84729403b39df11539ad",
+      "bytes": 15099,
+      "git_mode": "100644",
+      "source_path": "deploy/sub2api/UX4-RECOVERY-20261011.md"
     },
     {
       "path": "deploy/sub2api/admin-ingress.example.yml",
@@ -3119,9 +3127,9 @@
     },
     {
       "path": "deploy/sub2api/singlecore-candidate.patch",
-      "sha256": "0840cba9656fbea1aeba3d47da24732cebebe9bf2cfd682c4be8f79ff8b54f45",
-      "source_sha256": "0840cba9656fbea1aeba3d47da24732cebebe9bf2cfd682c4be8f79ff8b54f45",
-      "bytes": 1978340,
+      "sha256": "b0688d7dea49955fbf0deee0eb2534da1947f625df86493aaa0acc87cbd1058c",
+      "source_sha256": "b0688d7dea49955fbf0deee0eb2534da1947f625df86493aaa0acc87cbd1058c",
+      "bytes": 2057654,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore-candidate.patch"
     },
@@ -3151,9 +3159,9 @@
     },
     {
       "path": "deploy/sub2api/singlecore-source.json",
-      "sha256": "32b49cd349bf653f9ac40f4effd10e11a63bf5b7a2083f36d36b9ef6016abad5",
-      "source_sha256": "32b49cd349bf653f9ac40f4effd10e11a63bf5b7a2083f36d36b9ef6016abad5",
-      "bytes": 74327,
+      "sha256": "4a66dacf2b8b83dc1531f02356ad828bd0774275172fefcfedad2caa8b5ccbaf",
+      "source_sha256": "4a66dacf2b8b83dc1531f02356ad828bd0774275172fefcfedad2caa8b5ccbaf",
+      "bytes": 75420,
       "git_mode": "100644",
       "source_path": "deploy/sub2api/singlecore-source.json"
     },
@@ -3990,6 +3998,14 @@
       "source_path": "lab/sub2api_e2e/UX3-READONLY-ACCEPTANCE-20261011.md"
     },
     {
+      "path": "lab/sub2api_e2e/UX4-E2E-20261011.md",
+      "sha256": "f7eaa1e6cc0cb4e2db97daf8f40af7e73395adb9d674ac122cf8608583b9c9c5",
+      "source_sha256": "f7eaa1e6cc0cb4e2db97daf8f40af7e73395adb9d674ac122cf8608583b9c9c5",
+      "bytes": 25539,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/UX4-E2E-20261011.md"
+    },
+    {
       "path": "lab/sub2api_e2e/acceptance-gaps.json",
       "sha256": "ea28d051f1acf1b38c234f0d52e62c6b314dcc9888ba3474f3e33d0c577dd978",
       "source_sha256": "be1ae9ff365f41a7d78bf66f32e9073124b4dea93c8813c9fdf2dad754982da9",
@@ -4020,6 +4036,14 @@
       "bytes": 11743,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/audit_ux3_protocol_funding.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/audit_ux4_protocol_funding.py",
+      "sha256": "b2c01c04dc59f81302900ecaf99c69d1d74057a54307d64ee53300443638e7d5",
+      "source_sha256": "b2c01c04dc59f81302900ecaf99c69d1d74057a54307d64ee53300443638e7d5",
+      "bytes": 11738,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/audit_ux4_protocol_funding.py"
     },
     {
       "path": "lab/sub2api_e2e/bootstrap-summary.json",
@@ -4990,6 +5014,14 @@
       "source_path": "lab/sub2api_e2e/test_verify_ux3_public_20261011.py"
     },
     {
+      "path": "lab/sub2api_e2e/test_verify_ux4_public_20261011.py",
+      "sha256": "e1fe57a4a2d552a172154b1b8a80c1a3c8fb5b81b793d94cb0bf20a1a87fb5eb",
+      "source_sha256": "e1fe57a4a2d552a172154b1b8a80c1a3c8fb5b81b793d94cb0bf20a1a87fb5eb",
+      "bytes": 9593,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/test_verify_ux4_public_20261011.py"
+    },
+    {
       "path": "lab/sub2api_e2e/usage-history-backend-20261011.json",
       "sha256": "0a6c752bab8dc6c5748f2c4223bbf0a3a074df85f9c6b11fb64c3f24cdb05e8a",
       "source_sha256": "0a6c752bab8dc6c5748f2c4223bbf0a3a074df85f9c6b11fb64c3f24cdb05e8a",
@@ -5470,6 +5502,190 @@
       "source_path": "lab/sub2api_e2e/ux3-visual/before-workbench-desktop.jpg"
     },
     {
+      "path": "lab/sub2api_e2e/ux4-backend-team-scope-20261011.json",
+      "sha256": "c2c3434dd604f0b37aa79e6c82e019570a41c4bd16563a948bd65a6a8c9ebb11",
+      "source_sha256": "c2c3434dd604f0b37aa79e6c82e019570a41c4bd16563a948bd65a6a8c9ebb11",
+      "bytes": 4896,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-backend-team-scope-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-backup-20261011.json",
+      "sha256": "252e762a0174f35164537cdfaef7ea4ff6bacdd6bdbaa440487b2fe24eb4e18b",
+      "source_sha256": "252e762a0174f35164537cdfaef7ea4ff6bacdd6bdbaa440487b2fe24eb4e18b",
+      "bytes": 1075,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-backup-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-cancelled-plan-r1-20261011.json",
+      "sha256": "8ce2d0aeaeda2d0eb47f606c6179ab392a1528011090f6567a6eeb4deefd32fc",
+      "source_sha256": "8ce2d0aeaeda2d0eb47f606c6179ab392a1528011090f6567a6eeb4deefd32fc",
+      "bytes": 922,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-cancelled-plan-r1-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-candidate-validation-20261011.json",
+      "sha256": "d58f10475cb6b7f33d4fc99a1d6e40e39693493df477049cea01fb8cbd7dd479",
+      "source_sha256": "d58f10475cb6b7f33d4fc99a1d6e40e39693493df477049cea01fb8cbd7dd479",
+      "bytes": 36779,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-candidate-validation-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-dark-css-final-dom-20261011.json",
+      "sha256": "89e969864e2b2a9e21d25d139498d8f194734653fa05f97a373cc2e25a39488a",
+      "source_sha256": "89e969864e2b2a9e21d25d139498d8f194734653fa05f97a373cc2e25a39488a",
+      "bytes": 428,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-dark-css-final-dom-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-final-r2-build.json",
+      "sha256": "65da3741712b4bb0cc3dd225b9fc5008a8471bacc59df3bf6acedec4e39bae50",
+      "source_sha256": "65da3741712b4bb0cc3dd225b9fc5008a8471bacc59df3bf6acedec4e39bae50",
+      "bytes": 603,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-final-r2-build.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-final-r2-http-20261011.json",
+      "sha256": "6692e2124a9e58112eb3062de5ae50797d2920a086039fcc8d356e5c5e730cc4",
+      "source_sha256": "6692e2124a9e58112eb3062de5ae50797d2920a086039fcc8d356e5c5e730cc4",
+      "bytes": 8072,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-final-r2-http-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-final-r3-build.json",
+      "sha256": "97280fe1a800c7e041b419925418058bef906a0cfddba1b4167d7551ad9272d9",
+      "source_sha256": "97280fe1a800c7e041b419925418058bef906a0cfddba1b4167d7551ad9272d9",
+      "bytes": 606,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-final-r3-build.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-final-r3-http-20261011.json",
+      "sha256": "164960e95c09a3dcd169ff7b3c9dcbf62928b66b3e946532807538b408121c1f",
+      "source_sha256": "164960e95c09a3dcd169ff7b3c9dcbf62928b66b3e946532807538b408121c1f",
+      "bytes": 8072,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-final-r3-http-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-first-final-guard-20261011.json",
+      "sha256": "af1c964c181cea07d15c027e2623608ac1be33712589e14279ce8f90d4d6666a",
+      "source_sha256": "af1c964c181cea07d15c027e2623608ac1be33712589e14279ce8f90d4d6666a",
+      "bytes": 128,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-first-final-guard-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-first-http-failure-diagnosis-20261011.json",
+      "sha256": "cde8c857e6ea29b1082f35ff8c4bb83467fe956ab90edf47cc48696bb7552bff",
+      "source_sha256": "cde8c857e6ea29b1082f35ff8c4bb83467fe956ab90edf47cc48696bb7552bff",
+      "bytes": 960,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-first-http-failure-diagnosis-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-independent-review-20261011.md",
+      "sha256": "741b7ffc939e468c42b1524ce97c0f35bf31c175d6e371702a799f5f15d742b0",
+      "source_sha256": "741b7ffc939e468c42b1524ce97c0f35bf31c175d6e371702a799f5f15d742b0",
+      "bytes": 13515,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-independent-review-20261011.md"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-navigation-review-20261011.json",
+      "sha256": "3c86f7c97581e2565b123dc7c5cb96e4817b1f623a336c2e40f11d2c08064f24",
+      "source_sha256": "3c86f7c97581e2565b123dc7c5cb96e4817b1f623a336c2e40f11d2c08064f24",
+      "bytes": 2194,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-navigation-review-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-preflight-20261011.json",
+      "sha256": "0ca05870c3e2ad2f6845d1df50193c5f0265ec10460f4b15c62f33bdd6ce4ce0",
+      "source_sha256": "0ca05870c3e2ad2f6845d1df50193c5f0265ec10460f4b15c62f33bdd6ce4ce0",
+      "bytes": 2474,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-preflight-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-production-activation-20261011.json",
+      "sha256": "c81d09bc601ba43c8bbd819c4323da973af323c2e94065a121ebfbe6cd0fd40f",
+      "source_sha256": "c81d09bc601ba43c8bbd819c4323da973af323c2e94065a121ebfbe6cd0fd40f",
+      "bytes": 973,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-production-activation-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-production-browser-20261011.json",
+      "sha256": "5beb89713e9645797a29c393b1b740172d5069c055e865a3f20569e98fee8794",
+      "source_sha256": "5beb89713e9645797a29c393b1b740172d5069c055e865a3f20569e98fee8794",
+      "bytes": 4931,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-production-browser-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-production-observation-20261011.json",
+      "sha256": "9f9142a979015e93f77d77977deeeb7f0b6bcecc20ce4892af31eb16713cb613",
+      "source_sha256": "9f9142a979015e93f77d77977deeeb7f0b6bcecc20ce4892af31eb16713cb613",
+      "bytes": 6245,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-production-observation-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-production-preflight-20261011.json",
+      "sha256": "a6b26ad08e9355fb7e35a33f73647be58bb0ebc94d3ebdc72951c7bfd767fa5e",
+      "source_sha256": "a6b26ad08e9355fb7e35a33f73647be58bb0ebc94d3ebdc72951c7bfd767fa5e",
+      "bytes": 2472,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-production-preflight-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-production-protocol-20261011.json",
+      "sha256": "1cd4a3f19c377ab40ba6292fa2532bfad832a2370aa198d270c6d829734160e0",
+      "source_sha256": "1cd4a3f19c377ab40ba6292fa2532bfad832a2370aa198d270c6d829734160e0",
+      "bytes": 4488,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-production-protocol-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-production-protocol-funding-20261011.json",
+      "sha256": "779cc0d0232c4b34195137753c726aea7c83b3531d6a9a6c2211ec8102ea4e6a",
+      "source_sha256": "779cc0d0232c4b34195137753c726aea7c83b3531d6a9a6c2211ec8102ea4e6a",
+      "bytes": 3331,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-production-protocol-funding-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-production-readonly-20261011.json",
+      "sha256": "dda43e789bccd5396f8604566e5144e8b1cce5521a47e46a14a494110e8d195c",
+      "source_sha256": "dda43e789bccd5396f8604566e5144e8b1cce5521a47e46a14a494110e8d195c",
+      "bytes": 50778,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-production-readonly-20261011.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-source-reconstruction-r2.json",
+      "sha256": "66396cd7fd5a7347e2b44add6583f2f39e32c3a934d8419bcd4611a463be5ecf",
+      "source_sha256": "66396cd7fd5a7347e2b44add6583f2f39e32c3a934d8419bcd4611a463be5ecf",
+      "bytes": 356,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-source-reconstruction-r2.json"
+    },
+    {
+      "path": "lab/sub2api_e2e/ux4-source-reconstruction-r3.json",
+      "sha256": "e1e9b65b3de7fd8cd3172116b66fe06e49824589d818d42b8f29431c69b27772",
+      "source_sha256": "e1e9b65b3de7fd8cd3172116b66fe06e49824589d818d42b8f29431c69b27772",
+      "bytes": 356,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/ux4-source-reconstruction-r3.json"
+    },
+    {
       "path": "lab/sub2api_e2e/validation-summary.json",
       "sha256": "b46d89195db0949ad98d7615ef7da39f3d2b0c01cb5924f6160e666ffe84b646",
       "source_sha256": "526f37baa073f4793510411e0dbcc4331d0e21a3455ba796a7f5eddd62994baf",
@@ -5484,6 +5700,14 @@
       "bytes": 23936,
       "git_mode": "100644",
       "source_path": "lab/sub2api_e2e/verify_ux3_public_20261011.py"
+    },
+    {
+      "path": "lab/sub2api_e2e/verify_ux4_public_20261011.py",
+      "sha256": "01dd26690ecab561c97871eeba1f7330470f3c8f3f28ba973d8d05d6aedbab5a",
+      "source_sha256": "01dd26690ecab561c97871eeba1f7330470f3c8f3f28ba973d8d05d6aedbab5a",
+      "bytes": 30495,
+      "git_mode": "100644",
+      "source_path": "lab/sub2api_e2e/verify_ux4_public_20261011.py"
     },
     {
       "path": "lab/verify_database_matrix.py",
@@ -24896,35 +25120,6 @@
   ],
   "content_hashing": "sha256 and bytes describe UTF-8 LF-normalized repository content except binary files and web/public/downloads, whose exact published bytes are preserved; source_sha256 retains the source-read provenance for each entry.",
   "previous_publication_review": {
-    "status": "PASS",
-    "checked_at_utc": "2026-10-10T23:05:38.477335+00:00",
-    "deployment_status": "UX2_ACTIVE_HISTORY_IMPORTED_PUBLIC_ACCEPTANCE_PASS",
-    "review_scope": "Actual production activation, immutable history archive and replay, public HTTP/protocol, financial reconciliation and browser smoke; aggregate evidence only.",
-    "changed_or_added_count": 13,
-    "changed_or_added_paths": [
-      "DEVLOG.md",
-      "HANDOFF-SUB2API.md",
-      "LIVE-DEPLOYMENT.md",
-      "UPDATELOG.md",
-      "deploy/sub2api/UX-HANDOFF-SMOKE-CHECKLIST.md",
-      "deploy/sub2api/UX2-HISTORY-UPDATE-20261011.md",
-      "deploy/sub2api/UX2-RELEASE-20261011.md",
-      "lab/sub2api_e2e/ux2-production-20261011.json",
-      "lab/sub2api_e2e/ux2-production-browser-20261011.json",
-      "lab/sub2api_e2e/ux2-production-http-20261011.json",
-      "lab/sub2api_e2e/ux2-production-observation-20261011.json",
-      "lab/sub2api_e2e/ux2-screenshots/production-docs-en-mobile.png",
-      "lab/sub2api_e2e/ux2-screenshots/production-home-zh-desktop.png"
-    ],
-    "checks": {
-      "private_values_excluded": true,
-      "frozen_source_patch_metadata_unchanged": true,
-      "active_binary_matches_candidate": true,
-      "local_document_links": 170
-    },
-    "note": "ACTIVE 2026-10-11 06:51:29 CST, maintenance 33.942s, schema300. Historical source31295 archived, replay idempotent, visible31291 plus4 prior quarantine. HTTP22/22; catalog/SSE/same-socket WS3/3; 3 acceptance+2 concurrent funding changes settled without residuals. Production Chinese desktop/English390px public browser checks passed. Prior candidate full role matrix remains separately counted. No physical mobile, real merchant, installer or long-term SLA claim."
-  },
-  "publication_review": {
     "status": "PASS_WITH_OBSERVATION_EXCEPTION",
     "checked_at_utc": "2026-10-11T00:43:39.372546+00:00",
     "deployment_status": "UX3_ACTIVE_UI_HTTP_PROTOCOL_AND_SETTLEMENT_ACCEPTED",
@@ -24987,6 +25182,61 @@
       "patch_reconstruction_files": 399
     },
     "note": "UX3 ACTIVE 2026-10-11 08:24:45 CST; maintenance gate32.518s, same300-migration authority. Full frontend958/87 and final targeted36/3 are overlapping phases, not added. Final candidate HTTP49/49; live readonly32/32 across55 HTTP requests; SSE1 and same-socket WS2 passed and each has1 settled usage/dedup, no acceptance-window reservation remains. Existing authorized admin form login and English light desktop/mobile visual pass; broader role/language/theme matrix is isolated. Existing10s collector retained one08:33:18 proxy TLS timeout, neighboring samples and other five paths healthy. Not all historical business requirements, real merchant payment, physical mobile or long-term stability are complete."
+  },
+  "publication_review": {
+    "status": "PASS_SCOPED_ACCEPTANCE",
+    "checked_at_utc": "2026-10-11T05:02:27.481237+00:00",
+    "deployment_status": "UX4_ACTIVE_UI_HTTP_PROTOCOL_AND_SETTLEMENT_ACCEPTED",
+    "source_commit": "7e0215f62539a52a3c7884560152a11599f7fe1e",
+    "changed_or_added_count": 35,
+    "changed_or_added_paths": [
+      "DEVLOG.md",
+      "HANDOFF-SUB2API.md",
+      "LIVE-DEPLOYMENT.md",
+      "UPDATELOG.md",
+      "deploy/sub2api/Prepare-SingleCore.ps1",
+      "deploy/sub2api/UX4-RECOVERY-20261011.md",
+      "deploy/sub2api/singlecore-candidate.patch",
+      "deploy/sub2api/singlecore-source.json",
+      "lab/sub2api_e2e/UX4-E2E-20261011.md",
+      "lab/sub2api_e2e/audit_ux4_protocol_funding.py",
+      "lab/sub2api_e2e/test_verify_ux4_public_20261011.py",
+      "lab/sub2api_e2e/ux4-backend-team-scope-20261011.json",
+      "lab/sub2api_e2e/ux4-backup-20261011.json",
+      "lab/sub2api_e2e/ux4-cancelled-plan-r1-20261011.json",
+      "lab/sub2api_e2e/ux4-candidate-validation-20261011.json",
+      "lab/sub2api_e2e/ux4-dark-css-final-dom-20261011.json",
+      "lab/sub2api_e2e/ux4-final-r2-build.json",
+      "lab/sub2api_e2e/ux4-final-r2-http-20261011.json",
+      "lab/sub2api_e2e/ux4-final-r3-build.json",
+      "lab/sub2api_e2e/ux4-final-r3-http-20261011.json",
+      "lab/sub2api_e2e/ux4-first-final-guard-20261011.json",
+      "lab/sub2api_e2e/ux4-first-http-failure-diagnosis-20261011.json",
+      "lab/sub2api_e2e/ux4-independent-review-20261011.md",
+      "lab/sub2api_e2e/ux4-navigation-review-20261011.json",
+      "lab/sub2api_e2e/ux4-preflight-20261011.json",
+      "lab/sub2api_e2e/ux4-production-activation-20261011.json",
+      "lab/sub2api_e2e/ux4-production-browser-20261011.json",
+      "lab/sub2api_e2e/ux4-production-observation-20261011.json",
+      "lab/sub2api_e2e/ux4-production-preflight-20261011.json",
+      "lab/sub2api_e2e/ux4-production-protocol-20261011.json",
+      "lab/sub2api_e2e/ux4-production-protocol-funding-20261011.json",
+      "lab/sub2api_e2e/ux4-production-readonly-20261011.json",
+      "lab/sub2api_e2e/ux4-source-reconstruction-r2.json",
+      "lab/sub2api_e2e/ux4-source-reconstruction-r3.json",
+      "lab/sub2api_e2e/verify_ux4_public_20261011.py"
+    ],
+    "checks": {
+      "changed_git_blob_hashes": true,
+      "all_manifest_git_blob_hashes": true,
+      "known_private_runtime_values_excluded": true,
+      "private_runtime_files_excluded": true,
+      "local_document_links": 199,
+      "frozen_patch_and_metadata_unchanged": true,
+      "active_binary_matches_candidate": true,
+      "patch_reconstruction_files": 405
+    },
+    "note": "UX4 ACTIVE 2026-10-11 12:44:28.612 CST; gate37.591s and same300-migration authority. Finalr3 HTTP85/85, live readonly47/47 over82 HTTP requests, SSE1 plus same-socket WS2 passed; three settled usage/dedup rows, no acceptance-window reservation. Existing admin browser session verified top setup/alltime, six neutral-blue plans, model navigation and pure-text language labels; production English dark390px menu and pricing also checked. Existing10s collector65/65 each for6paths over640.997s afterACTIVE, maxgap10.014s; maintenance failures retained. Full preview frontend998/89 and later targeted tests are overlapping phases, not summed or claimed as rerun on finalr3. P2 English mobile team-table nickname truncation and horizontal scrolling remain. Real merchant payment, physical mobile, all historical features and long-term stability are not certified."
   },
   "publication_review_history": [
     {
@@ -25736,6 +25986,70 @@
         "local_document_links": 170
       },
       "note": "ACTIVE 2026-10-11 06:51:29 CST, maintenance 33.942s, schema300. Historical source31295 archived, replay idempotent, visible31291 plus4 prior quarantine. HTTP22/22; catalog/SSE/same-socket WS3/3; 3 acceptance+2 concurrent funding changes settled without residuals. Production Chinese desktop/English390px public browser checks passed. Prior candidate full role matrix remains separately counted. No physical mobile, real merchant, installer or long-term SLA claim."
+    },
+    {
+      "status": "PASS_WITH_OBSERVATION_EXCEPTION",
+      "checked_at_utc": "2026-10-11T00:43:39.372546+00:00",
+      "deployment_status": "UX3_ACTIVE_UI_HTTP_PROTOCOL_AND_SETTLEMENT_ACCEPTED",
+      "source_commit": "3f13f202765f2d9473664f3ec239f71d187adecf",
+      "changed_or_added_count": 44,
+      "changed_or_added_paths": [
+        "DEVLOG.md",
+        "HANDOFF-SUB2API.md",
+        "LIVE-DEPLOYMENT.md",
+        "UPDATELOG.md",
+        "deploy/sub2api/Prepare-SingleCore.ps1",
+        "deploy/sub2api/UX3-RECOVERY-20261011.md",
+        "deploy/sub2api/UX3-WINDOWS-UPDATE-20261011.md",
+        "deploy/sub2api/singlecore-candidate.patch",
+        "deploy/sub2api/singlecore-source.json",
+        "deploy/sub2api/singlecore_pg_backup308.py",
+        "deploy/sub2api/test_singlecore_pg_backup308.py",
+        "lab/sub2api_e2e/UX3-PROTOCOL-FUNDING-20261011.md",
+        "lab/sub2api_e2e/UX3-READONLY-ACCEPTANCE-20261011.md",
+        "lab/sub2api_e2e/audit_ux3_protocol_funding.py",
+        "lab/sub2api_e2e/test_verify_ux3_public_20261011.py",
+        "lab/sub2api_e2e/ux3-candidate-validation-20261011.json",
+        "lab/sub2api_e2e/ux3-independent-contract-review.md",
+        "lab/sub2api_e2e/ux3-independent-visual-review.md",
+        "lab/sub2api_e2e/ux3-production-browser-20261011.json",
+        "lab/sub2api_e2e/ux3-production-observation-20261011.json",
+        "lab/sub2api_e2e/ux3-production-protocol-20261011.json",
+        "lab/sub2api_e2e/ux3-production-protocol-funding-20261011.json",
+        "lab/sub2api_e2e/ux3-production-readonly-20261011.json",
+        "lab/sub2api_e2e/ux3-production-readonly-first-tool-failure-20261011.json",
+        "lab/sub2api_e2e/ux3-protocol-first-tool-failure-20261011.json",
+        "lab/sub2api_e2e/ux3-visual-manifest.json",
+        "lab/sub2api_e2e/ux3-visual/after-admin-zh-dark-desktop-final.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-paygo-en-mobile-dark-r3.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-team-en-mobile-summary-final.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-menu-r4.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-team-owner-en-dark-mobile-menu-r4.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-team-zh-desktop-summary-final2.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-expanded-final2.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-team-zh-mobile-summary-final2.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-workbench-admin-dark-desktop-r2.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-dark-settled-r3.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-r3.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-workbench-member-en-mobile-settled-r3.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-workbench-member-light-desktop-r3.jpg",
+        "lab/sub2api_e2e/ux3-visual/after-workbench-owner-light-desktop-r2.jpg",
+        "lab/sub2api_e2e/ux3-visual/before-admin-desktop.jpg",
+        "lab/sub2api_e2e/ux3-visual/before-team-fixture-desktop.jpg",
+        "lab/sub2api_e2e/ux3-visual/before-workbench-desktop.jpg",
+        "lab/sub2api_e2e/verify_ux3_public_20261011.py"
+      ],
+      "checks": {
+        "changed_git_blob_hashes": true,
+        "all_manifest_git_blob_hashes": true,
+        "known_private_runtime_values_excluded": true,
+        "private_runtime_files_excluded": true,
+        "local_document_links": 173,
+        "frozen_patch_and_metadata_unchanged": true,
+        "active_binary_matches_candidate": true,
+        "patch_reconstruction_files": 399
+      },
+      "note": "UX3 ACTIVE 2026-10-11 08:24:45 CST; maintenance gate32.518s, same300-migration authority. Full frontend958/87 and final targeted36/3 are overlapping phases, not added. Final candidate HTTP49/49; live readonly32/32 across55 HTTP requests; SSE1 and same-socket WS2 passed and each has1 settled usage/dedup, no acceptance-window reservation remains. Existing authorized admin form login and English light desktop/mobile visual pass; broader role/language/theme matrix is isolated. Existing10s collector retained one08:33:18 proxy TLS timeout, neighboring samples and other five paths healthy. Not all historical business requirements, real merchant payment, physical mobile or long-term stability are complete."
     }
   ]
 }

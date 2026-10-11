@@ -1,0 +1,382 @@
+{
+  "status": "PASS",
+  "target": "http://127.0.0.1:29481",
+  "candidate_sha256": "1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821",
+  "expected_version": "realyu-singlecore-v0.2.15-20261011-ux4",
+  "checks": [
+    {
+      "name": "admin-self-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "admin-personal-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "owner-self-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "owner-personal-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "member-self-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "member-personal-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "former-self-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "former-personal-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "role10-self-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "role10-personal-trend-list-summary",
+      "pass": true
+    },
+    {
+      "name": "admin-platform-old-native-totals",
+      "pass": true
+    },
+    {
+      "name": "admin-platform-actor-filter",
+      "pass": true
+    },
+    {
+      "name": "utc-day-buckets",
+      "pass": true
+    },
+    {
+      "name": "shanghai-hour-buckets",
+      "pass": true
+    },
+    {
+      "name": "utc-hour-buckets",
+      "pass": true
+    },
+    {
+      "name": "original-time-inclusive-start",
+      "pass": true
+    },
+    {
+      "name": "original-time-exclusive-end",
+      "pass": true
+    },
+    {
+      "name": "month-boundary-old-side",
+      "pass": true
+    },
+    {
+      "name": "month-boundary-new-side",
+      "pass": true
+    },
+    {
+      "name": "unknown-query-does-not-expand-scope",
+      "pass": true
+    },
+    {
+      "name": "anonymous-trend-denied",
+      "pass": true
+    },
+    {
+      "name": "owner-platform-trend-denied",
+      "pass": true
+    },
+    {
+      "name": "member-platform-trend-denied",
+      "pass": true
+    },
+    {
+      "name": "former-platform-trend-denied",
+      "pass": true
+    },
+    {
+      "name": "role10-platform-trend-denied",
+      "pass": true
+    },
+    {
+      "name": "invalid-tz",
+      "pass": true
+    },
+    {
+      "name": "invalid-granularity",
+      "pass": true
+    },
+    {
+      "name": "invalid-scope",
+      "pass": true
+    },
+    {
+      "name": "actor-forbidden",
+      "pass": true
+    },
+    {
+      "name": "member-forbidden",
+      "pass": true
+    },
+    {
+      "name": "team-forbidden",
+      "pass": true
+    },
+    {
+      "name": "self-user-filter-forbidden",
+      "pass": true
+    },
+    {
+      "name": "invalid-date",
+      "pass": true
+    },
+    {
+      "name": "reverse-range",
+      "pass": true
+    },
+    {
+      "name": "day-over-limit",
+      "pass": true
+    },
+    {
+      "name": "hour-over-limit",
+      "pass": true
+    },
+    {
+      "name": "start-only",
+      "pass": true
+    },
+    {
+      "name": "end-only",
+      "pass": true
+    },
+    {
+      "name": "owner-team-whole-range-summary-not-page",
+      "pass": true
+    },
+    {
+      "name": "member-team-self-only-summary",
+      "pass": true
+    },
+    {
+      "name": "owner-team-member-filter",
+      "pass": true
+    },
+    {
+      "name": "owner-team-model-filter-cache-null",
+      "pass": true
+    },
+    {
+      "name": "admin-team-whole-range-summary",
+      "pass": true
+    },
+    {
+      "name": "member-cannot-select-other-member",
+      "pass": true
+    },
+    {
+      "name": "former-team-history-access-denied",
+      "pass": true
+    },
+    {
+      "name": "paygo-closed-no-order-or-credit",
+      "pass": true
+    },
+    {
+      "name": "public-catalog-remains-usd-no-supply-fields",
+      "pass": true
+    },
+    {
+      "name": "customer-cny-config-api-costs-remain-usd",
+      "pass": true
+    },
+    {
+      "name": "financial-fingerprint-unchanged",
+      "pass": true
+    },
+    {
+      "name": "owner-team-jwt-list-summary-day-hour-exact",
+      "pass": true
+    },
+    {
+      "name": "owner-team-filtered-model-and-cache",
+      "pass": true
+    },
+    {
+      "name": "owner-team-original-date-inclusive",
+      "pass": true
+    },
+    {
+      "name": "owner-team-original-date-exclusive",
+      "pass": true
+    },
+    {
+      "name": "admin-team-jwt-list-summary-day-hour-exact",
+      "pass": true
+    },
+    {
+      "name": "admin-team-filtered-model-and-cache",
+      "pass": true
+    },
+    {
+      "name": "admin-team-original-date-inclusive",
+      "pass": true
+    },
+    {
+      "name": "admin-team-original-date-exclusive",
+      "pass": true
+    },
+    {
+      "name": "member-team-list-forbidden",
+      "pass": true
+    },
+    {
+      "name": "former-team-list-forbidden",
+      "pass": true
+    },
+    {
+      "name": "anonymous-team-list-denied",
+      "pass": true
+    },
+    {
+      "name": "team-list-forged-member_id",
+      "pass": true
+    },
+    {
+      "name": "team-list-forged-user_id",
+      "pass": true
+    },
+    {
+      "name": "team-list-forged-actor_user_id",
+      "pass": true
+    },
+    {
+      "name": "team-list-duplicate-team-id",
+      "pass": true
+    },
+    {
+      "name": "team-list-missing-team-id",
+      "pass": true
+    },
+    {
+      "name": "team-list-zero-team-id",
+      "pass": true
+    },
+    {
+      "name": "member-team-summary-forbidden",
+      "pass": true
+    },
+    {
+      "name": "former-team-summary-forbidden",
+      "pass": true
+    },
+    {
+      "name": "anonymous-team-summary-denied",
+      "pass": true
+    },
+    {
+      "name": "team-summary-forged-member_id",
+      "pass": true
+    },
+    {
+      "name": "team-summary-forged-user_id",
+      "pass": true
+    },
+    {
+      "name": "team-summary-forged-actor_user_id",
+      "pass": true
+    },
+    {
+      "name": "team-summary-duplicate-team-id",
+      "pass": true
+    },
+    {
+      "name": "team-summary-missing-team-id",
+      "pass": true
+    },
+    {
+      "name": "team-summary-zero-team-id",
+      "pass": true
+    },
+    {
+      "name": "member-team-trend-forbidden",
+      "pass": true
+    },
+    {
+      "name": "former-team-trend-forbidden",
+      "pass": true
+    },
+    {
+      "name": "anonymous-team-trend-denied",
+      "pass": true
+    },
+    {
+      "name": "team-trend-forged-member_id",
+      "pass": true
+    },
+    {
+      "name": "team-trend-forged-user_id",
+      "pass": true
+    },
+    {
+      "name": "team-trend-forged-actor_user_id",
+      "pass": true
+    },
+    {
+      "name": "team-trend-duplicate-team-id",
+      "pass": true
+    },
+    {
+      "name": "team-trend-missing-team-id",
+      "pass": true
+    },
+    {
+      "name": "team-trend-zero-team-id",
+      "pass": true
+    },
+    {
+      "name": "ux4-financial-fingerprint-unchanged",
+      "pass": true
+    }
+  ],
+  "production_modified": false,
+  "paid_model_called": false,
+  "fixtures_modified": false,
+  "started_at": "2026-10-11T04:39:55.732254+00:00",
+  "paygo_guard": {
+    "payment_enabled": false,
+    "reason": "PAYMENT_DISABLED",
+    "merchant_verified": false
+  },
+  "synthetic_cost_conversion": {
+    "api_unit": "USD",
+    "customer_unit": "CNY",
+    "usd": "1.850012",
+    "rate": "7",
+    "cny": "12.950084"
+  },
+  "passed": 85,
+  "total": 85,
+  "financial_before_sha256": "2084343393927e66f15a7fa4e35b700e9dd3ac56bcbb39b6176f1e58dfe482e8",
+  "financial_after_sha256": "2084343393927e66f15a7fa4e35b700e9dd3ac56bcbb39b6176f1e58dfe482e8",
+  "finished_at": "2026-10-11T04:41:02.799771+00:00",
+  "limits": [
+    "No browser, production, real merchant or model call",
+    "Existing fixture has no HTTP DST transition; true PG tests cover repeated DST hours",
+    "No fixture writes; nickname compares actual fixture values, nonempty override is covered by PG tests",
+    "The UX4 extension performs GETs only with existing login JWTs",
+    "Concurrent permission revocation and DST are covered by isolated PostgreSQL tests, not manufactured through HTTP writes"
+  ],
+  "baseline_checks": {
+    "suite": "frozen-ux3",
+    "total": 49,
+    "passed": 49
+  },
+  "ux4_extension_checks": 36
+}

@@ -1,5 +1,15 @@
 # Local Sub2API deployment record
 
+## 2026-10-11 12:44:28 — UX4已ACTIVE，限定范围验收通过
+
+**当前实际版本：`realyu-singlecore-v0.2.15-20261011-ux4`。** operation r2已在12:44:28.612 ACTIVE；排空12:43:51.021至开门37.591秒。同一原生PG、300项migration和代理保持，未恢复数据库或启动旧服务。部署source `7e0215f62539a52a3c7884560152a11599f7fe1e`、binary SHA `1918fcac7e0e47b64cacd369be4d0b3b58e0e86699658d86b67db6063ffc2821`，与405文件重建、完整85项候选HTTP身份一致。
+
+已完成operation `production-ux4-update-20261011-r2` 的plan SHA `9ddb8cb60adad4bf9793dedba632051260fb7bed99a3d0c951ad9f7e39271d61`，ACTIVE回执SHA `3ac8d29af192999ec614095ced3b172996d807445a1ab4c54b45f7906f3e3f13`。此前r1 UAC取消无执行，两个旧/已完成计划均不能重放。公网47/47检查（82请求）和SSE一次/同连接WS两轮通过；3usage/3settled/3dedup、窗口reserved0、226quota=USD0.000452。账务为后验只读一致性，不是前后钱包快照。
+
+线上浏览器复用既有管理员session确认中文工作台、文字语言入口、配置首部及默认累计；实际模型页保留导航，六套餐样式确认。390×844英文暗色价格页及菜单实际展开通过，页面宽382≤390，合计9项限定浏览器检查。无新表单登录，客户截图不入Git，不外推普通成员、全部角色或实体设备。见[浏览器范围](lab/sub2api_e2e/ux4-production-browser-20261011.json)、[10秒采样](lab/sub2api_e2e/ux4-production-observation-20261011.json)、[流程与首错](deploy/sub2api/UX4-RECOVERY-20261011.md)，不据短样本推导长期稳定。下方UX3及更早版本是历史。
+
+既有10秒采样从ACTIVE至12:55:09.609，共640.997秒，六路径各65/65健康；最大间隔10.014秒，读取时新鲜度5.951秒，两Tunnel均4连接。维护期10个失败样本（9个503、1个backend连接失败）保留，ACTIVE后此窗口0失败；采样不等于连续可用或长期稳定，也不用于推算精确用户中断时长。
+
 ## 2026-10-11 08:24:45 — UX3 已ACTIVE，本轮限定范围验收通过
 
 正常Windows提权首次取消，未启动更新；第二次08:24批准后，`realyu-singlecore-v0.2.15-20261011-ux3` 在同一PG权威上ACTIVE。08:24:12.930排空至08:24:45.448开门，维护 **32.518秒**，没有恢复数据库、启动旧服务、新增migration、重导历史、启用商户或切换网络。实际SCM worker为Session0且程序SHA与final2一致。
