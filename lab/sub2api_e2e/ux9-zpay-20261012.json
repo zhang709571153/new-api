@@ -1,6 +1,6 @@
 {
-  "recorded_at": "2026-10-12T04:30:46.885884+00:00",
-  "status": "CANDIDATE_PASS_RELEASE_PENDING_DRAIN",
+  "recorded_at": "2026-10-12T11:11:52.840399+00:00",
+  "status": "ACTIVE_PAID_ORDER_RECOVERED",
   "version": "realyu-singlecore-v0.2.15-20261012-ux9",
   "source_commit": "998f501f5d598b9a9362600f1100e0cdc88b0dfa",
   "patch_sha256": "c0f22d50c4bcfc881e242ece44702243cac1be1a4212afb027702a83f5d79a7d",
@@ -37,9 +37,9 @@
       "named user agent via proxy"
     ],
     "all_go_cases_returned_http_200_and_encoded_object": true,
-    "order_status_now": "EXPIRED",
-    "paid_at": null,
-    "completed_at": null,
+    "order_status_now": "COMPLETED",
+    "paid_at": "2026-10-12 19:11:09.792391+08:00",
+    "completed_at": "2026-10-12 19:11:09.816105+08:00",
     "customer_identifiers_and_merchant_credentials_exported": false
   },
   "candidate_validation": {
@@ -115,16 +115,149 @@
   "final_operation": {
     "operation_id": "native-ux9-20261012-r5",
     "plan_sha256": "9d80685680af6070fafd12125929844656b3d3f0f97dbe1668eca28baff80229",
-    "phase": "PREPARED_NOT_ACTIVATED",
-    "receipt": null,
-    "previous_r4_superseded_without_activation": true
+    "phase": "ACTIVE",
+    "receipt": {
+      "operation_id": "native-ux9-20261012-r5",
+      "phase": "ACTIVE",
+      "phase_times": {
+        "DRAINING": 1791803422.539818,
+        "STOPPING_NATIVE": 1791803422.7023351,
+        "STARTING_NATIVE": 1791803446.4070332,
+        "VERIFIED_PRIVATE": 1791803453.163727,
+        "ACTIVE": 1791803453.168755
+      },
+      "database_restored": false,
+      "old_legacy_services_started": false
+    },
+    "previous_r4_superseded_without_activation": true,
+    "maintenance_gate_seconds": 30.628937
   },
-  "paid_order_acceptance": null,
+  "paid_order_acceptance": {
+    "at": "2026-10-12T11:11:06.152934+00:00",
+    "order_id": 5,
+    "requests": [
+      {
+        "path": "/api/status",
+        "http_status": 200,
+        "cf_ray": "a495a9734a7ec0a6-SEA",
+        "at": "2026-10-12T11:11:07.241700+00:00"
+      },
+      {
+        "path": "/api/v1/auth/login",
+        "http_status": 200,
+        "cf_ray": "a495a97a2f3257bf-SEA",
+        "at": "2026-10-12T11:11:08.219679+00:00"
+      },
+      {
+        "path": "/api/v1/payment/orders/verify",
+        "http_status": 200,
+        "cf_ray": "a495a97f7a8bc383-SEA",
+        "at": "2026-10-12T11:11:10.020009+00:00"
+      },
+      {
+        "path": "/api/v1/payment/orders/verify",
+        "http_status": 200,
+        "cf_ray": "a495a98a3dc6a9ba-SEA",
+        "at": "2026-10-12T11:11:10.828837+00:00"
+      }
+    ],
+    "direct_financial_writes": false,
+    "new_payment_orders": false,
+    "version": "realyu-singlecore-v0.2.15-20261012-ux9",
+    "status_before_manual_verification": "EXPIRED",
+    "existing_authenticated_account_is_order_owner": true,
+    "native_verify_statuses": [
+      "COMPLETED",
+      "COMPLETED"
+    ],
+    "status": "PASS",
+    "order_status": "COMPLETED",
+    "paid_at": "2026-10-12T19:11:09.792391+08:00",
+    "completed_at": "2026-10-12T19:11:09.816105+08:00",
+    "paid_cny": "5.00",
+    "credited_cny": "5.00",
+    "credit_entry_count": 1,
+    "audit_counts": {
+      "ORDER_CREATED": 1,
+      "ORDER_EXPIRED": 1,
+      "ORDER_RECOVERED": 1,
+      "ORDER_PAID": 1,
+      "AFFILIATE_REBATE_SKIPPED": 1,
+      "RECHARGE_SUCCESS": 1
+    },
+    "wallet_delta_equals_order_credit": true,
+    "repeated_verification_no_extra_credit": true,
+    "signed_provider_notification_replayed": false,
+    "recovery": "native owner verify"
+  },
   "limits": [
     "No fabricated signed callback or SQL credit.",
     "Real initial callback arrived and failed; no successful merchant notification replay is claimed.",
     "Expired-order coverage is native owner reconciliation with no merchant reference persisted by the failed query; it is not unlimited recovery of every payment state.",
-    "No new inference, SSE, WebSocket, refund, other-provider or browser visual acceptance in this backend repair.",
-    "A prepared binary or Git commit is not an active production release."
-  ]
+    "No new inference, SSE, WebSocket, refund, other-provider or browser visual acceptance in this backend repair."
+  ],
+  "public_readonly_acceptance": {
+    "status": "PASS",
+    "passed": 47,
+    "total": 47,
+    "report": "ux9-production-http-20261012.json",
+    "source_result_sha256": "306f43098b82b80f00969ce092732bb5e319f1a21dbcc7eec935721b709f0f89"
+  },
+  "post_release_observation": {
+    "status": "PASS",
+    "report": "ux9-production-observation-20261012.json",
+    "targets": {
+      "public-direct": {
+        "samples": 14,
+        "healthy": 14,
+        "failed": 0,
+        "max_sample_gap_seconds": 10.010218,
+        "first_sample": "2026-10-12T11:10:58.293364+00:00",
+        "healthy_percent": 100.0
+      },
+      "public-via-local-proxy": {
+        "samples": 14,
+        "healthy": 14,
+        "failed": 0,
+        "max_sample_gap_seconds": 10.010218,
+        "first_sample": "2026-10-12T11:10:58.293364+00:00",
+        "healthy_percent": 100.0
+      },
+      "backend": {
+        "samples": 14,
+        "healthy": 14,
+        "failed": 0,
+        "max_sample_gap_seconds": 10.011229,
+        "first_sample": "2026-10-12T11:10:58.293364+00:00",
+        "healthy_percent": 100.0
+      },
+      "bridge": {
+        "samples": 14,
+        "healthy": 14,
+        "failed": 0,
+        "max_sample_gap_seconds": 10.011229,
+        "first_sample": "2026-10-12T11:10:58.293364+00:00",
+        "healthy_percent": 100.0
+      },
+      "tunnel-primary": {
+        "samples": 14,
+        "healthy": 14,
+        "failed": 0,
+        "max_sample_gap_seconds": 10.010221,
+        "first_sample": "2026-10-12T11:10:58.293364+00:00",
+        "healthy_percent": 100.0
+      },
+      "tunnel-replica": {
+        "samples": 14,
+        "healthy": 14,
+        "failed": 0,
+        "max_sample_gap_seconds": 10.010732,
+        "first_sample": "2026-10-12T11:10:58.294371+00:00",
+        "healthy_percent": 100.0
+      }
+    },
+    "last_saved_sample": "2026-10-12T11:13:08.304449+00:00",
+    "maintenance_failed_samples": 9,
+    "post_active_failed_samples": 0
+  }
 }

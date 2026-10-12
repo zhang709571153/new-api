@@ -9,11 +9,11 @@
 - 仓库：`https://github.com/zhang709571153/new-api.git`
 - 部署分支：`codex/sub2api-handoff-20261009`。不要使用默认 `realyu` 分支或根目录 New API 程序作为新业务核心。
 - 本入口编写前已核实 GitHub 与本地提交均为 `5c2764f570e399ebcb46b1703cde2473b521ab9e`，工作区干净；本入口随后的提交继续沿此分支。
-- 默认重建输入：`realyu-singlecore-v0.2.15-20261012-ux9`，源码 `998f501f5d598b9a9362600f1100e0cdc88b0dfa`。候选通过；线上仍 UX8，等待当前请求排空后发布；实际版本与验收边界查根目录LIVE。
+- 默认重建输入：`realyu-singlecore-v0.2.15-20261012-ux9`，源码 `998f501f5d598b9a9362600f1100e0cdc88b0dfa`。源机已于 2026-10-12 19:10:53 CST ACTIVE；真实 ¥5 订单已原生补到账，重复查单无重复入账，公网只读检查 47/47 通过；实际版本与验收边界查根目录LIVE。
 - 以 `singlecore-source.json` 的固定 Sub2API 上游加完整补丁交付。此次重新比对 435 个改动文件全部一致，Git 内补丁 SHA256 与 manifest 一致；原生开发目录的本地 remote 不是独立 GitHub 发布仓库。
-- 补丁 SHA256：`c0f22d50c4bcfc881e242ece44702243cac1be1a4212afb027702a83f5d79a7d`。UX9候选 binary SHA256：`3d7f0762f8f43d2af29cb0586074f8d8f23d9349bc192808dd0329d689a44020`。不同工具链重新构建不能仅因文件名相同声称与旧 binary 一致，应记录自己的构建哈希及来源。
+- 补丁 SHA256：`c0f22d50c4bcfc881e242ece44702243cac1be1a4212afb027702a83f5d79a7d`。UX9 源机发布 binary SHA256：`3d7f0762f8f43d2af29cb0586074f8d8f23d9349bc192808dd0329d689a44020`。不同工具链重新构建不能仅因文件名相同声称与旧 binary 一致，应记录自己的构建哈希及来源。
 - 源机已完成309/310，共302条migration记录。必须核实最新完整map，不能沿用旧300项校验。历史归档已进入原生PG。新机恢复当前完整库，不重跑旧 SQLite/S0/S1 客户导入。
-- 原生ZPay支付宝充值现已启用，真实扫码页已验证，已存在待支付订单。必须保留全部订单、provider及其稳定加密密钥、原商户回调和查单能力；不能再次执行首次启用或恢复旧快照。已发生实付订单待到账故障，UX9修复及当前恢复状态须以LIVE最新记录为准，详见[NATIVE-ZPAY-RESTORATION](NATIVE-ZPAY-RESTORATION.md)。
+- 原生 ZPay 支付宝充值已启用，已有真实实付且完成入账的订单。必须保留全部订单、充值记录、provider及其稳定加密密钥、原商户回调和查单能力；不能再次执行首次启用或恢复旧快照。UX9 已修复查单解析，真实 ¥5 订单已主动核验并只到账一次；这不等于旧商户通知已经重试成功，详见[NATIVE-ZPAY-RESTORATION](NATIVE-ZPAY-RESTORATION.md)。
 - 本机 15:27 采样六路径健康，仅证明源机当次健康。服务器报告仍是 10月9日的 Windows Server 2025 Datacenter、4 vCPU/16 GiB；须在目标机重新核对实际状态。
 
 ## 2. 服务器立即可做
@@ -69,4 +69,4 @@ powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File .\deploy\sub2api\P
 
 ## 5. 可直接发给服务器 Codex
 
-> 请从 `https://github.com/zhang709571153/new-api.git` 的 `codex/sub2api-handoff-20261009` 分支接手，先读 `deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md`。目标是将当前单核心RealYu整站迁到本Windows Server，默认源码交付为UX7（含309/310共302项migration），实际源机版本先查LIVE，最后不再依赖开发机。现在先完成目标机盘点、依赖安装、固定源码重建、独立Windows服务/隔离测试和迁移预演准备，保留现有服务器服务。不要部署默认分支的旧New API，不重放旧同机切核计划，不改生产入口或与旧机并发刷新同一OAuth。列出所需私有数据/配置、续聊状态迁移实现及测试结果，与源机最终快照配合后执行短窗口切流。维护DEVLOG/UPDATELOG，输出真实回执与首次失败，不输出密钥，不将未验证项记为通过。
+> 请从 `https://github.com/zhang709571153/new-api.git` 的 `codex/sub2api-handoff-20261009` 分支接手，先读 `deploy/sub2api/SERVER-MIGRATION-START-HERE-20261011.md`。目标是将当前单核心RealYu整站迁到本Windows Server，默认源码交付为UX9（含309/310共302项migration，已修复ZPay并验证实付到账），实际源机版本先查LIVE，最后不再依赖开发机。现在先完成目标机盘点、依赖安装、固定源码重建、独立Windows服务/隔离测试和迁移预演准备，保留现有服务器服务。不要部署默认分支的旧New API，不重放旧同机切核计划，不改生产入口或与旧机并发刷新同一OAuth。列出所需私有数据/配置、续聊状态迁移实现及测试结果，与源机最终快照配合后执行短窗口切流。维护DEVLOG/UPDATELOG，输出真实回执与首次失败，不输出密钥，不将未验证项记为通过。
