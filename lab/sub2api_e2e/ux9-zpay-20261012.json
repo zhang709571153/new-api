@@ -1,0 +1,130 @@
+{
+  "recorded_at": "2026-10-12T04:30:46.885884+00:00",
+  "status": "CANDIDATE_PASS_RELEASE_PENDING_DRAIN",
+  "version": "realyu-singlecore-v0.2.15-20261012-ux9",
+  "source_commit": "998f501f5d598b9a9362600f1100e0cdc88b0dfa",
+  "patch_sha256": "c0f22d50c4bcfc881e242ece44702243cac1be1a4212afb027702a83f5d79a7d",
+  "binary_sha256": "3d7f0762f8f43d2af29cb0586074f8d8f23d9349bc192808dd0329d689a44020",
+  "reconstructed_files": 435,
+  "migrations": 302,
+  "new_schema": false,
+  "incident": {
+    "paid_cny": "5.00",
+    "merchant_confirmed_paid": true,
+    "merchant_order_and_identity_match": true,
+    "initial_callback_at_cst": "2026-10-12T11:47:49.155+08:00",
+    "callback_http_status": 400,
+    "callback_request_id": "c3296168-5b5c-450f-982f-a2c7a6957f97",
+    "error": "invalid ZPay query response",
+    "native_reconcile_failed_with_same_error": true,
+    "accept_header_comparison": [
+      {
+        "accept": null,
+        "top_level_json_type": "dict",
+        "body_sha256": "3bda52e7ab288071b793c34eee298fa399638214d605fbede067cf41229b3bd5",
+        "encoded_object_valid": true
+      },
+      {
+        "accept": "application/json",
+        "top_level_json_type": "str",
+        "body_sha256": "d2a513d552187c1f8318b540b4b44f07518974ee0483dd42ec12a7aef2b3ab2b",
+        "encoded_object_valid": true
+      }
+    ],
+    "go_transport_cases": [
+      "native configured proxy",
+      "direct",
+      "named user agent via proxy"
+    ],
+    "all_go_cases_returned_http_200_and_encoded_object": true,
+    "order_status_now": "EXPIRED",
+    "paid_at": null,
+    "completed_at": null,
+    "customer_identifiers_and_merchant_credentials_exported": false
+  },
+  "candidate_validation": {
+    "provider_package": "PASS",
+    "isolated_pg_roots_passed": 19,
+    "isolated_pg_http_cases": 4,
+    "isolated_pg_log_sha256": "753238fab36a0a02ddad9b30d2a43dd297c5f8b6d9deaab55ab3b49f84b24e83",
+    "duplicate_signed_callbacks_per_case": 8,
+    "missed_callback_native_reconcile": "PASS",
+    "expired_order_missing_merchant_reference_owner_verify": "PASS",
+    "wrong_cash_rejected": "PASS",
+    "repeat_owner_verification_no_extra_credit": "PASS",
+    "frontend_build": "PASS",
+    "windows_binary_build": "PASS",
+    "full_patch_reconstruction": "PASS",
+    "final_binary_loopback_status": "PASS",
+    "candidate_live_data_access": false
+  },
+  "first_failures": [
+    {
+      "type": "before_fix_regression",
+      "case": "encoded-object ZPay query",
+      "error": "invalid ZPay query response"
+    },
+    {
+      "type": "test_assertion",
+      "case": "expired-order redeem count",
+      "error": "expected int(3), received int64(3)",
+      "correction": "int64 expected; no production expiry rule change"
+    },
+    {
+      "type": "preflight_r2",
+      "error": "NEW_ENV_MUST_BE_ADJACENT_UNIQUE_FILE",
+      "gate_closed": false
+    }
+  ],
+  "deployment_attempts": [
+    {
+      "operation_id": "native-ux9-20261012-r1",
+      "phase": "ABORTED_BEFORE_STOP",
+      "receipt_sha256": "02a37a6f67343e272ba4de40b98cf1388ebd67a4cdcc2c4472f30767915d9338",
+      "first_failure": {
+        "phase": "DRAINING",
+        "type": "UpdateError",
+        "code": "DRAIN_TIMEOUT_NO_STREAM_KILLED"
+      },
+      "gate_seconds": 30.292455,
+      "phase_times_utc": {
+        "DRAINING": "2026-10-12T04:07:03.939542+00:00",
+        "ABORTED_BEFORE_STOP": "2026-10-12T04:07:34.231997+00:00"
+      },
+      "service_stopped": false,
+      "database_restored": false
+    },
+    {
+      "operation_id": "native-ux9-20261012-r3",
+      "phase": "ABORTED_BEFORE_STOP",
+      "receipt_sha256": "5b306403aede1f7e8d8484b8c2506726a25f732598bf8e73f307ae2af33c2ff9",
+      "first_failure": {
+        "phase": "DRAINING",
+        "type": "UpdateError",
+        "code": "DRAIN_TIMEOUT_NO_STREAM_KILLED"
+      },
+      "gate_seconds": 60.035872,
+      "phase_times_utc": {
+        "DRAINING": "2026-10-12T04:10:48.261131+00:00",
+        "ABORTED_BEFORE_STOP": "2026-10-12T04:11:48.297003+00:00"
+      },
+      "service_stopped": false,
+      "database_restored": false
+    }
+  ],
+  "final_operation": {
+    "operation_id": "native-ux9-20261012-r5",
+    "plan_sha256": "9d80685680af6070fafd12125929844656b3d3f0f97dbe1668eca28baff80229",
+    "phase": "PREPARED_NOT_ACTIVATED",
+    "receipt": null,
+    "previous_r4_superseded_without_activation": true
+  },
+  "paid_order_acceptance": null,
+  "limits": [
+    "No fabricated signed callback or SQL credit.",
+    "Real initial callback arrived and failed; no successful merchant notification replay is claimed.",
+    "Expired-order coverage is native owner reconciliation with no merchant reference persisted by the failed query; it is not unlimited recovery of every payment state.",
+    "No new inference, SSE, WebSocket, refund, other-provider or browser visual acceptance in this backend repair.",
+    "A prepared binary or Git commit is not an active production release."
+  ]
+}

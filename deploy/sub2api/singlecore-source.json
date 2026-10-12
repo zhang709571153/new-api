@@ -1,13 +1,13 @@
 {
   "format": 1,
-  "candidate_version": "realyu-singlecore-v0.2.15-20261012-ux8",
-  "status": "UX8 PAYGO frontend fix frozen; production acceptance recorded separately",
+  "candidate_version": "realyu-singlecore-v0.2.15-20261012-ux9",
+  "status": "UX9 ZPay query fix frozen; production acceptance recorded separately",
   "upstream_url": "https://github.com/Wei-Shaw/sub2api.git",
   "upstream_tag": "v0.2.15",
   "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
   "patch": "singlecore-candidate.patch",
-  "patch_sha256": "fbb51d5d69c64983ac1db1672b179f6ff28e7081a9d317d8a08232ce0dd04e4c",
-  "patch_bytes": 2227872,
+  "patch_sha256": "c0f22d50c4bcfc881e242ece44702243cac1be1a4212afb027702a83f5d79a7d",
+  "patch_bytes": 2234670,
   "changed_files": [
     {
       "path": "backend/cmd/server/wire_gen.go",
@@ -251,13 +251,13 @@
     },
     {
       "path": "backend/internal/payment/provider/zpay_validation.go",
-      "sha256": "eb4ea8a54bfea98bd075a626ef92aa07cb17a64340c0b2681865a4b6b6e19776",
-      "bytes": 3341
+      "sha256": "428dcc553468ad48cfbb7392059d0368b1e8f848ef7d427a2b1c80cde3b9633e",
+      "bytes": 3909
     },
     {
       "path": "backend/internal/payment/provider/zpay_validation_test.go",
-      "sha256": "dd98c384f9425d1f2b000b1ad3c2bba63311f8397dc1ab39bd3076863bf1c916",
-      "bytes": 2901
+      "sha256": "3ab141892ed61fb8f06cddf296f37fcbc06c974e45fe211f977c7fe1d34f7a69",
+      "bytes": 6007
     },
     {
       "path": "backend/internal/repository/api_key_repo.go",
@@ -356,8 +356,8 @@
     },
     {
       "path": "backend/internal/repository/realyu_recharge_http_pg_test.go",
-      "sha256": "a2e267e7d9c4a4509f563e5276e71c3112f4cba3841aaeb578e7427e9075b4c1",
-      "bytes": 8659
+      "sha256": "3c662500369ca945d278a015b2fecb92cb82533525d99ccf36e5e21741cf6631",
+      "bytes": 11641
     },
     {
       "path": "backend/internal/repository/realyu_response_scope_repo.go",
@@ -2185,10 +2185,10 @@
       "bytes": 987
     }
   ],
-  "source_commit": "243338e47b12b460f46bf2842e89a40077cbbf78",
-  "generated_utc": "2026-10-11T16:24:59.519106+00:00",
+  "source_commit": "998f501f5d598b9a9362600f1100e0cdc88b0dfa",
+  "generated_utc": "2026-10-12T04:25:07.408912+00:00",
   "private_runtime_included": false,
   "production_actions": false,
   "rebuild": "Prepare-SingleCore.ps1 -Destination NEW_DIRECTORY -Build -Test",
-  "verification_report": "../../lab/sub2api_e2e/ux8-paygo-20261012.json"
+  "verification_report": "../../lab/sub2api_e2e/ux9-zpay-20261012.json"
 }

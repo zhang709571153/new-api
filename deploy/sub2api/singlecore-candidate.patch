@@ -4396,13 +4396,14 @@ index 0000000000000000000000000000000000000000..2fda239583c1453b30f5608f15eea5ff
 +}
 diff --git a/backend/internal/payment/provider/zpay_validation.go b/backend/internal/payment/provider/zpay_validation.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..1715fa89e78a16d345f84d933cc852f28c0e298d
+index 0000000000000000000000000000000000000000..90280055c0d46171e4d51e75db508bd4ec03b061
 --- /dev/null
 +++ b/backend/internal/payment/provider/zpay_validation.go
-@@ -0,0 +1,89 @@
+@@ -0,0 +1,104 @@
 +package provider
 +
 +import (
++	"bytes"
 +	"context"
 +	"encoding/json"
 +	"fmt"
@@ -4440,6 +4441,20 @@ index 0000000000000000000000000000000000000000..1715fa89e78a16d345f84d933cc852f2
 +	body, err := e.getZPayQuery(ctx, e.apiBase()+"/api.php", map[string]string{"act": "order", "pid": e.config["pid"], "key": e.config["pkey"], "out_trade_no": orderID})
 +	if err != nil {
 +		return nil, err
++	}
++	// ZPay may encode the JSON object as a JSON string when responding to
++	// Accept: application/json. Unwrap exactly one envelope, then require an
++	// object and apply the same merchant, order, status and cash checks below.
++	body = bytes.TrimSpace(body)
++	if len(body) > 0 && body[0] == '"' {
++		var object string
++		if json.Unmarshal(body, &object) != nil {
++			return nil, fmt.Errorf("invalid ZPay query response")
++		}
++		body = bytes.TrimSpace([]byte(object))
++	}
++	if len(body) == 0 || body[0] != '{' {
++		return nil, fmt.Errorf("invalid ZPay query response")
 +	}
 +	var reply struct {
 +		Code    int             `json:"code"`
@@ -4491,10 +4506,10 @@ index 0000000000000000000000000000000000000000..1715fa89e78a16d345f84d933cc852f2
 +}
 diff --git a/backend/internal/payment/provider/zpay_validation_test.go b/backend/internal/payment/provider/zpay_validation_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..dc1bd0f71f6e2560803d4ebdf10d6e72dd16ae4a
+index 0000000000000000000000000000000000000000..d2a31858dcedbd9eb57c9368a771984ace8d7d04
 --- /dev/null
 +++ b/backend/internal/payment/provider/zpay_validation_test.go
-@@ -0,0 +1,86 @@
+@@ -0,0 +1,151 @@
 +package provider
 +
 +import (
@@ -4509,6 +4524,71 @@ index 0000000000000000000000000000000000000000..dc1bd0f71f6e2560803d4ebdf10d6e72
 +	"github.com/Wei-Shaw/sub2api/internal/payment"
 +	"github.com/stretchr/testify/require"
 +)
++
++// The live ZPay endpoint returns either an object or a JSON string containing
++// that object, depending on content negotiation. Keep all identity checks in
++// both representations; a valid signature alone must never credit an order.
++func TestZPayObservedEncodedObjectQueryAndNotification(t *testing.T) {
++	for _, encoded := range []bool{false, true} {
++		name := "object"
++		if encoded {
++			name = "encoded-object"
++		}
++		t.Run(name, func(t *testing.T) {
++			body := []byte(`{"code":1,"status":1,"pid":"synthetic-pid","out_trade_no":"synthetic-order","trade_no":"synthetic-trade","type":"alipay","money":"5.00","buyer":null}`)
++			if encoded {
++				body, _ = json.Marshal(string(body))
++			}
++			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++				require.Equal(t, "application/json", r.Header.Get("Accept"))
++				w.Header().Set("Content-Type", "application/json; charset=utf-8")
++				_, _ = w.Write(body)
++			}))
++			defer srv.Close()
++			p := newZPayTestProvider(t, srv.URL)
++			queried, err := p.QueryOrder(context.Background(), "synthetic-order")
++			require.NoError(t, err)
++			require.Equal(t, payment.ProviderStatusPaid, queried.Status)
++			require.Equal(t, 5.0, queried.Amount)
++			params := map[string]string{"pid": "synthetic-pid", "out_trade_no": "synthetic-order", "trade_no": "synthetic-trade", "type": "alipay", "money": "5.00", "trade_status": "TRADE_SUCCESS"}
++			params["sign"] = easyPaySign(params, "synthetic-secret")
++			values := url.Values{}
++			for k, v := range params {
++				values.Set(k, v)
++			}
++			notice, err := p.VerifyNotification(context.Background(), values.Encode(), nil)
++			require.NoError(t, err)
++			require.Equal(t, payment.ProviderStatusSuccess, notice.Status)
++			require.Equal(t, 5.0, notice.Amount)
++			values.Set("money", "50.00")
++			_, err = p.VerifyNotification(context.Background(), values.Encode(), nil)
++			require.Error(t, err, "tampering must still fail before fulfillment")
++		})
++	}
++}
++
++func TestZPayEncodedQueryStillRejectsInvalidPayload(t *testing.T) {
++	valid := `{"code":1,"status":1,"pid":"synthetic-pid","out_trade_no":"synthetic-order","trade_no":"synthetic-trade","type":"alipay","money":"5.00"}`
++	for name, payload := range map[string]string{
++		"null": "null", "array": "[]", "scalar": "1", "empty": "", "invalid": "not JSON",
++		"nested string":   `"` + strings.ReplaceAll(valid, `"`, `\"`) + `"`,
++		"trailing object": valid + valid,
++		"wrong merchant":  strings.Replace(valid, "synthetic-pid", "wrong-pid", 1),
++		"wrong order":     strings.Replace(valid, "synthetic-order", "wrong-order", 1),
++		"bad amount":      strings.Replace(valid, "5.00", "0.001", 1),
++		"missing status":  strings.Replace(valid, `"status":1,`, "", 1),
++	} {
++		t.Run(name, func(t *testing.T) {
++			body, err := json.Marshal(payload)
++			require.NoError(t, err)
++			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) { _, _ = w.Write(body) }))
++			defer srv.Close()
++			result, err := newZPayTestProvider(t, srv.URL).QueryOrder(context.Background(), "synthetic-order")
++			require.Error(t, err)
++			require.Nil(t, result)
++		})
++	}
++}
 +
 +func TestZPayChecksActualMerchantOrderMethodAndExactCash(t *testing.T) {
 +	for _, mutation := range []string{"valid", "merchant", "order", "pending", "amount", "trade", "method", "missing-merchant", "missing-status", "fractional-cent"} {
@@ -8304,10 +8384,10 @@ index 0000000000000000000000000000000000000000..42d8aa1ebcac22ddda12fb5f66412dc2
 +}
 diff --git a/backend/internal/repository/realyu_recharge_http_pg_test.go b/backend/internal/repository/realyu_recharge_http_pg_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..419059c320055692488db16ec9b48394e50b04ab
+index 0000000000000000000000000000000000000000..5a622f35e377f309b0d2242a5d7a12dde94f20e2
 --- /dev/null
 +++ b/backend/internal/repository/realyu_recharge_http_pg_test.go
-@@ -0,0 +1,191 @@
+@@ -0,0 +1,251 @@
 +//go:build realyu_funding_pg
 +
 +package repository
@@ -8345,11 +8425,13 @@ index 0000000000000000000000000000000000000000..419059c320055692488db16ec9b48394
 +// fulfillment and queries; only the external merchant is a synthetic server.
 +func TestRealYuRechargePGNativeHTTPExactCashAndDuplicateCallbacks(t *testing.T) {
 +	for _, source := range []string{"realyu_username", "email"} {
-+		t.Run(source, func(t *testing.T) { testRealYuRechargeHTTP(t, source) })
++		for _, encoded := range []bool{false, true} {
++			t.Run(fmt.Sprintf("%s/encoded=%t", source, encoded), func(t *testing.T) { testRealYuRechargeHTTP(t, source, encoded) })
++		}
 +	}
 +}
 +
-+func testRealYuRechargeHTTP(t *testing.T, source string) {
++func testRealYuRechargeHTTP(t *testing.T, source string, encoded bool) {
 +	ctx := context.Background()
 +	u, err := url.Parse(os.Getenv("REALYU_FUNDING_TEST_DSN"))
 +	require.NoError(t, err)
@@ -8409,7 +8491,13 @@ index 0000000000000000000000000000000000000000..419059c320055692488db16ec9b48394
 +			http.Error(w, "order missing", 404)
 +			return
 +		}
-+		_ = json.NewEncoder(w).Encode(map[string]any{"code": 1, "status": 1, "pid": "synthetic-pid", "out_trade_no": id, "trade_no": "merchant-" + id, "type": "alipay", "money": cash})
++		body := map[string]any{"code": 1, "status": 1, "pid": "synthetic-pid", "out_trade_no": id, "trade_no": "merchant-" + id, "type": "alipay", "money": cash}
++		if encoded {
++			object, _ := json.Marshal(body)
++			_ = json.NewEncoder(w).Encode(string(object))
++		} else {
++			_ = json.NewEncoder(w).Encode(body)
++		}
 +	}))
 +	defer merchant.Close()
 +	_, err = cfg.CreateProviderInstance(ctx, service.CreateProviderInstanceRequest{ProviderKey: "easypay", Name: "synthetic zpay", SupportedTypes: []string{"alipay"}, Enabled: true, PaymentMode: "popup", Config: map[string]string{"pid": "synthetic-pid", "pkey": "synthetic-secret", "apiBase": merchant.URL, "notifyUrl": "https://app.example/api/v1/payment/webhook/easypay", "returnUrl": "https://app.example/payment/result", "paymentMode": "popup", "compatibilityMode": "zpay"}})
@@ -8426,6 +8514,7 @@ index 0000000000000000000000000000000000000000..419059c320055692488db16ec9b48394
 +		c.Next()
 +	})
 +	e.POST("/orders", h.CreateOrder)
++	e.POST("/orders/verify", h.VerifyOrder)
 +	e.GET("/checkout-info", h.GetCheckoutInfo)
 +	e.GET("/notify", wh.EasyPayNotify)
 +	request := func(method, path, body string) *httptest.ResponseRecorder {
@@ -8498,6 +8587,57 @@ index 0000000000000000000000000000000000000000..419059c320055692488db16ec9b48394
 +	require.Equal(t, 200, request("GET", notify("0.01"), "").Code)
 +	require.Equal(t, "0.00142800", balanceFunding(t, db, user.ID))
 +	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM realyu_funding_subscriptions`))
++
++	// A missed callback must be recovered through the same merchant query and
++	// native fulfillment, including the observed string-wrapped response.
++	t.Setenv("REALYU_CUSTOMER_USD_TO_CNY", "7")
++	rec = request("POST", "/orders", `{"amount":5,"order_type":"balance","payment_type":"alipay","return_url":"https://example.com/payment/result"}`)
++	require.Equal(t, 200, rec.Code, rec.Body.String())
++	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &response))
++	lock.Lock()
++	merchantOrders[response.Data.OutTradeNo] = "5.00"
++	lock.Unlock()
++	recovered, err := svc.ReconcilePendingPaymentOrders(ctx)
++	require.NoError(t, err)
++	require.Equal(t, 1, recovered)
++	require.Equal(t, "0.71571400", balanceFunding(t, db, user.ID))
++	order, err := client.PaymentOrder.Get(ctx, response.Data.OrderID)
++	require.NoError(t, err)
++	require.Equal(t, "COMPLETED", order.Status)
++	recovered, err = svc.ReconcilePendingPaymentOrders(ctx)
++	require.NoError(t, err)
++	require.Zero(t, recovered)
++	require.Equal(t, "0.71571400", balanceFunding(t, db, user.ID))
++
++	// Reproduce the incident after expiry, when failed query decoding has not
++	// yet saved the merchant trade reference. Native owner verification must
++	// reject a wrong cash amount, recover a confirmed payment, and credit once.
++	rec = request("POST", "/orders", `{"amount":5,"order_type":"balance","payment_type":"alipay","return_url":"https://example.com/payment/result"}`)
++	require.Equal(t, 200, rec.Code, rec.Body.String())
++	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &response))
++	_, err = db.Exec(`UPDATE payment_orders SET status='EXPIRED',expires_at=NOW()-INTERVAL '2 hours',updated_at=NOW()-INTERVAL '2 hours' WHERE id=$1`, response.Data.OrderID)
++	require.NoError(t, err)
++	lock.Lock()
++	merchantOrders[response.Data.OutTradeNo] = "4.99"
++	lock.Unlock()
++	verifyBody, err := json.Marshal(map[string]string{"out_trade_no": response.Data.OutTradeNo})
++	require.NoError(t, err)
++	require.Equal(t, 200, request("POST", "/orders/verify", string(verifyBody)).Code)
++	order, err = client.PaymentOrder.Get(ctx, response.Data.OrderID)
++	require.NoError(t, err)
++	require.Equal(t, "EXPIRED", order.Status)
++	require.Equal(t, "0.71571400", balanceFunding(t, db, user.ID))
++	lock.Lock()
++	merchantOrders[response.Data.OutTradeNo] = "5.00"
++	lock.Unlock()
++	for i := 0; i < 2; i++ {
++		require.Equal(t, 200, request("POST", "/orders/verify", string(verifyBody)).Code)
++		order, err = client.PaymentOrder.Get(ctx, response.Data.OrderID)
++		require.NoError(t, err)
++		require.Equal(t, "COMPLETED", order.Status)
++		require.Equal(t, "1.43000000", balanceFunding(t, db, user.ID))
++	}
++	require.Equal(t, int64(3), intFunding(t, db, `SELECT count(*) FROM redeem_codes WHERE status='used'`))
 +}
 diff --git a/backend/internal/repository/realyu_response_scope_repo.go b/backend/internal/repository/realyu_response_scope_repo.go
 new file mode 100644

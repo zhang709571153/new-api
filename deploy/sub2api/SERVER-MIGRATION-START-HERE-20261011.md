@@ -9,11 +9,11 @@
 - 仓库：`https://github.com/zhang709571153/new-api.git`
 - 部署分支：`codex/sub2api-handoff-20261009`。不要使用默认 `realyu` 分支或根目录 New API 程序作为新业务核心。
 - 本入口编写前已核实 GitHub 与本地提交均为 `5c2764f570e399ebcb46b1703cde2473b521ab9e`，工作区干净；本入口随后的提交继续沿此分支。
-- 默认重建输入：`realyu-singlecore-v0.2.15-20261012-ux8`，源码 `243338e47b12b460f46bf2842e89a40077cbbf78`。源机已于2026-10-12 00:36:31 CST ACTIVE；实际版本、后续变化与验收边界查根目录LIVE。
+- 默认重建输入：`realyu-singlecore-v0.2.15-20261012-ux9`，源码 `998f501f5d598b9a9362600f1100e0cdc88b0dfa`。候选通过；线上仍 UX8，等待当前请求排空后发布；实际版本与验收边界查根目录LIVE。
 - 以 `singlecore-source.json` 的固定 Sub2API 上游加完整补丁交付。此次重新比对 435 个改动文件全部一致，Git 内补丁 SHA256 与 manifest 一致；原生开发目录的本地 remote 不是独立 GitHub 发布仓库。
-- 补丁 SHA256：`fbb51d5d69c64983ac1db1672b179f6ff28e7081a9d317d8a08232ce0dd04e4c`。UX8本机发布 binary SHA256：`e826cb76da7fd1528ad874fc77e2bc7860d292680e237fb35aeff9ce19ebcfb0`。不同工具链重新构建不能仅因文件名相同声称与旧 binary 一致，应记录自己的构建哈希及来源。
+- 补丁 SHA256：`c0f22d50c4bcfc881e242ece44702243cac1be1a4212afb027702a83f5d79a7d`。UX9候选 binary SHA256：`3d7f0762f8f43d2af29cb0586074f8d8f23d9349bc192808dd0329d689a44020`。不同工具链重新构建不能仅因文件名相同声称与旧 binary 一致，应记录自己的构建哈希及来源。
 - 源机已完成309/310，共302条migration记录。必须核实最新完整map，不能沿用旧300项校验。历史归档已进入原生PG。新机恢复当前完整库，不重跑旧 SQLite/S0/S1 客户导入。
-- 原生ZPay支付宝充值现已启用，真实扫码页已验证，已存在待支付订单。必须保留全部订单、provider及其稳定加密密钥、原商户回调和查单能力；不能再次执行首次启用或恢复旧快照。实付到账仍待验收，详见[NATIVE-ZPAY-RESTORATION](NATIVE-ZPAY-RESTORATION.md)。
+- 原生ZPay支付宝充值现已启用，真实扫码页已验证，已存在待支付订单。必须保留全部订单、provider及其稳定加密密钥、原商户回调和查单能力；不能再次执行首次启用或恢复旧快照。已发生实付订单待到账故障，UX9修复及当前恢复状态须以LIVE最新记录为准，详见[NATIVE-ZPAY-RESTORATION](NATIVE-ZPAY-RESTORATION.md)。
 - 本机 15:27 采样六路径健康，仅证明源机当次健康。服务器报告仍是 10月9日的 Windows Server 2025 Datacenter、4 vCPU/16 GiB；须在目标机重新核对实际状态。
 
 ## 2. 服务器立即可做
@@ -26,7 +26,7 @@ Set-Location C:\RealYu\handoff
 git rev-parse HEAD
 ```
 
-阅读本入口、[Windows 整站交接](SINGLECORE-WINDOWS-HANDOFF.md)、[UX8 交付](UX8-PAYGO-20261012.md)和[最新网络事故](NETWORK-INCIDENT-20261011.md)。其余文档按需导航；有日期的旧“候选/未上线”描述不是当前版本状态。
+阅读本入口、[Windows 整站交接](SINGLECORE-WINDOWS-HANDOFF.md)、[UX9 交付](UX9-ZPAY-20261012.md)和[最新网络事故](NETWORK-INCIDENT-20261011.md)。其余文档按需导航；有日期的旧“候选/未上线”描述不是当前版本状态。
 
 1. 重新盘点服务器的权限、已有服务、端口、磁盘、待重启状态、实际网络和备份位置，保留云厂商/远程管理服务。
 2. 安装持久目录内的构建与运行依赖，按原生 Windows 服务方案准备 PG、免费 Redis、WinSW、API、bridge 和网络组件。生产服务不依赖 Codex 缓存、用户登录或桌面 Clash。
