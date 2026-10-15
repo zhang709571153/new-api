@@ -20200,10 +20200,10 @@ index 0000000000000000000000000000000000000000..196d2f4f8066e132acfd7ebaa1a60c99
 +These local tests do not themselves prove the new production binary or public browser was updated. Final release evidence must name the deployed build and repeat the public browser checks after the normal settings update.
 diff --git a/deploy/realyu/ADMIN-USAGE-PURCHASE-20261015.md b/deploy/realyu/ADMIN-USAGE-PURCHASE-20261015.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..8a9fd89a453bde082b4f6955a1eb37fc7140aca5
+index 0000000000000000000000000000000000000000..7d41d3f8d002f21011b7f27cb6b978e0e39c2bae
 --- /dev/null
 +++ b/deploy/realyu/ADMIN-USAGE-PURCHASE-20261015.md
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,86 @@
 +# 管理员用量修正、Key 名称与订阅支付收口
 +
 +2026-10-15 候选变更，接续 `0b0fbc0b4397bf0344ef38c71972e7843175a154` 的资金错误提示修复。
@@ -20270,6 +20270,26 @@ index 0000000000000000000000000000000000000000..8a9fd89a453bde082b4f6955a1eb37fc
 +保留原“查看详细诊断”入口。本次不扩充计费规则或创建历史重试链。
 +真实隔离 PG 回归覆盖平台权限、团队/个人隐藏、改名/删除、历史缺失及统计/资金不变；
 +前端覆盖管理员桌面/手机、展开详情、名称转义、切换普通用户后隐藏及列数。
++
++## 个人与团队配置按页面分开
++
++工作台固定展示“个人一键配置”。团队管理与用量页面在右上角提供“团队配置”按钮，
++点击后打开窄幅弹窗，复用原 Codex / WorkBuddy、Windows / macOS 配置与复制能力。
++不在团队概况中铺开大配置卡，保留紧凑的概况、成员表与用量布局；两个入口均移除个人/
++团队切换按钮，页面决定配置范围。配置仍属于当前登录用户本人，不是团队共享密钥。
++
++只有当前用户属于未关闭团队且成员状态为 active 时显示团队配置入口；创建团队的队长
++及加入团队的成员适用相同条件。未加入、已退出、停用成员、关闭团队，以及管理员查看
++他人团队的管理页不提供入口。团队余额耗尽不妨碍配置有效 Key。
++
++团队弹窗打开后才请求 canonical metadata，核对用户、scope 与当前页面 team_id；读取
++和复制时再次核对 Key。页面团队与后端绑定不符时显示失败，不回退个人 Key 或猜选。
++关闭弹窗、切换团队、退出/刷新成员信息、登出和页面卸载时清空命令并取消旧请求。
++保留 BaseDialog 的 Escape、焦点恢复及焦点约束，弹窗内容关闭即卸载。
++
++验证范围为组件回归、中文/英文词条、类型检查和生产前端构建；浏览器使用本地构建与
++合成 API 数据，覆盖桌面/窄屏、实际剪贴板、弹窗关闭和导航后配置范围。没有运行安装命令，
++不产生真实模型调用或消费，也不代表生产页面已更新。最新结果见交接 validation.json。
 diff --git a/deploy/realyu/CUSTOMER-CURRENCY.md b/deploy/realyu/CUSTOMER-CURRENCY.md
 new file mode 100644
 index 0000000000000000000000000000000000000000..81f40450c5fe19b723810051e898c80a20891abd
@@ -31244,10 +31264,10 @@ index 0000000000000000000000000000000000000000..6c9ea114474528a17cca3c76d21ab337
 +</style>
 diff --git a/frontend/src/components/realyu/RealYuWorkspaceSetup.vue b/frontend/src/components/realyu/RealYuWorkspaceSetup.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba2213aaef
+index 0000000000000000000000000000000000000000..5d3561e81b9b6ce4a2ef9bcf2a1dccf24d3ede51
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuWorkspaceSetup.vue
-@@ -0,0 +1,206 @@
+@@ -0,0 +1,208 @@
 +<!--
 +Setup layout adapted from new-api codex-guide.tsx.
 +Copyright (C) 2023-2026 QuantumNous
@@ -31268,12 +31288,9 @@ index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba
 +For commercial licensing, please contact support@quantumnous.com
 +-->
 +<template>
-+  <section v-if="enabled" class="card flex min-w-0 flex-col gap-3 p-4" data-testid="workspace-setup" :aria-label="t('realyuSetup.title')">
-+    <div class="realyu-toolbar min-h-9">
-+      <h2 class="text-base font-semibold">{{ t('realyuSetup.title') }}</h2>
-+      <div class="setup-segments" role="group" :aria-label="t('realyuSetup.scope')">
-+        <button v-for="kind in scopeKinds" :key="kind" type="button" class="setup-segment" :class="{ 'setup-segment-active': scope === kind }" :aria-pressed="scope === kind" :data-testid="`setup-scope-${kind}`" @click="scope = kind">{{ t(`realyuSetup.${kind}`) }}</button>
-+      </div>
++  <section v-if="enabled" class="flex min-w-0 flex-col gap-3" :class="{ 'card p-4': !embedded }" data-testid="workspace-setup" :aria-label="title">
++    <div v-if="!embedded" class="realyu-toolbar min-h-9">
++      <h2 class="text-base font-semibold">{{ title }}</h2>
 +    </div>
 +    <div class="grid min-w-0 gap-2">
 +      <div class="setup-segments setup-segments-wide" role="tablist" :aria-label="t('realyuSetup.client')" data-testid="setup-client" @keydown="moveSegmentFocus($event)">
@@ -31322,13 +31339,15 @@ index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba
 +import { buildSetupCommand, setupCommandPreview, type SetupClient, type SetupPlatform } from '@/utils/realyuSetupCommand'
 +
 +type KeyMetadata = Pick<ApiKey, 'id' | 'user_id' | 'name' | 'status' | 'expires_at' | 'realyu_scope'>
++const props = defineProps<{ scope: 'personal' | 'team'; teamId?: number; embedded?: boolean }>()
 +const { t } = useI18n()
 +const app = useAppStore(), auth = useAuthStore()
 +const { copyToClipboard } = useClipboard()
 +const controlID = useId()
-+const enabled = computed(() => isRealYuLogo(app.siteLogo))
-+const scopeKinds = ['personal', 'team'] as const
-+const scope = ref<'personal' | 'team'>('personal')
++const scope = computed(() => props.scope)
++const title = computed(() => t(`realyuSetup.${scope.value}Title`))
++const enabled = computed(() => isRealYuLogo(app.siteLogo)
++  && (scope.value === 'personal' || (Number.isSafeInteger(props.teamId) && props.teamId! > 0)))
 +const selected = ref<KeyMetadata | null>(null)
 +const loading = ref(false), loadFailed = ref(false), missingKey = ref(false)
 +const platform = ref<SetupPlatform>('windows'), client = ref<SetupClient>('codex')
@@ -31345,6 +31364,7 @@ index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba
 +function configurable(key: KeyMetadata): boolean {
 +  // Spending limits do not prevent client setup. Identity/scope validity still does.
 +  return key.user_id === auth.user?.id && key.realyu_scope?.kind === scope.value && key.realyu_scope.active
++    && (scope.value !== 'team' || key.realyu_scope.team_id === props.teamId)
 +    && (key.status === 'active' || key.status === 'quota_exhausted')
 +    && (!key.expires_at || Date.parse(key.expires_at) > Date.now())
 +}
@@ -31378,15 +31398,16 @@ index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba
 +  metadataRequest?.abort(); clearCredential()
 +  selected.value = null; loading.value = false; loadFailed.value = false; missingKey.value = false
 +  if (!enabled.value || !auth.user?.id || disposed) return
-+  const ownerID = auth.user.id, kind = scope.value
++  const ownerID = auth.user.id, kind = scope.value, pageTeamID = props.teamId
 +  const request = new AbortController(); metadataRequest = request
-+  const current = () => !disposed && !request.signal.aborted && ownerID === auth.user?.id && kind === scope.value
++  const current = () => !disposed && !request.signal.aborted && enabled.value && ownerID === auth.user?.id && kind === scope.value && pageTeamID === props.teamId
 +  loading.value = true
 +  try {
 +    // The server resolves the explicit canonical binding; never guess from list order or group.
 +    const { data: key } = await apiClient.get<KeyMetadata>('/keys/realyu-setup', { params: { scope: kind }, signal: request.signal })
 +    if (!current()) return
-+    if (!key || !Number.isSafeInteger(key.id) || key.id <= 0 || key.user_id !== ownerID || key.realyu_scope?.kind !== kind) throw new Error('Invalid setup binding')
++    if (!key || !Number.isSafeInteger(key.id) || key.id <= 0 || key.user_id !== ownerID || key.realyu_scope?.kind !== kind
++      || (kind === 'team' && key.realyu_scope.team_id !== pageTeamID)) throw new Error('Invalid setup binding')
 +    // Keep metadata only, even if an unexpected server response includes extra fields.
 +    selected.value = {
 +      id: key.id, user_id: key.user_id, name: key.name, status: key.status, expires_at: key.expires_at,
@@ -31414,6 +31435,7 @@ index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba
 +  const currentPlatform = platform.value, currentClient = client.value
 +  const request = new AbortController(); keyRequest = request; busy.value = true
 +  const current = () => !disposed && !request.signal.aborted && enabled.value && ownerID === auth.user?.id && id === selected.value?.id && kind === scope.value
++    && (kind !== 'team' || teamID === props.teamId)
 +  try {
 +    const key = await keysAPI.getById(id, { signal: request.signal })
 +    if (!current()) return
@@ -31434,7 +31456,7 @@ index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba
 +    if (current()) busy.value = false
 +  }
 +}
-+watch([() => auth.user?.id, () => auth.token, enabled, scope], () => { void loadKey() }, { immediate: true, flush: 'sync' })
++watch([() => auth.user?.id, () => auth.token, enabled, scope, () => props.teamId], () => { void loadKey() }, { immediate: true, flush: 'sync' })
 +watch([platform, client], () => {
 +  clearCredential()
 +  if (visible.value) void useKey('reveal')
@@ -32022,10 +32044,10 @@ index 0000000000000000000000000000000000000000..fa51d0d4a96f46f796579bbd10dc3dda
 +})
 diff --git a/frontend/src/components/realyu/__tests__/RealYuWorkspaceSetup.spec.ts b/frontend/src/components/realyu/__tests__/RealYuWorkspaceSetup.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37d22f987b
+index 0000000000000000000000000000000000000000..7e7e090993155290844347ec6c22593df094f805
 --- /dev/null
 +++ b/frontend/src/components/realyu/__tests__/RealYuWorkspaceSetup.spec.ts
-@@ -0,0 +1,233 @@
+@@ -0,0 +1,296 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 +import { reactive } from 'vue'
@@ -32042,13 +32064,13 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +vi.mock('@/composables/useClipboard', () => ({ useClipboard: () => ({ copyToClipboard: copy }) }))
 +vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: (key: string) => key }) }))
 +function key(overrides: Partial<ApiKey> = {}): ApiKey {
-+  return { id: 8, user_id: 11, key: 'sk-synthetic_personal_0123456789', name: 'Synthetic personal', status: 'active', expires_at: null, realyu_scope: { kind: 'personal', active: true }, ...overrides } as ApiKey
++  return { id: 8, user_id: 11, key: 'sk-synthetic_personal_key', name: 'Synthetic personal', status: 'active', expires_at: null, realyu_scope: { kind: 'personal', active: true }, ...overrides } as ApiKey
 +}
 +function notFound() { return { status: 404, reason: 'REALYU_SETUP_KEY_NOT_FOUND' } }
 +function pending<T>() { let resolve!: (value: T) => void; const promise = new Promise<T>(yes => { resolve = yes }); return { promise, resolve } }
 +let wrapper: VueWrapper | undefined
-+function render() {
-+  wrapper = mount(RealYuWorkspaceSetup, { attachTo: document.body, global: { stubs: { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } } })
++function render(props: { scope: 'personal' | 'team'; teamId?: number } = { scope: 'personal' }) {
++  wrapper = mount(RealYuWorkspaceSetup, { props, attachTo: document.body, global: { stubs: { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } } })
 +  return wrapper
 +}
 +function value(view: VueWrapper) { return (view.get('[data-testid="setup-command"]').element as HTMLTextAreaElement).value }
@@ -32072,6 +32094,8 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +    expect(api.list).not.toHaveBeenCalled()
 +    expect(api.getById).toHaveBeenCalledWith(8, { signal: expect.any(AbortSignal) })
 +    expect(view.find('select').exists()).toBe(false)
++    expect(view.find('[data-testid^="setup-scope-"]').exists()).toBe(false)
++    expect(view.get('h2').text()).toBe('realyuSetup.personalTitle')
 +    expect(view.find('a[href="/keys"]').exists()).toBe(false)
 +    expect(view.get('a[href="/docs"]').exists()).toBe(true)
 +    expect(value(view)).toContain(key().key)
@@ -32130,7 +32154,7 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +  it('does not fall back to personal when the canonical team binding is absent', async () => {
 +    metadata.mockResolvedValueOnce({ data: key() }).mockRejectedValueOnce(notFound())
 +    const view = render(); await flushPromises()
-+    await view.get('[data-testid="setup-scope-team"]').trigger('click'); await flushPromises()
++    await view.setProps({ scope: 'team', teamId: 7 }); await flushPromises()
 +    expect(metadata).toHaveBeenLastCalledWith('/keys/realyu-setup', { params: { scope: 'team' }, signal: expect.any(AbortSignal) })
 +    expect(view.get('[data-testid="setup-empty"]').text()).toBe('realyuSetup.emptyTeam')
 +    expect(copyDisabled(view)).toBe(true)
@@ -32181,8 +32205,7 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +    const team = key({ realyu_scope: { kind: 'team', active: true, team_id: 7, team_name: 'Synthetic team' } })
 +    metadata.mockResolvedValue({ data: team })
 +    api.getById.mockResolvedValue(key({ realyu_scope: { kind: 'team', active: true, team_id: 9 } }))
-+    const view = render()
-+    await view.get('[data-testid="setup-scope-team"]').trigger('click'); await flushPromises()
++    const view = render({ scope: 'team', teamId: 7 }); await flushPromises()
 +    expect(value(view)).not.toContain(team.key)
 +    expect(view.get('[data-testid="setup-action-error"]').exists()).toBe(true)
 +  })
@@ -32207,7 +32230,7 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +    const request = pending<{ data: ApiKey }>(); metadata.mockReturnValueOnce(request.promise).mockRejectedValueOnce(notFound())
 +    const view = render()
 +    const signal = metadata.mock.calls[0]![1].signal as AbortSignal
-+    await view.get('[data-testid="setup-scope-team"]').trigger('click')
++    await view.setProps({ scope: 'team', teamId: 7 })
 +    expect(signal.aborted).toBe(true)
 +    request.resolve({ data: key() }); await flushPromises()
 +    expect(view.get('[data-testid="setup-empty"]').text()).toBe('realyuSetup.emptyTeam')
@@ -32219,7 +32242,7 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +    const view = render(); await flushPromises()
 +    const signal = api.getById.mock.calls[0]![1].signal as AbortSignal
 +    metadata.mockRejectedValue(notFound())
-+    await view.get('[data-testid="setup-scope-team"]').trigger('click')
++    await view.setProps({ scope: 'team', teamId: 7 })
 +    expect(signal.aborted).toBe(true)
 +    request.resolve(key()); await flushPromises()
 +    expect(copy).not.toHaveBeenCalled()
@@ -32238,6 +32261,57 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +    expect(copy).not.toHaveBeenCalled()
 +  })
 +
++  it('shows only the current team command without a scope switch', async () => {
++    const team = key({ key: 'sk-synthetic_team_key', realyu_scope: { kind: 'team', active: true, team_id: 7, team_name: 'Synthetic team' } })
++    metadata.mockResolvedValue({ data: team }); api.getById.mockResolvedValue(team)
++    const view = render({ scope: 'team', teamId: 7 }); await flushPromises()
++    expect(view.get('h2').text()).toBe('realyuSetup.teamTitle')
++    expect(view.find('[data-testid^="setup-scope-"]').exists()).toBe(false)
++    expect(value(view)).toContain(team.key)
++    expect(value(view)).not.toContain(key().key)
++    await view.get('[data-testid="setup-copy"]').trigger('click'); await flushPromises()
++    expect(copy).toHaveBeenCalledWith(expect.stringContaining(team.key), 'realyuSetup.copied')
++    expect(metadata).toHaveBeenCalledTimes(1)
++    expect(metadata).toHaveBeenCalledWith('/keys/realyu-setup', { params: { scope: 'team' }, signal: expect.any(AbortSignal) })
++  })
++
++  it.each([undefined, 0, -1, NaN, 1.5])('never requests a team credential without a valid page team ID (%s)', async teamId => {
++    const view = render({ scope: 'team', teamId }); await flushPromises()
++    expect(view.find('[data-testid="workspace-setup"]').exists()).toBe(false)
++    expect(metadata).not.toHaveBeenCalled(); expect(api.getById).not.toHaveBeenCalled()
++  })
++
++  it('rejects canonical metadata belonging to a different team before revealing a key', async () => {
++    metadata.mockResolvedValue({ data: key({ realyu_scope: { kind: 'team', active: true, team_id: 9 } }) })
++    const view = render({ scope: 'team', teamId: 7 }); await flushPromises()
++    expect(view.find('[data-testid="setup-list-error"]').exists()).toBe(true)
++    expect(api.getById).not.toHaveBeenCalled(); expect(copyDisabled(view)).toBe(true)
++  })
++
++  it.each(['metadata', 'detail'])('clears the old team command and ignores pending %s when changing teams', async phase => {
++    const team = key({ realyu_scope: { kind: 'team', active: true, team_id: 7 } })
++    metadata.mockResolvedValue({ data: team }); api.getById.mockResolvedValue(team)
++    const view = render({ scope: 'team', teamId: 7 }); await flushPromises()
++    expect(value(view)).toContain(team.key)
++    const late = pending<any>()
++    if (phase === 'metadata') {
++      metadata.mockReturnValueOnce(late.promise)
++      await view.setProps({ teamId: 8 })
++    } else {
++      api.getById.mockReturnValueOnce(late.promise)
++      await view.get('[data-testid="setup-copy"]').trigger('click')
++    }
++    const calls = phase === 'metadata' ? metadata.mock.calls : api.getById.mock.calls
++    const signal = calls.at(-1)![1].signal as AbortSignal
++    metadata.mockRejectedValue(notFound())
++    await view.setProps({ teamId: 9 })
++    expect(signal.aborted).toBe(true)
++    expect(value(view)).not.toContain(team.key)
++    late.resolve(phase === 'metadata' ? { data: team } : team); await flushPromises()
++    expect(value(view)).not.toContain(team.key); expect(copy).not.toHaveBeenCalled()
++    expect(copyDisabled(view)).toBe(true)
++  })
++
 +  it('keeps the visible command available when clipboard copying fails and allows hiding it', async () => {
 +    copy.mockResolvedValue(false)
 +    const view = render(); await flushPromises()
@@ -32250,6 +32324,17 @@ index 0000000000000000000000000000000000000000..ab0e63e10d5d92b63d8a01a7a20f3c37
 +    expect(value(view)).not.toContain(key().key)
 +    await view.get('[data-testid="setup-reveal"]').trigger('click'); await flushPromises()
 +    expect(value(view)).toContain(key().key)
++  })
++
++  it('cancels a pending copy when the setup dialog closes', async () => {
++    const view = render(); await flushPromises()
++    const request = pending<ApiKey>(); api.getById.mockReturnValueOnce(request.promise)
++    await view.get('[data-testid="setup-copy"]').trigger('click')
++    const signal = api.getById.mock.calls.at(-1)![1].signal as AbortSignal
++    view.unmount(); wrapper = undefined
++    request.resolve(key()); await flushPromises()
++    expect(signal.aborted).toBe(true); expect(copy).not.toHaveBeenCalled()
++    expect(document.body.textContent).not.toContain(key().key)
 +  })
 +
 +  it('does not activate for an unbranded native site', async () => {
@@ -35036,17 +35121,18 @@ index 0000000000000000000000000000000000000000..74d956375bde34fec6639c02a31530ea
 +}
 diff --git a/frontend/src/i18n/locales/en/realyuSetup.ts b/frontend/src/i18n/locales/en/realyuSetup.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..a5fc90527a306e511dc7f19a83353e34f9811ea3
+index 0000000000000000000000000000000000000000..c4a135c85ac4b9d37a6ccf4845e5f68cba9e1a11
 --- /dev/null
 +++ b/frontend/src/i18n/locales/en/realyuSetup.ts
-@@ -0,0 +1,15 @@
+@@ -0,0 +1,16 @@
 +export default {
 +  realyuSetup: {
 +    title: 'One-click setup', description: 'Configure Codex or WorkBuddy.', docs: 'Documentation',
++    personalTitle: 'Personal setup', teamTitle: 'Team setup', teamAction: 'Team setup',
 +    manageKeys: 'Manage keys', scope: 'Usage scope', personal: 'Personal', team: 'Team', allScopes: 'All scopes',
 +    loading: 'Loading…', loadFailed: 'Unable to load setup. Please retry.', retry: 'Retry', key: 'API key',
 +    unavailable: 'Setup is unavailable. Please contact your administrator.', emptyPersonal: 'Personal setup is not ready. Please refresh and retry.',
-+    emptyTeam: 'No team setup yet. Join a team to configure it here.', previous: 'Previous', next: 'Next',
++    emptyTeam: 'Team setup is not ready. Please refresh and retry.', previous: 'Previous', next: 'Next',
 +    client: 'Client', platform: 'System', command: 'Setup command', copy: 'Copy command', show: 'Show command key', hide: 'Hide command key',
 +    copied: 'Setup command copied', copyFailed: 'Copy failed. Select Show to copy the command manually.',
 +    keyFailed: 'Unable to read the current setup. Refresh and retry.',
@@ -35538,17 +35624,18 @@ index 0000000000000000000000000000000000000000..1f149486a77e2c1837b95d0f584c1f2e
 +}
 diff --git a/frontend/src/i18n/locales/zh/realyuSetup.ts b/frontend/src/i18n/locales/zh/realyuSetup.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..33aa920eb8f805fb93b47809c33aa4d8baf631e2
+index 0000000000000000000000000000000000000000..f48762a61a7b425bf8cddb3ab11f412a72154841
 --- /dev/null
 +++ b/frontend/src/i18n/locales/zh/realyuSetup.ts
-@@ -0,0 +1,15 @@
+@@ -0,0 +1,16 @@
 +export default {
 +  realyuSetup: {
 +    title: '一键配置', description: '一键配置 Codex 或 WorkBuddy。', docs: '使用文档',
++    personalTitle: '个人一键配置', teamTitle: '团队一键配置', teamAction: '团队配置',
 +    manageKeys: '管理 Key', scope: '使用范围', personal: '个人', team: '团队', allScopes: '全部范围',
 +    loading: '加载中…', loadFailed: '配置加载失败，请重试。', retry: '重试', key: '使用的 Key',
 +    unavailable: '当前配置不可用，请联系管理员。', emptyPersonal: '个人配置暂未就绪，请刷新后重试。',
-+    emptyTeam: '暂无团队配置，加入团队后即可在这里配置。', previous: '上一页', next: '下一页',
++    emptyTeam: '团队配置暂未就绪，请刷新后重试。', previous: '上一页', next: '下一页',
 +    client: '客户端', platform: '系统', command: '配置命令', copy: '复制命令', show: '显示命令密钥', hide: '隐藏命令密钥',
 +    copied: '配置命令已复制', copyFailed: '复制未成功，可点击“显示”后手动复制。',
 +    keyFailed: '无法读取当前配置，请刷新后重试。',
@@ -39148,7 +39235,7 @@ index 4cedca99491800131aa42fdbc016872ddb9a53e9..097819dae32f7923bf933e18a093cf6b
  
  function terminalZeroCost(job: Pick<BatchImageJob, 'status' | 'actual_cost'>) {
 diff --git a/frontend/src/views/user/DashboardView.vue b/frontend/src/views/user/DashboardView.vue
-index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..0941d373d0822b9aee7741b927bcd191df1027c8 100644
+index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..37f5055ef6af2e522276c90af16f2f4b6fad36d1 100644
 --- a/frontend/src/views/user/DashboardView.vue
 +++ b/frontend/src/views/user/DashboardView.vue
 @@ -1,40 +1,57 @@
@@ -39180,7 +39267,7 @@ index 815e9051821c344abf6d8c5832bd3cf967f3f0a4..0941d373d0822b9aee7741b927bcd191
 +        </template>
 +      </RealYuUsageOverview>
 +      <div class="realyu-workbench-tools">
-+        <RealYuWorkspaceSetup />
++        <RealYuWorkspaceSetup scope="personal" />
 +        <RealYuUsageAnalytics :show-recent="false" />
 +      </div>
 +      <details class="text-sm">
@@ -40108,10 +40195,10 @@ index e26b354e114f68d713f349ed691967eed332ad7f..8d20a9d44dfd7b077b9275fa350be84c
        console.error('Failed to load settings:', error)
 diff --git a/frontend/src/views/user/RealYuTeamsView.vue b/frontend/src/views/user/RealYuTeamsView.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3db15c18c
+index 0000000000000000000000000000000000000000..3506bfc43004e1ead317df11b47964f6cee76906
 --- /dev/null
 +++ b/frontend/src/views/user/RealYuTeamsView.vue
-@@ -0,0 +1,506 @@
+@@ -0,0 +1,515 @@
 +<template>
 +  <AppLayout>
 +    <div class="w-full min-w-0 space-y-3">
@@ -40157,7 +40244,7 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +          <button class="btn btn-secondary mt-3" @click="loadTeam(selectedID)">{{ t('realyuTeams.retry') }}</button>
 +        </div>
 +        <template v-else-if="overview">
-+          <section class="card space-y-3 p-4" :aria-label="t('realyuTeams.team')">
++          <section class="card min-w-0 space-y-3 p-4" data-testid="team-header" :aria-label="t('realyuTeams.team')">
 +            <div class="flex flex-wrap items-center justify-between gap-2">
 +              <div class="flex min-w-0 max-w-full flex-wrap items-center gap-2">
 +                <label v-if="!platform && teams.length > 1" class="min-w-0 max-w-full"><span class="sr-only">{{ t('realyuTeams.team') }}</span><select class="input realyu-team-title max-w-full" data-testid="team-select" :value="selectedID" :disabled="busy" @change="changeTeam"><option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }} · #{{ team.id }}</option></select></label>
@@ -40165,7 +40252,8 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +                <span v-if="overview.team.closed_at" class="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-dark-700 dark:text-gray-300">{{ t('realyuTeams.closed') }}</span>
 +                <span v-if="overview.subscription_title" class="text-xs text-gray-500 dark:text-dark-400">{{ overview.subscription_title }}</span>
 +              </div>
-+              <div class="flex items-center gap-2">
++              <div class="ml-auto flex flex-wrap items-center gap-2">
++                <button v-if="canConfigureTeam" class="btn btn-primary btn-sm" aria-haspopup="dialog" :aria-expanded="setupOpen" data-testid="team-setup-open" @click="setupOpen = true">{{ t('realyuSetup.teamAction') }}</button>
 +                <button v-if="platform && !overview.team.closed_at" class="btn btn-secondary btn-sm" :disabled="busy" data-testid="team-subscription-adjust" @click="subscriptionOpen = true">{{ t('realyuAdmin.subscriptions') }}</button>
 +                <button class="btn btn-secondary btn-sm" :disabled="teamLoading || busy" @click="loadTeams(selectedID)">{{ t('realyuTeams.refresh') }}</button>
 +                <button v-if="overview.viewer_id !== overview.team.owner_user_id && ownMembership" class="btn btn-secondary btn-sm" :disabled="busy" data-testid="leave-team" @click="leaveTeam">{{ t('realyuTeams.leave') }}</button>
@@ -40332,6 +40420,9 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +          <button type="submit" class="btn btn-primary" :disabled="busy">{{ t('realyuTeams.save') }}</button>
 +        </form>
 +      </BaseDialog>
++      <BaseDialog v-if="canConfigureTeam && overview" :show="setupOpen" :title="t('realyuSetup.teamTitle')" :close-label="t('common.close')" width="narrow" @close="setupOpen = false">
++        <RealYuWorkspaceSetup v-if="setupOpen" :key="overview.team.id" scope="team" :team-id="overview.team.id" embedded />
++      </BaseDialog>
 +      <RealYuAdminSubscriptionDialog v-if="platform && overview && subscriptionOpen" :show="true" :user-id="overview.team.owner_user_id" :user-label="overview.team.owner_nickname || overview.team.name" :initial-team="overview.team.id" @close="subscriptionOpen = false" @saved="loadTeams(selectedID)" />
 +    </div>
 +  </AppLayout>
@@ -40345,6 +40436,7 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +import BaseDialog from '@/components/common/BaseDialog.vue'
 +import RealYuTeamActionMenu from '@/components/realyu/RealYuTeamActionMenu.vue'
 +import RealYuAdminSubscriptionDialog from '@/components/realyu/RealYuAdminSubscriptionDialog.vue'
++import RealYuWorkspaceSetup from '@/components/realyu/RealYuWorkspaceSetup.vue'
 +import { realyuTeamsApi, type RealYuTeam, type RealYuTeamMember, type RealYuTeamOverview, type RealYuTeamUsageFilter, type RealYuTeamUsagePage, type RealYuTeamUsageStats } from '@/api/realyuTeams'
 +import { customerAmountToQuota, customerCurrencyCode, formatCustomerMoney, formatCustomerQuota, quotaToCustomerInput } from '@/utils/customerMoney'
 +import { formatRealYuTokens } from '@/utils/realyuDisplay'
@@ -40353,6 +40445,7 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +const props = withDefaults(defineProps<{ platform?: boolean }>(), { platform: false })
 +const teamSearch = ref('')
 +const subscriptionOpen = ref(false)
++const setupOpen = ref(false)
 +const teams = ref<RealYuTeam[]>([])
 +const filteredTeams = computed(() => {
 +  const q = teamSearch.value.trim().toLocaleLowerCase()
@@ -40400,6 +40493,8 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +// their current team first; owners never get an invitation-join entry point.
 +const canJoin = computed(() => !props.platform && !listLoading.value && !listFailed.value && teams.value.every(team => team.closed_at !== 0))
 +const ownMembership = computed(() => overview.value?.members.some(m => m.user_id === overview.value?.viewer_id && m.status !== 'removed'))
++const canConfigureTeam = computed(() => !props.platform && !overview.value?.team.closed_at
++  && overview.value?.members.some(m => m.user_id === overview.value?.viewer_id && m.status === 'active'))
 +const filterMember = ref(0), filterModel = ref(''), filterError = ref('')
 +function localDate(value: Date) {
 +  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(value)
@@ -40471,6 +40566,7 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +  expandedMembers.value.clear(); detailsOpen.value = false
 +  teamFailed.value = false; teamLoading.value = false; usageFailed.value = false; usageLoading.value = false
 +  subscriptionOpen.value = false
++  setupOpen.value = false
 +  appliedFilter = null
 +}
 +async function loadTeams(preferred = selectedID.value) {
@@ -41861,14 +41957,16 @@ index 3b187396d47caed689adeed125bf3531c8d75aba..a1a5794155e0aa6d6e1a5eea05718311
  })
 diff --git a/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts b/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2ef215270
+index 0000000000000000000000000000000000000000..d37672de18a6fe23f0ec5c352d5310cb2bf5155b
 --- /dev/null
 +++ b/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts
-@@ -0,0 +1,480 @@
+@@ -0,0 +1,529 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 +import { configureCustomerCurrency } from '@/utils/customerMoney'
 +import RealYuTeamsView from '../RealYuTeamsView.vue'
++import RealYuWorkspaceSetup from '@/components/realyu/RealYuWorkspaceSetup.vue'
++import BaseDialog from '@/components/common/BaseDialog.vue'
 +import type { RealYuTeamOverview, RealYuTeamUsagePage } from '@/api/realyuTeams'
 +
 +const { api } = vi.hoisted(() => ({ api: { list: vi.fn(), overview: vi.fn(), usage: vi.fn(), rename: vi.fn(), updateMember: vi.fn(), invite: vi.fn(), join: vi.fn(), leave: vi.fn() } }))
@@ -41899,6 +41997,7 @@ index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2
 +function mountView(platform = false) {
 +  wrapper = mount(RealYuTeamsView, { props: { platform }, global: { stubs: {
 +    AppLayout: { template: '<div><slot /></div>' },
++    RealYuWorkspaceSetup: true,
 +    Teleport: true,
 +    BaseDialog: { props: ['show'], emits: ['close'], template: '<div v-if="show" role="dialog"><slot /></div>' },
 +    Pagination: { props: ['page', 'total'], emits: ['update:page'], template: '<button data-testid="next" @click="$emit(\'update:page\', 2)">next</button>' },
@@ -41940,6 +42039,46 @@ index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2
 +    api.updateMember.mockResolvedValue(undefined)
 +  })
 +  afterEach(() => { wrapper?.unmount(); wrapper = undefined; vi.restoreAllMocks() })
++
++  it.each([1, 2])('places current member %s team setup in the header with the selected team ID', async viewer => {
++    const data = overview(); data.viewer_id = viewer
++    api.overview.mockResolvedValue(data)
++    const view = mountView(); await flushPromises()
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
++    await view.get('[data-testid="team-header"] [data-testid="team-setup-open"]').trigger('click')
++    expect(view.getComponent(RealYuWorkspaceSetup).props()).toEqual({ scope: 'team', teamId: 71, embedded: true })
++    view.findAllComponents(BaseDialog).find(dialog => dialog.props('show'))!.vm.$emit('close'); await flushPromises()
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
++    expect(view.get('[data-testid="team-setup-open"]').attributes('aria-expanded')).toBe('false')
++  })
++  it.each(['disabled', 'removed', 'closed', 'nonmember', 'platform'])('hides team setup for %s access', async state => {
++    const data = overview(); data.viewer_id = 2
++    if (state === 'disabled' || state === 'removed') data.members[1]!.status = state
++    if (state === 'closed') data.team.closed_at = 1750000000
++    if (state === 'nonmember') data.viewer_id = 99
++    api.overview.mockResolvedValue(data)
++    const view = mountView(state === 'platform'); await flushPromises()
++    if (state === 'platform') { await view.get('[data-testid="platform-team-71"] button').trigger('click'); await flushPromises() }
++    expect(view.find('[data-testid="team-setup-open"]').exists()).toBe(false)
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
++  })
++  it('removes setup while loading another team and on a failed membership read', async () => {
++    api.list.mockResolvedValue([owner, { ...owner, id: 72 }])
++    const view = mountView(); await flushPromises()
++    await view.get('[data-testid="team-setup-open"]').trigger('click')
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(true)
++    const request = pending<RealYuTeamOverview>(); api.overview.mockReturnValueOnce(request.promise)
++    await view.get('[data-testid="team-select"]').setValue('72')
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
++    const data = overview(); data.team.id = 72
++    request.resolve(data); await flushPromises()
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
++    await view.get('[data-testid="team-setup-open"]').trigger('click')
++    expect(view.getComponent(RealYuWorkspaceSetup).props('teamId')).toBe(72)
++    api.overview.mockRejectedValueOnce(new Error('unavailable'))
++    await view.get('[data-testid="team-select"]').setValue('71'); await flushPromises()
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
++  })
 +
 +  it('sorts the complete member table by weekly usage and reverses without altering usage totals', async () => {
 +    const view = mountView(); await flushPromises()
@@ -42261,6 +42400,7 @@ index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2
 +    api.join.mockResolvedValue({ team_id: 71, api_key_id: 8 })
 +    const view = mountView(); await flushPromises()
 +    const form = view.get('[data-testid="join-form"]')
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
 +    await form.get('input').setValue('a'.repeat(64))
 +    await form.trigger('submit'); await flushPromises()
 +    expect(api.join).toHaveBeenCalledTimes(1)
@@ -42268,6 +42408,8 @@ index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2
 +    expect(view.find('[data-testid="join-form"]').exists()).toBe(false)
 +    expect(view.html()).not.toContain('a'.repeat(64))
 +    expect(view.text()).toContain('realyuTeams.joined')
++    await view.get('[data-testid="team-setup-open"]').trigger('click')
++    expect(view.getComponent(RealYuWorkspaceSetup).props()).toEqual({ scope: 'team', teamId: 71, embedded: true })
 +  })
 +  it('requires an existing member to leave before joining another team', async () => {
 +    const data = overview(); data.team.can_manage = false; data.viewer_id = 2; data.members = [data.members[1]!]
@@ -42277,9 +42419,12 @@ index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2
 +    vi.spyOn(window, 'confirm').mockReturnValue(true)
 +    const view = mountView(); await flushPromises()
 +    expect(view.find('[data-testid="join-form"]').exists()).toBe(false)
++    await view.get('[data-testid="team-setup-open"]').trigger('click')
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(true)
 +    await view.get('[data-testid="leave-team"]').trigger('click'); await flushPromises()
 +    expect(api.leave).toHaveBeenCalledWith(71)
 +    expect(view.find('[data-testid="join-form"]').exists()).toBe(true)
++    expect(view.findComponent(RealYuWorkspaceSetup).exists()).toBe(false)
 +    expect(api.join).not.toHaveBeenCalled()
 +  })
 +  it('aborts pending team reads on unmount', async () => {
@@ -42878,15 +43023,16 @@ index 0000000000000000000000000000000000000000..651072ef3ff5acd110a91083f3d9f3cb
 +})
 diff --git a/frontend/src/views/user/__tests__/RealYuWorkbench.spec.ts b/frontend/src/views/user/__tests__/RealYuWorkbench.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..cc986480b8e0d242df6e580fb716ddaeb2d17633
+index 0000000000000000000000000000000000000000..4a3faf6e0460dfc0fd974c25f06fac57aab82b8e
 --- /dev/null
 +++ b/frontend/src/views/user/__tests__/RealYuWorkbench.spec.ts
-@@ -0,0 +1,55 @@
+@@ -0,0 +1,64 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 +import { reactive } from 'vue'
 +import { configureCustomerCurrency } from '@/utils/customerMoney'
 +import DashboardView from '../DashboardView.vue'
++import RealYuWorkspaceSetup from '@/components/realyu/RealYuWorkspaceSetup.vue'
 +
 +const { read, stores } = vi.hoisted(() => ({ read: vi.fn(), stores: {} as Record<string, any> }))
 +vi.mock('@/api/payment', () => ({ paymentAPI: { getManagedSubscriptions: read } }))
@@ -42912,6 +43058,14 @@ index 0000000000000000000000000000000000000000..cc986480b8e0d242df6e580fb716ddae
 +    read.mockResolvedValue({ data: summary() })
 +  })
 +  afterEach(() => { wrapper?.unmount(); wrapper = undefined })
++  it('fixes workbench setup to personal regardless of team subscriptions', async () => {
++    read.mockResolvedValue({ data: summary([plan, { ...plan, id: 18, team_id: 71 }]) })
++    const view = render(); await flushPromises()
++    const setup = view.getComponent(RealYuWorkspaceSetup)
++    expect(setup.props('scope')).toBe('personal')
++    expect(setup.props('teamId')).toBeUndefined()
++    expect(view.findAllComponents(RealYuWorkspaceSetup)).toHaveLength(1)
++  })
 +  it('shows weekly quota separately from the wallet even when overflow is blocked', async () => {
 +    const view = render(); await flushPromises()
 +    expect(view.get('[data-testid="workbench-weekly-available"]').text()).toBe('¥14.00')

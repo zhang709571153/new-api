@@ -1,5 +1,13 @@
 # RealYu / Sub2API 部署与迁移交接
 
+## 2026-10-15 — 最新候选增加个人/团队配置分离
+
+最新原生源码为 `a43c125ad7f892b1a809f478cb78193ef30c8a83`，包含下方完整候选。
+工作台固定个人配置；团队页面右上角按钮打开当前团队配置弹窗，只有有效成员可见，
+取消个人/团队切换按钮。已完成 87 项回归、桌面/窄屏与实际剪贴板检查和构建。
+仍通过同一 [source.json](deploy/sub2api/funding-error-reasons-20261015/source.json) 显式重建；
+默认 UX9 manifest 不变。未部署生产，完整结果见[交接](deploy/sub2api/funding-error-reasons-20261015/HANDOFF.md)。
+
 ## 2026-10-15 — 本轮完整候选：账户、用量与上游来源
 
 最新交接为原生源码 `3261f676e9e9ece3edf976cf7cc1895bbee96296`，包含下方资金原因修复，

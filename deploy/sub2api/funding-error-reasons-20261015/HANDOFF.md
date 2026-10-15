@@ -1,4 +1,4 @@
-# 资金提示、账户页面与调用记录交接
+# 资金提示、账户页面、配置入口与调用记录交接
 
 2026-10-15，北京时间。**状态：已验证候选，未部署生产。**
 
@@ -21,6 +21,10 @@
   原哈希、当前密码核验、改密后的旧令牌失效和已有 MFA 登录校验保留。
 - 个人资料去掉 2FA、Passkey 卡片，绑定区域只保留邮箱。“API 密钥”对普通用户恢复可见，
   紧接“工作台”下方，管理员个人侧栏也保持同样顺序。
+- 工作台固定“个人一键配置”；团队页右上角改为紧凑的“团队配置”按钮，点击打开窄幅弹窗，
+  保持概况与用量表的原有高度。两个入口均移除个人/团队切换按钮，由页面决定范围。
+  只有当前有效成员/队长且团队未关闭时显示；未加入、退出、停用或平台管理他人团队均隐藏。
+  打开弹窗后才读取本人团队 Key，并核对页面 team_id；关闭、切团队或登出后清空旧命令。
 
 旧版 Realyu 管理员日志有渠道名称/ID，部分请求有重试链和多 Key 索引。原生 usage_logs
 本来已记录 account_id/channel_id，精简接口此前未返回。已迁移的旧消费归档没有保留
@@ -37,7 +41,8 @@
 | 资金原因提交 | `0b0fbc0b4397bf0344ef38c71972e7843175a154` |
 | 团队用量、Key 名称、支付提交 | `0de507e2004e84264ff8061a29cff1bc6511bb72` |
 | 账号页面、密码、邮件验收、上游来源提交 | `3261f676e9e9ece3edf976cf7cc1895bbee96296` |
-| 候选版本 | `realyu-singlecore-ux9-account-usage-20261015` |
+| 个人与团队配置分离提交 | `a43c125ad7f892b1a809f478cb78193ef30c8a83` |
+| 候选版本 | `realyu-singlecore-ux9-team-setup-20261015` |
 | 完整补丁与源码 tree | 见 [source.json](source.json) |
 | 本机候选 EXE 哈希、验证结果 | 见 [validation.json](validation.json) |
 
@@ -56,13 +61,20 @@ Set-Location realyu-account-usage
 
 Destination 必须是新目录。准备 Go 1.25.12、Node.js 与 Corepack；输出为新目录下
 `candidate-output/sub2api.exe`。本机验收程序在
-`C:\srv\realyu-error-reasons-20261015\results\realyu-singlecore-account-usage.exe`。
+`C:\srv\realyu-error-reasons-20261015\results\realyu-singlecore-team-setup.exe`。
 本机 --version 还注入了源码提交和构建时间，换机重建字节可能不同，应重新记录哈希。
 EXE、私有配置、客户数据和原始日志没有上传 Git。
 
 ## 验证与邮件验收
 
-当前源码：42 项隔离 PostgreSQL 根测试通过，覆盖用量修正期间的预扣、结算、退款、
+当前 a43c125 的配置入口回归 87 项通过：工作台固定个人、创建/加入后团队入口、关闭/停用/
+退出隐藏、页面 team_id 不匹配拒绝、迟到请求丢弃、复制及中英文词条。真实浏览器使用本地
+生产前端构建和合成 API，11 项检查通过：桌面紧凑入口、390px 窄屏、弹窗尺寸、剪贴板、
+Escape/焦点恢复、关闭清空以及导航后范围正确。未连接生产 API、运行安装命令或模型请求。
+Vue 类型检查、Vite 和内嵌 Go 构建通过。首轮大配置卡已改为按钮/弹窗；修复关闭弹窗时的
+焦点恢复，浏览器等待响应和动画完成后断言。原始失败及最终验证摘要哈希保留于 manifest。
+
+上一源码 3261f676：42 项隔离 PostgreSQL 根测试通过，覆盖用量修正期间的预扣、结算、退款、
 幂等及审计；Key 和上游名称、平台权限、个人/团队隔离、历史缺失、改名/删除；新钱包
 订单拒绝、历史订单完成以及资金不变。认证套件 10 项根测试通过，包括实际 PostgreSQL。
 
@@ -72,10 +84,11 @@ EXE、私有配置、客户数据和原始日志没有上传 Git。
 测试只使用合成账号，临时 schema 自动清理。未发送到用户 QQ；公网投递还需 SMTP 配置
 及收件确认，不能把隔离 E2E 当作生产送达证明。
 
-前端账户/导航现有回归 70 项通过，最后邮箱文案修改后重跑相关 41 项通过；上游展示及
+上一源码的前端账户/导航回归 70 项通过，最后邮箱文案修改后重跑相关 41 项通过；上游展示及
 翻译 51 项通过。上一源码 0de507e 的管理员/支付回归 116 项通过，其中最新使用记录
 用上述新回归覆盖。Vue 类型检查、Vite、内嵌前端的 Go 构建通过。资金 HTTP/SSE/WS 和
-错误视图验证沿用 0b0fbc0 的已通过记录，后续未修改这些协议路径；不声称本次重新执行。
+错误视图验证沿用 0b0fbc0 的已通过记录，后续未修改这些协议路径。上述资金、邮件和账号
+回归并未在本次纯配置界面改动中重跑，不把之前的结果计入本次 87 项。
 
 保留首错与修复：原钱包购买 HTTP 测试曾断言旧成功行为，现改成能力关闭、400、资金和
 订单不变；邮件 fixture 首轮缺少头像表，补上上游迁移后又发现 Ent schema 无 settings
@@ -91,6 +104,7 @@ Set-Location backend
 go test -p 2 -tags realyu_funding_pg ./internal/repository -run '^TestRealYu(Funding|AdminSubscription|History|Usage|Purchase)PG' -count=1
 go test -p 2 -tags unit ./internal/service -run '^Test(Realyu|ChangePassword_OnlyDeclaresPasswordHash)' -count=1
 Set-Location ..\frontend
+node node_modules/vitest/vitest.mjs run src/components/realyu/__tests__/RealYuWorkspaceSetup.spec.ts src/views/user/__tests__/RealYuTeamsView.spec.ts src/views/user/__tests__/RealYuWorkbench.spec.ts src/i18n/__tests__/localeKeyCompleteness.spec.ts --reporter=dot
 node node_modules/vitest/vitest.mjs run src/views/user/__tests__/RealYuUsageView.spec.ts src/views/user/__tests__/ProfileView.spec.ts src/components/user/profile/__tests__/ProfileIdentityBindingsSection.spec.ts src/components/user/profile/__tests__/ProfileInfoCard.spec.ts src/components/user/profile/__tests__/ProfilePasswordForm.spec.ts src/views/auth/__tests__/RegisterView.spec.ts src/i18n/__tests__/localeKeyCompleteness.spec.ts --reporter=dot
 node node_modules/vue-tsc/bin/vue-tsc.js --noEmit
 ```
