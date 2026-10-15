@@ -1,5 +1,25 @@
 # RealYu / Sub2API 开发日志
 
+## 2026-10-15 — 团队用量、账户入口与上游调用来源候选
+
+原生源码先提交 `0de507e2004e84264ff8061a29cff1bc6511bb72`（在途用量修正、Key 名称、
+关闭新订阅钱包购买），再提交 `3261f676e9e9ece3edf976cf7cc1895bbee96296`（6 位密码、
+邮箱绑定、个人页精简、API 密钥侧栏、管理员上游账号/渠道）。完整范围与重建输入见
+[本轮交接](deploy/sub2api/funding-error-reasons-20261015/HANDOFF.md)。原定价与业务 schema 未改，未部署。
+
+当前验证：42 项真实隔离 PG 根测试、10 项认证根测试、上游记录/翻译 51 项、账户/导航
+70 项前端回归通过；最终邮箱文案后相关 41 项复核通过，类型检查、Vite、内嵌 Go 构建通过。
+此前 0de507e 的管理/支付前端 116 项通过，新增使用记录回归取代其中旧覆盖；HTTP/SSE/WS
+资金错误协议沿用 0b0fbc0 的先前证据。邮件按用户选择验证隔离 HTTP→SMTP→收信→绑定→
+邮箱登录，验证码重复使用被拒绝，不声称 QQ 公网送达。未写生产邮件配置。
+
+首错保留：钱包 HTTP 旧测试仍要求钱包购买成功，改成新禁止契约后通过；邮件测试环境
+缺少上游头像表及 settings.updated_at 默认值，补齐隔离 fixture 后通过，生产 schema 未动。
+原生上游 ID 从每笔 usage_logs 获取，当前名称作显示标签；旧迁移档案未保存路由则标“未记录”。
+个人/团队接口不返回平台上游信息。最终补丁哈希、源码 tree、EXE 哈希和测试日志摘要在
+[source](deploy/sub2api/funding-error-reasons-20261015/source.json) 与
+[validation](deploy/sub2api/funding-error-reasons-20261015/validation.json)。
+
 ## 2026-10-15 — 资金拒绝原因展示与 Git 交接
 
 在 UX9 对应源码上完成个人余额/套餐、团队总额度、团队成员额度及 Key 限额的具体原因码、

@@ -1,5 +1,13 @@
 # RealYu / Sub2API 部署与迁移交接
 
+## 2026-10-15 — 本轮完整候选：账户、用量与上游来源
+
+最新交接为原生源码 `3261f676e9e9ece3edf976cf7cc1895bbee96296`，包含下方资金原因修复，
+以及团队实时用量修正、API Key 名称、管理员上游账号/渠道、关闭包月钱包支付、6 位密码、
+邮箱单一绑定和 API 密钥侧栏恢复。见[完整交接](deploy/sub2api/funding-error-reasons-20261015/HANDOFF.md)。
+邮件按用户明确选择完成隔离收件箱 E2E；没有公网 QQ 送达证明。当前只提交 Git，不部署，
+默认重建 manifest 仍是 UX9；新候选必须显式指定该目录 source.json。生产、schema 和定价未改。
+
 ## 2026-10-15 — 资金错误原因候选，未上线
 
 新增独立[资金提示交接](deploy/sub2api/funding-error-reasons-20261015/HANDOFF.md)：

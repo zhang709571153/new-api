@@ -5301,10 +5301,10 @@ index dd831283b729d5191fa90934e4826e7b2753c1b7..70ccf2309cc79de2da6c913259168cfa
  		q = q.Where(apikey.Or(
 diff --git a/backend/internal/repository/realyu_admin_subscriptions_pg_test.go b/backend/internal/repository/realyu_admin_subscriptions_pg_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..1a00ebdad5e1a4220e599df5316ef6d16f49e5c0
+index 0000000000000000000000000000000000000000..4c35ef5a956ba1cbce21cf20e3cadab3111e756c
 --- /dev/null
 +++ b/backend/internal/repository/realyu_admin_subscriptions_pg_test.go
-@@ -0,0 +1,298 @@
+@@ -0,0 +1,320 @@
 +//go:build realyu_funding_pg
 +
 +package repository
@@ -5595,20 +5595,42 @@ index 0000000000000000000000000000000000000000..1a00ebdad5e1a4220e599df5316ef6d1
 +	invalid = in
 +	invalid.RequestKey = "admin-team-stale-used-value"
 +	_, err = r.AdminSubscription(ctx, 9, invalid)
-+	require.ErrorIs(t, err, service.ErrRealYuPurchaseConflict)
-+	request := fundingReq("repair-pending-request", 12, 2, 1)
-+	_, err = NewRealYuFundingRepository(db, true).Reserve(ctx, request)
++	require.NoError(t, err) // Live usage is deliberately not an optimistic lock.
++	funding := NewRealYuFundingRepository(db, true)
++	request := fundingReq("repair-pending-request", 12, 2, 100)
++	refundable := fundingReq("repair-refund-request", 12, 2, 200)
++	_, err = funding.Reserve(ctx, request)
 +	require.NoError(t, err)
++	_, err = funding.Reserve(ctx, refundable)
++	require.NoError(t, err)
++	invalid.RequestKey = "admin-team-correction-running"
++	invalid.ExpectedWeeklyUsed = nil // New clients no longer send the observed usage.
 +	_, err = r.AdminSubscription(ctx, 9, invalid)
-+	require.ErrorIs(t, err, service.ErrRealYuSubscriptionBusy)
-+	require.EqualValues(t, 2, intFunding(t, db, `SELECT count(*) FROM realyu_admin_entitlement_ops`))
++	require.NoError(t, err)
++	require.EqualValues(t, 300, intFunding(t, db, `SELECT weekly_used FROM realyu_funding_subscriptions`))
++	require.EqualValues(t, 2, intFunding(t, db, `SELECT count(*) FROM realyu_funding_requests WHERE status='reserved'`))
++	// Both lower final usage and a full refund can complete after a zero reset.
++	request.TargetQuota = 40
++	_, err = settleFunding(t, db, request)
++	require.NoError(t, err)
++	_, err = funding.Refund(ctx, refundable)
++	require.NoError(t, err)
++	require.EqualValues(t, 40, intFunding(t, db, `SELECT weekly_used FROM realyu_funding_subscriptions`))
++	require.EqualValues(t, 1840, intFunding(t, db, `SELECT amount_used FROM realyu_funding_subscriptions`))
++	require.EqualValues(t, 40, intFunding(t, db, `SELECT sum(used_quota) FROM realyu_member_period_usage`))
++	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM realyu_funding_requests WHERE status='reserved'`))
++	_, err = r.AdminSubscription(ctx, 9, invalid)
++	require.NoError(t, err) // A lost-response retry cannot erase the later settlement.
++	require.EqualValues(t, 40, intFunding(t, db, `SELECT weekly_used FROM realyu_funding_subscriptions`))
++	require.EqualValues(t, 300, intFunding(t, db, `SELECT (after_value->>'weekly_used')::bigint FROM realyu_admin_entitlement_ops WHERE request_key='admin-team-correction-running'`))
++	require.EqualValues(t, 4, intFunding(t, db, `SELECT count(*) FROM realyu_admin_entitlement_ops`))
 +}
 diff --git a/backend/internal/repository/realyu_admin_subscriptions_repo.go b/backend/internal/repository/realyu_admin_subscriptions_repo.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..f08f6b89f32766196c2e1c8f6a7b6d919e935f38
+index 0000000000000000000000000000000000000000..3ea66b1f732b0c8931cad46d1a795e7913b6f6a1
 --- /dev/null
 +++ b/backend/internal/repository/realyu_admin_subscriptions_repo.go
-@@ -0,0 +1,254 @@
+@@ -0,0 +1,264 @@
 +package repository
 +
 +import (
@@ -5656,7 +5678,7 @@ index 0000000000000000000000000000000000000000..f08f6b89f32766196c2e1c8f6a7b6d91
 +	}
 +	correctUsed := in.Action == "correct_weekly_used"
 +	if correctUsed {
-+		if in.TeamID < 1 || in.WeeklyUsedQuota == nil || in.ExpectedWeeklyUsed == nil || *in.WeeklyUsedQuota < 0 || *in.WeeklyUsedQuota > service.RealYuMaxWalletQuota || *in.ExpectedWeeklyUsed < 0 || in.ExpectedWeeklyReset < 1 {
++		if in.TeamID < 1 || in.WeeklyUsedQuota == nil || *in.WeeklyUsedQuota < 0 || *in.WeeklyUsedQuota > service.RealYuMaxWalletQuota || in.ExpectedWeeklyReset < 1 {
 +			return nil, service.ErrRealYuPurchaseUnsupported
 +		}
 +	} else if in.WeeklyUsedQuota != nil || in.ExpectedWeeklyUsed != nil || in.ExpectedWeeklyReset != 0 {
@@ -5775,7 +5797,7 @@ index 0000000000000000000000000000000000000000..f08f6b89f32766196c2e1c8f6a7b6d91
 +		}
 +	}
 +	var busy bool
-+	if err = tx.QueryRowContext(ctx, `SELECT EXISTS(SELECT 1 FROM realyu_funding_requests WHERE payer_user_id=$1 AND COALESCE(team_id,0)=$2 AND status='reserved') OR EXISTS(SELECT 1 FROM realyu_purchase_snapshots s JOIN payment_orders o ON o.id=s.order_id LEFT JOIN realyu_purchase_grants g ON g.order_id=s.order_id WHERE s.payer_user_id=$1 AND COALESCE(s.team_id,0)=$2 AND g.order_id IS NULL AND (o.status IN ('PAID','RECHARGING') OR (o.status='PENDING' AND o.expires_at>NOW())))`, in.UserID, in.TeamID).Scan(&busy); err != nil {
++	if err = tx.QueryRowContext(ctx, `SELECT (NOT $3::boolean AND EXISTS(SELECT 1 FROM realyu_funding_requests WHERE payer_user_id=$1 AND COALESCE(team_id,0)=$2 AND status='reserved')) OR EXISTS(SELECT 1 FROM realyu_purchase_snapshots s JOIN payment_orders o ON o.id=s.order_id LEFT JOIN realyu_purchase_grants g ON g.order_id=s.order_id WHERE s.payer_user_id=$1 AND COALESCE(s.team_id,0)=$2 AND g.order_id IS NULL AND (o.status IN ('PAID','RECHARGING') OR (o.status='PENDING' AND o.expires_at>NOW())))`, in.UserID, in.TeamID, correctUsed).Scan(&busy); err != nil {
 +		return nil, err
 +	}
 +	if busy {
@@ -5819,11 +5841,21 @@ index 0000000000000000000000000000000000000000..f08f6b89f32766196c2e1c8f6a7b6d91
 +				return nil, service.ErrRealYuPurchaseConflict
 +			}
 +			refreshFundingWeek(sub, now)
-+			if sub.reset != in.ExpectedWeeklyReset || sub.weekUsed != *in.ExpectedWeeklyUsed {
++			if sub.reset != in.ExpectedWeeklyReset {
 +				return nil, service.ErrRealYuPurchaseConflict
 +			}
-+			// This separate repair never changes cumulative or member usage.
-+			if _, err = tx.ExecContext(ctx, `UPDATE realyu_funding_subscriptions SET weekly_used=$2,weekly_reset_at=$3 WHERE id=$1`, sub.id, *in.WeeklyUsedQuota, sub.reset); err != nil {
++			// Traffic may change usage while the form is open. Overwrite it under
++			// the same team lock as funding, retaining only the in-flight floor so
++			// later refunds/settlements cannot underflow the weekly counter.
++			// Cumulative usage, member usage and request receipts remain intact.
++			var pending int64
++			if err = tx.QueryRowContext(ctx, `SELECT COALESCE(SUM(subscription_quota),0) FROM realyu_funding_requests WHERE subscription_id=$1 AND weekly_reset_at=$2 AND status='reserved'`, sub.id, sub.reset).Scan(&pending); err != nil {
++				return nil, err
++			}
++			if pending < 0 || pending > service.RealYuMaxWalletQuota {
++				return nil, service.ErrRealYuFundingRange
++			}
++			if _, err = tx.ExecContext(ctx, `UPDATE realyu_funding_subscriptions SET weekly_used=$2,weekly_reset_at=$3 WHERE id=$1`, sub.id, max(*in.WeeklyUsedQuota, pending), sub.reset); err != nil {
 +				return nil, err
 +			}
 +		} else if in.Action == "cancel" {
@@ -8090,7 +8122,7 @@ index 0000000000000000000000000000000000000000..76a9051ba8db01c40c6eafaf43589e9e
 +}
 diff --git a/backend/internal/repository/realyu_purchase_http_pg_test.go b/backend/internal/repository/realyu_purchase_http_pg_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..a3ba8a2534b9be10b0a4cd9f5b667c3063bc8279
+index 0000000000000000000000000000000000000000..05d3c26f17d833edb16b5bcbe44d1685d778b578
 --- /dev/null
 +++ b/backend/internal/repository/realyu_purchase_http_pg_test.go
 @@ -0,0 +1,142 @@
@@ -8123,7 +8155,7 @@ index 0000000000000000000000000000000000000000..a3ba8a2534b9be10b0a4cd9f5b667c30
 +	"github.com/stretchr/testify/require"
 +)
 +
-+func TestRealYuPurchasePGNativeHTTPStandardPlanWalletAndRead(t *testing.T) {
++func TestRealYuPurchasePGNativeHTTPRejectsWalletAndPreservesRecharge(t *testing.T) {
 +	ctx := context.Background()
 +	raw := os.Getenv("REALYU_FUNDING_TEST_DSN")
 +	require.NotEmpty(t, raw)
@@ -8206,7 +8238,9 @@ index 0000000000000000000000000000000000000000..a3ba8a2534b9be10b0a4cd9f5b667c30
 +	request(http.MethodPut, fmt.Sprintf("/admin/plans/%d", planID), `{"for_sale":true}`, 200)
 +	catalog := request(http.MethodGet, "/plans", "", 200)
 +	item := catalog["data"].([]any)[0].(map[string]any)
-+	require.True(t, item["managed_entitlement"].(map[string]any)["capabilities"].(map[string]any)["wallet_payment"].(bool))
++	require.False(t, item["managed_entitlement"].(map[string]any)["allow_balance_pay"].(bool))
++	require.False(t, item["managed_entitlement"].(map[string]any)["capabilities"].(map[string]any)["wallet_payment"].(bool))
++	require.True(t, item["managed_entitlement"].(map[string]any)["capabilities"].(map[string]any)["purchase"].(bool))
 +	checkout := request(http.MethodGet, "/checkout-info", "", 200)["data"].(map[string]any)
 +	require.False(t, checkout["balance_disabled"].(bool))
 +	require.True(t, checkout["managed_recharge"].(bool))
@@ -8216,32 +8250,30 @@ index 0000000000000000000000000000000000000000..a3ba8a2534b9be10b0a4cd9f5b667c30
 +	require.Equal(t, "CNY", checkoutItem["currency"])
 +	require.Equal(t, item["managed_entitlement"], checkoutItem["managed_entitlement"])
 +	body := fmt.Sprintf(`{"order_type":"subscription","plan_id":%d,"payment_type":"wallet","purchase_action":"purchase","idempotency_key":"synthetic-http-wallet-order"}`, planID)
-+	order := request(http.MethodPost, "/orders", body, 200)["data"].(map[string]any)
-+	require.Equal(t, "COMPLETED", order["status"])
-+	require.Equal(t, float64(0), order["pay_amount"])
-+	replay := request(http.MethodPost, "/orders", body, 200)["data"].(map[string]any)
-+	require.Equal(t, order["order_id"], replay["order_id"])
-+	require.Equal(t, "9.00000000", balanceFunding(t, db, user.ID))
-+	require.EqualValues(t, 1, intFunding(t, db, `SELECT count(*) FROM realyu_purchase_grants`))
++	denied := request(http.MethodPost, "/orders", body, 400)
++	require.Contains(t, fmt.Sprint(denied), "MANAGED_PURCHASE_UNSUPPORTED")
++	request(http.MethodPost, "/orders", body, 400)
++	require.Equal(t, "10.00000000", balanceFunding(t, db, user.ID))
++	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM payment_orders`))
++	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM realyu_purchase_grants`))
 +	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM user_subscriptions`))
 +	rights := request(http.MethodGet, "/managed-subscriptions", "", 200)["data"].(map[string]any)
 +	require.True(t, rights["managed"].(bool))
 +	subs := rights["subscriptions"].([]any)
-+	require.Len(t, subs, 1)
-+	require.Equal(t, float64(1000), subs[0].(map[string]any)["available_quota"])
-+	request(http.MethodPost, "/orders", strings.Replace(body, "synthetic-http-wallet-order", "synthetic-http-second-order", 1), 409)
++	require.Empty(t, subs)
++	request(http.MethodPost, "/orders", strings.Replace(body, "synthetic-http-wallet-order", "synthetic-http-second-order", 1), 400)
 +	// The global store switch must still block recharge independently of the
 +	// managed-account capability; this fixture intentionally has no merchant.
 +	require.NoError(t, settings.Set(ctx, service.SettingBalancePayDisabled, "true"))
 +	request(http.MethodPost, "/orders", `{"order_type":"balance","amount":7,"payment_type":"alipay"}`, 403)
-+	require.Equal(t, "9.00000000", balanceFunding(t, db, user.ID))
++	require.Equal(t, "10.00000000", balanceFunding(t, db, user.ID))
 +}
 diff --git a/backend/internal/repository/realyu_purchase_pg_test.go b/backend/internal/repository/realyu_purchase_pg_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f908946160ba34
+index 0000000000000000000000000000000000000000..ce670e884fbfe1767b5ebeb997ef661f600e4eab
 --- /dev/null
 +++ b/backend/internal/repository/realyu_purchase_pg_test.go
-@@ -0,0 +1,338 @@
+@@ -0,0 +1,379 @@
 +//go:build realyu_funding_pg
 +
 +package repository
@@ -8249,6 +8281,7 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +import (
 +	"context"
 +	"database/sql"
++	"encoding/json"
 +	"fmt"
 +	"os"
 +	"sync"
@@ -8313,9 +8346,25 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +	require.NoError(t, tx.Commit())
 +	return q
 +}
-+func TestRealYuPurchasePGWalletConcurrentAtomicAndReplay(t *testing.T) {
++
++// Seed a receipt accepted by an older release. New wallet orders must not use
++// Quote/AttachOrder; existing snapshots still complete atomically and replay.
++func createLegacyWalletOrder(t *testing.T, db *sql.DB, r *RealYuPurchaseRepository, id int64) {
++	t.Helper()
++	p, err := r.Plan(context.Background(), 1)
++	require.NoError(t, err)
++	p.AllowBalancePay = true
++	in := purchaseInput(id, "wallet")
++	data, err := json.Marshal(managedPurchaseSnapshot{Plan: *p, Title: p.Title, GroupID: p.GroupID, AllowBalancePay: true})
++	require.NoError(t, err)
++	_, err = db.Exec(`INSERT INTO payment_orders(id,user_id,plan_id,amount,pay_amount,payment_type,status,expires_at) VALUES($1,1,1,7,7,'wallet','PENDING',NOW()+INTERVAL '1 hour')`, id)
++	require.NoError(t, err)
++	_, err = db.Exec(`INSERT INTO realyu_purchase_snapshots(order_id,actor_user_id,payer_user_id,plan_id,request_key,request_sha256,payment_source,entitlement) VALUES($1,1,1,1,$2,$3,'wallet',$4::jsonb)`, id, in.RequestKey, purchaseFingerprint(in), string(data))
++	require.NoError(t, err)
++}
++func TestRealYuPurchasePGLegacyWalletConcurrentAtomicAndReplay(t *testing.T) {
 +	db, r := purchasePG(t)
-+	createManagedOrder(t, db, r, 101, "wallet")
++	createLegacyWalletOrder(t, db, r, 101)
 +	ctx := context.Background()
 +	var wg sync.WaitGroup
 +	fail := make(chan error, 12)
@@ -8348,11 +8397,11 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +	_, err = r.FindOrder(ctx, changed)
 +	require.ErrorIs(t, err, service.ErrRealYuPurchaseConflict)
 +	_, err = r.Quote(ctx, purchaseInput(102, "wallet"))
-+	require.ErrorIs(t, err, service.ErrRealYuPurchaseConflict)
++	require.ErrorIs(t, err, service.ErrRealYuPurchaseUnsupported)
 +}
 +func TestRealYuPurchasePGFailureRollsBackWalletAndGrant(t *testing.T) {
 +	db, r := purchasePG(t)
-+	createManagedOrder(t, db, r, 101, "wallet")
++	createLegacyWalletOrder(t, db, r, 101)
 +	_, err := db.Exec(`CREATE FUNCTION reject_grant() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'synthetic grant failure'; END $$;CREATE TRIGGER reject_grant BEFORE INSERT ON realyu_purchase_grants FOR EACH ROW EXECUTE FUNCTION reject_grant()`)
 +	require.NoError(t, err)
 +	_, err = r.Fulfill(context.Background(), 101, "wallet", time.Time{})
@@ -8400,17 +8449,41 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +	// allowed after expiry, and does not reset or delete the previous term.
 +	_, err = db.Exec(`UPDATE subscription_plans SET price=7;UPDATE payment_orders SET status='COMPLETED';UPDATE realyu_funding_subscriptions SET amount_used=300,weekly_used=200,start_time=extract(epoch FROM NOW())::bigint-2419201,end_time=extract(epoch FROM NOW())::bigint-1`)
 +	require.NoError(t, err)
-+	createManagedOrder(t, db, r, 102, "wallet")
++	createLegacyWalletOrder(t, db, r, 102)
 +	_, err = r.Fulfill(ctx, 102, "wallet", time.Time{})
 +	require.NoError(t, err)
 +	require.EqualValues(t, 2, intFunding(t, db, `SELECT count(*) FROM realyu_funding_subscriptions`))
 +	require.EqualValues(t, 300, intFunding(t, db, `SELECT sum(amount_used) FROM realyu_funding_subscriptions`))
 +	require.EqualValues(t, 200, intFunding(t, db, `SELECT sum(weekly_used) FROM realyu_funding_subscriptions`))
 +}
++func TestRealYuPurchasePGRejectsNewWalletOrdersEvenWithOldCatalogFlag(t *testing.T) {
++	db, r := purchasePG(t)
++	ctx := context.Background()
++	_, err := db.Exec(`UPDATE realyu_managed_plans SET allow_balance_pay=TRUE`)
++	require.NoError(t, err)
++	p, err := r.Plan(ctx, 1)
++	require.NoError(t, err)
++	require.False(t, p.AllowBalancePay)
++	require.False(t, p.Capabilities.WalletPayment)
++	require.True(t, p.Capabilities.Purchase)
++	_, err = r.Quote(ctx, purchaseInput(201, "wallet"))
++	require.ErrorIs(t, err, service.ErrRealYuPurchaseUnsupported)
++	q, err := r.Quote(ctx, purchaseInput(201, "merchant"))
++	require.NoError(t, err)
++	q.Input.PaymentSource = "wallet"
++	q.RequestSHA256 = purchaseFingerprint(q.Input)
++	client := dbent.NewClient(dbent.Driver(entsql.OpenDB(dialect.Postgres, db)))
++	tx, err := client.Tx(ctx)
++	require.NoError(t, err)
++	defer tx.Rollback()
++	require.ErrorIs(t, r.AttachOrder(dbent.NewTxContext(ctx, tx), 201, q), service.ErrRealYuPurchaseUnsupported)
++	require.Equal(t, "10.00000000", balanceFunding(t, db, 1))
++	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM payment_orders`))
++}
 +func TestRealYuPurchasePGAdmissionAndConfiguration(t *testing.T) {
 +	db, r := purchasePG(t)
 +	ctx := context.Background()
-+	in := purchaseInput(101, "wallet")
++	in := purchaseInput(101, "merchant")
 +	for _, action := range []string{"renew", "upgrade", "downgrade"} {
 +		bad := in
 +		bad.Action = action
@@ -8432,7 +8505,7 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +	_, err = db.Exec(`INSERT INTO user_allowed_groups VALUES(1,2);UPDATE users SET balance=0 WHERE id=1`)
 +	require.NoError(t, err)
 +	_, err = r.Quote(ctx, in)
-+	require.ErrorIs(t, err, service.ErrRealYuPurchaseFunds)
++	require.NoError(t, err) // Merchant purchase does not consume the API wallet.
 +	in.PaymentSource = "merchant"
 +	q, err := r.Quote(ctx, in)
 +	require.NoError(t, err)
@@ -8446,18 +8519,18 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +func TestRealYuPurchasePGAttachRollbackAndCatalogDrift(t *testing.T) {
 +	db, r := purchasePG(t)
 +	ctx := context.Background()
-+	q, err := r.Quote(ctx, purchaseInput(101, "wallet"))
++	q, err := r.Quote(ctx, purchaseInput(101, "merchant"))
 +	require.NoError(t, err)
 +	client := dbent.NewClient(dbent.Driver(entsql.OpenDB(dialect.Postgres, db)))
 +	tx, err := client.Tx(ctx)
 +	require.NoError(t, err)
-+	_, err = tx.Client().ExecContext(ctx, `INSERT INTO payment_orders(id,user_id,plan_id,amount,pay_amount,payment_type,status,expires_at) VALUES(101,1,1,7,0,'wallet','PENDING',NOW()+INTERVAL '1 hour')`)
++	_, err = tx.Client().ExecContext(ctx, `INSERT INTO payment_orders(id,user_id,plan_id,amount,pay_amount,payment_type,status,expires_at) VALUES(101,1,1,7,7,'alipay','PENDING',NOW()+INTERVAL '1 hour')`)
 +	require.NoError(t, err)
 +	require.NoError(t, r.AttachOrder(dbent.NewTxContext(ctx, tx), 101, q))
 +	require.NoError(t, tx.Rollback())
 +	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM payment_orders`))
 +	require.Zero(t, intFunding(t, db, `SELECT count(*) FROM realyu_purchase_snapshots`))
-+	_, err = db.Exec(`UPDATE realyu_managed_plans SET allow_balance_pay=FALSE`)
++	_, err = db.Exec(`UPDATE realyu_managed_plans SET allow_wallet_overflow=FALSE`)
 +	require.NoError(t, err)
 +	tx, err = client.Tx(ctx)
 +	require.NoError(t, err)
@@ -8522,7 +8595,7 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +	require.NoError(t, err)
 +	require.EqualValues(t, 71429, plan.WalletPriceQuota)
 +	require.False(t, plan.Capabilities.Purchase)
-+	require.True(t, plan.AllowBalancePay)
++	require.False(t, plan.AllowBalancePay)
 +	t.Setenv("REALYU_CUSTOMER_USD_TO_CNY", "")
 +	require.ErrorIs(t, r.ConfigurePlan(ctx, 1, p), service.ErrRealYuPurchaseUnsupported)
 +	require.EqualValues(t, 71429, intFunding(t, db, `SELECT wallet_price_quota FROM realyu_managed_plans WHERE plan_id=1`))
@@ -8542,11 +8615,11 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +	ctx := context.Background()
 +	_, err := db.Exec(`UPDATE users SET restrict_public_groups=FALSE WHERE id=1;DELETE FROM user_allowed_groups WHERE user_id=1;UPDATE groups SET is_exclusive=TRUE WHERE id=2`)
 +	require.NoError(t, err)
-+	_, err = r.Quote(ctx, purchaseInput(1, "wallet"))
++	_, err = r.Quote(ctx, purchaseInput(1, "merchant"))
 +	require.ErrorIs(t, err, service.ErrRealYuPurchasePermission)
 +	_, err = db.Exec(`UPDATE groups SET is_exclusive=FALSE WHERE id=2`)
 +	require.NoError(t, err)
-+	_, err = r.Quote(ctx, purchaseInput(1, "wallet"))
++	_, err = r.Quote(ctx, purchaseInput(1, "merchant"))
 +	require.NoError(t, err)
 +	allowed, err := r.BalanceRechargeAllowed(ctx, 1)
 +	require.NoError(t, err)
@@ -8582,10 +8655,10 @@ index 0000000000000000000000000000000000000000..9d4aa8c7f06768c4bba30c80e3f90894
 +}
 diff --git a/backend/internal/repository/realyu_purchase_repo.go b/backend/internal/repository/realyu_purchase_repo.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..42d8aa1ebcac22ddda12fb5f66412dc271e9dcc7
+index 0000000000000000000000000000000000000000..6597fb470898ca762d471d9257cf748256437b62
 --- /dev/null
 +++ b/backend/internal/repository/realyu_purchase_repo.go
-@@ -0,0 +1,399 @@
+@@ -0,0 +1,402 @@
 +package repository
 +
 +import (
@@ -8690,8 +8763,10 @@ index 0000000000000000000000000000000000000000..42d8aa1ebcac22ddda12fb5f66412dc2
 +	}
 +	// No active-term repeat purchase/renewal, upgrade or managed refund is
 +	// advertised. New team creation is a separate, not-yet-complete operation.
-+	walletQuota, rateErr := configuredWalletPriceQuota(p.PriceCents)
-+	p.Capabilities = service.RealYuPurchaseCapabilities{Purchase: forSale && p.FundingScope == "personal", WalletPayment: forSale && p.FundingScope == "personal" && p.AllowBalancePay && rateErr == nil && walletQuota == p.WalletPriceQuota}
++	// Monthly plans are purchased through the payment provider. Preserve old
++	// order snapshots for completion/replay, but never advertise new wallet orders.
++	p.AllowBalancePay = false
++	p.Capabilities = service.RealYuPurchaseCapabilities{Purchase: forSale && p.FundingScope == "personal"}
 +	return &p, nil
 +}
 +
@@ -8699,6 +8774,7 @@ index 0000000000000000000000000000000000000000..42d8aa1ebcac22ddda12fb5f66412dc2
 +	if !r.enabled || id < 1 || p.SourcePlanID < 0 || (p.FundingScope != "personal" && p.FundingScope != "team") || p.WeeklyAmountQuota < 1 || p.WeeklyAmountQuota > 2251799813685247 || p.TotalAmountQuota != p.WeeklyAmountQuota*4 || p.DurationSeconds != 2419200 || p.PriceCents < 1 || p.PriceCents > 1000000 || (p.FundingScope == "team" && p.AllowWalletOverflow) {
 +		return service.ErrRealYuPurchaseUnsupported
 +	}
++	p.AllowBalancePay = false
 +	wallet, err := configuredWalletPriceQuota(p.PriceCents)
 +	if err != nil {
 +		return err
@@ -8856,7 +8932,7 @@ index 0000000000000000000000000000000000000000..42d8aa1ebcac22ddda12fb5f66412dc2
 +}
 +func (r *RealYuPurchaseRepository) AttachOrder(ctx context.Context, orderID int64, q *service.RealYuPurchaseQuote) error {
 +	tx := dbent.TxFromContext(ctx)
-+	if tx == nil || q == nil || !r.enabled {
++	if tx == nil || q == nil || !r.enabled || q.Input.PaymentSource != "merchant" {
 +		return service.ErrRealYuPurchaseUnsupported
 +	}
 +	db := tx.Client()
@@ -9599,10 +9675,10 @@ index 0000000000000000000000000000000000000000..fb682bd8462ffa60ad5fa363efae2aca
 +}
 diff --git a/backend/internal/repository/realyu_team_pg_test.go b/backend/internal/repository/realyu_team_pg_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..af9fb42d2d7ca5959bfb37f9415592d5cd6aa9f2
+index 0000000000000000000000000000000000000000..aa1d1a36f9a343adf96e522b25bea97e95fab5a6
 --- /dev/null
 +++ b/backend/internal/repository/realyu_team_pg_test.go
-@@ -0,0 +1,317 @@
+@@ -0,0 +1,319 @@
 +//go:build realyu_funding_pg
 +
 +package repository
@@ -9628,7 +9704,9 @@ index 0000000000000000000000000000000000000000..af9fb42d2d7ca5959bfb37f9415592d5
 +      CREATE TABLE user_allowed_groups(user_id BIGINT,group_id BIGINT,PRIMARY KEY(user_id,group_id));
 +      CREATE SEQUENCE team_key_seq START 1000;ALTER TABLE api_keys ALTER COLUMN id SET DEFAULT nextval('team_key_seq');
 +      ALTER TABLE api_keys ADD COLUMN key TEXT,ADD COLUMN name TEXT,ADD COLUMN group_id BIGINT DEFAULT 1;
-+      CREATE TABLE usage_logs(id BIGSERIAL PRIMARY KEY,user_id BIGINT,api_key_id BIGINT,request_id TEXT,model TEXT,requested_model TEXT,input_tokens BIGINT DEFAULT 0,output_tokens BIGINT DEFAULT 0,cache_creation_tokens BIGINT DEFAULT 0,cache_read_tokens BIGINT DEFAULT 0,duration_ms BIGINT,first_token_ms BIGINT,stream BOOLEAN NOT NULL DEFAULT false,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW());
++      CREATE TABLE accounts(id BIGINT PRIMARY KEY,name TEXT NOT NULL,deleted_at TIMESTAMPTZ);
++      CREATE TABLE channels(id BIGINT PRIMARY KEY,name TEXT NOT NULL,deleted_at TIMESTAMPTZ);
++      CREATE TABLE usage_logs(id BIGSERIAL PRIMARY KEY,user_id BIGINT,api_key_id BIGINT,account_id BIGINT,channel_id BIGINT,request_id TEXT,model TEXT,requested_model TEXT,input_tokens BIGINT DEFAULT 0,output_tokens BIGINT DEFAULT 0,cache_creation_tokens BIGINT DEFAULT 0,cache_read_tokens BIGINT DEFAULT 0,duration_ms BIGINT,first_token_ms BIGINT,stream BOOLEAN NOT NULL DEFAULT false,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW());
 +      INSERT INTO users(id,username,role) VALUES(4,'other owner','user'),(5,'new member','user'),(6,'outsider','user'),(9,'root','admin'),(10,'legacy admin','user'),(11,'peer admin','user');
 +      UPDATE users SET username='same nickname' WHERE id IN(2,3);
 +      INSERT INTO realyu_legacy_user_metadata VALUES(10,10),(11,10);
@@ -10591,10 +10669,10 @@ index 0000000000000000000000000000000000000000..9862f4f184624fb82b56ccad3ea04aa5
 +}
 diff --git a/backend/internal/repository/realyu_usage_history_pg_test.go b/backend/internal/repository/realyu_usage_history_pg_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..07f573da872d32d2d83bafa848f7490cd4c1c7e5
+index 0000000000000000000000000000000000000000..facaa386c5e31472bf2db09ad22f2c9f2be3a1ff
 --- /dev/null
 +++ b/backend/internal/repository/realyu_usage_history_pg_test.go
-@@ -0,0 +1,231 @@
+@@ -0,0 +1,328 @@
 +//go:build realyu_funding_pg
 +
 +package repository
@@ -10649,6 +10727,103 @@ index 0000000000000000000000000000000000000000..07f573da872d32d2d83bafa848f7490c
 +	now := time.Now().UTC()
 +	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 +	return service.RealYuUsageHistoryFilter{Scope: "self", Page: 1, PageSize: 25, Today: today, Tomorrow: today.AddDate(0, 0, 1)}
++}
++
++func TestRealYuHistoryPGUpstreamAccountAndChannelArePlatformOnly(t *testing.T) {
++	db := historyPG(t)
++	ctx := context.Background()
++	r := NewRealYuTeamRepository(db, true)
++	_, err := db.Exec(`INSERT INTO accounts(id,name) VALUES(701,'Account A');
++ INSERT INTO channels(id,name) VALUES(801,'Channel A');
++ UPDATE usage_logs SET account_id=701,channel_id=801 WHERE request_id='native-today'`)
++	require.NoError(t, err)
++	before := balanceFunding(t, db, 1)
++	f := historyFilter()
++	for _, viewer := range []int64{2, 9} {
++		page, err := r.UsageHistory(ctx, viewer, f)
++		require.NoError(t, err)
++		for _, item := range page.Items {
++			require.Nil(t, item.Upstream)
++		}
++	}
++	f.Scope, f.TeamID = "team", 101
++	page, err := r.UsageHistory(ctx, 1, f)
++	require.NoError(t, err)
++	for _, item := range page.Items {
++		require.Nil(t, item.Upstream, "team management does not grant platform routing visibility")
++	}
++	f.Scope, f.TeamID, f.UserID = "platform", 0, 2
++	page, err = r.UsageHistory(ctx, 9, f)
++	require.NoError(t, err)
++	require.NotNil(t, page.Items[0].Upstream)
++	require.EqualValues(t, 701, *page.Items[0].Upstream.AccountID)
++	require.Equal(t, "Account A", *page.Items[0].Upstream.AccountName)
++	require.EqualValues(t, 801, *page.Items[0].Upstream.ChannelID)
++	require.Equal(t, "Channel A", *page.Items[0].Upstream.ChannelName)
++	for _, item := range page.Items[1:] {
++		require.Equal(t, &service.RealYuUsageUpstream{}, item.Upstream, "legacy archives never recorded this mapping")
++	}
++	_, err = r.UsageHistory(ctx, 2, f)
++	require.ErrorIs(t, err, service.ErrRealYuTeamAccess)
++	_, err = db.Exec(`UPDATE accounts SET name='Renamed account',deleted_at=NOW() WHERE id=701;
++ UPDATE channels SET name='Renamed channel',deleted_at=NOW() WHERE id=801`)
++	require.NoError(t, err)
++	renamed, err := r.UsageHistory(ctx, 9, f)
++	require.NoError(t, err)
++	require.Equal(t, "Renamed account", *renamed.Items[0].Upstream.AccountName)
++	require.Equal(t, "Renamed channel", *renamed.Items[0].Upstream.ChannelName)
++	require.Equal(t, page.Stats, renamed.Stats)
++	_, err = db.Exec(`DELETE FROM accounts WHERE id=701; DELETE FROM channels WHERE id=801`)
++	require.NoError(t, err)
++	missing, err := r.UsageHistory(ctx, 9, f)
++	require.NoError(t, err)
++	require.EqualValues(t, 701, *missing.Items[0].Upstream.AccountID)
++	require.EqualValues(t, 801, *missing.Items[0].Upstream.ChannelID)
++	require.Nil(t, missing.Items[0].Upstream.AccountName)
++	require.Nil(t, missing.Items[0].Upstream.ChannelName)
++	require.Equal(t, before, balanceFunding(t, db, 1))
++}
++
++func TestRealYuHistoryPGAPIKeyNamesRespectHistoryScope(t *testing.T) {
++	db := historyPG(t)
++	ctx := context.Background()
++	r := NewRealYuTeamRepository(db, true)
++	_, err := db.Exec(`UPDATE api_keys SET name='Work laptop' WHERE id=12; UPDATE api_keys SET name='Owner private key',key='synthetic-key-secret' WHERE id=11`)
++	require.NoError(t, err)
++	f := historyFilter()
++	page, err := r.UsageHistory(ctx, 2, f)
++	require.NoError(t, err)
++	require.Equal(t, "Work laptop", *page.Items[0].APIKeyName)
++	for _, item := range page.Items[1:] {
++		require.Nil(t, item.APIKeyName) // No key identifier was retained in legacy rows.
++	}
++	f.Scope, f.UserID = "platform", 2
++	page, err = r.UsageHistory(ctx, 9, f)
++	require.NoError(t, err)
++	require.Equal(t, "Work laptop", *page.Items[0].APIKeyName)
++	_, err = r.UsageHistory(ctx, 2, f)
++	require.ErrorIs(t, err, service.ErrRealYuTeamAccess)
++	f.UserID = 0
++	page, err = r.UsageHistory(ctx, 9, f)
++	require.NoError(t, err)
++	var names []string
++	for _, item := range page.Items {
++		if item.APIKeyName != nil {
++			names = append(names, *item.APIKeyName)
++		}
++	}
++	require.ElementsMatch(t, []string{"Work laptop", "Owner private key"}, names)
++	_, err = db.Exec(`UPDATE api_keys SET name='Renamed laptop',deleted_at=NOW() WHERE id=12`)
++	require.NoError(t, err)
++	page, err = r.UsageHistory(ctx, 2, historyFilter())
++	require.NoError(t, err)
++	require.Equal(t, "Renamed laptop", *page.Items[0].APIKeyName)
++	// A mismatched historical key ID cannot expose another actor's key name.
++	_, err = db.Exec(`UPDATE usage_logs SET api_key_id=11 WHERE request_id='native-today'`)
++	require.NoError(t, err)
++	page, err = r.UsageHistory(ctx, 2, historyFilter())
++	require.NoError(t, err)
++	require.Nil(t, page.Items[0].APIKeyName)
 +}
 +func TestRealYuHistoryPGSelfAttributionCountersAndNoFinancialWrites(t *testing.T) {
 +	db := historyPG(t)
@@ -10828,10 +11003,10 @@ index 0000000000000000000000000000000000000000..07f573da872d32d2d83bafa848f7490c
 +}
 diff --git a/backend/internal/repository/realyu_usage_history_repo.go b/backend/internal/repository/realyu_usage_history_repo.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..8e4f292b825bcf363a5a67ffffa229b8b8e74a6e
+index 0000000000000000000000000000000000000000..9f655c057b14bf37bdec7da9834e41c9abe03cf6
 --- /dev/null
 +++ b/backend/internal/repository/realyu_usage_history_repo.go
-@@ -0,0 +1,180 @@
+@@ -0,0 +1,185 @@
 +package repository
 +
 +import (
@@ -10859,13 +11034,14 @@ index 0000000000000000000000000000000000000000..8e4f292b825bcf363a5a67ffffa229b8
 + (COALESCE(d.input_tokens_total,CASE WHEN d.usage_semantic='anthropic' AND d.cache_read_tokens IS NOT NULL AND d.cache_creation_tokens IS NOT NULL THEN l.input_tokens+d.cache_read_tokens+d.cache_creation_tokens ELSE l.input_tokens END)+l.output_tokens)::bigint AS total_tokens,
 + d.cache_read_tokens,d.cache_creation_tokens,
 + CASE WHEN d.input_tokens_total IS NOT NULL THEN 'legacy_explicit_total' WHEN d.usage_semantic='anthropic' AND d.cache_read_tokens IS NOT NULL AND d.cache_creation_tokens IS NOT NULL THEN 'legacy_anthropic_exclusive' ELSE 'legacy_reported' END AS token_semantics,
-+ l.cost_quota::numeric/500000 AS cost_usd,NULLIF(l.duration_ms,0) AS duration_ms,NULL::bigint AS first_token_ms,NULL::boolean AS stream
++ l.cost_quota::numeric/500000 AS cost_usd,NULLIF(l.duration_ms,0) AS duration_ms,NULL::bigint AS first_token_ms,NULL::boolean AS stream,NULL::bigint AS api_key_id,NULL::bigint AS account_id,NULL::bigint AS channel_id
 + FROM legacy l LEFT JOIN realyu_legacy_usage_details d USING(source_log_id)
 + UNION ALL
 + SELECT 'native:'||u.id::text,'native',u.user_id,CASE WHEN f.team_id IS NOT NULL THEN 'team' ELSE 'personal' END,f.team_id,
 + COALESCE(NULLIF(u.requested_model,''),u.model),u.created_at,u.input_tokens::bigint,u.output_tokens::bigint,
 + (u.input_tokens::bigint+u.output_tokens+u.cache_creation_tokens+u.cache_read_tokens),u.cache_read_tokens::bigint,u.cache_creation_tokens::bigint,
-+ 'native_exclusive',CASE WHEN f.request_id IS NOT NULL THEN f.target_quota::numeric/500000 ELSE u.actual_cost END,u.duration_ms::bigint,u.first_token_ms::bigint,u.stream
++ 'native_exclusive',CASE WHEN f.request_id IS NOT NULL THEN f.target_quota::numeric/500000 ELSE u.actual_cost END,u.duration_ms::bigint,u.first_token_ms::bigint,u.stream,u.api_key_id,
++ CASE WHEN $2::text='platform' THEN NULLIF(u.account_id,0) END,CASE WHEN $2::text='platform' THEN NULLIF(u.channel_id,0) END
 + FROM usage_logs u LEFT JOIN realyu_funding_requests f ON f.request_id=u.request_id AND f.api_key_id=u.api_key_id
 + WHERE (f.request_id IS NULL OR (f.status='settled' AND f.actor_user_id=u.user_id))
 + ), filtered AS (
@@ -10963,16 +11139,20 @@ index 0000000000000000000000000000000000000000..8e4f292b825bcf363a5a67ffffa229b8
 +	if err != nil {
 +		return nil, err
 +	}
-+	rows, err := tx.QueryContext(ctx, realyuSelfUsageCTE+`SELECT f.id,f.source,f.scope,f.actor_user_id,CASE WHEN f.actor_user_id IS NULL THEN NULL ELSE COALESCE(NULLIF(m.nickname,''),NULLIF(u.username,''),'#'||f.actor_user_id::text) END,CASE WHEN f.actor_user_id IS NULL THEN 'deleted_actor' ELSE 'recorded_actor' END,f.team_id,f.model,f.created_at,f.input_tokens,f.output_tokens,f.total_tokens,f.cache_read_tokens,f.cache_creation_tokens,f.token_semantics,f.cost_usd::text,f.duration_ms,f.first_token_ms,f.stream FROM filtered f LEFT JOIN users u ON u.id=f.actor_user_id LEFT JOIN realyu_team_members m ON m.team_id=f.team_id AND m.user_id=f.actor_user_id ORDER BY f.created_at DESC,f.id DESC LIMIT $7 OFFSET $8`, append(args, f.PageSize, (f.Page-1)*f.PageSize)...)
++	rows, err := tx.QueryContext(ctx, realyuSelfUsageCTE+`SELECT f.id,f.source,f.scope,f.actor_user_id,CASE WHEN f.actor_user_id IS NULL THEN NULL ELSE COALESCE(NULLIF(m.nickname,''),NULLIF(u.username,''),'#'||f.actor_user_id::text) END,CASE WHEN f.actor_user_id IS NULL THEN 'deleted_actor' ELSE 'recorded_actor' END,f.team_id,f.model,f.created_at,f.input_tokens,f.output_tokens,f.total_tokens,f.cache_read_tokens,f.cache_creation_tokens,f.token_semantics,f.cost_usd::text,f.duration_ms,f.first_token_ms,f.stream,NULLIF(k.name,''),f.account_id,NULLIF(a.name,''),f.channel_id,NULLIF(c.name,'') FROM filtered f LEFT JOIN accounts a ON $2::text='platform' AND a.id=f.account_id LEFT JOIN channels c ON $2::text='platform' AND c.id=f.channel_id LEFT JOIN api_keys k ON k.id=f.api_key_id AND k.user_id=f.actor_user_id LEFT JOIN users u ON u.id=f.actor_user_id LEFT JOIN realyu_team_members m ON m.team_id=f.team_id AND m.user_id=f.actor_user_id ORDER BY f.created_at DESC,f.id DESC LIMIT $7 OFFSET $8`, append(args, f.PageSize, (f.Page-1)*f.PageSize)...)
 +	if err != nil {
 +		return nil, err
 +	}
 +	defer rows.Close()
 +	for rows.Next() {
 +		var i service.RealYuUsageHistoryItem
-+		err = rows.Scan(&i.ID, &i.Source, &i.Scope, &i.ActorUserID, &i.ActorNickname, &i.Attribution, &i.TeamID, &i.Model, &i.CreatedAt, &i.InputTokens, &i.OutputTokens, &i.TotalTokens, &i.CacheReadTokens, &i.CacheCreationTokens, &i.TokenSemantics, &i.CostUSD, &i.DurationMS, &i.FirstTokenMS, &i.Stream)
++		var upstream service.RealYuUsageUpstream
++		err = rows.Scan(&i.ID, &i.Source, &i.Scope, &i.ActorUserID, &i.ActorNickname, &i.Attribution, &i.TeamID, &i.Model, &i.CreatedAt, &i.InputTokens, &i.OutputTokens, &i.TotalTokens, &i.CacheReadTokens, &i.CacheCreationTokens, &i.TokenSemantics, &i.CostUSD, &i.DurationMS, &i.FirstTokenMS, &i.Stream, &i.APIKeyName, &upstream.AccountID, &upstream.AccountName, &upstream.ChannelID, &upstream.ChannelName)
 +		if err != nil {
 +			return nil, err
++		}
++		if f.Scope == "platform" {
++			i.Upstream = &upstream
 +		}
 +		p.Items = append(p.Items, i)
 +	}
@@ -13405,7 +13585,7 @@ index aa06e59f3079a02ae7d9716bdc7c91029fe4d751..7b9cbf20d7a374e729568ca1efd21ca8
  	if dbent.TxFromContext(ctx) != nil {
  		return s.applyProviderDefaultSettingsOnFirstBind(ctx, userID, providerType)
 diff --git a/backend/internal/service/auth_service.go b/backend/internal/service/auth_service.go
-index 0774923e6c70aebe9a7f15c6cdeb3462528800ed..63813d12974776146c50524e3bcbff129f2a9ffe 100644
+index 0774923e6c70aebe9a7f15c6cdeb3462528800ed..34e9773a46d202ca2f4a6df332badab9b595985a 100644
 --- a/backend/internal/service/auth_service.go
 +++ b/backend/internal/service/auth_service.go
 @@ -9,12 +9,15 @@ import (
@@ -13547,7 +13727,7 @@ index 0774923e6c70aebe9a7f15c6cdeb3462528800ed..63813d12974776146c50524e3bcbff12
 -	hashedPassword, err := s.HashPassword(password)
 +	var hashedPassword string
 +	if usernameRegistration {
-+		hashedPassword, err = hashLegacyAccountPassword(password, 15)
++		hashedPassword, err = hashLegacyAccountPassword(password, AccountPasswordMinimumLength)
 +	} else {
 +		hashedPassword, err = s.HashPassword(password)
 +	}
@@ -15111,10 +15291,10 @@ index 0000000000000000000000000000000000000000..233e7cdefe4631bd428ec432a95be4e0
 +}
 diff --git a/backend/internal/service/realyu_funding.md b/backend/internal/service/realyu_funding.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..9de79225a74fe9a22d5aa2c6b757b7db30cfa7ac
+index 0000000000000000000000000000000000000000..53917442378c4bae0c1239ca2e63de8f6e23ef22
 --- /dev/null
 +++ b/backend/internal/service/realyu_funding.md
-@@ -0,0 +1,167 @@
+@@ -0,0 +1,172 @@
 +# RealYu customer funding candidate
 +
 +This is isolated development, not production migration acceptance. Default is
@@ -15159,6 +15339,11 @@ index 0000000000000000000000000000000000000000..9de79225a74fe9a22d5aa2c6b757b7db
 +  are idempotent; a changed subject/fingerprint or changed final cost conflicts.
 +- All operations serialize on the personal user row or independent durable
 +  team row, then lock their reservation/subscription/member-period rows.
++- Admin `correct_weekly_used` uses the same team lock and accepts traffic since
++  the form was opened. It preserves the current period/configuration check and
++  an in-flight floor: `max(requested weekly usage, current-week reserved quota)`.
++  Pending calls remain intact and can settle/refund normally; cumulative and
++  member usage are unchanged. Exact request-key retries do not reset usage again.
 +- A personal request consumes its eligible subscription first, then its own
 +  wallet only when permitted. Team historical quota is not spendable PAYGO;
 +  a team consumes only its active weekly subscription and never any user's wallet.
@@ -15870,10 +16055,10 @@ index 0000000000000000000000000000000000000000..8b7dec1ced50df65f82241248ef3f3fd
 +}
 diff --git a/backend/internal/service/realyu_identity_test.go b/backend/internal/service/realyu_identity_test.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8ccfe75898b
+index 0000000000000000000000000000000000000000..1325a2da94a6ac5c09bf22e85a7171937a05ec93
 --- /dev/null
 +++ b/backend/internal/service/realyu_identity_test.go
-@@ -0,0 +1,717 @@
+@@ -0,0 +1,909 @@
 +//go:build unit
 +
 +package service_test
@@ -15885,10 +16070,16 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +	"encoding/base64"
 +	"encoding/json"
 +	"fmt"
++	"io"
++	"mime/quotedprintable"
++	"net"
 +	"net/http"
 +	"net/http/httptest"
++	"net/mail"
++	"net/textproto"
 +	"net/url"
 +	"os"
++	"regexp"
 +	"strings"
 +	"testing"
 +	"time"
@@ -15905,6 +16096,7 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +	"github.com/Wei-Shaw/sub2api/internal/handler/dto"
 +	infraerrors "github.com/Wei-Shaw/sub2api/internal/pkg/errors"
 +	"github.com/Wei-Shaw/sub2api/internal/repository"
++	"github.com/Wei-Shaw/sub2api/internal/server/middleware"
 +	"github.com/Wei-Shaw/sub2api/internal/service"
 +	"github.com/Wei-Shaw/sub2api/migrations"
 +	"github.com/alicebob/miniredis/v2"
@@ -16167,6 +16359,114 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +		_, err = testDB.ExecContext(ctx, `ALTER TABLE settings DROP CONSTRAINT synthetic_signup_settings_reject`)
 +		require.NoError(t, err)
 +	})
++	t.Run("email_binding_http_smtp_receive_verify_and_replay", func(t *testing.T) {
++		// Ent's test schema does not install the server-side timestamp default
++		// expected by upstream SQL migrations.
++		_, err := testDB.ExecContext(ctx, `ALTER TABLE settings ALTER COLUMN updated_at SET DEFAULT NOW()`)
++		require.NoError(t, err)
++		profileMigration, err := migrations.FS.ReadFile("110_pending_auth_and_provider_default_grants.sql")
++		require.NoError(t, err)
++		_, err = testDB.ExecContext(ctx, string(profileMigration))
++		require.NoError(t, err)
++		port, inbox := realyuSMTPCapture(t)
++		settingRepo := repository.NewSettingRepository(client)
++		require.NoError(t, settingRepo.SetMultiple(ctx, map[string]string{
++			service.SettingKeySMTPHost: "127.0.0.1", service.SettingKeySMTPPort: fmt.Sprint(port),
++			service.SettingKeySMTPUsername: "synthetic", service.SettingKeySMTPPassword: "synthetic",
++			service.SettingKeySMTPFrom: "sender@example.com", service.SettingKeySMTPUseTLS: "false",
++		}))
++		cacheServer := miniredis.RunT(t)
++		rdb := redis.NewClient(&redis.Options{Addr: cacheServer.Addr()})
++		t.Cleanup(func() { _ = rdb.Close() })
++		cache := repository.NewEmailCache(rdb)
++		emailSvc := service.NewEmailService(settingRepo, cache)
++		settingSvc := service.NewSettingService(settingRepo, cfg)
++		emailSvc.SetNotificationEmailService(service.NewNotificationEmailService(settingRepo, emailSvc))
++		auth := service.NewAuthService(client, repo, nil, repository.NewRefreshTokenCache(rdb), cfg, settingSvc, emailSvc, nil, nil, nil, nil, nil, nil)
++		_, user, err := svc.RegisterWithUsername(ctx, "smtp-e2e", "Mail E2E", "", "123456", "", "", "")
++		require.NoError(t, err)
++		beforeHash, beforeBalance := user.PasswordHash, user.Balance
++		token, _, err := auth.Login(ctx, "smtp-e2e", "123456")
++		require.NoError(t, err)
++		userSvc := service.NewUserService(repo, nil, nil, nil)
++		_, err = userSvc.GetByID(ctx, user.ID)
++		require.NoError(t, err, "load authenticated fixture user")
++		h := handler.NewUserHandler(userSvc, auth, emailSvc, cache, nil, nil)
++		router := gin.New()
++		router.Use(gin.HandlerFunc(middleware.NewJWTAuthMiddleware(auth, userSvc, settingSvc, nil)))
++		const sendPath = "/api/v1/user/account-bindings/email/send-code"
++		const bindPath = "/api/v1/user/account-bindings/email"
++		router.POST(sendPath, h.SendEmailBindingCode)
++		router.POST(bindPath, h.BindEmailIdentity)
++		server := httptest.NewServer(router)
++		t.Cleanup(server.Close)
++		request := func(path string, payload map[string]string, bearer string) (int, map[string]any) {
++			body, err := json.Marshal(payload)
++			require.NoError(t, err)
++			req, err := http.NewRequest(http.MethodPost, server.URL+path, bytes.NewReader(body))
++			require.NoError(t, err)
++			req.Header.Set("Content-Type", "application/json")
++			if bearer != "" {
++				req.Header.Set("Authorization", "Bearer "+bearer)
++			}
++			resp, err := server.Client().Do(req)
++			require.NoError(t, err)
++			defer resp.Body.Close()
++			var result map[string]any
++			require.NoError(t, json.NewDecoder(resp.Body).Decode(&result))
++			return resp.StatusCode, result
++		}
++		const recipient = "synthetic-mail@example.com"
++		status, _ := request(sendPath, map[string]string{"email": recipient}, "")
++		require.Equal(t, http.StatusUnauthorized, status)
++		status, body := request(sendPath, map[string]string{"email": recipient}, token)
++		require.Equal(t, http.StatusOK, status, "%v", body)
++		var message string
++		select {
++		case message = <-inbox:
++		case <-time.After(5 * time.Second):
++			t.Fatal("SMTP recipient did not receive verification email")
++		}
++		mailMessage, err := mail.ReadMessage(strings.NewReader(message))
++		require.NoError(t, err)
++		require.Contains(t, mailMessage.Header.Get("To"), recipient)
++		require.NotEmpty(t, mailMessage.Header.Get("Message-ID"))
++		decoded, err := io.ReadAll(quotedprintable.NewReader(mailMessage.Body))
++		require.NoError(t, err)
++		// Extract the code from received mail, never from Redis or a fixture.
++		match := regexp.MustCompile(`>\s*([0-9]{6})\s*<`).FindStringSubmatch(string(decoded))
++		require.Len(t, match, 2, "received MIME body must contain its verification code")
++		receivedCode := match[1]
++		status, _ = request(sendPath, map[string]string{"email": recipient}, token)
++		assert.Equal(t, http.StatusTooManyRequests, status, "resend cooldown must prevent duplicate mail")
++		payload := map[string]string{"email": recipient, "password": "123456", "verify_code": "invalid"}
++		status, _ = request(bindPath, payload, token)
++		assert.Equal(t, http.StatusBadRequest, status)
++		fresh, err := repo.GetByID(ctx, user.ID)
++		require.NoError(t, err)
++		assert.False(t, fresh.HasVerifiedRecoveryEmail())
++		payload["verify_code"] = receivedCode
++		status, body = request(bindPath, payload, token)
++		require.Equal(t, http.StatusOK, status, "%v", body)
++		data, ok := body["data"].(map[string]any)
++		require.True(t, ok)
++		assert.Equal(t, true, data["email_bound"])
++		fresh, err = repo.GetByID(ctx, user.ID)
++		require.NoError(t, err)
++		assert.True(t, fresh.HasVerifiedRecoveryEmail())
++		assert.Equal(t, recipient, fresh.PublicEmail())
++		assert.Equal(t, beforeHash, fresh.PasswordHash)
++		assert.Equal(t, beforeBalance, fresh.Balance)
++		token, _, err = auth.Login(ctx, recipient, "123456")
++		require.NoError(t, err, "the verified mailbox must sign in to the same account")
++		status, _ = request(bindPath, payload, token)
++		assert.Equal(t, http.StatusBadRequest, status, "a received code must not be reusable")
++		select {
++		case <-inbox:
++			t.Fatal("unexpected duplicate message")
++		default:
++		}
++	})
 +	t.Run("native_mode_keeps_email_defaults_without_personal_key", func(t *testing.T) {
 +		cfg.RealYuFundingEnabled = false
 +		settingSvc := service.NewSettingService(&authIdentitySettingRepoStub{values: settings}, cfg)
@@ -16183,6 +16483,60 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +		assert.Zero(t, n)
 +		assert.NotEmpty(t, assigner.calls, "native signup still honors its subscription defaults")
 +	})
++}
++
++// A loopback SMTP recipient exercises the real SMTP client and MIME delivery;
++// it never sends external mail and requires no production credential.
++func realyuSMTPCapture(t *testing.T) (int, <-chan string) {
++	t.Helper()
++	listener, err := net.Listen("tcp", "127.0.0.1:0")
++	require.NoError(t, err)
++	inbox := make(chan string, 2)
++	done := make(chan struct{})
++	go func() {
++		defer close(done)
++		for {
++			conn, err := listener.Accept()
++			if err != nil {
++				return
++			}
++			_ = conn.SetDeadline(time.Now().Add(10 * time.Second))
++			p := textproto.NewConn(conn)
++			_ = p.PrintfLine("220 loopback.test ESMTP ready")
++			for {
++				line, err := p.ReadLine()
++				if err != nil {
++					break
++				}
++				switch {
++				case strings.HasPrefix(line, "EHLO"):
++					_ = p.PrintfLine("250-loopback.test")
++					_ = p.PrintfLine("250 AUTH PLAIN")
++				case strings.HasPrefix(line, "AUTH PLAIN"):
++					_ = p.PrintfLine("235 authenticated")
++				case strings.HasPrefix(line, "MAIL FROM:"), strings.HasPrefix(line, "RCPT TO:"):
++					_ = p.PrintfLine("250 accepted")
++				case line == "DATA":
++					_ = p.PrintfLine("354 send message")
++					b, err := p.ReadDotBytes()
++					if err != nil {
++						_ = p.Close()
++						break
++					}
++					inbox <- string(b)
++					_ = p.PrintfLine("250 delivered")
++				case line == "QUIT":
++					_ = p.PrintfLine("221 bye")
++					_ = p.Close()
++				default:
++					_ = p.PrintfLine("500 unsupported")
++				}
++			}
++			_ = p.Close()
++		}
++	}()
++	t.Cleanup(func() { _ = listener.Close(); <-done })
++	return listener.Addr().(*net.TCPAddr).Port, inbox
 +}
 +
 +func realyuSignupAuthFixture(t *testing.T, client *dbent.Client, repo service.UserRepository, settings map[string]string) (*service.AuthService, *config.Config, *emailBindDefaultSubAssignerStub) {
@@ -16232,6 +16586,27 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +	for _, tc := range tests {
 +		t.Run(tc.name, func(t *testing.T) { assert.Equal(t, tc.allowed, svc.CheckPassword(tc.password, tc.hash)) })
 +	}
++}
++
++func TestRealyuSixCharacterPasswordPolicy(t *testing.T) {
++	for _, source := range []string{service.RealyuLegacySignupSource, service.RealyuUsernameSignupSource} {
++		for _, mfa := range []bool{false, true} {
++			u := &service.User{SignupSource: source, TotpEnabled: mfa}
++			assert.Equal(t, 6, u.PasswordMinimumLength())
++			for _, password := range []string{"123456", "abcdef", "六位中文密码", "  ab  "} {
++				require.NoError(t, u.SetPassword(password))
++				assert.True(t, strings.HasPrefix(u.PasswordHash, "$argon2id$"))
++				assert.True(t, u.CheckPassword(password))
++				assert.False(t, u.CheckPassword(password+"x"))
++			}
++			previous := u.PasswordHash
++			for _, password := range []string{"", "12345", strings.Repeat("x", 129)} {
++				require.Error(t, u.SetPassword(password))
++				assert.Equal(t, previous, u.PasswordHash, "invalid input must not replace the stored password")
++			}
++		}
++	}
++	assert.Equal(t, 6, (&service.User{}).PasswordMinimumLength())
 +}
 +
 +func realyuIdentityTable(t *testing.T, client *dbent.Client) {
@@ -16324,17 +16699,17 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +	realyuIdentityTable(t, client)
 +	svc, cfg, assigner := realyuSignupAuthFixture(t, client, repo, settings)
 +	ctx := context.Background()
-+	oldToken, u, err := svc.RegisterWithUsername(ctx, "new-user", "New nickname", "", "new-password-123", "", "", "")
++	oldToken, u, err := svc.RegisterWithUsername(ctx, "new-user", "New nickname", "", "123456", "", "", "")
 +	require.NoError(t, err)
 +	assert.Equal(t, "New nickname", u.Username)
 +	assert.Zero(t, u.Balance)
 +	assert.Empty(t, assigner.calls)
 +	assert.Empty(t, u.PublicEmail())
 +	assert.True(t, strings.HasPrefix(u.PasswordHash, "$argon2id$"))
-+	_, loggedIn, err := svc.Login(ctx, "new-user", "new-password-123")
++	_, loggedIn, err := svc.Login(ctx, "new-user", "123456")
 +	require.NoError(t, err)
 +	assert.Equal(t, u.ID, loggedIn.ID)
-+	_, _, err = svc.Login(ctx, u.Email, "new-password-123")
++	_, _, err = svc.Login(ctx, u.Email, "123456")
 +	assert.ErrorIs(t, err, service.ErrInvalidCredentials)
 +	_, _, err = svc.RegisterWithUsername(ctx, "new-user", "Different nickname", "", "other-passphrase-123", "", "", "")
 +	assert.ErrorIs(t, err, service.ErrLoginNameUnavailable)
@@ -16344,9 +16719,9 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +	_, _, err = svc.RegisterWithUsername(ctx, "mail@example.com", "", "", "new-password", "", "", "")
 +	assert.Error(t, err, "new usernames cannot occupy the email namespace")
 +	unicodeName := strings.Repeat("𐐀", 64)
-+	_, unicodeUser, err := svc.RegisterWithUsername(ctx, unicodeName, "Unicode nickname", "", "new-password-123", "", "", "")
++	_, unicodeUser, err := svc.RegisterWithUsername(ctx, unicodeName, "Unicode nickname", "", "123456", "", "", "")
 +	require.NoError(t, err)
-+	_, unicodeLogin, err := svc.Login(ctx, unicodeName, "new-password-123")
++	_, unicodeLogin, err := svc.Login(ctx, unicodeName, "123456")
 +	require.NoError(t, err)
 +	assert.Equal(t, unicodeUser.ID, unicodeLogin.ID)
 +	settings[service.SettingKeyRealyuUsernameRegistrationEnabled] = "false"
@@ -16359,12 +16734,14 @@ index 0000000000000000000000000000000000000000..f9db2b6f0d6e287dbc511f89bb2ed8cc
 +	require.NoError(t, err)
 +	assert.Equal(t, native.ID, gotNative.ID)
 +	userSvc := service.NewUserService(repo, nil, nil, nil)
-+	require.NoError(t, userSvc.ChangePassword(ctx, u.ID, service.ChangePasswordRequest{CurrentPassword: "new-password-123", NewPassword: strings.Repeat("新密码", 30)}))
++	require.ErrorIs(t, userSvc.ChangePassword(ctx, u.ID, service.ChangePasswordRequest{CurrentPassword: "wrong-password", NewPassword: "abcdef"}), service.ErrPasswordIncorrect)
++	require.Error(t, userSvc.ChangePassword(ctx, u.ID, service.ChangePasswordRequest{CurrentPassword: "123456", NewPassword: "12345"}))
++	require.NoError(t, userSvc.ChangePassword(ctx, u.ID, service.ChangePasswordRequest{CurrentPassword: "123456", NewPassword: "abcdef"}))
 +	_, err = svc.RefreshToken(ctx, oldToken)
 +	assert.ErrorIs(t, err, service.ErrTokenRevoked, "password change invalidates previous access token")
-+	_, _, err = svc.Login(ctx, "new-user", "new-password-123")
++	_, _, err = svc.Login(ctx, "new-user", "123456")
 +	assert.Error(t, err)
-+	_, _, err = svc.Login(ctx, "new-user", strings.Repeat("新密码", 30))
++	_, _, err = svc.Login(ctx, "new-user", "abcdef")
 +	require.NoError(t, err)
 +}
 +
@@ -16772,10 +17149,10 @@ index 0000000000000000000000000000000000000000..73d0470446b4d1753ff9e34c9ca63672
 +}
 diff --git a/backend/internal/service/realyu_legacy_identity.go b/backend/internal/service/realyu_legacy_identity.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..9c6b64accc8562e29fb6d7541a91a53b72ddad24
+index 0000000000000000000000000000000000000000..f251ea63cb34a1b07a25fb7b4db263e14cf3e2c5
 --- /dev/null
 +++ b/backend/internal/service/realyu_legacy_identity.go
-@@ -0,0 +1,110 @@
+@@ -0,0 +1,108 @@
 +package service
 +
 +import (
@@ -16793,6 +17170,7 @@ index 0000000000000000000000000000000000000000..9c6b64accc8562e29fb6d7541a91a53b
 +)
 +
 +const (
++	AccountPasswordMinimumLength                = 6
 +	RealyuLegacySignupSource                    = "realyu_legacy"
 +	RealyuUsernameSignupSource                  = "realyu_username"
 +	SettingKeyRealyuUsernameRegistrationEnabled = "realyu_username_registration_enabled"
@@ -16837,10 +17215,7 @@ index 0000000000000000000000000000000000000000..9c6b64accc8562e29fb6d7541a91a53b
 +}
 +
 +func (u *User) PasswordMinimumLength() int {
-+	if u.HasUsernameIdentity() && !u.TotpEnabled {
-+		return 15
-+	}
-+	return 8
++	return AccountPasswordMinimumLength
 +}
 +
 +// checkAccountPassword supports the exact bounded Argon2id format emitted by
@@ -18292,7 +18667,7 @@ index 0000000000000000000000000000000000000000..d9cd77e17933b156a4c846f8b28fc4bf
 +}
 diff --git a/backend/internal/service/realyu_subscriptions.go b/backend/internal/service/realyu_subscriptions.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..7a8aa596a5dcdcfb488f55e733e0d0b780b62fa4
+index 0000000000000000000000000000000000000000..a58665ca52d73f9391198c5fcd0c2390d17c645a
 --- /dev/null
 +++ b/backend/internal/service/realyu_subscriptions.go
 @@ -0,0 +1,76 @@
@@ -18340,7 +18715,7 @@ index 0000000000000000000000000000000000000000..7a8aa596a5dcdcfb488f55e733e0d0b7
 +	RequestKey          string `json:"idempotency_key"`
 +	Reason              string `json:"reason"`
 +	WeeklyUsedQuota     *int64 `json:"weekly_used_quota,omitempty"`
-+	ExpectedWeeklyUsed  *int64 `json:"expected_weekly_used_quota,omitempty"`
++	ExpectedWeeklyUsed  *int64 `json:"expected_weekly_used_quota,omitempty"` // Legacy client field; live usage is not a concurrency token.
 +	ExpectedWeeklyReset int64  `json:"expected_weekly_reset_at,omitempty"`
 +}
 +type RealYuAdminSubscriptionResult struct {
@@ -18498,10 +18873,10 @@ index 0000000000000000000000000000000000000000..751e025483d515e94a74d71c4a477773
 +}
 diff --git a/backend/internal/service/realyu_usage_history.go b/backend/internal/service/realyu_usage_history.go
 new file mode 100644
-index 0000000000000000000000000000000000000000..23d50920d9f2c1a21e20268cdacc32dcd275a64f
+index 0000000000000000000000000000000000000000..668039ae3266b1c1090cfe47086b859d7c925eca
 --- /dev/null
 +++ b/backend/internal/service/realyu_usage_history.go
-@@ -0,0 +1,128 @@
+@@ -0,0 +1,139 @@
 +package service
 +
 +import (
@@ -18569,25 +18944,36 @@ index 0000000000000000000000000000000000000000..23d50920d9f2c1a21e20268cdacc32dc
 +	Page, PageSize int
 +}
 +type RealYuUsageHistoryItem struct {
-+	ID                  string    `json:"id"`
-+	Source              string    `json:"source"`
-+	Scope               string    `json:"scope"`
-+	ActorUserID         *int64    `json:"actor_user_id"`
-+	ActorNickname       *string   `json:"actor_nickname"`
-+	Attribution         string    `json:"attribution"`
-+	TeamID              *int64    `json:"team_id"`
-+	Model               string    `json:"model"`
-+	CreatedAt           time.Time `json:"created_at"`
-+	InputTokens         int64     `json:"input_tokens"`
-+	OutputTokens        int64     `json:"output_tokens"`
-+	TotalTokens         int64     `json:"total_tokens"`
-+	CacheReadTokens     *int64    `json:"cache_read_tokens"`
-+	CacheCreationTokens *int64    `json:"cache_creation_tokens"`
-+	TokenSemantics      string    `json:"token_semantics"`
-+	CostUSD             string    `json:"cost_usd"`
-+	DurationMS          *int64    `json:"duration_ms"`
-+	FirstTokenMS        *int64    `json:"first_token_ms"`
-+	Stream              *bool     `json:"stream"`
++	ID                  string               `json:"id"`
++	Source              string               `json:"source"`
++	Scope               string               `json:"scope"`
++	ActorUserID         *int64               `json:"actor_user_id"`
++	ActorNickname       *string              `json:"actor_nickname"`
++	APIKeyName          *string              `json:"api_key_name"`       // Current name; legacy archives have no trustworthy key mapping.
++	Upstream            *RealYuUsageUpstream `json:"upstream,omitempty"` // Platform-admin view only.
++	Attribution         string               `json:"attribution"`
++	TeamID              *int64               `json:"team_id"`
++	Model               string               `json:"model"`
++	CreatedAt           time.Time            `json:"created_at"`
++	InputTokens         int64                `json:"input_tokens"`
++	OutputTokens        int64                `json:"output_tokens"`
++	TotalTokens         int64                `json:"total_tokens"`
++	CacheReadTokens     *int64               `json:"cache_read_tokens"`
++	CacheCreationTokens *int64               `json:"cache_creation_tokens"`
++	TokenSemantics      string               `json:"token_semantics"`
++	CostUSD             string               `json:"cost_usd"`
++	DurationMS          *int64               `json:"duration_ms"`
++	FirstTokenMS        *int64               `json:"first_token_ms"`
++	Stream              *bool                `json:"stream"`
++}
++
++// IDs come from the recorded call, never from today's key/group routing.
++// Names are current labels; deleted records retain their recorded IDs.
++type RealYuUsageUpstream struct {
++	AccountID   *int64  `json:"account_id"`
++	AccountName *string `json:"account_name"`
++	ChannelID   *int64  `json:"channel_id"`
++	ChannelName *string `json:"channel_name"`
 +}
 +type RealYuUsageHistoryStats struct {
 +	Requests                   int64  `json:"requests"`
@@ -19812,6 +20198,78 @@ index 0000000000000000000000000000000000000000..196d2f4f8066e132acfd7ebaa1a60c99
 +The focused regression uses the real route registration and real JWT validation for the native admin settings, admin payment config and admin page list. It covers a valid administrator with no acknowledgement record, anonymous/invalid tokens, an ordinary member, a disabled administrator and a revoked administrator token. It asserts no acknowledgement lookup/write is required. Frontend tests exercise the actual App mount, actual registered navigation guard, and API error interceptor: the route renders without a prompt or consent call, while anonymous/member navigation is still refused.
 +
 +These local tests do not themselves prove the new production binary or public browser was updated. Final release evidence must name the deployed build and repeat the public browser checks after the normal settings update.
+diff --git a/deploy/realyu/ADMIN-USAGE-PURCHASE-20261015.md b/deploy/realyu/ADMIN-USAGE-PURCHASE-20261015.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..8a9fd89a453bde082b4f6955a1eb37fc7140aca5
+--- /dev/null
++++ b/deploy/realyu/ADMIN-USAGE-PURCHASE-20261015.md
+@@ -0,0 +1,66 @@
++# 管理员用量修正、Key 名称与订阅支付收口
++
++2026-10-15 候选变更，接续 `0b0fbc0b4397bf0344ef38c71972e7843175a154` 的资金错误提示修复。
++本次仅提交与交接，不切换生产，不改模型价格、数据库结构或隧道配置。
++
++管理员可在“修正团队本周已用”直接保存目标数额。页面打开后发生的消耗不再导致冲突，
++存在运行中请求也可保存。订阅配置或周周期改变时仍需刷新，处理中购买订单仍保留原保护。
++调整使用现有团队行锁和审计事务，并保留幂等操作键、实际修改前后值和调整备注。
++
++若目标值小于当前周期的请求预扣合计，实际写入预扣合计。例如输入 0，仍有 0.01 元预扣，
++暂时显示 0.01 元；请求结束后按实际用量结算或退款。这样无需等待命令结束，也不会因清零
++导致退款负数或结算失败。累计用量、成员额度/用量和正在执行的请求记录均保留。
++
++“使用记录”“全部调用记录”新增 API Key 名称。个人、团队管理和平台查询复用原权限范围。
++桌面表格、手机卡片及详情均展示；名称缺失显示“—”，不回填未记录的历史信息，不暴露 Key。
++
++包月订阅移除“按量余额支付”。前端支付选择与管理员套餐编辑均移除该开关，后台也不再
++提供该能力或接受新的 wallet 订单快照，旧目录的 `allow_balance_pay=true` 无法绕过。
++外部支付购买、按量充值和调用时已有的超额补扣策略保持原行为。已生成的历史订单保留
++原快照完成/重试能力，以免中断已经接受的交易；本改动不删除或重写旧订单。
++
++验证使用已有隔离测试库与合成身份，覆盖运行中请求的额度调整、较低实际用量结算、退款、
++幂等重试和审计；查询范围、名称改动/软删除/缺失与归属不匹配；新余额订单拒绝和旧订单结算。
++前端回归还覆盖两种页面的桌面/手机展示、名称转义、旧能力字段不能恢复余额购买。
++构建及最终测试状态以交接目录的 `validation.json` 为准。
++
++发布后仍需用测试团队和测试账号验收这些实际页面；当前本地测试不代表已经上线。
++
++## 账号页面与密码补充
++
++账户密码最小长度统一为 6 个字符，不要求数字、大小写或符号组合。用户名账号继续保留
++128 字符上限、Argon2id 与原密码精确匹配规则；空白和 Unicode 不裁剪、不截断。
++注册和修改密码的前后端提示一致，改密仍核对当前密码并使旧访问令牌失效。
++个人资料页移除 2FA 和 Passkey 卡片，绑定区域只展示邮箱；已启用的登录验证机制保留。
++普通用户与管理员个人侧栏均在工作台正下方展示“API 密钥”。
++
++按用户明确选择，邮件采用隔离收件箱 E2E：临时 PostgreSQL schema、Redis 协议缓存、真实
++JWT HTTP 接口和 loopback SMTP 收件端。启用原生通知邮件模板，从收到的 MIME 正文提取
++验证码，验证绑定入库及邮箱登录；同时验证未登录拒绝、重复发信冷却、错码拒绝、验证码
++不可重用、密码与余额不变。它不证明公网 QQ 收信，也未配置生产 SMTP。
++首轮测试因 Ent 临时 schema 缺少上游头像表及 settings.updated_at 默认值失败，补齐隔离
++fixture 后通过；未修改生产 schema。复核命令：
++
++```powershell
++# REALYU_AUTH_TEST_DSN 只接受 127.0.0.1:29490/realyu_auth_e2e。
++go test -p 2 -tags unit ./internal/service -run '^Test(Realyu|ChangePassword_OnlyDeclaresPasswordHash)' -count=1
++```
++
++密码长度 6 位为用户明确要求，低于 [OWASP ASVS 5.0.0 V6.2.1](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x15-V6-Authentication.md)
++的长度要求，本候选不宣称该项符合。改动参考官方 Authentication、Password Storage、
++Session Management、Forgot Password Cheat Sheets，保留原哈希、当前密码校验、验证码时效和现有登录验证。
++
++## 管理员调用记录的上游来源
++
++已对照旧 Realyu UI 的 `features/usage-logs/components/columns/common-logs-columns.tsx` 与
++`dialogs/details-dialog.tsx`：旧管理员列表有渠道名称/ID，部分记录还包含重试链及多 Key 索引。
++原生成功调用日志已记录 account_id 和 channel_id；本次在全部调用记录、手机卡片和详情
++补齐上游账号/渠道名称与 ID。只在已通过平台权限校验的 platform 查询返回 `upstream`，
++self、personal 和团队管理查询均不返回，前端也只在平台页渲染。
++
++ID 来自每次请求的记录，名称关联当前账号/渠道标签；改名后显示新名称，软删除保留名称，
++名称已不存在时仍展示记录中的 ID。旧归档没有保存这两个来源字段，明确显示“未记录”，
++不拿当前路由回填旧记录，也不把旧 New API 渠道 ID 当成新 Sub2API ID。
++保留原“查看详细诊断”入口。本次不扩充计费规则或创建历史重试链。
++真实隔离 PG 回归覆盖平台权限、团队/个人隐藏、改名/删除、历史缺失及统计/资金不变；
++前端覆盖管理员桌面/手机、展开详情、名称转义、切换普通用户后隐藏及列数。
 diff --git a/deploy/realyu/CUSTOMER-CURRENCY.md b/deploy/realyu/CUSTOMER-CURRENCY.md
 new file mode 100644
 index 0000000000000000000000000000000000000000..81f40450c5fe19b723810051e898c80a20891abd
@@ -20145,10 +20603,10 @@ index 0000000000000000000000000000000000000000..5eace03a9b4617ce6e7e21188ccce2ea
 +  two-turn continuation plus its two settled usage records in isolation.
 diff --git a/deploy/realyu/USAGE-HISTORY.md b/deploy/realyu/USAGE-HISTORY.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..90826621a17286f896ac5c3c3772ea1268bc7633
+index 0000000000000000000000000000000000000000..849d637f3bb9aff7c87e9c942725a06d17530796
 --- /dev/null
 +++ b/deploy/realyu/USAGE-HISTORY.md
-@@ -0,0 +1,92 @@
+@@ -0,0 +1,98 @@
 +# 历史调用与累计统计（候选，2026-10-11）
 +
 +本改动仅恢复消费事实的归档与查询。没有重放请求、重新计费、修改钱包、Key 已用额、个人/团队权益、成员周用量或 native usage/billing 表。上线与一次性归档由主发布流程执行；当前开发仅做封存源和生产只读预检、隔离 PostgreSQL 验证。
@@ -20197,6 +20655,12 @@ index 0000000000000000000000000000000000000000..90826621a17286f896ac5c3c3772ea12
 +```
 +
 +示例 ID 是合成值。源为 native 时 ID 为 `native:<usage_id>`，不会与旧 ID 冲突。
++
++2026-10-15 候选增加 `api_key_name: string | null`。按消费记录的 Key ID 与实际调用者匹配，
++返回该 Key 当前的名称；改名后历史列表显示新名称，软删除后仍可显示保留的名称。
++迁移前归档没有可靠 Key 映射，字段为 null，页面显示“—”。不根据当前团队归属猜测旧 Key。
++使用记录、全部调用记录的桌面表格、手机卡片和详情均显示名称；不返回密钥本身。
++原有 self、team、platform 权限、统计和分页规则不变，无 schema 变更。
 +
 +summary：`{scope,all_time:stats,today:stats,coverage}`。`all_time` 遵守相同 model/start/end 筛选；不传日期才是累计全历史。`today` 在同一筛选内再限定指定时区的今日。
 +
@@ -20925,7 +21389,7 @@ index 0000000000000000000000000000000000000000..8403339bedc0ea803d70a7e7742cf684
 +    raise SystemExit(main())
 diff --git a/deploy/realyu/run_funding_reason_pg_tests.py b/deploy/realyu/run_funding_reason_pg_tests.py
 new file mode 100644
-index 0000000000000000000000000000000000000000..be94746dcc0bed2648b988e60fa7ce1c79fe30c8
+index 0000000000000000000000000000000000000000..1f1ae39297323fcd62b5e3c6eb3ffeb9a81f68a9
 --- /dev/null
 +++ b/deploy/realyu/run_funding_reason_pg_tests.py
 @@ -0,0 +1,17 @@
@@ -20938,7 +21402,7 @@ index 0000000000000000000000000000000000000000..be94746dcc0bed2648b988e60fa7ce1c
 +assert (cfg['host'], cfg['port'], cfg['database']) == ('127.0.0.1', 29490, 'realyu_singlecore_e2e')
 +env = os.environ.copy()
 +env['REALYU_FUNDING_TEST_DSN'] = 'postgresql://' + quote(cfg['user'], safe='') + ':' + quote(cfg['password'], safe='') + '@127.0.0.1:29490/realyu_funding_e2e?sslmode=disable'
-+result = subprocess.run(['go', 'test', '-p', '2', '-tags', 'realyu_funding_pg', './internal/repository', '-run', '^TestRealYuFundingPG', '-count=1', '-v'], cwd=repo/'backend', env=env, capture_output=True)
++result = subprocess.run(['go', 'test', '-p', '2', '-tags', 'realyu_funding_pg', './internal/repository', '-run', '^TestRealYu(Funding|AdminSubscription|History|Usage|Purchase)PG', '-count=1', '-v'], cwd=repo/'backend', env=env, capture_output=True)
 +output = (result.stdout+result.stderr).decode('utf-8', errors='replace').replace(cfg['password'], '[REDACTED]')
 +dest = repo/'results/funding-reasons-pg.log'
 +dest.parent.mkdir(exist_ok=True)
@@ -26295,10 +26759,10 @@ index 0000000000000000000000000000000000000000..2c0b9e9cd6ab6294ab9724ed2d94dba9
 +}
 diff --git a/frontend/src/api/realyuUsage.ts b/frontend/src/api/realyuUsage.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..11e1a9fdabdfea1c54e778e4cc5709a8bd97e7b5
+index 0000000000000000000000000000000000000000..1b7d7ecbbc148a928e0b089af01c76f2012d8f90
 --- /dev/null
 +++ b/frontend/src/api/realyuUsage.ts
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,46 @@
 +import { apiClient } from './client'
 +
 +export interface RealYuUsageStats {
@@ -26313,11 +26777,12 @@ index 0000000000000000000000000000000000000000..11e1a9fdabdfea1c54e778e4cc5709a8
 +}
 +export interface RealYuUsageRecord {
 +  id: string; source: 'legacy' | 'native'; scope: 'personal' | 'team' | 'legacy_unknown'
-+  actor_user_id: number | null; actor_nickname?: string | null; team_id: number | null; model: string; created_at: string
++  actor_user_id: number | null; actor_nickname?: string | null; api_key_name?: string | null; team_id: number | null; model: string; created_at: string
 +  input_tokens: number; output_tokens: number; total_tokens: number
 +  cache_read_tokens: number | null; cache_creation_tokens: number | null
 +  cost_usd: string; duration_ms: number | null; token_semantics: string
 +  first_token_ms?: number | null; stream?: boolean | null
++  upstream?: { account_id: number | null; account_name: string | null; channel_id: number | null; channel_name: string | null }
 +}
 +export interface RealYuUsageQuery {
 +  scope?: 'self' | 'personal' | 'platform' | 'team'; page?: number; page_size?: number
@@ -29043,7 +29508,7 @@ index 4c5b0c5de0e03d48662eca3dc376dacb16647ba3..9c7e98a17ef9b7e5f48ad53ddac190f7
  
  const onboardingStore = useOnboardingStore()
 diff --git a/frontend/src/components/layout/AppSidebar.vue b/frontend/src/components/layout/AppSidebar.vue
-index 1d20fef8ff7fd53676e3e0681a2dd8ef4965bc08..b63e7023bd9dad0485af6ac49d4b7914a684fcf7 100644
+index 1d20fef8ff7fd53676e3e0681a2dd8ef4965bc08..24e3a776f986d8a8c6e80f3bb31b1da0d61ddefa 100644
 --- a/frontend/src/components/layout/AppSidebar.vue
 +++ b/frontend/src/components/layout/AppSidebar.vue
 @@ -1,6 +1,7 @@
@@ -29167,13 +29632,13 @@ index 1d20fef8ff7fd53676e3e0681a2dd8ef4965bc08..b63e7023bd9dad0485af6ac49d4b7914
 +  if (isRealYu.value) {
 +    return [
 +      { path: '/dashboard', label: t('nav.dashboard'), icon: DashboardIcon },
++      { path: '/keys', label: t('nav.apiKeys'), icon: KeyIcon },
 +      { path: '/usage', label: t('nav.usage'), icon: ChartIcon },
 +      { path: '/purchase', label: t('realyuUx.plans'), icon: CreditCardIcon },
 +      { path: '/teams', label: t('realyuTeams.title'), icon: UsersIcon },
 +      { path: '/pricing', label: t('realyuUx.models'), icon: PriceTagIcon },
 +      { path: '/docs', label: t('nav.docs'), icon: () => h(Icon, { name: 'book' }) },
-+      { path: '/profile', label: t('nav.profile'), icon: UserIcon },
-+      ...(isAdmin.value ? [{ path: '/keys', label: t('nav.apiKeys'), icon: KeyIcon }] : [])
++      { path: '/profile', label: t('nav.profile'), icon: UserIcon }
 +    ]
 +  }
    const items: NavItem[] = []
@@ -30064,10 +30529,10 @@ index cd9ccfd38f17f7dcfe0059d05ae1afd8b5b47a10..b73238d5ec42670a273f13889d48ad71
  
 diff --git a/frontend/src/components/realyu/RealYuAdminSubscriptionDialog.vue b/frontend/src/components/realyu/RealYuAdminSubscriptionDialog.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..30b86917cf51c582c3ce20a482b65879424e5a95
+index 0000000000000000000000000000000000000000..40179ea2326f712cef5f0617ea949d80d9905967
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuAdminSubscriptionDialog.vue
-@@ -0,0 +1,112 @@
+@@ -0,0 +1,111 @@
 +<template>
 +  <BaseDialog :show="show" :title="t('realyuAdmin.subscriptions')" width="normal" @close="!saving && $emit('close')">
 +    <p class="mb-4 font-medium">{{ userLabel }} <span class="ml-2 font-mono text-xs text-gray-500">#{{ userId }}</span></p>
@@ -30169,7 +30634,6 @@ index 0000000000000000000000000000000000000000..30b86917cf51c582c3ce20a482b65879
 +  const body: Omit<SubscriptionAdjustment,'idempotency_key'>={user_id:props.userId,team_id:teamID.value,new_team_name:scope.value==='new-team'?teamName.value.trim():'',subscription_id:sub?.id||0,action:action||(sub?'update':'grant'),title:title.value.trim(),weekly_amount_quota:amount||0,end_time:end,allow_wallet_overflow:scope.value==='personal'&&overflow.value,expected_revision:sub?.revision||'',reason:reason.value.trim()}
 +  if(action === 'correct_weekly_used' && sub) {
 +    body.weekly_used_quota=correction!
-+    body.expected_weekly_used_quota=sub.weekly_used_quota
 +    body.expected_weekly_reset_at=sub.weekly_reset_at
 +  }
 +  const serialized=JSON.stringify(body)
@@ -30629,13 +31093,15 @@ index 0000000000000000000000000000000000000000..f273c41bc309a1cc6d9f0482180b4dd9
 +</style>
 diff --git a/frontend/src/components/realyu/RealYuUsageDetails.vue b/frontend/src/components/realyu/RealYuUsageDetails.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..1c5b845d90ab369ef7ff8a23e976cae96a2b3ecc
+index 0000000000000000000000000000000000000000..22487433f17a92d5871146dcf10147e045df67b0
 --- /dev/null
 +++ b/frontend/src/components/realyu/RealYuUsageDetails.vue
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,35 @@
 +<template>
 +  <div class="usage-details">
 +    <dl>
++      <div><dt>{{ t('realyuUx.apiKeyName') }}</dt><dd>{{ item.api_key_name || '—' }}</dd></div>
++      <div v-if="platform"><dt>{{ t('realyuUx.upstreamRoute') }}</dt><dd><RealYuUsageUpstream :item="item" /></dd></div>
 +      <div><dt>{{ t('realyuUx.requestID') }}</dt><dd class="record-id">{{ item.id }}</dd></div>
 +      <div><dt>{{ t('realyuUx.source') }}</dt><dd>{{ t(`realyuUx.${item.source}`) }}</dd></div>
 +      <div><dt>{{ t('realyuUx.duration') }}</dt><dd>{{ item.duration_ms == null || item.duration_ms <= 0 ? '—' : (item.duration_ms / 1000).toFixed(2) + ' s' }}</dd></div>
@@ -30650,9 +31116,10 @@ index 0000000000000000000000000000000000000000..1c5b845d90ab369ef7ff8a23e976cae9
 +</template>
 +<script setup lang="ts">
 +import { useI18n } from 'vue-i18n'
++import RealYuUsageUpstream from './RealYuUsageUpstream.vue'
 +import { usageInputTotal } from '@/utils/realyuUsageMetrics'
 +import type { RealYuUsageRecord } from '@/api/realyuUsage'
-+defineProps<{ item: RealYuUsageRecord }>()
++defineProps<{ item: RealYuUsageRecord; platform?: boolean }>()
 +const { t, locale } = useI18n()
 +</script>
 +<style scoped>
@@ -30747,6 +31214,33 @@ index 0000000000000000000000000000000000000000..ec9c433c0a30d25ab66963df0209481f
 +[data-performance="slow"] { border-left-color: #d16b6b !important; }
 +.compact { flex-direction: row; flex-wrap: wrap; gap: .5rem 1rem; }
 +.dark dt { color: #acacac; } .dark dd { color: #e5e5e5; }
++</style>
+diff --git a/frontend/src/components/realyu/RealYuUsageUpstream.vue b/frontend/src/components/realyu/RealYuUsageUpstream.vue
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c9ea114474528a17cca3c76d21ab3374beafc3e
+--- /dev/null
++++ b/frontend/src/components/realyu/RealYuUsageUpstream.vue
+@@ -0,0 +1,21 @@
++<template>
++  <div class="usage-upstream" data-testid="usage-upstream">
++    <p :title="label(item.upstream?.account_id, item.upstream?.account_name)"><span>{{ t('realyuUx.upstreamAccount') }}</span> {{ label(item.upstream?.account_id, item.upstream?.account_name) }}</p>
++    <p :title="label(item.upstream?.channel_id, item.upstream?.channel_name)"><span>{{ t('realyuUx.channel') }}</span> {{ label(item.upstream?.channel_id, item.upstream?.channel_name) }}</p>
++  </div>
++</template>
++<script setup lang="ts">
++import { useI18n } from 'vue-i18n'
++import type { RealYuUsageRecord } from '@/api/realyuUsage'
++defineProps<{ item: RealYuUsageRecord }>()
++const { t } = useI18n()
++function label(id: number | null | undefined, name: string | null | undefined): string {
++  return id ? (name ? `${name} #${id}` : `#${id}`) : t('realyuUx.missing')
++}
++</script>
++<style scoped>
++.usage-upstream { min-width: 10rem; max-width: 16rem; font-size: .75rem; line-height: 1.6; }
++.usage-upstream p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
++.usage-upstream span { color: #777; margin-right: .25rem; }
++.dark .usage-upstream span { color: #b6b6b6; }
 +</style>
 diff --git a/frontend/src/components/realyu/RealYuWorkspaceSetup.vue b/frontend/src/components/realyu/RealYuWorkspaceSetup.vue
 new file mode 100644
@@ -30962,10 +31456,10 @@ index 0000000000000000000000000000000000000000..428801e27e9bf5b01bc6912c8a9422ba
 +</style>
 diff --git a/frontend/src/components/realyu/__tests__/RealYuAdminSubscriptionDialog.spec.ts b/frontend/src/components/realyu/__tests__/RealYuAdminSubscriptionDialog.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..2434ddbf5e06fe198f1e4c8d66d162d5b9e5b8da
+index 0000000000000000000000000000000000000000..ab83f3696abc8b203a30b63d231f1db2b48e19f2
 --- /dev/null
 +++ b/frontend/src/components/realyu/__tests__/RealYuAdminSubscriptionDialog.spec.ts
-@@ -0,0 +1,78 @@
+@@ -0,0 +1,79 @@
 +import {beforeEach,describe,expect,it,vi} from 'vitest'
 +import {mount,flushPromises} from '@vue/test-utils'
 +import Dialog from '../RealYuAdminSubscriptionDialog.vue'
@@ -30989,7 +31483,7 @@ index 0000000000000000000000000000000000000000..2434ddbf5e06fe198f1e4c8d66d162d5
 +  await view.get('form').trigger('submit');await flushPromises()
 +  expect(api.adjust).toHaveBeenCalledWith(expect.objectContaining({action:'update',title:'',weekly_amount_quota:1000000}));view.unmount()
 + })
-+ it('submits an explicit zero correction with the observed usage and week, separate from allowance edits',async()=>{
++ it('submits an explicit zero correction with the week but without a live-usage concurrency token, separate from allowance edits',async()=>{
 +  api.list.mockResolvedValue([{id:71,owner_user_id:1,name:'Owned',closed_at:0}])
 +  api.subscriptions.mockResolvedValue([{user_id:1,managed:true,subscriptions:[{...sub,team_id:71,allow_wallet_overflow:false}]}])
 +  const confirm=vi.spyOn(window,'confirm').mockReturnValue(true)
@@ -30997,7 +31491,8 @@ index 0000000000000000000000000000000000000000..2434ddbf5e06fe198f1e4c8d66d162d5
 +  await view.get('[data-testid="subscription-reason"]').setValue('Repair confirmed accounting error')
 +  await view.get('[data-testid="subscription-correct-used"]').setValue('0')
 +  await view.get('[data-testid="subscription-correct-submit"]').trigger('click');await flushPromises()
-+  expect(api.adjust).toHaveBeenCalledWith(expect.objectContaining({action:'correct_weekly_used',team_id:71,weekly_used_quota:0,expected_weekly_used_quota:200000,expected_weekly_reset_at:sub.weekly_reset_at}))
++  expect(api.adjust).toHaveBeenCalledWith(expect.objectContaining({action:'correct_weekly_used',team_id:71,weekly_used_quota:0,expected_weekly_reset_at:sub.weekly_reset_at}))
++  expect(api.adjust.mock.calls[0]![0]).not.toHaveProperty('expected_weekly_used_quota')
 +  view.unmount();confirm.mockRestore()
 + })
 + it('never falls back to a personal grant when the requested team is closed or unavailable',async()=>{
@@ -33585,10 +34080,51 @@ index c9ea6db1e418db8e78f5f1155011a01dd9b3fcbb..bf69fe5484b6620af015673d49996450
            <input
              id="username"
 diff --git a/frontend/src/components/user/profile/ProfileIdentityBindingsSection.vue b/frontend/src/components/user/profile/ProfileIdentityBindingsSection.vue
-index e15b112873e34b4d054bd4b37884db8752627ada..fb1bca12bac720e81d6f9db74166269f7e9deb32 100644
+index e15b112873e34b4d054bd4b37884db8752627ada..a13cabc335dccc1c7b7dba4245b6e9ea2dd2f9d7 100644
 --- a/frontend/src/components/user/profile/ProfileIdentityBindingsSection.vue
 +++ b/frontend/src/components/user/profile/ProfileIdentityBindingsSection.vue
-@@ -299,9 +299,10 @@ const rowClass = computed(() =>
+@@ -5,20 +5,20 @@
+       class="border-b border-gray-100 px-6 py-4 dark:border-dark-700"
+     >
+       <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+-        {{ t('profile.authBindings.title') }}
++        {{ t(props.emailOnly ? 'profile.authBindings.emailOnlyTitle' : 'profile.authBindings.title') }}
+       </h2>
+       <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+-        {{ t('profile.authBindings.description') }}
++        {{ t(props.emailOnly ? 'profile.authBindings.emailOnlyDescription' : 'profile.authBindings.description') }}
+       </p>
+     </div>
+ 
+     <div :class="props.embedded ? 'space-y-4' : 'divide-y divide-gray-100 dark:divide-dark-700'">
+       <div v-if="props.embedded">
+         <p class="text-sm font-semibold text-gray-900 dark:text-white">
+-          {{ t('profile.authBindings.title') }}
++          {{ t(props.emailOnly ? 'profile.authBindings.emailOnlyTitle' : 'profile.authBindings.title') }}
+         </p>
+         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+-          {{ t('profile.authBindings.description') }}
++          {{ t(props.emailOnly ? 'profile.authBindings.emailOnlyDescription' : 'profile.authBindings.description') }}
+         </p>
+       </div>
+ 
+@@ -219,6 +219,7 @@ type BindableProvider = Exclude<UserAuthProvider, 'email'>
+ const props = withDefaults(
+   defineProps<{
+     user: User | null
++    emailOnly?: boolean
+     linuxdoEnabled?: boolean
+     dingtalkEnabled?: boolean
+     oidcEnabled?: boolean
+@@ -230,6 +231,7 @@ const props = withDefaults(
+     compact?: boolean
+   }>(),
+   {
++    emailOnly: false,
+     linuxdoEnabled: false,
+     dingtalkEnabled: false,
+     oidcEnabled: false,
+@@ -299,9 +301,10 @@ const rowClass = computed(() =>
      : 'px-6 py-5'
  )
  const emailBound = computed(() => getBindingStatus('email'))
@@ -33600,7 +34136,16 @@ index e15b112873e34b4d054bd4b37884db8752627ada..fb1bca12bac720e81d6f9db74166269f
      ? t('profile.authBindings.replaceEmailPasswordPlaceholder')
      : t('profile.authBindings.passwordPlaceholder')
  )
-@@ -614,7 +615,7 @@ function validateEmailBindingForm(requireCode: boolean): boolean {
+@@ -480,7 +483,7 @@ const providerItems = computed(() => [
+     canUnbind: Boolean(getBindingStatus('wechat') && getBindingDetails('wechat')?.can_unbind),
+     details: getBindingDetails('wechat'),
+   },
+-])
++].filter((item) => !props.emailOnly || item.provider === 'email'))
+ 
+ function providerInitial(provider: UserAuthProvider): string {
+   if (provider === 'linuxdo') {
+@@ -614,7 +617,7 @@ function validateEmailBindingForm(requireCode: boolean): boolean {
      appStore.showError(t('auth.passwordRequired'))
      return false
    }
@@ -33610,7 +34155,7 @@ index e15b112873e34b4d054bd4b37884db8752627ada..fb1bca12bac720e81d6f9db74166269f
      return false
    }
 diff --git a/frontend/src/components/user/profile/ProfileInfoCard.vue b/frontend/src/components/user/profile/ProfileInfoCard.vue
-index 6783f6d8abbef32c1bc2a2498289a703247801e8..8317413b0e602d7b1502e5b6a0b62314723e3546 100644
+index 6783f6d8abbef32c1bc2a2498289a703247801e8..e0618d000fc57f546925e5db8ac8f45072396f8a 100644
 --- a/frontend/src/components/user/profile/ProfileInfoCard.vue
 +++ b/frontend/src/components/user/profile/ProfileInfoCard.vue
 @@ -39,6 +39,9 @@
@@ -33632,7 +34177,15 @@ index 6783f6d8abbef32c1bc2a2498289a703247801e8..8317413b0e602d7b1502e5b6a0b62314
                  </p>
                </div>
                <div
-@@ -182,6 +185,7 @@
+@@ -138,6 +141,7 @@
+         >
+           <ProfileIdentityBindingsSection
+             :user="user"
++            :email-only="emailOnly"
+             :linuxdo-enabled="linuxdoEnabled"
+             :dingtalk-enabled="dingtalkEnabled"
+             :oidc-enabled="oidcEnabled"
+@@ -182,6 +186,7 @@
  <script setup lang="ts">
  import { computed } from 'vue'
  import { useI18n } from 'vue-i18n'
@@ -33640,7 +34193,23 @@ index 6783f6d8abbef32c1bc2a2498289a703247801e8..8317413b0e602d7b1502e5b6a0b62314
  import Icon from '@/components/icons/Icon.vue'
  import ProfileAvatarCard from '@/components/user/profile/ProfileAvatarCard.vue'
  import ProfileEditForm from '@/components/user/profile/ProfileEditForm.vue'
-@@ -272,10 +276,6 @@ const providerLabels = computed<Record<UserAuthProvider, string>>(() => ({
+@@ -190,6 +195,7 @@ import type { User, UserAuthBindingStatus, UserAuthProvider, UserProfileSourceCo
+ 
+ const props = withDefaults(defineProps<{
+   user: User | null
++  emailOnly?: boolean
+   linuxdoEnabled?: boolean
+   dingtalkEnabled?: boolean
+   oidcEnabled?: boolean
+@@ -198,6 +204,7 @@ const props = withDefaults(defineProps<{
+   wechatOpenEnabled?: boolean
+   wechatMpEnabled?: boolean
+ }>(), {
++  emailOnly: false,
+   linuxdoEnabled: false,
+   dingtalkEnabled: false,
+   oidcEnabled: false,
+@@ -272,10 +279,6 @@ const providerLabels = computed<Record<UserAuthProvider, string>>(() => ({
    google: 'Google'
  }))
  
@@ -33652,7 +34221,7 @@ index 6783f6d8abbef32c1bc2a2498289a703247801e8..8317413b0e602d7b1502e5b6a0b62314
    const normalized = value.trim().toLowerCase()
    if (
 diff --git a/frontend/src/components/user/profile/ProfilePasswordForm.vue b/frontend/src/components/user/profile/ProfilePasswordForm.vue
-index e5b8a85b21134124f2bf1489a3d6f862c4d683eb..7298861d0826fb1ffec5eafb3d73b3a0b6b02b11 100644
+index e5b8a85b21134124f2bf1489a3d6f862c4d683eb..4a4da3e27151a3bdfa4d31e2f7c6318c6d7152b5 100644
 --- a/frontend/src/components/user/profile/ProfilePasswordForm.vue
 +++ b/frontend/src/components/user/profile/ProfilePasswordForm.vue
 @@ -42,7 +42,7 @@
@@ -33685,7 +34254,7 @@ index e5b8a85b21134124f2bf1489a3d6f862c4d683eb..7298861d0826fb1ffec5eafb3d73b3a0
    embedded: false,
  })
  
-+const passwordMinimumLength = computed(() => props.user?.password_minimum_length ?? 8)
++const passwordMinimumLength = computed(() => props.user?.password_minimum_length ?? 6)
 +const passwordHint = computed(() => props.user?.login_name
 +  ? t('auth.usernamePasswordRangeHint', { min: passwordMinimumLength.value })
 +  : t('profile.passwordHint'))
@@ -33785,7 +34354,7 @@ index 03bb8cffeb86450cdd1f629b7156ad6f7c6fa8f0..4f9b271c161c4abea70efa41d4b7fdc5
      const request = deferred()
      sendNotifyEmailCode.mockReturnValueOnce(request.promise)
 diff --git a/frontend/src/components/user/profile/__tests__/ProfileInfoCard.spec.ts b/frontend/src/components/user/profile/__tests__/ProfileInfoCard.spec.ts
-index e8ee1362823894420a8f5d3e8e7300506ff4e3cf..5720ad71317e2e0a8d0861087cebb1a814c41b3e 100644
+index e8ee1362823894420a8f5d3e8e7300506ff4e3cf..0f5ec4c92727064efbf9663ac859f7384cd970f0 100644
 --- a/frontend/src/components/user/profile/__tests__/ProfileInfoCard.spec.ts
 +++ b/frontend/src/components/user/profile/__tests__/ProfileInfoCard.spec.ts
 @@ -1,7 +1,10 @@
@@ -33800,7 +34369,27 @@ index e8ee1362823894420a8f5d3e8e7300506ff4e3cf..5720ad71317e2e0a8d0861087cebb1a8
  
  vi.mock('vue-router', () => ({
    useRoute: () => ({
-@@ -99,6 +102,7 @@ describe('ProfileInfoCard', () => {
+@@ -71,6 +74,19 @@ function createUser(overrides: Partial<User> = {}): User {
+ }
+ 
+ describe('ProfileInfoCard', () => {
++  it('shows only email binding when the profile uses email-only mode', () => {
++    const wrapper = mount(ProfileInfoCard, {
++      props: { user: createUser(), emailOnly: true, linuxdoEnabled: true, dingtalkEnabled: true, oidcEnabled: true, wechatEnabled: true },
++      global: { stubs: { Icon: true } },
++    })
++    const bindings = wrapper.get('[data-testid="profile-auth-bindings-panel"]')
++    expect(bindings.text()).toContain('Email')
++    for (const provider of ['LinuxDo', 'DingTalk', 'OIDC', 'WeChat']) {
++      expect(bindings.text()).not.toContain(provider)
++    }
++    wrapper.unmount()
++  })
++
+   it.each([
+     { avatar_source: 'dingtalk', username_source: 'dingtalk' },
+     { profile_sources: { avatar: { provider: 'dingtalk' }, username: { provider: 'dingtalk' } } },
+@@ -99,6 +115,7 @@ describe('ProfileInfoCard', () => {
      expect(wrapper.text()).toContain('alice@example.com')
      expect(wrapper.text()).toContain('alice')
      expect(wrapper.text()).toContain('User')
@@ -33809,7 +34398,7 @@ index e8ee1362823894420a8f5d3e8e7300506ff4e3cf..5720ad71317e2e0a8d0861087cebb1a8
      expect(wrapper.get('[data-testid="profile-auth-bindings-panel"]').exists()).toBe(true)
    })
 diff --git a/frontend/src/components/user/profile/__tests__/ProfilePasswordForm.spec.ts b/frontend/src/components/user/profile/__tests__/ProfilePasswordForm.spec.ts
-index b1fff4ea97d5fe70257b0b07467a1a90dd09f0e0..98cb199242278b43578f02305d0ffa99e3a5b16d 100644
+index b1fff4ea97d5fe70257b0b07467a1a90dd09f0e0..f594f7e88bcfb83b4b254c72db1d5eb325c5d393 100644
 --- a/frontend/src/components/user/profile/__tests__/ProfilePasswordForm.spec.ts
 +++ b/frontend/src/components/user/profile/__tests__/ProfilePasswordForm.spec.ts
 @@ -1,6 +1,7 @@
@@ -33820,7 +34409,7 @@ index b1fff4ea97d5fe70257b0b07467a1a90dd09f0e0..98cb199242278b43578f02305d0ffa99
  
  const { changePasswordMock, showSuccessMock, showErrorMock } = vi.hoisted(() => ({
    changePasswordMock: vi.fn(),
-@@ -26,7 +27,8 @@ vi.mock('vue-i18n', async (importOriginal) => {
+@@ -26,17 +27,18 @@ vi.mock('vue-i18n', async (importOriginal) => {
    return {
      ...actual,
      useI18n: () => ({
@@ -33830,7 +34419,19 @@ index b1fff4ea97d5fe70257b0b07467a1a90dd09f0e0..98cb199242278b43578f02305d0ffa99
          const translations: Record<string, string> = {
            'profile.changePassword': 'Change Password',
            'profile.currentPassword': 'Current Password',
-@@ -47,7 +49,28 @@ vi.mock('vue-i18n', async (importOriginal) => {
+           'profile.newPassword': 'New Password',
+           'profile.confirmNewPassword': 'Confirm New Password',
+-          'profile.passwordHint': 'Password must be at least 8 characters long',
++          'profile.passwordHint': 'Password must be at least 6 characters long',
+           'profile.changingPassword': 'Changing...',
+           'profile.changePasswordButton': 'Change Password',
+           'profile.passwordsNotMatch': 'New passwords do not match',
+-          'profile.passwordTooShort': 'Password must be at least 8 characters long',
++          'profile.passwordTooShort': 'Password must be at least 6 characters long',
+           'profile.passwordChangeSuccess': 'Password changed successfully',
+           'profile.passwordChangeFailed': 'Failed to change password'
+         }
+@@ -47,7 +49,33 @@ vi.mock('vue-i18n', async (importOriginal) => {
  })
  
  describe('ProfilePasswordForm', () => {
@@ -33838,15 +34439,20 @@ index b1fff4ea97d5fe70257b0b07467a1a90dd09f0e0..98cb199242278b43578f02305d0ffa99
 +    changePasswordMock.mockClear()
 +    changePasswordMock.mockResolvedValue(undefined)
 +    const wrapper = mount(ProfilePasswordForm, {
-+      props: { user: { login_name: 'immutable-name', password_minimum_length: 15 } as User }
++      props: { user: { login_name: 'immutable-name', password_minimum_length: 6 } as User }
 +    })
-+    expect(wrapper.text()).toContain('Use 15–128 characters.')
++    expect(wrapper.text()).toContain('Use 6–128 characters.')
 +    await wrapper.get('#old_password').setValue('  old-password  ')
-+    await wrapper.get('#new_password').setValue('short-password')
-+    await wrapper.get('#confirm_password').setValue('short-password')
++    await wrapper.get('#new_password').setValue('12345')
++    await wrapper.get('#confirm_password').setValue('12345')
 +    await wrapper.get('form').trigger('submit.prevent')
 +    expect(changePasswordMock).not.toHaveBeenCalled()
-+    expect(showErrorMock).toHaveBeenLastCalledWith('Use 15–128 characters.')
++    expect(showErrorMock).toHaveBeenLastCalledWith('Use 6–128 characters.')
++    await wrapper.get('#new_password').setValue('123456')
++    await wrapper.get('#confirm_password').setValue('123456')
++    await wrapper.get('form').trigger('submit.prevent')
++    expect(changePasswordMock).toHaveBeenCalledWith('  old-password  ', '123456')
++    await wrapper.get('#old_password').setValue('  old-password  ')
 +    const nextPassword = '  ' + '新密码'.repeat(30) + '  '
 +    await wrapper.get('#new_password').setValue(nextPassword)
 +    await wrapper.get('#confirm_password').setValue(nextPassword)
@@ -34091,7 +34697,7 @@ index e6e07ddd65328251dd678a9e84d4a64cc1e510ed..68d80090fb213028628b3d03f84c77a2
            platform: 'Platform',
            daily: 'Daily (USD)',
 diff --git a/frontend/src/i18n/locales/en/common.ts b/frontend/src/i18n/locales/en/common.ts
-index 694dbb74ff3a2d35e613282dd05968b2a346e043..41f80fbb8b897b52ab8419f106174b504144f4a5 100644
+index 694dbb74ff3a2d35e613282dd05968b2a346e043..def92f5f01ecb4a372be5f47758eae1ff0fc44b6 100644
 --- a/frontend/src/i18n/locales/en/common.ts
 +++ b/frontend/src/i18n/locales/en/common.ts
 @@ -163,7 +163,7 @@ export default {
@@ -34115,13 +34721,13 @@ index 694dbb74ff3a2d35e613282dd05968b2a346e043..41f80fbb8b897b52ab8419f106174b50
 +    displayNameLabel: 'Nickname',
 +    optionalEmailLabel: 'Email (optional)',
 +    optionalEmailHint: 'You can verify an email later in your profile to enable password recovery.',
-+    usernamePasswordHint: 'Use 15–128 characters.',
++    usernamePasswordHint: 'Use 6–128 characters.',
 +    usernamePasswordRangeHint: 'Use {min}–128 characters.',
      emailPlaceholder: 'Enter your email',
      passwordLabel: 'Password',
      passwordPlaceholder: 'Enter your password',
 diff --git a/frontend/src/i18n/locales/en/dashboard.ts b/frontend/src/i18n/locales/en/dashboard.ts
-index d43bed531cab204a775394e3cb4a441bc046b520..212b60f7e2ffd0a48f30cf46cb64a9cda5632d44 100644
+index d43bed531cab204a775394e3cb4a441bc046b520..8b7c1fb24dc16c2d9f9d9787ffe991249af0f793 100644
 --- a/frontend/src/i18n/locales/en/dashboard.ts
 +++ b/frontend/src/i18n/locales/en/dashboard.ts
 @@ -1,6 +1,8 @@
@@ -34200,6 +34806,29 @@ index d43bed531cab204a775394e3cb4a441bc046b520..212b60f7e2ffd0a48f30cf46cb64a9cd
        },
        detail: {
          title: 'Error Request Detail',
+@@ -837,11 +845,11 @@ export default {
+     currentPassword: 'Current Password',
+     newPassword: 'New Password',
+     confirmNewPassword: 'Confirm New Password',
+-    passwordHint: 'Password must be at least 8 characters long',
++    passwordHint: 'Password must be at least 6 characters long',
+     changingPassword: 'Changing...',
+     changePasswordButton: 'Change Password',
+     passwordsNotMatch: 'New passwords do not match',
+-    passwordTooShort: 'Password must be at least 8 characters long',
++    passwordTooShort: 'Password must be at least 6 characters long',
+     passwordChangeSuccess: 'Password changed successfully',
+     passwordChangeFailed: 'Failed to change password',
+     // TOTP 2FA
+@@ -956,6 +964,8 @@ export default {
+       emptyDeleteHint: 'Avatar is already empty',
+     },
+     authBindings: {
++      emailOnlyTitle: 'Email binding',
++      emailOnlyDescription: 'Verify your email for sign-in and password recovery.',
+       title: 'Connected Sign-In Methods',
+       description: 'View current bindings and connect another provider to this account.',
+       bindAction: 'Bind {providerName}',
 diff --git a/frontend/src/i18n/locales/en/errorReasons.ts b/frontend/src/i18n/locales/en/errorReasons.ts
 new file mode 100644
 index 0000000000000000000000000000000000000000..6e2320576c88f131211762902b54dd440c0f2bec
@@ -34269,7 +34898,7 @@ index ac2867bfda96f6bcf4fb44cdb42dde1998edc728..2b54f8077fa8e1dbc64e90eab9f0b162
 +  ...realyuAdmin,
  }
 diff --git a/frontend/src/i18n/locales/en/landing.ts b/frontend/src/i18n/locales/en/landing.ts
-index 7664fe6ecafc89f48edd62d95a31249c537f1012..5625c711169ae9bb6bfc08b7ac92fb3ee0971c17 100644
+index 7664fe6ecafc89f48edd62d95a31249c537f1012..91385982223b50e07580738c6404cd316df27bb3 100644
 --- a/frontend/src/i18n/locales/en/landing.ts
 +++ b/frontend/src/i18n/locales/en/landing.ts
 @@ -10,10 +10,10 @@ export default {
@@ -34285,6 +34914,15 @@ index 7664fe6ecafc89f48edd62d95a31249c537f1012..5625c711169ae9bb6bfc08b7ac92fb3e
      // User-focused value proposition
      heroSubtitle: 'One Key, All AI Models',
      heroDescription: 'No need to manage multiple subscriptions. Access Claude, GPT, Gemini and more with a single API key',
+@@ -230,7 +230,7 @@ export default {
+       email: 'Email',
+       password: 'Password',
+       confirmPassword: 'Confirm Password',
+-      passwordPlaceholder: 'Min 8 characters',
++      passwordPlaceholder: 'Min 6 characters',
+       confirmPasswordPlaceholder: 'Confirm password',
+       passwordMismatch: 'Passwords do not match'
+     },
 diff --git a/frontend/src/i18n/locales/en/misc.ts b/frontend/src/i18n/locales/en/misc.ts
 index 0888751a0039906dd12d804177be4ec84f5d4196..052cdb969ecd2165e83bf5f615048fe4ac6233dc 100644
 --- a/frontend/src/i18n/locales/en/misc.ts
@@ -34300,7 +34938,7 @@ index 0888751a0039906dd12d804177be4ec84f5d4196..052cdb969ecd2165e83bf5f615048fe4
      stripeLoadFailed: 'Failed to load payment component. Please refresh and try again.',
 diff --git a/frontend/src/i18n/locales/en/realyuAdmin.ts b/frontend/src/i18n/locales/en/realyuAdmin.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..8b52a0904f74589804af4ac23f603f2801d789fc
+index 0000000000000000000000000000000000000000..c2e565a99cd4f9258fe0b23018efc3dadb9fc593
 --- /dev/null
 +++ b/frontend/src/i18n/locales/en/realyuAdmin.ts
 @@ -0,0 +1,18 @@
@@ -34318,7 +34956,7 @@ index 0000000000000000000000000000000000000000..8b52a0904f74589804af4ac23f603f28
 +    invalid: 'Enter a valid name, amount, expiration time and adjustment note.',
 +    preservesUsage: 'Adjustments preserve used allowance. Team allowance is only available to that team.',
 +    correctUsed: 'Correct team weekly usage', correctUsedAmount: 'Corrected usage this week (CNY)',
-+    correctUsedNote: 'For accounting corrections only. Cumulative usage and member records remain unchanged. Enter an adjustment note first.',
++    correctUsedNote: 'Save weekly usage even while calls are running. In-flight reservations are retained and settle to actual usage afterward. Cumulative usage and member records stay unchanged. Enter an adjustment note.',
 +    correctUsedConfirm: 'Correct this team’s weekly usage? Cumulative usage and member records will be retained.',
 +  },
 +}
@@ -34462,12 +35100,14 @@ index 0000000000000000000000000000000000000000..5eba5d2e5a80c40e3678e054c37dc17b
 +}
 diff --git a/frontend/src/i18n/locales/en/realyuUx.ts b/frontend/src/i18n/locales/en/realyuUx.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..b0f1f644333e036add7459cd4bf215cdeb80331a
+index 0000000000000000000000000000000000000000..73351f50f6688c0d595403e9fcc01feecec31746
 --- /dev/null
 +++ b/frontend/src/i18n/locales/en/realyuUx.ts
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,41 @@
 +export default {
 +  realyuUx: {
++    apiKeyName: 'API Key name',
++    upstreamRoute: 'Upstream account / channel', upstreamAccount: 'Account', channel: 'Channel',
 +    firstToken: 'First token', timing: 'Timing', inputOutputTokens: 'Input / output tokens', performance: { fast: 'Fast', moderate: 'Moderate', slow: 'Slow', unknown: 'Not recorded' },
 +    filters: 'Filters', closeFilters: 'Close filters', dateRange: 'Date range', allDates: 'All time', unbounded: 'Any date', cancel: 'Cancel', invalidDateRange: 'End date must be on or after start date.',
 +    platformManagement: 'Platform management', overview: 'Overview', allUsage: 'All usage records',
@@ -34540,7 +35180,7 @@ index 85426f04b63a1ee5013f4ed35346d2c0b8a2c375..dc1d6b0ce75eda13152282cb42be99ad
            platform: '平台',
            daily: '日 (USD)',
 diff --git a/frontend/src/i18n/locales/zh/common.ts b/frontend/src/i18n/locales/zh/common.ts
-index d2377249d0644d00c03828cf1debb9bd5cd2f1b3..840f9a695a7c3fbc0f2fe72475fa5b77d2b98752 100644
+index d2377249d0644d00c03828cf1debb9bd5cd2f1b3..49842133e64f903d06fa9361b4b968bcce997c5d 100644
 --- a/frontend/src/i18n/locales/zh/common.ts
 +++ b/frontend/src/i18n/locales/zh/common.ts
 @@ -163,7 +163,7 @@ export default {
@@ -34564,13 +35204,13 @@ index d2377249d0644d00c03828cf1debb9bd5cd2f1b3..840f9a695a7c3fbc0f2fe72475fa5b77
 +    displayNameLabel: '昵称',
 +    optionalEmailLabel: '邮箱（选填）',
 +    optionalEmailHint: '可稍后在个人资料中验证邮箱，以便找回密码。',
-+    usernamePasswordHint: '请使用 15–128 个字符。',
++    usernamePasswordHint: '请使用 6–128 个字符。',
 +    usernamePasswordRangeHint: '请使用 {min}–128 个字符。',
      emailPlaceholder: '请输入邮箱',
      passwordLabel: '密码',
      passwordPlaceholder: '请输入密码',
 diff --git a/frontend/src/i18n/locales/zh/dashboard.ts b/frontend/src/i18n/locales/zh/dashboard.ts
-index 15c276d6e6d2add9734f08222e6f6910038281b1..b37f1fe6c3f1843c7bded098ebdff05c2e409a15 100644
+index 15c276d6e6d2add9734f08222e6f6910038281b1..0b86d34b1fcf2510054638c260e3abe35b925dd8 100644
 --- a/frontend/src/i18n/locales/zh/dashboard.ts
 +++ b/frontend/src/i18n/locales/zh/dashboard.ts
 @@ -1,6 +1,8 @@
@@ -34668,6 +35308,29 @@ index 15c276d6e6d2add9734f08222e6f6910038281b1..b37f1fe6c3f1843c7bded098ebdff05c
          upstreamStatus: '上游状态码',
          loadFailed: '加载详情失败，请稍后重试',
        },
+@@ -841,11 +849,11 @@ export default {
+     currentPassword: '当前密码',
+     newPassword: '新密码',
+     confirmNewPassword: '确认新密码',
+-    passwordHint: '密码至少需要 8 个字符',
++    passwordHint: '密码至少需要 6 个字符',
+     changingPassword: '修改中...',
+     changePasswordButton: '修改密码',
+     passwordsNotMatch: '两次输入的密码不一致',
+-    passwordTooShort: '密码至少需要 8 个字符',
++    passwordTooShort: '密码至少需要 6 个字符',
+     passwordChangeSuccess: '密码修改成功',
+     passwordChangeFailed: '密码修改失败',
+     // TOTP 2FA
+@@ -960,6 +968,8 @@ export default {
+       emptyDeleteHint: '当前没有可删除的头像',
+     },
+     authBindings: {
++      emailOnlyTitle: '邮箱绑定',
++      emailOnlyDescription: '绑定并验证邮箱，用于登录和找回密码。',
+       title: '登录方式绑定',
+       description: '查看当前绑定状态，并将更多第三方登录方式关联到这个账号。',
+       bindAction: '绑定 {providerName}',
 diff --git a/frontend/src/i18n/locales/zh/errorReasons.ts b/frontend/src/i18n/locales/zh/errorReasons.ts
 new file mode 100644
 index 0000000000000000000000000000000000000000..a3638532a7d67880c52dc1a0932d9ad4425b8baa
@@ -34737,7 +35400,7 @@ index ac2867bfda96f6bcf4fb44cdb42dde1998edc728..2b54f8077fa8e1dbc64e90eab9f0b162
 +  ...realyuAdmin,
  }
 diff --git a/frontend/src/i18n/locales/zh/landing.ts b/frontend/src/i18n/locales/zh/landing.ts
-index d06a774fbeca4bb221daaaf0f8aed9b15fc65360..e8b39450418167f85034bca4acca1075087c9c20 100644
+index d06a774fbeca4bb221daaaf0f8aed9b15fc65360..aa60bcb557afe702fa29594bc72836524571f02a 100644
 --- a/frontend/src/i18n/locales/zh/landing.ts
 +++ b/frontend/src/i18n/locales/zh/landing.ts
 @@ -10,10 +10,10 @@ export default {
@@ -34753,6 +35416,15 @@ index d06a774fbeca4bb221daaaf0f8aed9b15fc65360..e8b39450418167f85034bca4acca1075
      // 新增：面向用户的价值主张
      heroSubtitle: '一个密钥，畅用多个 AI 模型',
      heroDescription: '无需管理多个订阅账号，一站式接入 Claude、GPT、Gemini 等主流 AI 服务',
+@@ -230,7 +230,7 @@ export default {
+       email: '邮箱',
+       password: '密码',
+       confirmPassword: '确认密码',
+-      passwordPlaceholder: '至少 8 个字符',
++      passwordPlaceholder: '至少 6 个字符',
+       confirmPasswordPlaceholder: '确认密码',
+       passwordMismatch: '密码不匹配'
+     },
 diff --git a/frontend/src/i18n/locales/zh/misc.ts b/frontend/src/i18n/locales/zh/misc.ts
 index 2c6152473154e6189ca7fb320b15953d60cf8b3a..9341142da8a2cdc6b612c9c6e1f7efc8ba397eeb 100644
 --- a/frontend/src/i18n/locales/zh/misc.ts
@@ -34768,7 +35440,7 @@ index 2c6152473154e6189ca7fb320b15953d60cf8b3a..9341142da8a2cdc6b612c9c6e1f7efc8
      stripeLoadFailed: '支付组件加载失败，请刷新页面重试',
 diff --git a/frontend/src/i18n/locales/zh/realyuAdmin.ts b/frontend/src/i18n/locales/zh/realyuAdmin.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..12356f23af004485d0fff4908f61b6556beb7272
+index 0000000000000000000000000000000000000000..4d5cdf1aa4118e8b408766e66f4cc4acbe025a18
 --- /dev/null
 +++ b/frontend/src/i18n/locales/zh/realyuAdmin.ts
 @@ -0,0 +1,18 @@
@@ -34786,7 +35458,7 @@ index 0000000000000000000000000000000000000000..12356f23af004485d0fff4908f61b655
 +    invalid: '请填写有效的名称、金额、到期时间和调整备注。',
 +    preservesUsage: '调整不清除已使用额度。团队额度仅供该团队使用。',
 +    correctUsed: '修正团队本周已用', correctUsedAmount: '修正后的本周已用（人民币）',
-+    correctUsedNote: '仅用于账务修正，不改变累计用量和成员记录。请先填写调整备注。',
++    correctUsedNote: '直接保存本周已用，不受实时消耗变化影响。正在执行请求的预扣会保留，结束后按实际用量结算。累计用量和成员记录不变，请填写调整备注。',
 +    correctUsedConfirm: '确认修正此团队本周已用？累计用量和成员记录将保留。',
 +  },
 +}
@@ -34930,12 +35602,14 @@ index 0000000000000000000000000000000000000000..d2e7d09b558c7b03d67d8859c6ee11ca
 +}
 diff --git a/frontend/src/i18n/locales/zh/realyuUx.ts b/frontend/src/i18n/locales/zh/realyuUx.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..05f3d0f268e08ad24e270638bd9c4a11aa4ef7e4
+index 0000000000000000000000000000000000000000..7b3289e61951753f3bc25bcede45373f1755a48c
 --- /dev/null
 +++ b/frontend/src/i18n/locales/zh/realyuUx.ts
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,41 @@
 +export default {
 +  realyuUx: {
++    apiKeyName: 'API Key 名称',
++    upstreamRoute: '上游账号 / 渠道', upstreamAccount: '账号', channel: '渠道',
 +    firstToken: '首字', timing: '响应时间', inputOutputTokens: '输入 / 输出 Token', performance: { fast: '较快', moderate: '一般', slow: '较慢', unknown: '未记录' },
 +    filters: '筛选', closeFilters: '关闭筛选', dateRange: '时间范围', allDates: '全部时间', unbounded: '不限', cancel: '取消', invalidDateRange: '结束日期不能早于开始日期。',
 +    platformManagement: '平台管理', overview: '运营概览', allUsage: '全部调用记录',
@@ -37937,10 +38611,10 @@ index 93a5303a76218e6f34fec8f185fd5ccc17d7d35d..67135123a256f5e2471f93d83f26c390
  
 diff --git a/frontend/src/views/admin/orders/RealYuPlanEditDialog.vue b/frontend/src/views/admin/orders/RealYuPlanEditDialog.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..b093c47bbab18648e8435ea3fec0a0793b5c8e41
+index 0000000000000000000000000000000000000000..d1688c96106662adb16cc5ad25b36217f8bcdf1d
 --- /dev/null
 +++ b/frontend/src/views/admin/orders/RealYuPlanEditDialog.vue
-@@ -0,0 +1,88 @@
+@@ -0,0 +1,87 @@
 +<template>
 +  <BaseDialog :show="show" :title="t(plan ? 'realyuPurchase.editPlan' : 'realyuPurchase.createPlan')" width="wide" @close="!saving && emit('close')">
 +    <form id="realyu-plan-form" class="space-y-4" @submit.prevent="save">
@@ -37957,7 +38631,6 @@ index 0000000000000000000000000000000000000000..b093c47bbab18648e8435ea3fec0a079
 +      <label class="block text-sm">{{ t('payment.admin.planDescription') }}<textarea v-model="description" class="input mt-1" rows="2" maxlength="2000" :disabled="saving" /></label>
 +      <label class="block text-sm">{{ t('payment.admin.features') }}<textarea v-model="features" class="input mt-1" rows="3" :disabled="saving" /></label>
 +      <label class="block text-sm">{{ t('payment.admin.sortOrder') }}<input v-model.number="sortOrder" class="input mt-1" type="number" min="0" step="1" :disabled="saving" /></label>
-+      <label class="flex items-center gap-2 text-sm"><input v-model="allowBalance" type="checkbox" :disabled="saving" data-testid="managed-allow-balance" />{{ t('realyuPurchase.allowBalancePay') }}</label>
 +      <label v-if="scope === 'personal'" class="flex items-center gap-2 text-sm"><input v-model="allowOverflow" type="checkbox" :disabled="saving" />{{ t('realyuPurchase.walletOverflow') }}</label>
 +      <p v-if="error" role="alert" class="text-sm text-red-600" data-testid="managed-save-error">{{ error }}</p>
 +    </form>
@@ -37980,7 +38653,7 @@ index 0000000000000000000000000000000000000000..b093c47bbab18648e8435ea3fec0a079
 +const { t } = useI18n(), app = useAppStore()
 +const name = ref(''), description = ref(''), features = ref(''), price = ref(''), weekly = ref('')
 +const groupID = ref(0), sortOrder = ref(0), scope = ref<'personal' | 'team'>('personal')
-+const allowBalance = ref(true), allowOverflow = ref(true), saving = ref(false), error = ref('')
++const allowOverflow = ref(true), saving = ref(false), error = ref('')
 +const savedPlanID = ref(0)
 +const standardGroups = computed(() => props.groups.filter(group => group.subscription_type === 'standard' && group.status === 'active'))
 +const weeklyQuota = computed(() => customerAmountToQuota(weekly.value))
@@ -37993,7 +38666,7 @@ index 0000000000000000000000000000000000000000..b093c47bbab18648e8435ea3fec0a079
 +  groupID.value = plan?.group_id || 0; sortOrder.value = plan?.sort_order || 0; scope.value = managed?.funding_scope || 'personal'
 +  price.value = managed ? (managed.price_cents / 100).toFixed(2) : ''
 +  weekly.value = managed ? quotaToCustomerInput(managed.weekly_amount_quota) : ''
-+  allowBalance.value = managed?.allow_balance_pay ?? true; allowOverflow.value = managed?.allow_wallet_overflow ?? true
++  allowOverflow.value = managed?.allow_wallet_overflow ?? true
 +}, { immediate: true })
 +
 +async function save() {
@@ -38021,7 +38694,7 @@ index 0000000000000000000000000000000000000000..b093c47bbab18648e8435ea3fec0a079
 +    const response = await adminPaymentAPI.configureManagedPlan(savedPlanID.value, {
 +      source_plan_id: props.plan?.managed_entitlement?.source_plan_id || 0, funding_scope: scope.value,
 +      total_amount_quota: total, weekly_amount_quota: week, duration_seconds: 2419200, price_cents: cents,
-+      allow_balance_pay: allowBalance.value, allow_wallet_overflow: scope.value === 'personal' && allowOverflow.value,
++      allow_balance_pay: false, allow_wallet_overflow: scope.value === 'personal' && allowOverflow.value,
 +    })
 +    if (response.data.configured !== true || response.data.for_sale !== false) throw new Error('Invalid configuration response')
 +    app.showSuccess(t('realyuPurchase.configured')); emit('saved'); emit('close')
@@ -38031,10 +38704,10 @@ index 0000000000000000000000000000000000000000..b093c47bbab18648e8435ea3fec0a079
 +</script>
 diff --git a/frontend/src/views/admin/orders/__tests__/RealYuPlanEditDialog.spec.ts b/frontend/src/views/admin/orders/__tests__/RealYuPlanEditDialog.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..d111d37922543c9b228402ae2af20a3e8056c41a
+index 0000000000000000000000000000000000000000..0a259cbd48d85195e9029815156e099dd40f3320
 --- /dev/null
 +++ b/frontend/src/views/admin/orders/__tests__/RealYuPlanEditDialog.spec.ts
-@@ -0,0 +1,82 @@
+@@ -0,0 +1,83 @@
 +import { beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount } from '@vue/test-utils'
 +import type { AdminGroup } from '@/types'
@@ -38079,12 +38752,13 @@ index 0000000000000000000000000000000000000000..d111d37922543c9b228402ae2af20a3e
 +    expect(view.emitted('close')).toHaveLength(1)
 +    view.unmount()
 +  })
-+  it('takes an existing plan off sale before editing and retains the original balance-pay setting', async () => {
++  it('takes an existing plan off sale before editing and disables balance-funded subscription purchases', async () => {
 +    const view = render(plan)
++    expect(view.find('[data-testid="managed-allow-balance"]').exists()).toBe(false)
 +    await view.get('form').trigger('submit'); await flushPromises()
 +    expect(api.updatePlan.mock.calls[0]).toEqual([9, { for_sale: false }])
 +    expect(api.updatePlan.mock.calls[1]![1]).toMatchObject({ for_sale: false, price: 70 })
-+    expect(api.configureManagedPlan.mock.calls[0]![1]).toMatchObject({ source_plan_id: 16, allow_balance_pay: true })
++    expect(api.configureManagedPlan.mock.calls[0]![1]).toMatchObject({ source_plan_id: 16, allow_balance_pay: false })
 +    expect(api.updatePlan.mock.calls.every(call => call[1].for_sale === false)).toBe(true)
 +    view.unmount()
 +  })
@@ -38171,7 +38845,7 @@ index eaff4fd519549a06604e572f0d6a900796f1b417..842e8cc45f334dc6a4d626be42a57405
  
    // Turnstile validation
 diff --git a/frontend/src/views/auth/RegisterView.vue b/frontend/src/views/auth/RegisterView.vue
-index a3f9c0e4a5879493073217ac97192a1f5b287ae5..da4bacc710c8bb802f7fb80a05c2f1b7154b3f4b 100644
+index a3f9c0e4a5879493073217ac97192a1f5b287ae5..f8701cc10f3fa9a90ca1dce67b902ea64b132145 100644
 --- a/frontend/src/views/auth/RegisterView.vue
 +++ b/frontend/src/views/auth/RegisterView.vue
 @@ -28,10 +28,23 @@
@@ -38288,7 +38962,7 @@ index a3f9c0e4a5879493073217ac97192a1f5b287ae5..da4bacc710c8bb802f7fb80a05c2f1b7
 -  } else if (formData.password.length < 6) {
 -    errors.password = t('auth.passwordMinLength')
 +  } else if (usernameRegistrationEnabled.value
-+    ? Array.from(formData.password).length < 15 || Array.from(formData.password).length > 128
++    ? Array.from(formData.password).length < 6 || Array.from(formData.password).length > 128
 +    : formData.password.length < 6) {
 +    errors.password = t(usernameRegistrationEnabled.value ? 'auth.usernamePasswordHint' : 'auth.passwordMinLength')
      isValid = false
@@ -38392,10 +39066,10 @@ index 954fefa26fdac7980eeef608262afa974a461f5e..5b412b2d4e2ab5532aa61c51d2a94299
 +  })
  })
 diff --git a/frontend/src/views/auth/__tests__/RegisterView.spec.ts b/frontend/src/views/auth/__tests__/RegisterView.spec.ts
-index 8a9ba3a30975d0970904782352990c066039d459..999a4a5b92229b48245d90f0b02d5da4518b91c4 100644
+index 8a9ba3a30975d0970904782352990c066039d459..ae230cc1081fe01655d4a2674c4a2d4456e7dfba 100644
 --- a/frontend/src/views/auth/__tests__/RegisterView.spec.ts
 +++ b/frontend/src/views/auth/__tests__/RegisterView.spec.ts
-@@ -109,6 +109,26 @@ describe('RegisterView', () => {
+@@ -109,6 +109,41 @@ describe('RegisterView', () => {
      registerMock.mockResolvedValue({})
    })
  
@@ -38417,6 +39091,21 @@ index 8a9ba3a30975d0970904782352990c066039d459..999a4a5b92229b48245d90f0b02d5da4
 +    }))
 +    expect(pushMock).not.toHaveBeenCalledWith('/email-verify')
 +    expect(sessionStorage.getItem('register_data')).toBeNull()
++  })
++
++  it.each(['123456', 'abcdef'])('accepts a six-character username password %s and rejects five', async password => {
++    getPublicSettingsMock.mockResolvedValue({ ...publicSettings, username_registration_enabled: true, turnstile_enabled: false })
++    const wrapper = mountRegister(); await flushPromises()
++    await wrapper.get('#login_name').setValue('six-character-user')
++    await wrapper.get('#password').setValue('12345')
++    await wrapper.get('#confirmPassword').setValue('12345')
++    await wrapper.get('form').trigger('submit'); await flushPromises()
++    expect(registerMock).not.toHaveBeenCalled()
++    await wrapper.get('#password').setValue(password)
++    await wrapper.get('#confirmPassword').setValue(password)
++    await wrapper.get('form').trigger('submit'); await flushPromises()
++    expect(registerMock).toHaveBeenCalledWith(expect.objectContaining({ password }))
++    wrapper.unmount()
 +  })
 +
    it('does not flash the promo-code field before disabled settings finish loading', async () => {
@@ -38896,7 +39585,7 @@ index 459220eda5f836640059e7428b78a380c3995ec8..703ce1f43cce5996864c8d21a00b8f4e
  import { useI18n } from 'vue-i18n'
  import { useRoute, useRouter } from 'vue-router'
 diff --git a/frontend/src/views/user/PaymentView.vue b/frontend/src/views/user/PaymentView.vue
-index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca0b2cabf8 100644
+index 4727e1602ba157681ded5b2de59306fbab87e9fc..5880999f18c927912b1cd7deb1384532d89bdeed 100644
 --- a/frontend/src/views/user/PaymentView.vue
 +++ b/frontend/src/views/user/PaymentView.vue
 @@ -1,10 +1,20 @@
@@ -38969,7 +39658,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
                  </p>
                </div>
              </div>
-@@ -141,7 +151,14 @@
+@@ -141,7 +151,13 @@
                    {{ selectedPlan.description }}
                  </p>
                  <!-- Rate + Limits grid -->
@@ -38978,14 +39667,13 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
 +                  <p class="font-medium">{{ t(`realyuPurchase.${selectedPlan.managed_entitlement.funding_scope}`) }}</p>
 +                  <div class="flex justify-between"><span>{{ t('realyuPurchase.weekly') }}</span><span>{{ formatCustomerQuota(selectedPlan.managed_entitlement.weekly_amount_quota) }}</span></div>
 +                  <div class="flex justify-between"><span>{{ t('realyuPurchase.total') }}</span><span>{{ formatCustomerQuota(selectedPlan.managed_entitlement.total_amount_quota) }}</span></div>
-+                  <div v-if="selectedMethod === 'wallet'" class="flex justify-between"><span>{{ t('realyuPurchase.walletDebit') }}</span><span>{{ formatCustomerQuota(selectedPlan.managed_entitlement.wallet_price_quota) }}</span></div>
 +                  <p class="text-sm text-gray-500">{{ t(selectedPlan.managed_entitlement.allow_wallet_overflow ? 'realyuPurchase.walletOverflow' : 'realyuPurchase.noWalletOverflow') }}</p>
 +                </div>
 +                <div v-else class="mt-3 grid grid-cols-2 gap-3">
                    <div>
                      <span class="text-xs text-gray-400 dark:text-gray-500">{{ t('payment.planCard.rate') }}</span>
                      <div class="flex items-baseline">
-@@ -156,15 +173,15 @@
+@@ -156,15 +172,15 @@
                    </div>
                    <div v-if="selectedPlan.daily_limit_usd != null">
                      <span class="text-xs text-gray-400 dark:text-gray-500">{{ t('payment.planCard.dailyLimit') }}</span>
@@ -39004,7 +39692,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
                    </div>
                    <div v-if="selectedPlan.daily_limit_usd == null && selectedPlan.weekly_limit_usd == null && selectedPlan.monthly_limit_usd == null">
                      <span class="text-xs text-gray-400 dark:text-gray-500">{{ t('payment.planCard.quota') }}</span>
-@@ -172,14 +189,14 @@
+@@ -172,7 +188,7 @@
                    </div>
                  </div>
                </div>
@@ -39013,15 +39701,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
                  <PaymentMethodSelector
                    :methods="subMethodOptions"
                    :selected="selectedMethod"
-                   @select="selectedMethod = $event"
-                 />
-               </div>
--              <div v-if="feeRate > 0 && selectedPlan.price > 0" class="card p-6">
-+              <div v-if="feeRate > 0 && selectedPlan.price > 0 && selectedMethod !== 'wallet'" class="card p-6">
-                 <div class="space-y-2 text-sm">
-                   <div class="flex justify-between">
-                     <span class="text-gray-500 dark:text-gray-400">{{ t('payment.amountLabel') }}</span>
-@@ -206,12 +223,12 @@
+@@ -206,12 +222,12 @@
              </template>
              <!-- Plan list -->
              <template v-else>
@@ -39036,7 +39716,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
                </div>
                <!-- Active subscriptions (compact, below plan list) -->
                <div v-if="activeSubscriptions.length > 0">
-@@ -261,7 +278,7 @@
+@@ -261,7 +277,7 @@
              </button>
              <h3 class="mb-4 shrink-0 text-lg font-semibold text-gray-900 dark:text-white">{{ t('payment.selectPlan') }}</h3>
              <div class="min-h-0 space-y-4 overflow-y-auto">
@@ -39045,7 +39725,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
              </div>
            </div>
          </div>
-@@ -279,6 +296,7 @@
+@@ -279,6 +295,7 @@
  </template>
  
  <script setup lang="ts">
@@ -39053,7 +39733,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  import { ref, computed, onMounted, watch } from 'vue'
  import { useI18n } from 'vue-i18n'
  import { marked } from 'marked'
-@@ -290,14 +308,19 @@ import { usePaymentStore } from '@/stores/payment'
+@@ -290,14 +307,19 @@ import { usePaymentStore } from '@/stores/payment'
  import { useSubscriptionStore } from '@/stores/subscriptions'
  import { useAppStore } from '@/stores'
  import { FeatureFlags, resolveFeatureFlag } from '@/utils/featureFlags'
@@ -39074,7 +39754,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  import PaymentMethodSelector from '@/components/payment/PaymentMethodSelector.vue'
  import { METHOD_ORDER, getPaymentPopupFeatures, isBuiltInAlipayMethod, isBuiltInWxpayMethod } from '@/components/payment/providerConfig'
  import {
-@@ -331,6 +354,9 @@ const subscriptionStore = useSubscriptionStore()
+@@ -331,6 +353,9 @@ const subscriptionStore = useSubscriptionStore()
  const appStore = useAppStore()
  
  const user = computed(() => authStore.user)
@@ -39084,7 +39764,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  const activeSubscriptions = computed(() => subscriptionStore.activeSubscriptions)
  
  function getDaysRemaining(expiresAt: string): number {
-@@ -347,6 +373,7 @@ function subscriptionPeakRateLabel(sub: { group?: PeakRateFields | null }): stri
+@@ -347,6 +372,7 @@ function subscriptionPeakRateLabel(sub: { group?: PeakRateFields | null }): stri
  }
  
  const loading = ref(true)
@@ -39092,7 +39772,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  const submitting = ref(false)
  const errorMessage = ref('')
  const errorHintMessage = ref('')
-@@ -514,6 +541,7 @@ function onPaymentDone() {
+@@ -514,6 +540,7 @@ function onPaymentDone() {
  }
  
  async function onPaymentSuccess() {
@@ -39100,7 +39780,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    const completedPayment = { ...paymentState.value }
    removeRecoverySnapshot()
    authStore.refreshUser()
-@@ -548,10 +576,13 @@ const renderedBonusNotice = computed(() => {
+@@ -548,10 +575,13 @@ const renderedBonusNotice = computed(() => {
  // 订阅功能开关（public settings 的 subscription_enabled，opt-out）。关闭后购买页只保留充值：
  // 不再渲染「订阅」tab，只剩单个 tab 时顶部切换器也随之隐藏。
  const subscriptionEnabled = computed(() => resolveFeatureFlag(appStore.cachedPublicSettings, FeatureFlags.subscription))
@@ -39115,7 +39795,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    if (subscriptionEnabled.value) result.push({ key: 'subscription', label: t('payment.tabSubscribe') })
    return result
  })
-@@ -563,9 +594,13 @@ watch(tabs, (available) => {
+@@ -563,9 +593,13 @@ watch(tabs, (available) => {
    const leavingSubscription = activeTab.value === 'subscription'
    activeTab.value = available[0]?.key ?? 'recharge'
    if (leavingSubscription) selectedPlan.value = null
@@ -39131,7 +39811,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  const enabledMethods = computed(() => Object.keys(visibleMethods.value))
  const validAmount = computed(() => amount.value ?? 0)
  const balanceRechargeMultiplier = computed(() => {
-@@ -600,12 +635,14 @@ function amountFitsMethod(amt: number, methodType: string): boolean {
+@@ -600,12 +634,14 @@ function amountFitsMethod(amt: number, methodType: string): boolean {
  // Visible methods decide the amount range shown to users.
  const globalMinAmount = computed(() => {
    const limits = Object.values(visibleMethods.value)
@@ -39146,7 +39826,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    if (limits.length === 0) return 0
    if (limits.some(limit => limit.single_max <= 0)) return 0
    return Math.max(...limits.map(limit => limit.single_max))
-@@ -613,7 +650,7 @@ const globalMaxAmount = computed(() => {
+@@ -613,7 +649,7 @@ const globalMaxAmount = computed(() => {
  
  // Selected method's limits (for validation and error messages)
  const selectedLimit = computed(() => visibleMethods.value[selectedMethod.value])
@@ -39155,7 +39835,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  const localeCode = computed(() => {
    const raw = i18n.locale as unknown
    if (typeof raw === 'string') return raw
-@@ -647,6 +684,7 @@ function ceilPaymentAmount(value: number, currency: string): number {
+@@ -647,6 +683,7 @@ function ceilPaymentAmount(value: number, currency: string): number {
  }
  
  function subscriptionPaymentAmountForCurrency(value: number, currency: string): number {
@@ -39163,7 +39843,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    const rate = subscriptionUsdToCnyRate.value
    if (rate <= 0 || currency !== DEFAULT_PAYMENT_CURRENCY) return roundPaymentAmount(value, currency)
    return roundPaymentAmount(value * rate, currency)
-@@ -669,9 +707,9 @@ const bonusQuote = computed(() => quoteRechargeBonus(rechargeBonusTiers.value, v
+@@ -669,9 +706,9 @@ const bonusQuote = computed(() => quoteRechargeBonus(rechargeBonusTiers.value, v
  }))
  const payBaseAmount = computed(() => bonusQuote.value.payBase)
  const discountAmount = computed(() => roundPaymentAmount(validAmount.value - payBaseAmount.value, selectedCurrency.value))
@@ -39175,7 +39855,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  
  const methodOptions = computed<PaymentMethodOption[]>(() =>
    enabledMethods.value.map((type) => {
-@@ -699,6 +737,7 @@ const totalAmount = computed(() =>
+@@ -699,6 +736,7 @@ const totalAmount = computed(() =>
  const showActualPay = computed(() => feeRate.value > 0 || discountAmount.value > 0)
  
  const amountError = computed(() => {
@@ -39183,7 +39863,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    if (validAmount.value <= 0) return ''
    // No method can handle this amount
    if (!enabledMethods.value.some((m) => amountFitsMethod(payBaseAmount.value, m))) {
-@@ -714,7 +753,10 @@ const amountError = computed(() => {
+@@ -714,7 +752,10 @@ const amountError = computed(() => {
  })
  
  const canSubmit = computed(() =>
@@ -39195,51 +39875,33 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
      && amountFitsMethod(payBaseAmount.value, selectedMethod.value)
      && selectedLimit.value?.available !== false
  )
-@@ -725,11 +767,13 @@ const subPaymentAmount = computed(() => {
- })
- 
- const subFeeAmount = computed(() => {
-+  if (selectedMethod.value === 'wallet') return 0
-   if (feeRate.value <= 0 || subPaymentAmount.value <= 0) return 0
-   return ceilPaymentAmount((subPaymentAmount.value * feeRate.value) / 100, selectedCurrency.value)
- })
- 
- const subTotalAmount = computed(() => {
-+  if (selectedMethod.value === 'wallet') return subPaymentAmount.value
-   if (feeRate.value <= 0 || subPaymentAmount.value <= 0) return subPaymentAmount.value
-   return roundPaymentAmount(subPaymentAmount.value + subFeeAmount.value, selectedCurrency.value)
- })
-@@ -744,7 +788,8 @@ function subscriptionTotalAmountForCurrency(value: number, currency: string): nu
+@@ -744,7 +785,8 @@ function subscriptionTotalAmountForCurrency(value: number, currency: string): nu
  // Subscription-specific: method options based on gateway pay amount
  const subMethodOptions = computed<PaymentMethodOption[]>(() => {
    const price = selectedPlan.value?.price ?? 0
 -  return enabledMethods.value.map((type) => {
 +  const managed = selectedPlan.value?.managed_entitlement
-+  const methods = enabledMethods.value.filter(type => !managed || normalizePaymentCurrency(visibleMethods.value[type]?.currency) === 'CNY').map((type) => {
++  const methods = enabledMethods.value.filter(type => type !== 'wallet' && (!managed || normalizePaymentCurrency(visibleMethods.value[type]?.currency) === 'CNY')).map((type) => {
      const ml = visibleMethods.value[type]
      const currency = normalizePaymentCurrency(ml?.currency)
      return {
-@@ -754,11 +799,17 @@ const subMethodOptions = computed<PaymentMethodOption[]>(() => {
+@@ -754,10 +796,14 @@ const subMethodOptions = computed<PaymentMethodOption[]>(() => {
        available: ml?.available !== false && amountFitsMethod(subscriptionTotalAmountForCurrency(price, currency), type),
      }
    })
-+  if (managed?.capabilities.wallet_payment) methods.push({ type: 'wallet', display_name: t('realyuPurchase.wallet'), fee_rate: 0, available: true })
 +  return methods
  })
  
  const canSubmitSubscription = computed(() =>
 -  selectedPlan.value !== null
--    && amountFitsMethod(subTotalAmount.value, selectedMethod.value)
 +  paymentEnabled.value
 +    && selectedPlan.value !== null
 +    && (!selectedPlan.value.managed_entitlement || (selectedPlan.value.for_sale && selectedPlan.value.managed_entitlement.capabilities.purchase && selectedPlan.value.managed_entitlement.funding_scope === 'personal'))
-+    && (selectedMethod.value === 'wallet'
-+      ? selectedPlan.value.managed_entitlement?.capabilities.wallet_payment === true
-+      : subMethodOptions.value.some(method => method.type === selectedMethod.value && method.available) && amountFitsMethod(subTotalAmount.value, selectedMethod.value))
++    && subMethodOptions.value.some(method => method.type === selectedMethod.value && method.available)
+     && amountFitsMethod(subTotalAmount.value, selectedMethod.value)
      && selectedLimit.value?.available !== false
  )
- 
-@@ -794,6 +845,7 @@ const renewalPlans = computed(() => {
+@@ -794,6 +840,7 @@ const renewalPlans = computed(() => {
  
  const planValiditySuffix = computed(() => {
    if (!selectedPlan.value) return ''
@@ -39247,7 +39909,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    return validitySuffixOf(selectedPlan.value, t)
  })
  
-@@ -806,15 +858,17 @@ function planPeakRateLabel(plan: SubscriptionPlan): string {
+@@ -806,15 +853,17 @@ function planPeakRateLabel(plan: SubscriptionPlan): string {
  }
  
  function selectPlan(plan: SubscriptionPlan) {
@@ -39267,7 +39929,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
  }
  
  function closeRenewalModal() {
-@@ -828,15 +882,28 @@ async function handleSubmitRecharge() {
+@@ -828,15 +877,28 @@ async function handleSubmitRecharge() {
  }
  
  async function confirmSubscribe() {
@@ -39298,7 +39960,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    try {
      const payload = buildCreateOrderPayload({
        amount: orderAmount,
-@@ -856,7 +923,14 @@ async function createOrder(orderAmount: number, orderType: OrderType, planId?: n
+@@ -856,7 +918,14 @@ async function createOrder(orderAmount: number, orderType: OrderType, planId?: n
        payload.wechat_resume_token = options.wechatResumeToken
      }
  
@@ -39313,7 +39975,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
      const openWindow = (url: string) => {
        const win = window.open(url, 'paymentPopup', getPaymentPopupFeatures())
        if (!win || win.closed) {
-@@ -1075,6 +1149,7 @@ async function attemptMobileQrFallback(err: unknown, context: MobileQrFallbackCo
+@@ -1075,6 +1144,7 @@ async function attemptMobileQrFallback(err: unknown, context: MobileQrFallbackCo
        isMobile: false,
        isWechatBrowser: false,
      })
@@ -39321,7 +39983,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
      const result = await paymentStore.createOrder(payload) as CreateOrderResult & { resume_token?: string }
      const stripeMethod = visibleMethod === 'wxpay' ? 'wechat_pay' : 'alipay'
      const stripeRouteUrl = result.client_secret
-@@ -1164,7 +1239,21 @@ async function resumeWechatPaymentFromQuery() {
+@@ -1164,7 +1234,21 @@ async function resumeWechatPaymentFromQuery() {
    }
  }
  
@@ -39344,7 +40006,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
    try {
      const res = await paymentAPI.getCheckoutInfo()
      checkout.value = res.data
-@@ -1177,7 +1266,7 @@ onMounted(async () => {
+@@ -1177,7 +1261,7 @@ onMounted(async () => {
        })
        selectedMethod.value = sorted[0]
      }
@@ -39353,7 +40015,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
        if (hasWechatResumeQuery(route.query)) {
          removeRecoverySnapshot()
        }
-@@ -1202,7 +1291,7 @@ onMounted(async () => {
+@@ -1202,7 +1286,7 @@ onMounted(async () => {
          removeRecoverySnapshot()
        }
      }
@@ -39362,7 +40024,7 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
      // balance_disabled → the tabs watcher above moves activeTab to the subscription tab (when enabled).
      // Handle renewal navigation: ?tab=subscription&group=123 (ignored when subscriptions are disabled)
      if (route.query.tab === 'subscription' && subscriptionEnabled.value) {
-@@ -1211,18 +1300,23 @@ onMounted(async () => {
+@@ -1211,18 +1295,23 @@ onMounted(async () => {
          const groupId = Number(route.query.group)
          const groupPlans = checkout.value.plans.filter(p => p.group_id === groupId)
          if (groupPlans.length === 1) {
@@ -39390,10 +40052,18 @@ index 4727e1602ba157681ded5b2de59306fbab87e9fc..04cccfa536c03decfc6981d3015b1aca
 +onMounted(loadCheckout)
  </script>
 diff --git a/frontend/src/views/user/ProfileView.vue b/frontend/src/views/user/ProfileView.vue
-index e26b354e114f68d713f349ed691967eed332ad7f..4e98b2b679d21bb935cc491e3b8e1d7001b209e1 100644
+index e26b354e114f68d713f349ed691967eed332ad7f..8d20a9d44dfd7b077b9275fa350be84ca00d7db5 100644
 --- a/frontend/src/views/user/ProfileView.vue
 +++ b/frontend/src/views/user/ProfileView.vue
-@@ -32,7 +32,7 @@
+@@ -6,6 +6,7 @@
+     >
+       <ProfileInfoCard
+         :user="user"
++        email-only
+         :linuxdo-enabled="linuxdoOAuthEnabled"
+         :dingtalk-enabled="dingtalkOAuthEnabled"
+         :oidc-enabled="oidcOAuthEnabled"
+@@ -32,7 +33,7 @@
          </div>
        </div>
  
@@ -39402,6 +40072,40 @@ index e26b354e114f68d713f349ed691967eed332ad7f..4e98b2b679d21bb935cc491e3b8e1d70
  
        <ProfileBalanceNotifyCard
          v-if="user && balanceLowNotifyEnabled"
+@@ -43,8 +44,6 @@
+         :user-email="user.email"
+       />
+ 
+-      <ProfileTotpCard />
+-      <ProfilePasskeyCard :enabled="passkeyEnabled" />
+     </div>
+   </AppLayout>
+ </template>
+@@ -57,8 +56,6 @@ import AppLayout from '@/components/layout/AppLayout.vue'
+ import ProfileBalanceNotifyCard from '@/components/user/profile/ProfileBalanceNotifyCard.vue'
+ import ProfileInfoCard from '@/components/user/profile/ProfileInfoCard.vue'
+ import ProfilePasswordForm from '@/components/user/profile/ProfilePasswordForm.vue'
+-import ProfileTotpCard from '@/components/user/profile/ProfileTotpCard.vue'
+-import ProfilePasskeyCard from '@/components/user/profile/ProfilePasskeyCard.vue'
+ import { isWeChatWebOAuthEnabled } from '@/api/auth'
+ import { useAppStore } from '@/stores/app'
+ import { useAuthStore } from '@/stores/auth'
+@@ -78,7 +75,6 @@ const wechatOAuthOpenEnabled = ref<boolean | undefined>(undefined)
+ const wechatOAuthMPEnabled = ref<boolean | undefined>(undefined)
+ const oidcOAuthEnabled = ref(false)
+ const oidcOAuthProviderName = ref('OIDC')
+-const passkeyEnabled = ref(false)
+ 
+ onMounted(async () => {
+   const profileRefresh = authStore.refreshUser().catch((error) => {
+@@ -104,7 +100,6 @@ onMounted(async () => {
+         : undefined
+       oidcOAuthEnabled.value = settings.oidc_oauth_enabled ?? false
+       oidcOAuthProviderName.value = settings.oidc_oauth_provider_name || 'OIDC'
+-      passkeyEnabled.value = settings.passkey_enabled === true
+     })
+     .catch((error) => {
+       console.error('Failed to load settings:', error)
 diff --git a/frontend/src/views/user/RealYuTeamsView.vue b/frontend/src/views/user/RealYuTeamsView.vue
 new file mode 100644
 index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3db15c18c
@@ -39916,10 +40620,10 @@ index 0000000000000000000000000000000000000000..8293e18d9e88796906ee03ecd68931d3
 +</style>
 diff --git a/frontend/src/views/user/RealYuUsageView.vue b/frontend/src/views/user/RealYuUsageView.vue
 new file mode 100644
-index 0000000000000000000000000000000000000000..d5a6c72cfc8c7c858db3764f1d9870666558ba5b
+index 0000000000000000000000000000000000000000..fc92f80f11cf75407c19ce64a49c69907dbdae7c
 --- /dev/null
 +++ b/frontend/src/views/user/RealYuUsageView.vue
-@@ -0,0 +1,349 @@
+@@ -0,0 +1,355 @@
 +<template>
 +  <AppLayout>
 +    <div class="usage-page">
@@ -39973,7 +40677,7 @@ index 0000000000000000000000000000000000000000..d5a6c72cfc8c7c858db3764f1d987066
 +          <div v-if="!isMobile" class="usage-table-scroll" tabindex="0" role="region" :aria-label="t('realyuUx.history')">
 +            <table class="usage-table">
 +              <caption class="sr-only">{{ t(platform ? 'realyuUx.allUsage' : 'realyuUx.history') }}</caption>
-+              <thead><tr><th scope="col">{{ t('realyuUx.date') }}</th><th v-if="showActors" scope="col">{{ t('realyuUx.actor') }}</th><th v-if="showActors" scope="col">{{ t('realyuUx.nickname') }}</th><th scope="col">{{ t('realyuUx.scope') }}</th><th scope="col">{{ t('realyuUx.model') }}</th><th scope="col" class="usage-number">{{ t('realyuUx.inputOutputTokens') }}</th><th scope="col" class="usage-number">{{ t('realyuUx.cost') }}</th><th scope="col">{{ t('realyuUx.timing') }}</th><th scope="col"><span class="sr-only">{{ t('realyuUx.details') }}</span></th></tr></thead>
++              <thead><tr><th scope="col">{{ t('realyuUx.date') }}</th><th v-if="showActors" scope="col">{{ t('realyuUx.actor') }}</th><th v-if="showActors" scope="col">{{ t('realyuUx.nickname') }}</th><th scope="col">{{ t('realyuUx.scope') }}</th><th scope="col">{{ t('realyuUx.apiKeyName') }}</th><th v-if="platform" scope="col">{{ t('realyuUx.upstreamRoute') }}</th><th scope="col">{{ t('realyuUx.model') }}</th><th scope="col" class="usage-number">{{ t('realyuUx.inputOutputTokens') }}</th><th scope="col" class="usage-number">{{ t('realyuUx.cost') }}</th><th scope="col">{{ t('realyuUx.timing') }}</th><th scope="col"><span class="sr-only">{{ t('realyuUx.details') }}</span></th></tr></thead>
 +              <tbody>
 +                <template v-for="item in result.items" :key="item.id">
 +                  <tr>
@@ -39981,15 +40685,17 @@ index 0000000000000000000000000000000000000000..d5a6c72cfc8c7c858db3764f1d987066
 +                    <td v-if="showActors" class="usage-id">{{ item.actor_user_id == null ? t('realyuUx.missing') : `#${item.actor_user_id}` }}</td>
 +                    <td v-if="showActors" class="usage-actor-name"><span class="usage-actor"><span class="usage-avatar" aria-hidden="true"><template v-if="avatarInitial(item.actor_nickname)">{{ avatarInitial(item.actor_nickname) }}</template><Icon v-else name="user" size="sm" /></span><span class="usage-nickname" :title="item.actor_nickname || undefined">{{ item.actor_nickname || t('realyuUx.missing') }}</span></span></td>
 +                    <td><span class="usage-scope-badge">{{ scopeLabel(item.scope) }}</span></td>
++                    <td><span class="usage-key-name" :title="item.api_key_name || undefined">{{ item.api_key_name || '—' }}</span></td>
++                    <td v-if="platform"><RealYuUsageUpstream :item="item" /></td>
 +                    <td><span class="usage-model-badge" :title="item.model"><ModelIcon :model="item.model" size="18px" class="usage-model-icon" aria-hidden="true" /><span class="usage-model">{{ item.model }}</span></span></td>
 +                    <td class="usage-number"><span class="usage-primary">{{ token(usageInputTotal(item)) }} / {{ token(item.output_tokens) }}</span><span class="usage-secondary">{{ t('realyuUx.cacheRead') }} {{ item.cache_read_tokens == null ? '—' : token(item.cache_read_tokens) }}</span></td>
 +                    <td class="usage-number usage-cost">{{ money(item.cost_usd, 6) }}</td>
 +                    <td><RealYuUsageTiming :item="item" /></td>
 +                    <td class="usage-action"><button :aria-expanded="expanded === item.id" :aria-controls="`usage-detail-${item.id}`" @click="expanded = expanded === item.id ? null : item.id">{{ t('realyuUx.details') }}<Icon :name="expanded === item.id ? 'chevronUp' : 'chevronDown'" size="xs" aria-hidden="true" /></button></td>
 +                  </tr>
-+                  <tr v-if="expanded === item.id" :id="`usage-detail-${item.id}`"><td :colspan="showActors ? 9 : 7" class="usage-detail-cell"><RealYuUsageDetails :item="item" /></td></tr>
++                  <tr v-if="expanded === item.id" :id="`usage-detail-${item.id}`"><td :colspan="(showActors ? 10 : 8) + (platform ? 1 : 0)" class="usage-detail-cell"><RealYuUsageDetails :item="item" :platform="platform" /></td></tr>
 +                </template>
-+                <tr v-if="result.items.length === 0"><td :colspan="showActors ? 9 : 7" class="usage-empty">{{ t('realyuUx.empty') }}</td></tr>
++                <tr v-if="result.items.length === 0"><td :colspan="(showActors ? 10 : 8) + (platform ? 1 : 0)" class="usage-empty">{{ t('realyuUx.empty') }}</td></tr>
 +              </tbody>
 +            </table>
 +          </div>
@@ -39998,10 +40704,12 @@ index 0000000000000000000000000000000000000000..d5a6c72cfc8c7c858db3764f1d987066
 +              <div class="usage-mobile-title"><h2><ModelIcon :model="item.model" size="18px" class="usage-model-icon" aria-hidden="true" /><span>{{ item.model }}</span></h2><p class="usage-cost">{{ money(item.cost_usd, 6) }}</p></div>
 +              <time class="usage-secondary" :datetime="item.created_at">{{ date(item.created_at) }}</time>
 +              <div v-if="showActors" class="usage-mobile-actor"><span class="usage-avatar" aria-hidden="true"><template v-if="avatarInitial(item.actor_nickname)">{{ avatarInitial(item.actor_nickname) }}</template><Icon v-else name="user" size="sm" /></span><span class="usage-primary usage-mobile-nickname">{{ item.actor_nickname || t('realyuUx.missing') }}</span><span class="usage-id">{{ t('realyuUx.actor') }} {{ item.actor_user_id == null ? t('realyuUx.missing') : `#${item.actor_user_id}` }}</span></div>
++              <p class="usage-secondary usage-key-name">{{ t('realyuUx.apiKeyName') }}: {{ item.api_key_name || '—' }}</p>
++              <RealYuUsageUpstream v-if="platform" :item="item" />
 +              <div class="usage-mobile-tokens"><span>{{ t('realyuUx.tokens') }} <strong :title="item.total_tokens.toLocaleString(locale)">{{ token(item.total_tokens) }}</strong></span><span class="usage-secondary">{{ t('realyuUx.input') }} {{ token(usageInputTotal(item)) }} · {{ t('realyuUx.output') }} {{ token(item.output_tokens) }}</span></div>
 +              <div class="usage-mobile-performance"><RealYuUsageTiming :item="item" compact /><span class="usage-secondary">{{ t('realyuUx.cacheRead') }} {{ item.cache_read_tokens == null ? '—' : token(item.cache_read_tokens) }}</span></div>
 +              <div class="usage-mobile-footer"><span class="usage-scope-badge">{{ scopeLabel(item.scope) }}</span><button :aria-expanded="expanded === item.id" :aria-controls="`usage-detail-${item.id}`" @click="expanded = expanded === item.id ? null : item.id">{{ t('realyuUx.details') }}<Icon :name="expanded === item.id ? 'chevronUp' : 'chevronDown'" size="xs" aria-hidden="true" /></button></div>
-+              <div v-if="expanded === item.id" :id="`usage-detail-${item.id}`" class="usage-mobile-details"><RealYuUsageDetails :item="item" /></div>
++              <div v-if="expanded === item.id" :id="`usage-detail-${item.id}`" class="usage-mobile-details"><RealYuUsageDetails :item="item" :platform="platform" /></div>
 +            </article>
 +            <p v-if="result.items.length === 0" class="usage-empty">{{ t('realyuUx.empty') }}</p>
 +          </div>
@@ -40022,6 +40730,7 @@ index 0000000000000000000000000000000000000000..d5a6c72cfc8c7c858db3764f1d987066
 +import ModelIcon from '@/components/common/ModelIcon.vue'
 +import Icon from '@/components/icons/Icon.vue'
 +import RealYuUsageDateRange from '@/components/realyu/RealYuUsageDateRange.vue'
++import RealYuUsageUpstream from '@/components/realyu/RealYuUsageUpstream.vue'
 +import RealYuUsageDetails from '@/components/realyu/RealYuUsageDetails.vue'
 +import RealYuUsageTiming from '@/components/realyu/RealYuUsageTiming.vue'
 +import { usageInputTotal } from '@/utils/realyuUsageMetrics'
@@ -40171,6 +40880,7 @@ index 0000000000000000000000000000000000000000..d5a6c72cfc8c7c858db3764f1d987066
 +onBeforeUnmount(() => { disposed = true; controller?.abort(); teamsController?.abort() })
 +</script>
 +<style scoped>
++.usage-key-name { display: block; max-width: 16rem; overflow-wrap: anywhere; white-space: normal; }
 +.usage-page { display: flex; flex-direction: column; gap: .875rem; --usage-muted: #666; --usage-tint: #fafafa; color: var(--realyu-ink, #171717); }
 +.dark .usage-page { --usage-muted: #b6b6b6; --usage-tint: #242424; }
 +.usage-heading h1 { font-size: 1.125rem; font-weight: 600; }
@@ -40721,7 +41431,7 @@ index 751e7d83c42ba073dd1b5934bdac3eaac94fe656..8780264c6afd9ab7e325e6d797928e7a
      routeState.query = {
        resume_token: 'resume-42',
 diff --git a/frontend/src/views/user/__tests__/PaymentView.spec.ts b/frontend/src/views/user/__tests__/PaymentView.spec.ts
-index 57ee459266504bd2e75196713335dbb6bfdf7cf0..5e755cf8584c22778a384244ae3d6eb8f642a81b 100644
+index 57ee459266504bd2e75196713335dbb6bfdf7cf0..bbf8bd0f70c61f625bdc6434f7bb74363a0a181c 100644
 --- a/frontend/src/views/user/__tests__/PaymentView.spec.ts
 +++ b/frontend/src/views/user/__tests__/PaymentView.spec.ts
 @@ -1,18 +1,23 @@
@@ -40819,15 +41529,15 @@ index 57ee459266504bd2e75196713335dbb6bfdf7cf0..5e755cf8584c22778a384244ae3d6eb8
 +    expect(createOrder.mock.calls.at(-1)![0].idempotency_key).toBe(first.idempotency_key)
 +    view.unmount()
 +  })
-+  it('uses wallet only when offered and follows a confirmed COMPLETED order to the result page', async () => {
++  it('never offers or submits wallet payment even if an older catalogue advertises it', async () => {
 +    const view = await mountSubscriptionConfirm({ plan: { price: 70, currency: 'CNY', managed_entitlement: managed } })
-+    view.findComponent({ name: 'PaymentMethodSelector' }).vm.$emit('select', 'wallet'); await flushPromises()
-+    createOrder.mockResolvedValue({ order_id: 901, status: 'COMPLETED', result_type: 'order_created', payment_type: 'wallet', amount: 70, pay_amount: 0, currency: 'CNY' })
-+    await view.findAll('button').find(button => button.text().includes('payment.createOrder'))!.trigger('click'); await flushPromises()
-+    expect(createOrder).toHaveBeenCalledWith(expect.objectContaining({ payment_type: 'wallet', team_id: 0, purchase_action: 'purchase' }))
-+    expect(routerPush).toHaveBeenCalledWith({ path: '/payment/result', query: { order_id: '901' } })
-+    expect(refreshUser).toHaveBeenCalledTimes(1)
-+    expect(sessionStorage.getItem('realyu.payment.intent')).toBeNull()
++    const selector = view.findComponent({ name: 'PaymentMethodSelector' })
++    expect(JSON.stringify(selector.props())).not.toContain('wallet')
++    selector.vm.$emit('select', 'wallet'); await flushPromises()
++    const submit = view.findAll('button').find(button => button.text().includes('payment.createOrder'))!
++    expect((submit.element as HTMLButtonElement).disabled).toBe(true)
++    await submit.trigger('click'); await flushPromises()
++    expect(createOrder).not.toHaveBeenCalled()
 +    view.unmount()
 +  })
 +  it('does not permit a client-selected wallet source when its capability is disabled', async () => {
@@ -41127,6 +41837,28 @@ index 57ee459266504bd2e75196713335dbb6bfdf7cf0..5e755cf8584c22778a384244ae3d6eb8
 +    view.unmount()
 +  })
 +})
+diff --git a/frontend/src/views/user/__tests__/ProfileView.spec.ts b/frontend/src/views/user/__tests__/ProfileView.spec.ts
+index 3b187396d47caed689adeed125bf3531c8d75aba..a1a5794155e0aa6d6e1a5eea0571831161c3ad06 100644
+--- a/frontend/src/views/user/__tests__/ProfileView.spec.ts
++++ b/frontend/src/views/user/__tests__/ProfileView.spec.ts
+@@ -83,6 +83,7 @@ describe('ProfileView', () => {
+           ProfileBalanceNotifyCard: { template: '<div data-testid="profile-balance-notify-card" />' },
+           ProfilePasswordForm: { template: '<div data-testid="profile-password-form" />' },
+           ProfileTotpCard: { template: '<div data-testid="profile-totp-card" />' },
++          ProfilePasskeyCard: { template: '<div data-testid="profile-passkey-card" />' },
+           Icon: true
+         }
+       }
+@@ -94,6 +95,8 @@ describe('ProfileView', () => {
+     expect(wrapper.get('[data-testid="profile-shell"]').exists()).toBe(true)
+     expect(wrapper.get('[data-testid="profile-shell"]').html()).toContain('profile-info-card')
+     expect(wrapper.get('[data-testid="profile-shell"]').html()).toContain('profile-password-form')
+-    expect(wrapper.get('[data-testid="profile-shell"]').html()).toContain('profile-totp-card')
++    expect(wrapper.find('[data-testid="profile-totp-card"]').exists()).toBe(false)
++    expect(wrapper.find('[data-testid="profile-passkey-card"]').exists()).toBe(false)
++    expect(wrapper.get('[data-testid="profile-info-card"]').attributes()).toHaveProperty('email-only')
+   })
+ })
 diff --git a/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts b/frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts
 new file mode 100644
 index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2ef215270
@@ -41615,10 +42347,10 @@ index 0000000000000000000000000000000000000000..393f2ff0dc121ab8fe603caf544c66a2
 +})
 diff --git a/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts b/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..239097570ef698811baacf324430f6c190d0a874
+index 0000000000000000000000000000000000000000..651072ef3ff5acd110a91083f3d9f3cb25bd520d
 --- /dev/null
 +++ b/frontend/src/views/user/__tests__/RealYuUsageView.spec.ts
-@@ -0,0 +1,475 @@
+@@ -0,0 +1,525 @@
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 +import { computed, reactive } from 'vue'
@@ -41693,6 +42425,56 @@ index 0000000000000000000000000000000000000000..239097570ef698811baacf324430f6c1
 +afterEach(() => { wrapper?.unmount(); wrapper = undefined; document.body.innerHTML = '' })
 +
 +describe('RealYu usage view contracts', () => {
++  it.each([
++    ['/usage', false], ['/usage', true], ['/admin/usage', false], ['/admin/usage', true],
++  ] as const)('shows API Key names on %s with mobile=%s', async (path, mobile) => {
++    state.route.path = path; state.auth.isAdmin = path.startsWith('/admin/')
++    state.viewport.mobile = mobile
++    const value = result()
++    value.items[0]!.api_key_name = '<b>Work laptop key</b>'
++    usageApi.mockResolvedValueOnce(value)
++    const view = render('zh'); await flushPromises()
++    const name = view.get('.usage-key-name')
++    expect(name.text()).toContain('<b>Work laptop key</b>')
++    expect(name.find('b').exists()).toBe(false)
++    expect(view.text()).toContain('API Key 名称')
++  })
++  it('shows a dash when an archived call has no recorded key name', async () => {
++    const view = render(); await flushPromises()
++    expect(view.get('.usage-key-name').text()).toBe('—')
++  })
++  it.each([false, true])('shows the recorded upstream route only to platform admins with mobile=%s', async mobile => {
++    state.viewport.mobile = mobile
++    state.route.path = '/admin/usage'; state.auth.isAdmin = true
++    const value = result()
++    value.items[0]!.upstream = { account_id: 701, account_name: '<b>Upstream A</b>', channel_id: 801, channel_name: 'Channel B' }
++    usageApi.mockResolvedValue(value)
++    const view = render('zh'); await flushPromises()
++    const route = view.get('[data-testid="usage-upstream"]')
++    expect(route.text()).toContain('<b>Upstream A</b> #701')
++    expect(route.text()).toContain('Channel B #801')
++    expect(route.find('b').exists()).toBe(false)
++    await view.get(mobile ? '.usage-mobile-footer button' : '.usage-action button').trigger('click')
++    expect(view.findAll('[data-testid="usage-upstream"]')).toHaveLength(2)
++    if (!mobile) expect(Number(view.get('td[colspan]').attributes('colspan'))).toBe(view.findAll('thead th').length)
++    state.route.path = '/usage'; state.auth.isAdmin = false
++    await flushPromises()
++    expect(view.find('[data-testid="usage-upstream"]').exists()).toBe(false)
++    expect(view.text()).not.toContain('Upstream A')
++    expect(view.text()).not.toContain('Channel B')
++  })
++  it('distinguishes missing archive routing from a recorded ID whose name is unavailable', async () => {
++    state.route.path = '/admin/usage'; state.auth.isAdmin = true
++    const value = result()
++    value.items.push({ ...value.items[0]!, id: 'native:unknown-name', source: 'native', upstream: { account_id: 9, account_name: null, channel_id: 12, channel_name: null } })
++    usageApi.mockResolvedValue(value)
++    const view = render('zh'); await flushPromises()
++    const routes = view.findAll('[data-testid="usage-upstream"]')
++    expect(routes[0]!.text()).toContain('未记录')
++    expect(routes[0]!.text()).not.toContain('#0')
++    expect(routes[1]!.text()).toContain('#9')
++    expect(routes[1]!.text()).toContain('#12')
++  })
 +  it.each(['en', 'zh'] as const)('shows measured timing and inclusive input with cache breakdown in %s', async locale => {
 +    const value = result('gpt-6.1-sol')
 +    Object.assign(value.items[0]!, { source: 'native', input_tokens: 10, output_tokens: 600, total_tokens: 1610, cache_read_tokens: 1000, first_token_ms: 1500, duration_ms: 30000, stream: true })

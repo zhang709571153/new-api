@@ -1,35 +1,71 @@
 {
-  "source_commit": "0b0fbc0b4397bf0344ef38c71972e7843175a154",
-  "candidate_version": "realyu-singlecore-ux9-funding-reasons-20261015",
-  "binary_sha256": "8afe630d37d8de51099223ec711dd76d547255ac45ff525d95f1a878cf8c03a2",
-  "binary_bytes": 127291392,
+  "source_commit": "3261f676e9e9ece3edf976cf7cc1895bbee96296",
+  "candidate_version": "realyu-singlecore-ux9-account-usage-20261015",
+  "binary_sha256": "6fb70a9bcd9f6f3526cc67fa502688d9f3c1de8fb261ac49a785f1ae237727ce",
+  "binary_bytes": 127273472,
   "production_activated": false,
   "pricing_changed": false,
   "schema_changed": false,
   "checks": {
-    "funding_response_view_filter_tests": "PASS",
-    "native_websocket_first_and_later_turns": "PASS",
-    "native_key_error_compatibility": "PASS",
-    "isolated_postgresql_funding_suite": "PASS: 14 top-level tests",
-    "frontend_presentation_and_locale_tests": "PASS: 6 tests",
+    "isolated_postgresql_funding_admin_usage_purchase_suite": "PASS: 42 top-level tests, including upstream routing visibility and HTTP wallet-order rejection",
+    "auth_identity_password_and_email_suite": "PASS: 10 top-level tests, including isolated PostgreSQL and HTTP/JWT -> SMTP -> received MIME -> code verification -> binding -> email login",
+    "email_delivery_boundary": "ISOLATED SMTP CAPTURE ONLY; explicitly selected by user; no QQ delivery claim; no production SMTP configuration changes",
+    "frontend_account_navigation_tests": "PASS: 70 tests in 7 files",
+    "frontend_final_profile_copy_tests": "PASS: 41 tests in 4 files after final email-only copy update",
+    "frontend_upstream_usage_and_locale_tests": "PASS: 51 tests in 2 files; desktop/mobile/admin-only display and HTML escaping",
     "vue_typecheck": "PASS",
     "vite_build": "PASS",
-    "embedded_go_build": "PASS"
+    "embedded_go_build": "PASS",
+    "binary_version_matches_source": "PASS"
+  },
+  "prior_validation": [
+    {
+      "source_commit": "0b0fbc0b4397bf0344ef38c71972e7843175a154",
+      "unchanged_funding_protocol_paths": "Earlier HTTP/SSE/WebSocket/error-view tests passed; not rerun in this addendum."
+    },
+    {
+      "source_commit": "0de507e2004e84264ff8061a29cff1bc6511bb72",
+      "unchanged_admin_and_purchase_frontend": "PASS: 116 tests in 6 files; usage page tests superseded by current run"
+    }
+  ],
+  "first_failure": [
+    {
+      "test": "TestRealYuPurchasePGNativeHTTPStandardPlanWalletAndRead",
+      "reason": "Existing HTTP test still required successful wallet subscription purchase. Updated to assert new capability=false, HTTP 400, no order/grant/wallet mutation; rerun passed."
+    },
+    {
+      "test": "TestRealyuPostgresIdentityE2E/email_binding_http_smtp_receive_verify_and_replay",
+      "reason": "Temporary Ent schema omitted upstream user_avatars and settings.updated_at default; added upstream profile migration and fixture timestamp default. Rerun passed; production schema unchanged."
+    }
+  ],
+  "local_test_log_sha256": {
+    "funding-reasons-pg.log": "7ee02ea94c09a4d0e4e9a58a0d0caa2e9878a299bbd1ed5841db9af751b33e06",
+    "password-policy-backend.log": "61c6e2114f19aa0ff0347d577bbbaaf4bfb309eb088b3129ed65ad54c0dbe0ed",
+    "account-ui-tests.log": "e855f797504c8d5f01a0cf7b627589135aee61f8aae01688305ffa1644cfdc86",
+    "profile-final-ui-tests.log": "83dbc34ecfd9b9724e79acd54877229a0998bc52e738d3b82b3b5153cd963c62",
+    "upstream-usage-ui-tests.log": "037c4d7c21098b558a29200fa3722fb86301a5936d2fcbcd474be8053dc8cd44",
+    "final-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-vite-build.log": "0c75729ea70facc55595e5d94ce0d647bccd46c3d57e8d15c18c992e45cc118f",
+    "final-go-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-binary-version.log": "69be76774a1d55c2394bb2bd2d539fa7efe8b194a9433866135410fc3b5e2d05",
+    "account-mail-e2e-first-failure.log": "e14aef47b7c4f5874108c99fce1c6e57da26a5b373d070d8db98607f419be07f",
+    "admin-usage-purchase-frontend.log": "f0bd936c10614615af65fae9a9a1c12c4d4788fdada9bb8cec4007acbd5f20f1",
+    "admin-usage-purchase-pg-first.log": "6f26448f3cb474ed04374f80ede91a45992f10a51182fc3c7ac44ba0b3bfc235"
   },
   "reconstruction": {
     "status": "PASS",
-    "git_tree": "b2b56d9caba5f4bae7d68df95a0559c79f38b8d2",
-    "changed_files": 455,
-    "patch_sha256": "7b5968de7bf592e733017532a64eb0d21907a3a30832c29a49bc2f1f6b240d22"
+    "git_tree": "990641a2cc9279bd8378be23d6d63529d99e862d",
+    "changed_files": 458,
+    "patch_sha256": "ca36837cd5c8ac66fadc1527b609efd3dfbe3814c14d86033b043e2b6ee472fc"
   },
   "publication_review": {
-    "delta_files": 33,
+    "delta_files": 77,
     "common_credential_pattern_hits": 0,
     "previous_public_baseline_verified": true,
     "raw_runtime_included": false
   },
   "scope_limits": [
-    "Local HTTP/SSE and real local WebSocket protocol tests; production and native desktop client not revalidated.",
-    "No production cutover, network repair, pricing changes, or historical cause backfill."
+    "This addendum verifies isolated PostgreSQL, HTTP/JWT/SMTP email binding, HTTP purchase rejection and Vue component behavior. SMTP capture proves isolated delivery only, not public QQ inbox delivery. Earlier HTTP/SSE/WebSocket funding tests are linked to the prior candidate, not rerun.",
+    "No production cutover, live browser/desktop acceptance, network repair, pricing changes, schema changes or historical cause backfill."
   ]
 }
