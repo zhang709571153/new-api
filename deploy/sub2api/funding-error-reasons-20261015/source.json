@@ -1,0 +1,2296 @@
+{
+  "format": 1,
+  "candidate_version": "realyu-singlecore-ux9-funding-reasons-20261015",
+  "status": "VALIDATED_CANDIDATE_NOT_DEPLOYED",
+  "upstream_url": "https://github.com/Wei-Shaw/sub2api.git",
+  "upstream_tag": "v0.2.15",
+  "upstream_commit": "f2669c8cf62555cd92389b3f55920e9e6e7c6ff2",
+  "patch": "candidate.patch",
+  "patch_sha256": "7b5968de7bf592e733017532a64eb0d21907a3a30832c29a49bc2f1f6b240d22",
+  "patch_bytes": 2300161,
+  "changed_files": [
+    {
+      "path": "backend/cmd/server/wire_gen.go",
+      "sha256": "7fca73bf8d0ff9506062339b25aae1946cb9a4466d9771bf4f401fc8da8c0c8d",
+      "bytes": 47139
+    },
+    {
+      "path": "backend/ent/migrate/schema.go",
+      "sha256": "e069b014560aeee1c520dd6705d6071575ed291f5c02c7fb8bf0d134fa51d977",
+      "bytes": 108828
+    },
+    {
+      "path": "backend/ent/schema/payment_order.go",
+      "sha256": "7bf80ff19d68b1f6fb8f240c5adde791ae8dcc61414a83cac503336e10135a88",
+      "bytes": 5406
+    },
+    {
+      "path": "backend/ent/schema/user.go",
+      "sha256": "cea325b256a913dadc8c697adcc36daafe41d7d513cd8592778490537f672992",
+      "bytes": 4523
+    },
+    {
+      "path": "backend/internal/config/config.go",
+      "sha256": "d4ce9544ef40720c8841d5d7a24b5acf6bd80a8ae752ef4a7cae6096039483ee",
+      "bytes": 199377
+    },
+    {
+      "path": "backend/internal/handler/admin/payment_handler.go",
+      "sha256": "b9f6b04c6742dc1a9cfd97c59eca5e2197db96d304d02b45da5f2ac9e54fd4b7",
+      "bytes": 18047
+    },
+    {
+      "path": "backend/internal/handler/admin/realyu_subscriptions_handler.go",
+      "sha256": "9781edbd45fe3245fe41bc495d1d06c53491b903986894ef8dc03d9e5d7575f4",
+      "bytes": 1247
+    },
+    {
+      "path": "backend/internal/handler/admin/setting_handler.go",
+      "sha256": "c18ba5d63e5d83bae896fa9d4aa4bf167547d15015d4036868fdfbfaf5a37d02",
+      "bytes": 36526
+    },
+    {
+      "path": "backend/internal/handler/admin/setting_handler_audit.go",
+      "sha256": "35406cbd41b4313602b253672b6b55a52eafa83f56d647a032b4908da0a77d46",
+      "bytes": 34783
+    },
+    {
+      "path": "backend/internal/handler/admin/setting_handler_partial_payload_test.go",
+      "sha256": "743b91141588a4e2397ccd97f82350b873d217494c0e5b0c81ea2e549ba325f4",
+      "bytes": 13636
+    },
+    {
+      "path": "backend/internal/handler/admin/setting_handler_update.go",
+      "sha256": "9a0dd433e23f02a48b25b9c802f8141d7b007ceaf524170a739dc41178ee3e7e",
+      "bytes": 144152
+    },
+    {
+      "path": "backend/internal/handler/api_key_handler.go",
+      "sha256": "05410ce43c7c76f273ee36984c34d3adef609f6fb0dda27024b5d919ac55673b",
+      "bytes": 11426
+    },
+    {
+      "path": "backend/internal/handler/api_key_handler_validation_test.go",
+      "sha256": "59ec9e991dccd4b22c8958beefdba19b1ff92599263a8ac00f2de5d7e7bfdd21",
+      "bytes": 3742
+    },
+    {
+      "path": "backend/internal/handler/auth_handler.go",
+      "sha256": "4cc1f9310f39e71360b39e2928a2833714d7324029197aea26ab988886c530dc",
+      "bytes": 24330
+    },
+    {
+      "path": "backend/internal/handler/dto/mappers.go",
+      "sha256": "2c8b1f12c945f5d8bc36e5b1f3c7c27330540b23e962f57e3480f38439659616",
+      "bytes": 33332
+    },
+    {
+      "path": "backend/internal/handler/dto/settings.go",
+      "sha256": "fc5e3ccfbb034d4614fc7eb5fb54251feb1a08b30b5d370c03f57d75e3e62929",
+      "bytes": 38904
+    },
+    {
+      "path": "backend/internal/handler/dto/types.go",
+      "sha256": "cd191d0feeec597a947c3229a84cbcb129dbabfaf60e9a8e7464bb852209f3ab",
+      "bytes": 38819
+    },
+    {
+      "path": "backend/internal/handler/gateway_handler.go",
+      "sha256": "4291e8ee5f727a926c6408c971c8057b30ad7e5fdabbbb94b18f3c3fe9cb314c",
+      "bytes": 102948
+    },
+    {
+      "path": "backend/internal/handler/gateway_handler_chat_completions.go",
+      "sha256": "23767ee6d63880a3d426b541786eb534398d87bd2f21c538e304cd0c3b151b40",
+      "bytes": 16493
+    },
+    {
+      "path": "backend/internal/handler/gateway_handler_responses.go",
+      "sha256": "204fb347412070578007e6eb716932fd69e07766772db66934474cf0d9908e27",
+      "bytes": 16564
+    },
+    {
+      "path": "backend/internal/handler/gateway_inflight_reservation.go",
+      "sha256": "8bd0686aa86765844fa73f7ae9b1519d418df00604c44bfedffb2d9c9a3f1617",
+      "bytes": 5791
+    },
+    {
+      "path": "backend/internal/handler/gateway_systemone.go",
+      "sha256": "3dfcb199e23a649678289f4cc0a3bf5a6dc0ed401be45797d35cf61b02f95d60",
+      "bytes": 12076
+    },
+    {
+      "path": "backend/internal/handler/handler.go",
+      "sha256": "ed480bbb89beca9ee01ab0a89bb88a949cd3a292061d8fade2bdbc5b91d6bdf5",
+      "bytes": 3337
+    },
+    {
+      "path": "backend/internal/handler/openai_chat_completions.go",
+      "sha256": "8b9c02bb186012ceea2d8389f62ce2a5e4e4ea7fb548631f5af345e95d0f198c",
+      "bytes": 17793
+    },
+    {
+      "path": "backend/internal/handler/openai_gateway_handler.go",
+      "sha256": "b6d6bfbd6fffe8fa5fd2f54701b3381379071f4fd5d0ae203330f4c32f7d8ead",
+      "bytes": 183994
+    },
+    {
+      "path": "backend/internal/handler/openai_images.go",
+      "sha256": "6c8ea9db19de2ae09b18e5e637e83c3415c0024eda9d202e53b1ac8bd47543a1",
+      "bytes": 17834
+    },
+    {
+      "path": "backend/internal/handler/ops_error_logger.go",
+      "sha256": "075f909ff93e3df43257e3a4a080268a6bc6df4e662bdcd79aca3ee6d843a5ca",
+      "bytes": 73898
+    },
+    {
+      "path": "backend/internal/handler/page_handler.go",
+      "sha256": "ad99b65d2500d9899bb183211531f2e77b87c862053d7b20ef8e5aa199f7cd20",
+      "bytes": 7566
+    },
+    {
+      "path": "backend/internal/handler/payment_handler.go",
+      "sha256": "766252c956671b0eb77ec642b5022d0be22b3162c163b8067eb6ef37026adfba",
+      "bytes": 27803
+    },
+    {
+      "path": "backend/internal/handler/payment_webhook_handler.go",
+      "sha256": "15fd9c13a8b7705684272517eed6f3ad706b0789d881b4870809fd578fc74ab5",
+      "bytes": 7667
+    },
+    {
+      "path": "backend/internal/handler/realyu_chat_cyber_funding_test.go",
+      "sha256": "ef9bad18389e30920664714130968d7b56d3bad72ac20806490aafa2d0543df9",
+      "bytes": 5343
+    },
+    {
+      "path": "backend/internal/handler/realyu_client_compatibility.go",
+      "sha256": "cb52ac797bd998ae56c761f7056abac0a20faa5957c8b03f172810be32041e6d",
+      "bytes": 3183
+    },
+    {
+      "path": "backend/internal/handler/realyu_client_compatibility_test.go",
+      "sha256": "d660051d2dec8abbd4903d6207416bf72dd4274c7e5b0570eb66558a61c8d3a6",
+      "bytes": 8569
+    },
+    {
+      "path": "backend/internal/handler/realyu_client_diagnostics.go",
+      "sha256": "99b2d603adf91c01e09a8b197b9c8f7f7ca68780446bb3257e00fc92b121bc7a",
+      "bytes": 8742
+    },
+    {
+      "path": "backend/internal/handler/realyu_client_downloads.go",
+      "sha256": "3d0e354aa45c2891cae8abb3b93fcc8f1c0c2e22a0f1e46fa1dc478c2d74e16a",
+      "bytes": 1455
+    },
+    {
+      "path": "backend/internal/handler/realyu_cyber_funding_test.go",
+      "sha256": "50ca7dc2ed7ecadf9ae9b545458daa12e0aa8d083c5ea9f0b88db13af63f87ab",
+      "bytes": 5676
+    },
+    {
+      "path": "backend/internal/handler/realyu_funding_error_response_test.go",
+      "sha256": "06f9e6afb5f7320877644eb9ae9f3b51b73ccab714768d87f2944ff3a3fbc875",
+      "bytes": 4807
+    },
+    {
+      "path": "backend/internal/handler/realyu_funding_test.go",
+      "sha256": "b9077b2ac30a4403b4fe010b1a2b636392d8e106b71f7fdc30ea9a20c86e391f",
+      "bytes": 3157
+    },
+    {
+      "path": "backend/internal/handler/realyu_legacy_payment_handler.go",
+      "sha256": "6f9f161681d6b8c7eab19980ec5dc215fa230a951758a4f36f72e6d21b02831a",
+      "bytes": 1677
+    },
+    {
+      "path": "backend/internal/handler/realyu_legacy_payment_handler_test.go",
+      "sha256": "efd22e4f7a0b4cc86aadef2887a4e45ef9bbe8d2ffd2d5999ba8624712c33430",
+      "bytes": 4808
+    },
+    {
+      "path": "backend/internal/handler/realyu_legacy_payment_wire.go",
+      "sha256": "42f9b533aaa605e02789899489ec68fbfab07f5e2ded977b9bedaf77ec96112d",
+      "bytes": 763
+    },
+    {
+      "path": "backend/internal/handler/realyu_public_catalog_handler.go",
+      "sha256": "23da093262a12285623962e2bca2fdb103e7f9e8808f3839e79e43cb5d49c714",
+      "bytes": 779
+    },
+    {
+      "path": "backend/internal/handler/realyu_subscriptions_handler.go",
+      "sha256": "6b36e9ea9050e4de1e4c55cf577116c66bc63488ea8122767f74bf9bcf3def92",
+      "bytes": 502
+    },
+    {
+      "path": "backend/internal/handler/realyu_team_handler.go",
+      "sha256": "b533a6f3ae7c7dc9638ca0ac31396618e8d6b32e0fb07d12b6ea64c8aef0803d",
+      "bytes": 5572
+    },
+    {
+      "path": "backend/internal/handler/realyu_team_handler_test.go",
+      "sha256": "406e45524609524f2be2a44060351a413f2729c735896dceb7352cdd611c5597",
+      "bytes": 4424
+    },
+    {
+      "path": "backend/internal/handler/realyu_usage_history_handler.go",
+      "sha256": "ce3c63ff1b93d9909b828f65c2fff21188101e529c2729aad37755af23622e5e",
+      "bytes": 3302
+    },
+    {
+      "path": "backend/internal/handler/realyu_usage_history_handler_test.go",
+      "sha256": "22015dd336f2c091faa974d01f45a23e6f1e1e646617283542312ac63a81e802",
+      "bytes": 7954
+    },
+    {
+      "path": "backend/internal/handler/realyu_usage_trend_handler.go",
+      "sha256": "522cf573f98fc2498458a67c787f8af1dac13ddfab2511923a7bfbc08865dbb4",
+      "bytes": 1100
+    },
+    {
+      "path": "backend/internal/handler/realyu_ws_turn.go",
+      "sha256": "8a2bfa49ac152ec24ae9afb2fa3c27378837efe89be25aabeebe9a6b99d9f52e",
+      "bytes": 4724
+    },
+    {
+      "path": "backend/internal/handler/realyu_ws_turn_test.go",
+      "sha256": "7b3f00e02c3aea6957af10ab6cef12b85ac2232afc10ebe74a55b69ef169d45e",
+      "bytes": 10086
+    },
+    {
+      "path": "backend/internal/handler/setting_handler.go",
+      "sha256": "6806f790f7dd381c1119268fd719402f48695c38a3f4381d426cc90f1df067a3",
+      "bytes": 8074
+    },
+    {
+      "path": "backend/internal/handler/wire.go",
+      "sha256": "fd2f18a0eea0f8e09ab3ce6fd9ba38139a268fc822c40350767a727937386b58",
+      "bytes": 12338
+    },
+    {
+      "path": "backend/internal/payment/provider/easypay.go",
+      "sha256": "771f9ab20b0a978e26d177352c39a8a6b572099533c7d4c76f6cc4cdf770c486",
+      "bytes": 23701
+    },
+    {
+      "path": "backend/internal/payment/provider/easypay_zpay_test.go",
+      "sha256": "182a3f02568f30cac6081e50db7a3fbe7f13bb03a138eae9a29dbf50cae390b7",
+      "bytes": 9278
+    },
+    {
+      "path": "backend/internal/payment/provider/zpay_validation.go",
+      "sha256": "428dcc553468ad48cfbb7392059d0368b1e8f848ef7d427a2b1c80cde3b9633e",
+      "bytes": 3909
+    },
+    {
+      "path": "backend/internal/payment/provider/zpay_validation_test.go",
+      "sha256": "3ab141892ed61fb8f06cddf296f37fcbc06c974e45fe211f977c7fe1d34f7a69",
+      "bytes": 6007
+    },
+    {
+      "path": "backend/internal/repository/api_key_repo.go",
+      "sha256": "e6ca6570411846576b172312c2fa0aac6f1c35662533d5bf759f6058a4f0a4b2",
+      "bytes": 35525
+    },
+    {
+      "path": "backend/internal/repository/realyu_admin_subscriptions_pg_test.go",
+      "sha256": "f30c4438380eac80dcc280d6d780815d5434658345d922c686137d886838e58a",
+      "bytes": 14282
+    },
+    {
+      "path": "backend/internal/repository/realyu_admin_subscriptions_repo.go",
+      "sha256": "6251b176d4c9a7a1a87fdddc66705c3ddc7e5e2005c86bd40b5b99ff2ba39b26",
+      "bytes": 12870
+    },
+    {
+      "path": "backend/internal/repository/realyu_client_pg_test.go",
+      "sha256": "99290fc2bf6773083aaa206388abcc8e31c969935b5a6e2cb22fe3dd95268df3",
+      "bytes": 4255
+    },
+    {
+      "path": "backend/internal/repository/realyu_client_repo.go",
+      "sha256": "b293578fcc27a22ca1de7e67aef532107317e00678d40d2c46bbf532dfcd54de",
+      "bytes": 1917
+    },
+    {
+      "path": "backend/internal/repository/realyu_funding_error_reasons_pg_test.go",
+      "sha256": "ec95a1074c405fc3afe7a918ca1dccf8efe7f628a5f3b0c6bebf27d170855f19",
+      "bytes": 2265
+    },
+    {
+      "path": "backend/internal/repository/realyu_funding_pg_test.go",
+      "sha256": "0df1af68b21c621ea3194379e66a66146f3ecabbb1aa8b90ceea20ab36cd1ee9",
+      "bytes": 17940
+    },
+    {
+      "path": "backend/internal/repository/realyu_funding_repo.go",
+      "sha256": "fe9ba39151695762175d23a105a7eaedfec713361524f34153114c0a14e3faef",
+      "bytes": 19542
+    },
+    {
+      "path": "backend/internal/repository/realyu_key_allowance_repo.go",
+      "sha256": "3da8efa4b428eb7c87107518924ec2488f624995cf83d01f6fbfb6621101116c",
+      "bytes": 3824
+    },
+    {
+      "path": "backend/internal/repository/realyu_key_enrollment_pg_test.go",
+      "sha256": "fbefb2301baddef4ffc0f46bf878d006dd321fb1ff24ec8c90a8ca0e4218f215",
+      "bytes": 6696
+    },
+    {
+      "path": "backend/internal/repository/realyu_key_presentation_pg_test.go",
+      "sha256": "4420c80bc59fc2a480d90446a11b18443ffdc0fb337a9f235b6db21c3241f03c",
+      "bytes": 10742
+    },
+    {
+      "path": "backend/internal/repository/realyu_key_presentation_repo.go",
+      "sha256": "df3b6c783645d92d84b233a32441c1210fce2b79e303c9acc516ede68e65778d",
+      "bytes": 2093
+    },
+    {
+      "path": "backend/internal/repository/realyu_legacy_identity_repo.go",
+      "sha256": "5fda6a6c3910c95bed6437a7f901f5a6cd10f5a9e0720246e23ee892f14d5623",
+      "bytes": 5119
+    },
+    {
+      "path": "backend/internal/repository/realyu_legacy_payment_pg_test.go",
+      "sha256": "f8c7b9489b677ed3c93f5cb8c6f071099840271a2c353f48772ecd20b278d455",
+      "bytes": 6573
+    },
+    {
+      "path": "backend/internal/repository/realyu_legacy_payment_repo.go",
+      "sha256": "c12c1dfb98839e89ba68d99fe41e7d18f7bc5b464e579cbaa6d715be11853e36",
+      "bytes": 7585
+    },
+    {
+      "path": "backend/internal/repository/realyu_legacy_response_pg_test.go",
+      "sha256": "9ea17b529727bc64e1f21184932c24dd8a36da1fc0bb38d8d9a0342358cc1cb7",
+      "bytes": 999
+    },
+    {
+      "path": "backend/internal/repository/realyu_legacy_response_repo.go",
+      "sha256": "caa867f1922acdd6c2fcc939a86f856fbf4ef788f315d748081614b114f3810a",
+      "bytes": 675
+    },
+    {
+      "path": "backend/internal/repository/realyu_purchase_http_pg_test.go",
+      "sha256": "5fc91f779f19e19cdcb202bd7b91cb2e169cd60ef7e37236cfb6615cd3db35b4",
+      "bytes": 7437
+    },
+    {
+      "path": "backend/internal/repository/realyu_purchase_pg_test.go",
+      "sha256": "90b72212761855bc47beb60a71f9a0bdd8ca304b16d0d9bedc403e32d2740ae9",
+      "bytes": 17047
+    },
+    {
+      "path": "backend/internal/repository/realyu_purchase_repo.go",
+      "sha256": "b2474563c59b7df599d097be8d70e801b65e9ae4e6dff52fb3dbfe2c912fad79",
+      "bytes": 18935
+    },
+    {
+      "path": "backend/internal/repository/realyu_recharge_http_pg_test.go",
+      "sha256": "3c662500369ca945d278a015b2fecb92cb82533525d99ccf36e5e21741cf6631",
+      "bytes": 11641
+    },
+    {
+      "path": "backend/internal/repository/realyu_response_scope_repo.go",
+      "sha256": "aabb5f967d35f10a9858004036468999965832ebcd4d4340f751462083575d2d",
+      "bytes": 1597
+    },
+    {
+      "path": "backend/internal/repository/realyu_setup_key_repo.go",
+      "sha256": "9854889233a3a43e6e1efa8ed7f986b73eb3287bcec2e8b9fd3d6b290addc651",
+      "bytes": 6348
+    },
+    {
+      "path": "backend/internal/repository/realyu_subscriptions_repo.go",
+      "sha256": "f9cf5f6b8e1e7f00305bc45e2e916f869167143590c603cf59c2e0ee82af7ca8",
+      "bytes": 3981
+    },
+    {
+      "path": "backend/internal/repository/realyu_team_pg_test.go",
+      "sha256": "5cbac35e6be05f415f8de6cb9631581a9942e3679ac654882068cebf5531289c",
+      "bytes": 16098
+    },
+    {
+      "path": "backend/internal/repository/realyu_team_repo.go",
+      "sha256": "55bb22f0beeb6e19a2175b76ca1e58b356d1427291ec5010cac76f72bbd05e17",
+      "bytes": 26712
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_history_pg_test.go",
+      "sha256": "25aa9a1e76bf1f85f028fdf42c211757a4c33b69f219a6a45c025d2226c38726",
+      "bytes": 10324
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_history_repo.go",
+      "sha256": "17743ac015d869c54e0419867814f1ba372c7653cd444378121ddbe32611bedc",
+      "bytes": 9840
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_nickname_pg_test.go",
+      "sha256": "49eac5d690a2a2ba536bd2b0f7887ff8998c9d3a30e13c45be15225b81c8b120",
+      "bytes": 4072
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_team_scope_pg_test.go",
+      "sha256": "48e8ca20f218645705564c795a30e3eacc339c501f9a5b4af23fbabb544790c3",
+      "bytes": 9931
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_trend_pg_test.go",
+      "sha256": "d72e95cc46b033ee28e2ba2a693e3764dfbfa066be2288e923512396dbdf63ff",
+      "bytes": 7857
+    },
+    {
+      "path": "backend/internal/repository/realyu_usage_trend_repo.go",
+      "sha256": "88b710bc1d43f3db6857218d980450ba2725b2790bdd04876a84dffb0471215f",
+      "bytes": 2705
+    },
+    {
+      "path": "backend/internal/repository/usage_billing_repo.go",
+      "sha256": "deaa75d7525eba87c3996b58fb5cc2a73d2ecf9c4f9241ad139f3a5704374ce5",
+      "bytes": 20308
+    },
+    {
+      "path": "backend/internal/repository/usage_billing_repo_unit_test.go",
+      "sha256": "6f751a3f35b50fa1ac276ac17c91d8568eff1c460900c558b218b935767c7d3c",
+      "bytes": 13166
+    },
+    {
+      "path": "backend/internal/repository/user_repo.go",
+      "sha256": "cd10185cb888d0296f3e07ddde3017b0bf7d882ce16baf64ca25bbe49e85d6de",
+      "bytes": 50674
+    },
+    {
+      "path": "backend/internal/repository/wire.go",
+      "sha256": "3e593e4d81355e555ebc04aec60e630e52261106fa5b7f40c2ec71a552bc8915",
+      "bytes": 8455
+    },
+    {
+      "path": "backend/internal/server/middleware/api_key_auth.go",
+      "sha256": "b9e7550e01033ac26733cc621a5267b0f608945148b6954757d401ce77222b55",
+      "bytes": 17398
+    },
+    {
+      "path": "backend/internal/server/middleware/api_key_auth_google.go",
+      "sha256": "c1ef9c63a85b692c68ebb2a17da9a16198d04febf9095c5be9fc90e0b84ce358",
+      "bytes": 9680
+    },
+    {
+      "path": "backend/internal/server/middleware/realyu_funding.go",
+      "sha256": "aecb50be61fdcffd44863b1152d18f8b85f25fdd9c7d40825f1c5f9326d71dca",
+      "bytes": 1011
+    },
+    {
+      "path": "backend/internal/server/middleware/realyu_funding_error_test.go",
+      "sha256": "282c1b01f3bcba13894289b55c3ffb714929685a31958ab4d6a261cd480aac8f",
+      "bytes": 689
+    },
+    {
+      "path": "backend/internal/server/middleware/realyu_funding_test.go",
+      "sha256": "04dbb6b38bf166a3297efead4534c5773fc608e5927903b584ba7c9056a86511",
+      "bytes": 2478
+    },
+    {
+      "path": "backend/internal/server/middleware/realyu_key_policy.go",
+      "sha256": "4aeeb4f8f142e04720759ee2d6e3f18538ecaa5ff93abad9994142cbacf46b3d",
+      "bytes": 4994
+    },
+    {
+      "path": "backend/internal/server/middleware/realyu_key_policy_test.go",
+      "sha256": "27e55ec653fd7efda821bca168124aab357f87928567f1324b832265c4956caa",
+      "bytes": 10015
+    },
+    {
+      "path": "backend/internal/server/router.go",
+      "sha256": "b7be14e66e3fd2305b790604b0d23fb707d71c4fb9e478ccb2965d295ade7d08",
+      "bytes": 5740
+    },
+    {
+      "path": "backend/internal/server/routes/admin.go",
+      "sha256": "766b45399ceb979c4789620ed1189777faf1d61b5786afa2da1b3ffa4b10c06e",
+      "bytes": 41141
+    },
+    {
+      "path": "backend/internal/server/routes/gateway.go",
+      "sha256": "13a526c928b791e481d2485ae62f00b3f09ce9d301e078eb49f79048e5c726df",
+      "bytes": 30442
+    },
+    {
+      "path": "backend/internal/server/routes/gateway_model_allowlist_test.go",
+      "sha256": "53ac9dc1002b65c06a32fc4482cb3d9435fbb272341026a120b8a126444b3622",
+      "bytes": 9887
+    },
+    {
+      "path": "backend/internal/server/routes/model_plaza.go",
+      "sha256": "aa0ff2912c6026687986c57444d98aa4c3bd771b6d727f3006360d3a52b34abe",
+      "bytes": 1154
+    },
+    {
+      "path": "backend/internal/server/routes/payment.go",
+      "sha256": "6bf1111979b05f997e30491d9b87c11aadaf47a1a6cd5de2cc9b3d08e7f9d8da",
+      "bytes": 5434
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_admin_entry_test.go",
+      "sha256": "c7b09ed979c149e2c4e5c60142a7af1e7953a45152daab5cbfb5ddc92760cc79",
+      "bytes": 4546
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_client.go",
+      "sha256": "74c99729ea774db2cb29778cbc6fd6d3f8af5f76b8b5ec8f3f629970aa7757b9",
+      "bytes": 2429
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_client_compatibility.go",
+      "sha256": "b1285fc89a66f6fc89e686659cf9069ab6a4cd535f4a83bba042886c1d633190",
+      "bytes": 446
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_client_test.go",
+      "sha256": "a7e8fd426d998c773ebb03014961d5cf148cdfc71d2643ea4b13173cd48b941c",
+      "bytes": 2514
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_legacy_payment.go",
+      "sha256": "395dd90dfe30a153b3401c2ab1fb3c549f42bbeaccc40f5e3baf9f3fde86aee2",
+      "bytes": 612
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_legacy_payment_test.go",
+      "sha256": "a23ee2c4fa39c284335788661679600bce136eca44182cbdd693b714a64db9bc",
+      "bytes": 1032
+    },
+    {
+      "path": "backend/internal/server/routes/realyu_team.go",
+      "sha256": "8c78c91cce6eec1067c049687570af047e250df3501a62a9069bf7ab960b515e",
+      "bytes": 997
+    },
+    {
+      "path": "backend/internal/server/routes/user.go",
+      "sha256": "b02a66c6fc83abb3087decd481f5dd846b50b61ad2b67a95df804fefd6768924",
+      "bytes": 5704
+    },
+    {
+      "path": "backend/internal/service/api_key.go",
+      "sha256": "8ea6ecdd392501651792058d2f0c153eebf331c50f22a7bd30eca57ce9d8eceb",
+      "bytes": 4559
+    },
+    {
+      "path": "backend/internal/service/api_key_service.go",
+      "sha256": "06d60b9d0b48ba49befaf1836953c6b14af5410ccf7fb777512a0b78050d6fa4",
+      "bytes": 41688
+    },
+    {
+      "path": "backend/internal/service/api_key_service_create_limit_test.go",
+      "sha256": "e2d07143197ae282a0dcbb0ec8181724be34e5f1bd503d9ad8a2584171afb3ae",
+      "bytes": 6057
+    },
+    {
+      "path": "backend/internal/service/auth_email_binding.go",
+      "sha256": "7d9e2905fb1008b1b1d664608c4be3f994c6f082960a114ab3ffd224aa318328",
+      "bytes": 11447
+    },
+    {
+      "path": "backend/internal/service/auth_email_oauth_auto.go",
+      "sha256": "ae36ac6250f77d2cfdbd3a400eb3d23bd69ebdc4d750e43e53b9b52fe9501248",
+      "bytes": 10073
+    },
+    {
+      "path": "backend/internal/service/auth_oauth_email_flow.go",
+      "sha256": "23fd5be64cadbef7a28d9e9bf48a3c231b5d9de42338a761c605d23197a24930",
+      "bytes": 16302
+    },
+    {
+      "path": "backend/internal/service/auth_oauth_first_bind.go",
+      "sha256": "902aa3dec84f60c215ce53e7dc260abcf11d647cc84d733675989e1b26d5ebf6",
+      "bytes": 3137
+    },
+    {
+      "path": "backend/internal/service/auth_service.go",
+      "sha256": "062b22e549a87b87ee565342045320de1137e4e5f9695f2cf040653d13bd2ad9",
+      "bytes": 79937
+    },
+    {
+      "path": "backend/internal/service/auth_service_test.go",
+      "sha256": "5b996a36edddd29ed2151dae320f65e528cf3799c49b1993d779ebb5d43003d9",
+      "bytes": 1389
+    },
+    {
+      "path": "backend/internal/service/billing_cache_service.go",
+      "sha256": "8e98f1a5709d0a3a13497cc2c9d55a8ffe5df8e40d5e1b8befba364e1605e1b9",
+      "bytes": 50877
+    },
+    {
+      "path": "backend/internal/service/gateway_image_reasoning_pricing_test.go",
+      "sha256": "0e64dbf4b14dc728c56a73c2bb5e0dd879720828920e6d327f05863954f06eb5",
+      "bytes": 6242
+    },
+    {
+      "path": "backend/internal/service/gateway_usage_billing.go",
+      "sha256": "3e6660f10c546cd9739268e50f26297857671930dcdffce4c8361897aa4b7c14",
+      "bytes": 58574
+    },
+    {
+      "path": "backend/internal/service/openai_gateway_record_usage_test.go",
+      "sha256": "1343a5d5bcd8ccaef4b3ab3286454b2af0f7e1e2209075dc2d5963d3e5923b4d",
+      "bytes": 122387
+    },
+    {
+      "path": "backend/internal/service/openai_gateway_response_handling.go",
+      "sha256": "6e3c21020eaba727c961a63953f9c75db2706140e876af33a95f5278766179ca",
+      "bytes": 87882
+    },
+    {
+      "path": "backend/internal/service/openai_gateway_usage.go",
+      "sha256": "802f387937d31110c70d57ce82ea301637fc35f05145e959bdabaa8796157a29",
+      "bytes": 46871
+    },
+    {
+      "path": "backend/internal/service/openai_ws_forwarder.go",
+      "sha256": "a30dc8e2f468664e0f20942278c5e31c6a14ba8a28a8d4c23e089da8ccb7449d",
+      "bytes": 12783
+    },
+    {
+      "path": "backend/internal/service/openai_ws_forwarder_ingress.go",
+      "sha256": "bc5b6d9fc56346ebc39b8a19c2398810b4f3bf62dcf01e8d898714e6c3f6be4d",
+      "bytes": 82372
+    },
+    {
+      "path": "backend/internal/service/openai_ws_http_bridge.go",
+      "sha256": "ef9fccd041329ff6d807b96abfc8d6c754e51a55ba6bd1ad8c1be7b005356d1f",
+      "bytes": 36738
+    },
+    {
+      "path": "backend/internal/service/openai_ws_http_bridge_test.go",
+      "sha256": "9e22c52d3f0175caf956e4ffff8a2f653603c141715fa997d9f390c6799428c3",
+      "bytes": 101020
+    },
+    {
+      "path": "backend/internal/service/openai_ws_v2_passthrough_adapter.go",
+      "sha256": "9a1b42d18e01595a18350daf8dd8b9f51767f0eef466204867927c40dc7ad5fc",
+      "bytes": 58141
+    },
+    {
+      "path": "backend/internal/service/ops_user_error.go",
+      "sha256": "5958510015ac94c1f08861943095b146312ea2852c142c7dd1aa3cdbb4a590c8",
+      "bytes": 5623
+    },
+    {
+      "path": "backend/internal/service/payment_fulfillment.go",
+      "sha256": "c5d8077ddae75cdaab69661a166e731001424bebb06bf62761188b2816c6cdbe",
+      "bytes": 31793
+    },
+    {
+      "path": "backend/internal/service/payment_order.go",
+      "sha256": "a66ee56326783b5c4b9945e24ad267d76a1cbc8339646d9a5b33e6e7a9b68359",
+      "bytes": 35506
+    },
+    {
+      "path": "backend/internal/service/payment_refund.go",
+      "sha256": "60b9c98fc621b3ec5f201c4dc0eaa026e3bda673586edab9375e751c1a77ec8f",
+      "bytes": 27901
+    },
+    {
+      "path": "backend/internal/service/payment_service.go",
+      "sha256": "85ba54dec03e64fdd26277e92799a98c07cf1e93f90f19e1a04874ec3e215dd9",
+      "bytes": 12711
+    },
+    {
+      "path": "backend/internal/service/realyu_client.go",
+      "sha256": "a9d0de9a3340188915535d3ec05ace4d224d0fc34952fc36b12e6cdb70f0fd6f",
+      "bytes": 1122
+    },
+    {
+      "path": "backend/internal/service/realyu_customer_currency.go",
+      "sha256": "0fc3609e1686500ab2b1acc7018655e3a1fb14251577bdaa51e085230d72b26c",
+      "bytes": 792
+    },
+    {
+      "path": "backend/internal/service/realyu_customer_currency_test.go",
+      "sha256": "796fb6ea28a7d904cb983afb8615ed349b6af1ec84e189556d795060ab063ec8",
+      "bytes": 1955
+    },
+    {
+      "path": "backend/internal/service/realyu_funding.go",
+      "sha256": "7c9dba319b024bce4616b0a385da5f10c95cef4987a903e3a189da847b72d1fe",
+      "bytes": 3703
+    },
+    {
+      "path": "backend/internal/service/realyu_funding.md",
+      "sha256": "40554ce51534cdb0ad54735423fe5af61eb5050abcc3839767a471891aa6d225",
+      "bytes": 10419
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_auth.go",
+      "sha256": "f978ac6ea0f6693de15bfdad690a16490b393a3fe0e2264b0875821d5057981b",
+      "bytes": 917
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_error_context.go",
+      "sha256": "916308d42054d492a050b3d0658c4ff9ea666f894e18937c9f6490de982d0dd3",
+      "bytes": 1295
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_error_view_test.go",
+      "sha256": "1faa57f9afd8e3e59938b18e18d13115648141810f110831bd8b522d9d6c8f0e",
+      "bytes": 905
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_errors.go",
+      "sha256": "38ca270bc9181544f44a860a1e9b4b067500fbb8a21a46b5aca433ec0e4e5f5f",
+      "bytes": 4235
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_lifecycle.go",
+      "sha256": "1e29820b71eb10aaeb2ed2a7e4849a45e3755e9bab0fe44864fc5e6713af0a5d",
+      "bytes": 2905
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_lifecycle_test.go",
+      "sha256": "9f2870738a1121d25c8134e4d99fc2a7bdb784eefd572696086270323c441744",
+      "bytes": 4292
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_pricing.go",
+      "sha256": "b0b4001093270ff4d4df54571251803160aca1296ade23fc5b39709f6aad2ca3",
+      "bytes": 770
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_pricing_test.go",
+      "sha256": "f13bb67b01eb51442cb8f749623c7fb9ce88e6de45e101c80ee9657c240a8fe1",
+      "bytes": 4132
+    },
+    {
+      "path": "backend/internal/service/realyu_funding_test.go",
+      "sha256": "da728f0f8cbb6f5dfccdecbe4fa2b788ebbf36d7f7d6d910a16873c119248a2d",
+      "bytes": 923
+    },
+    {
+      "path": "backend/internal/service/realyu_identity_test.go",
+      "sha256": "fbd4a201e20e63804dda442b0bba3c13102d089fab84e8092e92eb9ef1470337",
+      "bytes": 37936
+    },
+    {
+      "path": "backend/internal/service/realyu_key_presentation.go",
+      "sha256": "66298c4ff7e14bff690d5df1b1000e9e34d3b92bc129c0307dbdbe59768c114d",
+      "bytes": 1887
+    },
+    {
+      "path": "backend/internal/service/realyu_key_presentation_test.go",
+      "sha256": "4bca79c1966168205c783868f79f25043b818ffe6b146105aa3f056ee2069168",
+      "bytes": 4305
+    },
+    {
+      "path": "backend/internal/service/realyu_legacy_identity.go",
+      "sha256": "eea5637eb606a94ac09d89a7abbb4d86cde8968b54c7608b2221aa094bd3a86c",
+      "bytes": 4073
+    },
+    {
+      "path": "backend/internal/service/realyu_legacy_payment.go",
+      "sha256": "a61a426da0901b2a15c8f1c7a04afa5beda6360ea676203daeeabad400df0e84",
+      "bytes": 5685
+    },
+    {
+      "path": "backend/internal/service/realyu_legacy_payment_test.go",
+      "sha256": "f1d950c9432780f75ac20df123a4e791ba83356a8948a93d10eeeb7337fe21a2",
+      "bytes": 4585
+    },
+    {
+      "path": "backend/internal/service/realyu_legacy_response.go",
+      "sha256": "1b47186b87de72e7be5ac587fb93bd6042b88d32723d2769723c8e736a0e6eef",
+      "bytes": 3752
+    },
+    {
+      "path": "backend/internal/service/realyu_legacy_response_test.go",
+      "sha256": "38ffbf96103fcd50cad7564a1ddfd540458e82c6ad87246857908bef96ea5022",
+      "bytes": 4029
+    },
+    {
+      "path": "backend/internal/service/realyu_pricing_migration_test.go",
+      "sha256": "a55c20bec08879c1df362902edd1809c1c7869a95a0853ac86489845b911323b",
+      "bytes": 4670
+    },
+    {
+      "path": "backend/internal/service/realyu_public_catalog.go",
+      "sha256": "85babb0d5386b1959c19adc58e22f6940ca40038458adfb8253728681c8fce33",
+      "bytes": 4018
+    },
+    {
+      "path": "backend/internal/service/realyu_public_catalog_test.go",
+      "sha256": "b254b158bb61d2751cc24df090af5dec7e58fdee3e5249da7fb68f31518bfc18",
+      "bytes": 1981
+    },
+    {
+      "path": "backend/internal/service/realyu_purchase.go",
+      "sha256": "8d85e445bc820ea507fa4960e99264b79faac1055c82a9341d3c7ffb1c9d1c71",
+      "bytes": 7016
+    },
+    {
+      "path": "backend/internal/service/realyu_purchase_test.go",
+      "sha256": "dd4f628440cbb08ff0e9f9109bc6b844719472398d181fb89dd8c309a69d7c0d",
+      "bytes": 7145
+    },
+    {
+      "path": "backend/internal/service/realyu_recharge.go",
+      "sha256": "1c632e46c6210f2d7aaa18a9124cb9178c4e37df2099aa92626d188fc931c9dc",
+      "bytes": 3990
+    },
+    {
+      "path": "backend/internal/service/realyu_recharge_test.go",
+      "sha256": "d2dfc9da2ee215a69ad9dde32e2643ebb82947d49930b56659f4581ec46977e6",
+      "bytes": 2255
+    },
+    {
+      "path": "backend/internal/service/realyu_response_scope.go",
+      "sha256": "8f805cb447df23ebee6707059757d8e61a496fbf9f4791804995e282e3730d9c",
+      "bytes": 397
+    },
+    {
+      "path": "backend/internal/service/realyu_response_scope_test.go",
+      "sha256": "b1c0f28e5f8450493732cbc234318c94dfaa59a12c460f74ce2b5d43e8d831d0",
+      "bytes": 1963
+    },
+    {
+      "path": "backend/internal/service/realyu_setup_key.go",
+      "sha256": "e15e2fbeaee102ec43cf09ed6700f3c63911c58dec82c1744bce851530a68476",
+      "bytes": 2099
+    },
+    {
+      "path": "backend/internal/service/realyu_signup_key.go",
+      "sha256": "9095d06acaa6909b13d9ebc0a8484c564114c654655bf2c0068b74ededf3c897",
+      "bytes": 1023
+    },
+    {
+      "path": "backend/internal/service/realyu_subscriptions.go",
+      "sha256": "ccff37bdd13cdf2da5bc5ca9b9aafbcc848e8bdc7878a66ba3f24d3d4241634e",
+      "bytes": 3422
+    },
+    {
+      "path": "backend/internal/service/realyu_team.go",
+      "sha256": "f13e3c0f29528845cd4f9c091ed5148ca50cb47db2bec035ed794932ecdf6f36",
+      "bytes": 4751
+    },
+    {
+      "path": "backend/internal/service/realyu_usage_history.go",
+      "sha256": "bce6ec5a7c5d6b0556ab50d53f237814878206264fa5cf6d9cf95e2bbca5176c",
+      "bytes": 5639
+    },
+    {
+      "path": "backend/internal/service/setting_parse.go",
+      "sha256": "f423c272c2877ca69a6e31a904a9bb8be60899f7706cd61b100ee4e674e65404",
+      "bytes": 67080
+    },
+    {
+      "path": "backend/internal/service/setting_public.go",
+      "sha256": "8f3a083164b91f4d5a54e6bbc8913516bfe0db5144281e24f8f69bff0bd49547",
+      "bytes": 39001
+    },
+    {
+      "path": "backend/internal/service/setting_realyu_signup.go",
+      "sha256": "66f15830b1558ff6051d7bc5e9504278b5dc1f2ec25a61c82073206c8adf52c1",
+      "bytes": 2776
+    },
+    {
+      "path": "backend/internal/service/setting_update.go",
+      "sha256": "5d6c082b06bd25f4d4509e5387cf02876b708a23fef639aa94572c20ad209adc",
+      "bytes": 45897
+    },
+    {
+      "path": "backend/internal/service/settings_view.go",
+      "sha256": "b513d18c589ff15ae7a0dda22d9c8b42f6110f75ed22bad8669d8201371107aa",
+      "bytes": 33051
+    },
+    {
+      "path": "backend/internal/service/usage_billing.go",
+      "sha256": "6f8c96c56461e597e2f6347ca660fb0ae0b5bd26bb077be1c7264392acd318f9",
+      "bytes": 7895
+    },
+    {
+      "path": "backend/internal/service/user.go",
+      "sha256": "94cfc3702bfe8673841c9b980f23222a13a9f12572b0e5aa7114e4836911ea1b",
+      "bytes": 3811
+    },
+    {
+      "path": "backend/internal/service/user_service.go",
+      "sha256": "c98124891eb6db6ede6167829770df46164e6d0e74150608903a269f22802a82",
+      "bytes": 50262
+    },
+    {
+      "path": "backend/internal/service/wire.go",
+      "sha256": "cbae3a769b869b83a0046833e5ec902503b0abe767a71152ca9503ea2766a8b6",
+      "bytes": 41650
+    },
+    {
+      "path": "backend/internal/web/embed_off.go",
+      "sha256": "f27d24419b83c03873956f1da1ca463ccb7642b03632983c84d890112edaaf76",
+      "bytes": 1428
+    },
+    {
+      "path": "backend/internal/web/embed_on.go",
+      "sha256": "45b99a5636ba6f6069680ac133ac416a8f32352f4a317ffbf207ada724f82eb4",
+      "bytes": 11942
+    },
+    {
+      "path": "backend/internal/web/realyu_brand_test.go",
+      "sha256": "c786b55ee395f6012168c6917a961cff7eba8c7e0210fb3b0f36b19f0c83f724",
+      "bytes": 1124
+    },
+    {
+      "path": "backend/internal/web/realyu_client_embed_test.go",
+      "sha256": "b97b1e3f56ec0df0cf47200c4cdc993ee4e20a78accaec12af51795c3c46e800",
+      "bytes": 479
+    },
+    {
+      "path": "backend/internal/web/realyu_public_seo.go",
+      "sha256": "2e1b0a823ee6e4caeec3225dd435133144856136048cdcf17a34a688c4ce3abe",
+      "bytes": 9441
+    },
+    {
+      "path": "backend/internal/web/realyu_public_seo_test.go",
+      "sha256": "5e1e86ded35af444da11c73bd73f08e4d21afedba96ada68dac38d908bf7d485",
+      "bytes": 2854
+    },
+    {
+      "path": "backend/migrations/300_realyu_legacy_identity.sql",
+      "sha256": "f2c73391af38f86b007534dcc86805773f3bdf4972ede392fe7f7a2ee5b3d632",
+      "bytes": 779
+    },
+    {
+      "path": "backend/migrations/301_realyu_funding.sql",
+      "sha256": "594c177edab973a28f7a0a88a313cdd249114edb6b42dc193d92c12aa605063a",
+      "bytes": 4207
+    },
+    {
+      "path": "backend/migrations/302_realyu_migration.sql",
+      "sha256": "f9b097d7d297bf20a1d49e171e0cd0e3346194d3b2a4919b16acfe541959396e",
+      "bytes": 1797
+    },
+    {
+      "path": "backend/migrations/304_realyu_legacy_payment_inbox.sql",
+      "sha256": "40cd49e426717024bc649cc94527e944912638a017e650dac0be369d41505e2a",
+      "bytes": 1869
+    },
+    {
+      "path": "backend/migrations/305_realyu_teams.sql",
+      "sha256": "d2b0f9ebd991afc38fa606fcee74e6a9d0b9af05f4745023286683e19b9adb94",
+      "bytes": 2501
+    },
+    {
+      "path": "backend/migrations/306_realyu_managed_purchases.sql",
+      "sha256": "2c19e87bb7b7972ca98c586a011b0595f0d09eaa5e1ee04b313c0ea954e7dc65",
+      "bytes": 2684
+    },
+    {
+      "path": "backend/migrations/307_realyu_team_member_nicknames.sql",
+      "sha256": "1c1684037a4b480b35f37baba0f5cc032e13be746be5a99ffdf3c5b2e9c4d92b",
+      "bytes": 196
+    },
+    {
+      "path": "backend/migrations/308_realyu_usage_history.sql",
+      "sha256": "a3597393fe93c23228a18787e5ade07b9c8332201c347b23df8b36bfc8ddf664",
+      "bytes": 2587
+    },
+    {
+      "path": "backend/migrations/309_realyu_recharge_precision.sql",
+      "sha256": "688ff7fda33d3c1b4c22617650d4244cb2131028e97fcbb145b2aa22216e8d6b",
+      "bytes": 450
+    },
+    {
+      "path": "backend/migrations/310_realyu_admin_entitlements.sql",
+      "sha256": "68c72e9d6e1e3ed44ed7a8a717947f6d539f5776964320208938f00adfd0dae3",
+      "bytes": 1085
+    },
+    {
+      "path": "deploy/realyu/.gitignore",
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+      "bytes": 19
+    },
+    {
+      "path": "deploy/realyu/ADMIN-ENTRY-AND-BRANDING.md",
+      "sha256": "31bf89bf3ba9dba6f1cce56ec94490845e9ae70a1a58e462ed8c3fc902e54f7d",
+      "bytes": 4639
+    },
+    {
+      "path": "deploy/realyu/CUSTOMER-CURRENCY.md",
+      "sha256": "b003b8a6b0fadd7b2078f0567484ca86278c52d2221ebfacd3789f22bb36cb24",
+      "bytes": 7522
+    },
+    {
+      "path": "deploy/realyu/FUNDING-ERROR-REASONS-20261015.md",
+      "sha256": "5fd556ace31d12cbcf370a73bae59ed316d4a2d214566024d30c1caa75f07aa1",
+      "bytes": 2653
+    },
+    {
+      "path": "deploy/realyu/README.md",
+      "sha256": "831b9ba8984bf5c766ea4f3bf429cf8012700e901268f7ed99fded2ee491fcec",
+      "bytes": 13387
+    },
+    {
+      "path": "deploy/realyu/USAGE-HISTORY.md",
+      "sha256": "c0e65198f5892d0b874b3b4e84bfdddba51fc09e86d629cd58a0ab12b3f495ab",
+      "bytes": 9722
+    },
+    {
+      "path": "deploy/realyu/UX-E2E-MATRIX.md",
+      "sha256": "70575f96b8ae77dfd41a5a53acf2256b7d764e973b948c50e48e07286a228d12",
+      "bytes": 12816
+    },
+    {
+      "path": "deploy/realyu/UX-HANDOFF-SMOKE-CHECKLIST.md",
+      "sha256": "fb8da3931a2d5540eb267c7d4cee40ef5ec87f7da9dfe418bcd66aa961361c2e",
+      "bytes": 7480
+    },
+    {
+      "path": "deploy/realyu/brand-settings.json",
+      "sha256": "afe44f20799d8ad9e867c2079eb65717c007008491f0a924ffa4032bbd0c040f",
+      "bytes": 198
+    },
+    {
+      "path": "deploy/realyu/branding-settings.json",
+      "sha256": "adeda3b60b5725076bf1a1971bd2cfd138bc310a646dc125615b973903838bbf",
+      "bytes": 90
+    },
+    {
+      "path": "deploy/realyu/import_team_history.py",
+      "sha256": "d21d54ec4010a87cdbe54227ffd2e897a880621d38b527b03d9bbb67de8ac22b",
+      "bytes": 13303
+    },
+    {
+      "path": "deploy/realyu/import_usage_history.py",
+      "sha256": "3ef8b282e4c9fb99c14add41d8d82f6a17264481d16c7db52dc936cc29366bb6",
+      "bytes": 17935
+    },
+    {
+      "path": "deploy/realyu/run_funding_reason_pg_tests.py",
+      "sha256": "21cff68047ef7ac7b77e76f0863a827d582fbb16e16a8696b09e0ffc6aa88091",
+      "bytes": 1186
+    },
+    {
+      "path": "deploy/realyu/test_import_team_history.py",
+      "sha256": "c197e5c200fd13ded1d51e0cc07f30b8c34f8015d26f248360fa9a1f5dbb904f",
+      "bytes": 9629
+    },
+    {
+      "path": "deploy/realyu/test_import_usage_history.py",
+      "sha256": "f68eef87d7a7f48872d7365ee928d4686a363a878c77c81e06e7defefb513f99",
+      "bytes": 12093
+    },
+    {
+      "path": "deploy/realyu/test_ux3_usage_http_e2e.py",
+      "sha256": "7676fbcca185d1626eff28f424099e3fe42dacb3237ee5c5da2c918831a04383",
+      "bytes": 6704
+    },
+    {
+      "path": "deploy/realyu/test_ux4_usage_http_e2e.py",
+      "sha256": "9d30869df2f63ff181fe3cacd41704fbdcbd72829d2009ab916b5acaae0c6299",
+      "bytes": 5453
+    },
+    {
+      "path": "deploy/realyu/test_ux_history_http_e2e.py",
+      "sha256": "3c9273cced19d88690bd5302e04ea6c94fe0ec77e9d727e0a4dcace9855b64eb",
+      "bytes": 2644
+    },
+    {
+      "path": "deploy/realyu/ux3_usage_http_e2e.py",
+      "sha256": "10badf406521cd1287b27b8a57f7cee12e4b75fcfa1bfa936d9efb18bd043077",
+      "bytes": 28319
+    },
+    {
+      "path": "deploy/realyu/ux4_usage_http_e2e.py",
+      "sha256": "0c9a9dbf359d724fe0e987b2c0ea96e1275ec6362c0ec217a93ab5ea3f4dacd0",
+      "bytes": 13905
+    },
+    {
+      "path": "deploy/realyu/ux_history_http_e2e.py",
+      "sha256": "7534e29230195f555bde8cac89f2d8db457113fc4812b51c843420275d90703a",
+      "bytes": 30040
+    },
+    {
+      "path": "frontend/public/brand/apple-touch-icon.png",
+      "sha256": "550a5959a906350010a6c5c1f1d01512b23cc2787ed68fdb7f745303ef95b36e",
+      "bytes": 10003
+    },
+    {
+      "path": "frontend/public/brand/favicon.ico",
+      "sha256": "db582b41508ae1d3659d4ab6eb6a10215675c48941a88a2f6c4abdbec0a7a78a",
+      "bytes": 25534
+    },
+    {
+      "path": "frontend/public/brand/icon-192.png",
+      "sha256": "1edcfbfdf2584a4e6d968c5880da5017dafdfaad90745a5dfcb4284fdfe0dec3",
+      "bytes": 10909
+    },
+    {
+      "path": "frontend/public/brand/icon-512.png",
+      "sha256": "6b819a1f8bcc323f0600f628d6612db8b2bfc1d33558490952ec946ace3d10da",
+      "bytes": 35710
+    },
+    {
+      "path": "frontend/public/brand/realyu-wordmark.png",
+      "sha256": "5ece645eab7a0f56bad7a13ef757df5d0b940c8532839876e3cc381839323e42",
+      "bytes": 80803
+    },
+    {
+      "path": "frontend/public/llms.txt",
+      "sha256": "6c0a78b6df2eba3dea349f3d49839a7f7f1da04a0ad0d6ac51ca616c750c498c",
+      "bytes": 988
+    },
+    {
+      "path": "frontend/public/realyu-docs.en.json",
+      "sha256": "c97a4780b681a9c4873eaf6e8fc1e373f588b91dd84a4f12dd69d8a78f083a6e",
+      "bytes": 4492
+    },
+    {
+      "path": "frontend/public/realyu-docs.zh.json",
+      "sha256": "a7c9a00a3f456aa5def08f25cf7dd866df4dae92fb7587253668b486611969cf",
+      "bytes": 4071
+    },
+    {
+      "path": "frontend/public/robots.txt",
+      "sha256": "eadc905debaf2011685d5cca746be4b1f3d20c4358a19f98a1758a03ee13fb61",
+      "bytes": 352
+    },
+    {
+      "path": "frontend/public/sitemap.xml",
+      "sha256": "74fc609f252de3bf5ab356d5438b74a889aa1d40d04df8eda5adbdb3b44d3ba4",
+      "bytes": 452
+    },
+    {
+      "path": "frontend/src/App.vue",
+      "sha256": "2806cc13d6e929731228c79e222a17164f3266ab04999b9678e4b8a57bb876db",
+      "bytes": 5061
+    },
+    {
+      "path": "frontend/src/__tests__/App.admin-entry.spec.ts",
+      "sha256": "50cd4574836ef091b25b6752a4316cfc96347914e6eef0458b61b4f008ad6818",
+      "bytes": 2927
+    },
+    {
+      "path": "frontend/src/api/__tests__/client.spec.ts",
+      "sha256": "567ab1e4f7285b9b4a48bb04b3d95fd267aa5f7c1e88f4257d655066ec646eea",
+      "bytes": 17685
+    },
+    {
+      "path": "frontend/src/api/admin/payment.ts",
+      "sha256": "bc4103b2b8fdbf421ba7d879e36005ff9f549fc347f3cd5f31cbfd57f4a6f4b9",
+      "bytes": 5805
+    },
+    {
+      "path": "frontend/src/api/client.ts",
+      "sha256": "31f7c00e4cdf08f1bde9c6468611ea6a6dd399da749d3ab8c96f37e090cc1529",
+      "bytes": 9213
+    },
+    {
+      "path": "frontend/src/api/keys.ts",
+      "sha256": "e72970696edaff9c131a14b8c4f115dcc8fb95d8e02c8c09019b25d00dbdfc00",
+      "bytes": 4977
+    },
+    {
+      "path": "frontend/src/api/payment.ts",
+      "sha256": "49b0033163ae5825ae95fafb2965d0f0340ead96427f6f15eca9c3ed353eb486",
+      "bytes": 2964
+    },
+    {
+      "path": "frontend/src/api/realyuAdmin.ts",
+      "sha256": "5e97bf3de3b70ed6e03557c6643b2e81465c97e9ff907de8f19aef1dc48d7072",
+      "bytes": 1070
+    },
+    {
+      "path": "frontend/src/api/realyuTeams.ts",
+      "sha256": "251aac33e6f73427a5f99bfcc26e14041ebdf92338c061f1047f1323d632ec44",
+      "bytes": 3552
+    },
+    {
+      "path": "frontend/src/api/realyuUsage.ts",
+      "sha256": "80e608f007b07ee3edbe35beafb81a547ab1c84592ecb52d10857180cd4d6a60",
+      "bytes": 2729
+    },
+    {
+      "path": "frontend/src/api/subscriptions.ts",
+      "sha256": "fbd6a8a4bcdc8c32c680ec4a86423edb8b1550092b1ec7db363f06d1edd24201",
+      "bytes": 2070
+    },
+    {
+      "path": "frontend/src/components/account/AccountStatsModal.vue",
+      "sha256": "8dc9aed5221b51e838a5d7c242ef403dd5ae451a9814816cdd036a8817bdcd4f",
+      "bytes": 28538
+    },
+    {
+      "path": "frontend/src/components/account/AccountTodayStatsCell.vue",
+      "sha256": "5ec76fade5576480dbbc35dc54fe06bed181b53e6196a024f3b83dcf146c7c9c",
+      "bytes": 2868
+    },
+    {
+      "path": "frontend/src/components/account/AccountUsageCell.vue",
+      "sha256": "6549cc77d3a56c7987bde8447a6fdb9c62bf1a41a4326c947b690fbea64885d7",
+      "bytes": 65262
+    },
+    {
+      "path": "frontend/src/components/account/__tests__/AccountStatsModal.currency.spec.ts",
+      "sha256": "4650528ec12b1fcb04deb896e2633c700888ef08d5d3f59a9a3120d819927474",
+      "bytes": 6346
+    },
+    {
+      "path": "frontend/src/components/account/__tests__/AccountStatusIndicator.locales.spec.ts",
+      "sha256": "3d71dcc407f01bbb3378d39015fffd81d493d8649c17399335265b7c03d7af8d",
+      "bytes": 1829
+    },
+    {
+      "path": "frontend/src/components/account/__tests__/AccountUsageCell.spec.ts",
+      "sha256": "5c3e3a192f75cad04753175d6347c8fc0ea8b1c9439aa437f685e8482641bd84",
+      "bytes": 51675
+    },
+    {
+      "path": "frontend/src/components/admin/account/AccountStatsModal.vue",
+      "sha256": "7d84974bedbb7b7cc7e064b2a850e10ba4541205b51818434df717ccca74c5fa",
+      "bytes": 26965
+    },
+    {
+      "path": "frontend/src/components/admin/usage/UsageFilters.vue",
+      "sha256": "2a0459725f96ea7de79af8efbecc6fa37bd5837c4755f7d109f6e54e42edba72",
+      "bytes": 18913
+    },
+    {
+      "path": "frontend/src/components/admin/usage/UsageStatsCards.vue",
+      "sha256": "250d3f49e47b1d0fcf04048a91366c931d75347005e807c97ff3e5552f749943",
+      "bytes": 5869
+    },
+    {
+      "path": "frontend/src/components/admin/usage/UsageTable.vue",
+      "sha256": "b6e704e7e7e4e79d1388d8c97cdcd177883050509f4d8c52953e982768394f42",
+      "bytes": 44876
+    },
+    {
+      "path": "frontend/src/components/admin/usage/UserTokenRanking.vue",
+      "sha256": "45c09556be9e8e45b8f5d6c7f3cd9fb77c85adc582ebed649541e577bd2f8296",
+      "bytes": 7515
+    },
+    {
+      "path": "frontend/src/components/admin/usage/__tests__/UsageStatsCards.spec.ts",
+      "sha256": "12ed55baea88bea6fc695b5f8e9e9d7bba687639ebb26556276547475bc212df",
+      "bytes": 3685
+    },
+    {
+      "path": "frontend/src/components/admin/usage/__tests__/UsageTable.spec.ts",
+      "sha256": "201b0f8de90caa2bd0a5725d0bf20abc3416902e8c451348e8205d90a6f7bc51",
+      "bytes": 31419
+    },
+    {
+      "path": "frontend/src/components/admin/usage/__tests__/UserTokenRanking.spec.ts",
+      "sha256": "cbfec8d1d00c9b7e284fcbf3c092e08208266d06c3cd81a998a8fdaa46d9f036",
+      "bytes": 2481
+    },
+    {
+      "path": "frontend/src/components/admin/user/UserBalanceHistoryModal.vue",
+      "sha256": "55cff0b42fe85a797bbca4174fb1903743731fd934cf73548b4f871089960e46",
+      "bytes": 13430
+    },
+    {
+      "path": "frontend/src/components/admin/user/UserBalanceModal.vue",
+      "sha256": "b892f4555be0acb75cb3d4a746fd465db9ee569a194c435d26ed046fd105fc39",
+      "bytes": 5369
+    },
+    {
+      "path": "frontend/src/components/admin/user/UserCreateModal.vue",
+      "sha256": "42531c561ebc1efd39e3ac729202fdaf15691bfbc9a2a9eeef577b58c3fadaf2",
+      "bytes": 5971
+    },
+    {
+      "path": "frontend/src/components/admin/user/UserPlatformQuotaModal.vue",
+      "sha256": "6233fdfa76f3627b12c9c9ccdd704468d37d73bbade61d480074b77c394b7531",
+      "bytes": 13484
+    },
+    {
+      "path": "frontend/src/components/admin/user/__tests__/UserBalanceModal.spec.ts",
+      "sha256": "f989837703e76ba45660362b5f97e90d1debf096714e4f40fc009d9cdfc8f7cc",
+      "bytes": 4805
+    },
+    {
+      "path": "frontend/src/components/admin/user/__tests__/UserCreateModal.spec.ts",
+      "sha256": "f445723bd2da5b8ac3c225888d81d0cbc9cde10173ebaac310c425f19b1e9dcb",
+      "bytes": 4227
+    },
+    {
+      "path": "frontend/src/components/admin/user/__tests__/UserPlatformQuotaModal.spec.ts",
+      "sha256": "a3cd21b6806fe279caac5d37beb76aa5a7c10218b773195e54a8dafda1f8ea2b",
+      "bytes": 17585
+    },
+    {
+      "path": "frontend/src/components/charts/EndpointDistributionChart.vue",
+      "sha256": "d04a428553ea68a4b4ce1818dd1ee06789abb57ba8ba35bf6fcdff083b337800",
+      "bytes": 10947
+    },
+    {
+      "path": "frontend/src/components/charts/GroupDistributionChart.vue",
+      "sha256": "bc53eedd892beeae01b643470ba7b656e64100f9d96b46b80b484fd293b1e368",
+      "bytes": 10051
+    },
+    {
+      "path": "frontend/src/components/charts/ModelDistributionChart.vue",
+      "sha256": "ef3f6a1202a8f7d56e5900d7828355bc05750ee58baa952d59b3ada23b7791a3",
+      "bytes": 20092
+    },
+    {
+      "path": "frontend/src/components/charts/TokenUsageTrend.vue",
+      "sha256": "8221191ef95bf6e30c264b8013db9e1b0c62f00f7a35e47e522b3f2da4e1a19a",
+      "bytes": 5599
+    },
+    {
+      "path": "frontend/src/components/charts/UserBreakdownSubTable.vue",
+      "sha256": "3cd483b81390ce2c42ff45b45070fb891e4992921b9cd524c9e3c9f0cdb83584",
+      "bytes": 2618
+    },
+    {
+      "path": "frontend/src/components/charts/__tests__/GroupDistributionChart.spec.ts",
+      "sha256": "76dcc149f43ae122c56837bd1fd765e0cb7b16198d3a3ec5a99de1737209af00",
+      "bytes": 3885
+    },
+    {
+      "path": "frontend/src/components/charts/__tests__/ModelDistributionChart.spec.ts",
+      "sha256": "198ae4ca12092263bcd762aa6a0c07af347ff717075ea19b3ec0e25f478c8b8d",
+      "bytes": 6687
+    },
+    {
+      "path": "frontend/src/components/charts/__tests__/TokenUsageTrend.spec.ts",
+      "sha256": "4f0d2250a2ec1d64e4e3becf3e2e9dce2a298853e2449d20ea9cf850b56eeaa1",
+      "bytes": 4009
+    },
+    {
+      "path": "frontend/src/components/common/BaseDialog.vue",
+      "sha256": "03a0d052d4bb9dd08bb4f07d4a98f6985001538dc75acacfb5e4489ce47569a4",
+      "bytes": 6722
+    },
+    {
+      "path": "frontend/src/components/common/LocaleSwitcher.vue",
+      "sha256": "b77e6977ea2071dc3cb31bf4759a1a19d0b6d39612c6db3ba81ce66f305aba36",
+      "bytes": 3027
+    },
+    {
+      "path": "frontend/src/components/common/SubscriptionProgressMini.vue",
+      "sha256": "8285a500fe8bd70d64632abd71705efc03acc881ffdd8a22f42fc63105b1e8ee",
+      "bytes": 12891
+    },
+    {
+      "path": "frontend/src/components/common/ThemeToggle.vue",
+      "sha256": "8e82758af51863acb652ce2350a4f9000aea2e3f951d67ce15468069e4d65fbc",
+      "bytes": 1019
+    },
+    {
+      "path": "frontend/src/components/keys/BulkEditKeysModal.vue",
+      "sha256": "ad5b65c0302cdd19cc4be5122da11e7a58680153367b66757212c3fd3683152f",
+      "bytes": 10864
+    },
+    {
+      "path": "frontend/src/components/keys/__tests__/BulkEditKeysModal.spec.ts",
+      "sha256": "eeebc68b8084692d3a0d297630d7c62b57f2e9248bf3968f826380220cbc4ee4",
+      "bytes": 8263
+    },
+    {
+      "path": "frontend/src/components/layout/AppHeader.vue",
+      "sha256": "1af2af60ae4806d9f678310817bda90fdc69ea5ef33ea07e999bf69f81136c49",
+      "bytes": 19044
+    },
+    {
+      "path": "frontend/src/components/layout/AppLayout.vue",
+      "sha256": "20aa7f8c7fbcaaacbbae1fd9e07782cfa9ef9c892819c034b45f597d9f39db5f",
+      "bytes": 1594
+    },
+    {
+      "path": "frontend/src/components/layout/AppSidebar.vue",
+      "sha256": "6c2439f24672d2524e7faab6a253945588f837f2d267e99d54349808e049110c",
+      "bytes": 46802
+    },
+    {
+      "path": "frontend/src/components/layout/AuthLayout.vue",
+      "sha256": "a83e7c1a27b4194f8e95b89c24913ae064b85f184c3ea0487a08a8502d55e56e",
+      "bytes": 3107
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/ModelPlazaContent.vue",
+      "sha256": "321ea2549fda4eb714ef9bfea288da92610c0ff8458fec7887dbe03c7bad8c57",
+      "bytes": 6888
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/PlazaGroupSection.vue",
+      "sha256": "2299c01871063d29f73f33f6593144d3f2f86f76e64df856cbd8988aa808a748",
+      "bytes": 4974
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/PlazaModelPricingTable.vue",
+      "sha256": "ad41d04073c1c1a27029f19e52da474987c5fa8154cdbf8e17203d4e5282d350",
+      "bytes": 27989
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/__tests__/ModelPlazaContent.realyu.spec.ts",
+      "sha256": "c00aeb032c45d4b2c12eaf69fde23ed644c77958a5bad2043c7053ed987b2159",
+      "bytes": 2593
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/__tests__/PlazaGroupSection.spec.ts",
+      "sha256": "faae2e0ee6082f530eb10b36f4fcad53b64b8cef6f820b3c1d0292e3313d6b55",
+      "bytes": 5007
+    },
+    {
+      "path": "frontend/src/components/modelPlaza/__tests__/PlazaModelPricingTable.spec.ts",
+      "sha256": "19529e1c78d8d4e787f7a1cf4a6e3544a0f75cef17b486b48a186ba099b83954",
+      "bytes": 30054
+    },
+    {
+      "path": "frontend/src/components/payment/AmountInput.vue",
+      "sha256": "b98f81df6f476d297d59cf3112b4da12320167f45651e9117e16caa161992dec",
+      "bytes": 6866
+    },
+    {
+      "path": "frontend/src/components/payment/OrderTable.vue",
+      "sha256": "718234d3693b8386bc154ad996df3aa869b94dfe8501e047740b627763e42305",
+      "bytes": 3610
+    },
+    {
+      "path": "frontend/src/components/payment/PaymentQRDialog.vue",
+      "sha256": "44c1d7d952451b502e7b4640189c6ea283c0ff356703465f153043e6f666e3a2",
+      "bytes": 10548
+    },
+    {
+      "path": "frontend/src/components/payment/PaymentStatusPanel.vue",
+      "sha256": "0444b60457052aec22b329ee655e3f3485aca6a93a0291ed171282f2928447bc",
+      "bytes": 21441
+    },
+    {
+      "path": "frontend/src/components/payment/SubscriptionPlanCard.vue",
+      "sha256": "6807150610ed53e798c7588afe41589b7ad54866d391b8d72cc8bec6b3825b91",
+      "bytes": 11071
+    },
+    {
+      "path": "frontend/src/components/payment/__tests__/AmountInput.spec.ts",
+      "sha256": "029658c073810be62675c5b0ce8c5e0aff113e974a547ce78c0cc463636798d4",
+      "bytes": 4912
+    },
+    {
+      "path": "frontend/src/components/payment/__tests__/PaymentQRDialog.spec.ts",
+      "sha256": "6969332713c2aae440ef1f1126d33393a15ee7b06dbf2236c7b7ae95be1960fc",
+      "bytes": 2454
+    },
+    {
+      "path": "frontend/src/components/payment/__tests__/PaymentStatusPanel.spec.ts",
+      "sha256": "e368993b99b4012769ea6801fbd16d04d2fb809eb574146a00cbd77bddbd4c4c",
+      "bytes": 11202
+    },
+    {
+      "path": "frontend/src/components/payment/__tests__/SubscriptionPlanCard.spec.ts",
+      "sha256": "2d3452eb3138bbea264d7128bf7eab2af962903dc0eb768d3c35dbde0ca82e74",
+      "bytes": 7632
+    },
+    {
+      "path": "frontend/src/components/payment/__tests__/paymentFlow.spec.ts",
+      "sha256": "3e228b7abb32aad15880c36246e85e6565d1ed33d2c0b2816cf849339c4f9a10",
+      "bytes": 15862
+    },
+    {
+      "path": "frontend/src/components/payment/paymentFlow.ts",
+      "sha256": "782ca463e57c38817c44572795d59b9edcf6f0eb901abdf39cbc30c6bf144868",
+      "bytes": 11571
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuAdminSubscriptionDialog.vue",
+      "sha256": "a1269a3a926afcb3177d2e18ae9e034b7d161ca1ffa8d139a9dde5b0d05d14a4",
+      "bytes": 10171
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuPaygoCard.vue",
+      "sha256": "0b2e8db3c7f41eedf0112c694610e8c677a008273f5b04d4ed71eb2d12bf4285",
+      "bytes": 1078
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuPersonalEntitlements.vue",
+      "sha256": "f33e4ff8362e8ddc648ffd7499481445279a9057a7c6b018ac75c84af9609b66",
+      "bytes": 5434
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuTeamActionMenu.vue",
+      "sha256": "65dbf54756cbe3fc803a02b94c810c20347a1f1b09d077b20c1e6fb23a7e2e13",
+      "bytes": 5047
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuUsageAnalytics.vue",
+      "sha256": "d8e79e754bf7e0dac63be50331651f48e76fd873c0249131673ef8f1dcfec058",
+      "bytes": 13742
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuUsageDateRange.vue",
+      "sha256": "43e58ab496fe11f2374eb73a3e21a80f744ef623149e95f79f38835e1c25c331",
+      "bytes": 5174
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuUsageDetails.vue",
+      "sha256": "1f50f4ba87fc3812188711cef9d09be60b0d0746bb45151b5f47dd67f2d4f8be",
+      "bytes": 2155
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuUsageOverview.vue",
+      "sha256": "489545761d72c39b3e12ccb80160563046c66b3ed101a401a32ad7619e513695",
+      "bytes": 3095
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuUsageTiming.vue",
+      "sha256": "cda880c0a938d6777b50ea8535bb6b476cee5ce68add81920581978953a9de48",
+      "bytes": 2131
+    },
+    {
+      "path": "frontend/src/components/realyu/RealYuWorkspaceSetup.vue",
+      "sha256": "844d6958fe899196c3a473cc454da100651580ff33fc2727ae000a88e67a7389",
+      "bytes": 13230
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuAdminSubscriptionDialog.spec.ts",
+      "sha256": "fc9d532aa74a7e20406a91839bf32e8ca80307696420cbc30a49ad8dc86a3995",
+      "bytes": 6830
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuPaygoCard.spec.ts",
+      "sha256": "218f3242982e74582801b64b95112a42208dcdf5c8a2df7e7e9c247d141f91f1",
+      "bytes": 2026
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuPersonalEntitlements.spec.ts",
+      "sha256": "6ebbd22755504b7f15965d96d224c2ffd3ee6902aa01a304be405b04c6b27ee8",
+      "bytes": 4531
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuTeamActionMenu.spec.ts",
+      "sha256": "b1b9b529c8cba44c3ad1bf369a710a9694ccf646546253c0e4d3dc0386045382",
+      "bytes": 4376
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuUsageAnalytics.spec.ts",
+      "sha256": "377e6d40462878f6a20f45355437b082c3fefd39cab3420073119227ab743e27",
+      "bytes": 6631
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuUsageDateRange.spec.ts",
+      "sha256": "685f75384bf9ecf3ad03c50ade40c575a9477caeaded241b2d315f907c9a698a",
+      "bytes": 2989
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuUsageOverview.spec.ts",
+      "sha256": "00970c4fa6cd82940df47c7c211a11ab43e75a31a8888b875f37f8725d4eb3ac",
+      "bytes": 6854
+    },
+    {
+      "path": "frontend/src/components/realyu/__tests__/RealYuWorkspaceSetup.spec.ts",
+      "sha256": "2892553f03a0889a21a99d3bcd5e513540ab481f52eb76d9ae9734a96f712ce3",
+      "bytes": 13505
+    },
+    {
+      "path": "frontend/src/components/realyu/paygo.ts",
+      "sha256": "9e8c7fccf09cf6ce3dc1162a3473f945d089a73d0700561a44900430edbae232",
+      "bytes": 526
+    },
+    {
+      "path": "frontend/src/components/realyu/public/RealYuHomeAtmosphere.vue",
+      "sha256": "00d4acf5e9bdd3d3df003e3aa042ab6a79f9ae2b584f68c80509e7071f207b8c",
+      "bytes": 2725
+    },
+    {
+      "path": "frontend/src/components/realyu/public/RealYuHomeModels.vue",
+      "sha256": "bdd60d9cf4ad92abe2bb28cdd2aebce953ab8f4c624843f64ce5786cda7b59f2",
+      "bytes": 12362
+    },
+    {
+      "path": "frontend/src/components/realyu/public/RealYuPublicLayout.vue",
+      "sha256": "774e4470f7347c1ebcfaa45042878eb213f821a1809bd93d173e3404717a0d5f",
+      "bytes": 3263
+    },
+    {
+      "path": "frontend/src/components/realyu/public/__tests__/RealYuHomeModels.spec.ts",
+      "sha256": "acda9d1970b701901952be550b9a62baa09a9d8ffc25d15fad6fbc45d1d2af65",
+      "bytes": 7138
+    },
+    {
+      "path": "frontend/src/components/realyu/public/__tests__/RealYuPublicViews.spec.ts",
+      "sha256": "50e9c7f1e5d9179f8283a0dfde5e0307a5e4f989acfb364ede1369ccdab3be01",
+      "bytes": 11697
+    },
+    {
+      "path": "frontend/src/components/realyu/public/home-atmosphere.css",
+      "sha256": "31e0d4a8a5f69b105d260407dfbcbe719abf41c72fe8af40eeda7b8dee3486a0",
+      "bytes": 9460
+    },
+    {
+      "path": "frontend/src/components/realyu/public/realyuPublicDocs.ts",
+      "sha256": "4e0656313e4ade4c56775c0b7f9c8fe6fbde0434b6ad7301cb25cf5b0499959b",
+      "bytes": 1115
+    },
+    {
+      "path": "frontend/src/components/realyu/public/realyuPublicModels.ts",
+      "sha256": "c08293aebf42f0b9a43449447ad72f78404086d347541892645974b856a323bf",
+      "bytes": 1957
+    },
+    {
+      "path": "frontend/src/components/user/PlatformCostCell.vue",
+      "sha256": "38ce24c10bd69295de317dc629b82e3fd59c4ad01ae214c744ae2c887c6bbefe",
+      "bytes": 946
+    },
+    {
+      "path": "frontend/src/components/user/PlatformUsageBreakdown.vue",
+      "sha256": "12b779c2c9ccb4ea722c6bacee0eb9db941365a992c1e927747aa6010994649a",
+      "bytes": 3754
+    },
+    {
+      "path": "frontend/src/components/user/UserErrorDetailModal.vue",
+      "sha256": "1db743e20dfa275221cb61bb770d873c57de5fc2134a40b7c314ad9b0bf3bf1d",
+      "bytes": 5739
+    },
+    {
+      "path": "frontend/src/components/user/UserErrorRequestsTable.vue",
+      "sha256": "0f12f71c0027756ac59cc905da56c30a4b8a2337e4205adae38dc3ac878c93a1",
+      "bytes": 7987
+    },
+    {
+      "path": "frontend/src/components/user/UserPlatformQuotaCell.vue",
+      "sha256": "8395335c427c29446260032972741e435ba7be1e958f0d7f9880405afce81428",
+      "bytes": 2515
+    },
+    {
+      "path": "frontend/src/components/user/__tests__/PlatformMoneyCells.spec.ts",
+      "sha256": "68795a0fa5922509d48365ec9621bd1ec588a4e5e0792904ef095816cdf1099b",
+      "bytes": 2237
+    },
+    {
+      "path": "frontend/src/components/user/__tests__/UserPlatformQuotaCell.spec.ts",
+      "sha256": "335dae3e6607d659f264eea933a3d0dc1776f0d7567d663826fc49c7838a05e5",
+      "bytes": 3033
+    },
+    {
+      "path": "frontend/src/components/user/dashboard/UserDashboardCharts.vue",
+      "sha256": "8a18aff83f4e88ea41eb5c89b8622991e98524ae2497f3afc5f19ae6c90131d5",
+      "bytes": 5510
+    },
+    {
+      "path": "frontend/src/components/user/dashboard/UserDashboardQuickActions.vue",
+      "sha256": "b675fa6b59290203c948dd44ddb09192f92fd560f964764731c98db699c01729",
+      "bytes": 3959
+    },
+    {
+      "path": "frontend/src/components/user/dashboard/UserDashboardRecentUsage.vue",
+      "sha256": "74214140bacaa19d0f2b6859996e60f1aedc634357ce88b5f13e6fde37e27786",
+      "bytes": 3004
+    },
+    {
+      "path": "frontend/src/components/user/dashboard/UserDashboardStats.vue",
+      "sha256": "43a8f8d5d556a4da5123dfcec5f207c1796ca042ce5937fd006a329424967ab6",
+      "bytes": 18486
+    },
+    {
+      "path": "frontend/src/components/user/dashboard/__tests__/UserDashboardStats.spec.ts",
+      "sha256": "686237df7b16dee5d2e52b8f067fd65477cad365b6db1b334b9c5b29178335b3",
+      "bytes": 7000
+    },
+    {
+      "path": "frontend/src/components/user/dashboard/__tests__/UserDashboardTerminology.spec.ts",
+      "sha256": "3df435b1bee3cab3de89feaadbabb16ac433033b8e76425763e3d8c594bee6e0",
+      "bytes": 3522
+    },
+    {
+      "path": "frontend/src/components/user/profile/ProfileBalanceNotifyCard.vue",
+      "sha256": "068b08a85a56d1165e8f5ad18539c7bf7aadef9cfe2eaa4d91705d2953f551f0",
+      "bytes": 17121
+    },
+    {
+      "path": "frontend/src/components/user/profile/ProfileEditForm.vue",
+      "sha256": "d3dc11b926ed717123e64b87ede7ba16e9608ed9bbd551bd60e7a691e36fd5d0",
+      "bytes": 2653
+    },
+    {
+      "path": "frontend/src/components/user/profile/ProfileIdentityBindingsSection.vue",
+      "sha256": "58a0c255c7fb057d50cc02562f06637722aad8db43cba6793d8dc46f72696f64",
+      "bytes": 21860
+    },
+    {
+      "path": "frontend/src/components/user/profile/ProfileInfoCard.vue",
+      "sha256": "a845304cb08328821154d46be889e8cb2140cf1ccf240c0b38cf06729df88e71",
+      "bytes": 13306
+    },
+    {
+      "path": "frontend/src/components/user/profile/ProfilePasswordForm.vue",
+      "sha256": "3599d74ed3c44b9ecce8626f8548b7ec51795b4cbb038707447926bfedba1b81",
+      "bytes": 3827
+    },
+    {
+      "path": "frontend/src/components/user/profile/__tests__/ProfileBalanceNotifyCard.spec.ts",
+      "sha256": "6d77aeb28608977ad20838a9600bbb0f83496bef75c07fba2f3b804c5bfa0bcc",
+      "bytes": 6823
+    },
+    {
+      "path": "frontend/src/components/user/profile/__tests__/ProfileInfoCard.spec.ts",
+      "sha256": "6119fd76454b6063f62fb7885b16aab6c69efebd7d9ee93e86be1bd077825289",
+      "bytes": 7019
+    },
+    {
+      "path": "frontend/src/components/user/profile/__tests__/ProfilePasswordForm.spec.ts",
+      "sha256": "ee5525964d349dfef286064957ccbc9ebe1ac4df3abc29db37edd8ce50a62533",
+      "bytes": 4495
+    },
+    {
+      "path": "frontend/src/i18n/__tests__/localeNavigation.spec.ts",
+      "sha256": "51f3503024649b06635d8bbcd955412abe16f0b392263a24052a583ef72d7f69",
+      "bytes": 4674
+    },
+    {
+      "path": "frontend/src/i18n/__tests__/usageServiceTierLocales.spec.ts",
+      "sha256": "74733a3f7dfaf34ac3107aeb572a4776d90998f04e2d6ea5142136f8f918c87e",
+      "bytes": 845
+    },
+    {
+      "path": "frontend/src/i18n/index.ts",
+      "sha256": "a06623a9c102d771b2a5620faff4d8801e9b653d21460c7a61887fc89a7a4008",
+      "bytes": 3935
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/admin/accounts.ts",
+      "sha256": "81e58fb585f872702411a8e0f9aff978c66883f2173b8e64675b12e22daa02bb",
+      "bytes": 104577
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/admin/overview.ts",
+      "sha256": "ce7f3c7655ba6ed8e6c679abbd7cac27d65b32fe6bcce6b226d0f2cab8c61aa4",
+      "bytes": 63534
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/common.ts",
+      "sha256": "f2b9370372b742edd8fe02b87a2c15eae5451cd7d5c6c3fe94ac4cb27362fd78",
+      "bytes": 21969
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/dashboard.ts",
+      "sha256": "5435fff8026d014d6272eb5574532f8e2e8a6d007e8a6ab3cbe5519e844dae31",
+      "bytes": 45120
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/errorReasons.ts",
+      "sha256": "20d1e3a419dae9e9819192ef53306b3f8f54acd70a11b111e08593a5f02a0947",
+      "bytes": 2181
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/index.ts",
+      "sha256": "8f5f9a85d1773a4e886f8cc39f1ec58d32914614a66d34a1ae859b0b93cc31c4",
+      "bytes": 714
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/landing.ts",
+      "sha256": "f2f78ac3698128ca6c7f93494b12cb8d4d55226bf131c938a1442167677df833",
+      "bytes": 8341
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/misc.ts",
+      "sha256": "5f15688696d3a67a294c0238b05d3c7095a261a467dc3b8f5718050c0eb6df9f",
+      "bytes": 39674
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/realyuAdmin.ts",
+      "sha256": "2b3f45b5c86d2a4ccba6e9d9cc44ff15c1d6aaea9843a26d626907f396869176",
+      "bytes": 1733
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/realyuPublic.ts",
+      "sha256": "5c431777bf35d085d971f248f86a835eafe0a08558ccc951299b441ac6eea5ee",
+      "bytes": 7290
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/realyuPurchase.ts",
+      "sha256": "99f408da950232a484fa624d288d0b72f678ddd6b28f6b4229868faf27a81d8f",
+      "bytes": 1262
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/realyuSetup.ts",
+      "sha256": "f28c93d78b92309b3e9467a4fca8b977778d85f541f0723e64308df7593abcd3",
+      "bytes": 1181
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/realyuTeams.ts",
+      "sha256": "328bf88405abceb54a5eb3f810cf08a61ee61caea927d78e4110261ac32f8d94",
+      "bytes": 3523
+    },
+    {
+      "path": "frontend/src/i18n/locales/en/realyuUx.ts",
+      "sha256": "4300be388ddb17ab2034eb7de28c03dbdc28079b36ff2c52af3aa4c616b0f47a",
+      "bytes": 3641
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/admin/accounts.ts",
+      "sha256": "f87aad8fd7d777b9be3670ce5e8c4e9015aa52fecf5b5613f484c2ad8accd16f",
+      "bytes": 100233
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/admin/overview.ts",
+      "sha256": "d19154dfc3e9e104a43e6a83e3be0a82f4942fd31b46e5136ec0903e1f95eb81",
+      "bytes": 60967
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/common.ts",
+      "sha256": "e8eae5deb3b2e3700e6b5d98e67510f6ede99f9437e1b44c1fd4a36e8d7713d5",
+      "bytes": 20435
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/dashboard.ts",
+      "sha256": "d95a88c89891be7bc006dd282076566610099f27753005a0c3a3c641d02754fe",
+      "bytes": 43799
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/errorReasons.ts",
+      "sha256": "4c620f2889bcedaef4e88902f272545cb75e384e0c978c4e41f750c3427d995c",
+      "bytes": 1960
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/index.ts",
+      "sha256": "8f5f9a85d1773a4e886f8cc39f1ec58d32914614a66d34a1ae859b0b93cc31c4",
+      "bytes": 714
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/landing.ts",
+      "sha256": "941fa193c478cddac216f8571b179b13a5963954160d5e5ce15acf728abd8039",
+      "bytes": 8160
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/misc.ts",
+      "sha256": "9795bf230bac42c0915d23436519161ccbb8d264f3acebef7620503db9754f66",
+      "bytes": 38672
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/realyuAdmin.ts",
+      "sha256": "ad00e8f7e8ea7bd096572578e3ff99e99e76603caec46416c80dda10f5605cda",
+      "bytes": 1636
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/realyuPublic.ts",
+      "sha256": "a99d3261a74a8596cb35c24a0e4984b8011117e7ccd45d5bcfbbaea484662cf3",
+      "bytes": 6794
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/realyuPurchase.ts",
+      "sha256": "5fe02533daaf338b025045b95e2999fb7d0303cc8b086083fedf64dd35a467a7",
+      "bytes": 1198
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/realyuSetup.ts",
+      "sha256": "8df07a8c92379fc46ca12507f17d7598f3f844ac1130517ac01c493a5d957bd2",
+      "bytes": 1203
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/realyuTeams.ts",
+      "sha256": "44dd5a3d399371c4fae3c8041ba468f8d7de14849602c100e0794834df563955",
+      "bytes": 3489
+    },
+    {
+      "path": "frontend/src/i18n/locales/zh/realyuUx.ts",
+      "sha256": "28fc0ddd02b32db158f4da556300658ab246998b10a0269fa9dfe52a63ab741b",
+      "bytes": 3558
+    },
+    {
+      "path": "frontend/src/router/__tests__/feature-access.spec.ts",
+      "sha256": "0dbfcbb4f5ef26dbcc7ed23a7babf2bdbbed60b8127802d8d53434c79c3a7a91",
+      "bytes": 9220
+    },
+    {
+      "path": "frontend/src/router/__tests__/realyu-usage-access.spec.ts",
+      "sha256": "f5644219a22b428a55d377d4fe7bbc20df8d37c4375f356fe2ecd2715f278164",
+      "bytes": 3165
+    },
+    {
+      "path": "frontend/src/router/index.ts",
+      "sha256": "b42c0a1d7ac044f1a4b812de85f327a65c285c710e957f1efa4c34a9994f8d6c",
+      "bytes": 31141
+    },
+    {
+      "path": "frontend/src/stores/app.ts",
+      "sha256": "c73b332c1f5fc9556adef0f0d99c665bdc334b6dcb623e25affa266a4325155d",
+      "bytes": 14351
+    },
+    {
+      "path": "frontend/src/style.css",
+      "sha256": "9306a16cd38e46649728590227a2f8cd0123c289c968107ea6f852ee462583af",
+      "bytes": 19443
+    },
+    {
+      "path": "frontend/src/styles/realyu-brand.css",
+      "sha256": "14fd417713f9bcc132b7ac70da542af0ca780f9c2324bb76a07cd2f8ec1d7d44",
+      "bytes": 7921
+    },
+    {
+      "path": "frontend/src/types/index.ts",
+      "sha256": "2ae1aed7d1a43728da2c7dee1a0743b960785ec542e02d9de3843751e86c5a8b",
+      "bytes": 69986
+    },
+    {
+      "path": "frontend/src/types/payment.ts",
+      "sha256": "b5a0bdff8c932c75a40d927b78b70f7e93ecd2042efd65155a30691af41f16f1",
+      "bytes": 8252
+    },
+    {
+      "path": "frontend/src/utils/__tests__/branding.spec.ts",
+      "sha256": "f31891ce376c74ac9e755e7e64e2d6cf98536d0e2a6fea657b83d31f1a87d98a",
+      "bytes": 2792
+    },
+    {
+      "path": "frontend/src/utils/__tests__/customerMoney.spec.ts",
+      "sha256": "41b288f71061b041cabb41a45f7672d3f51c92799772e9756a0e71d422c66720",
+      "bytes": 3516
+    },
+    {
+      "path": "frontend/src/utils/__tests__/fundingErrorPresentation.spec.ts",
+      "sha256": "63a6ec3ffba85f031a3cb5d68510069b1b97614adb9012cd0bfd9aaeaef7ada9",
+      "bytes": 2998
+    },
+    {
+      "path": "frontend/src/utils/__tests__/realyuPurchase.spec.ts",
+      "sha256": "482bfd26875c229d3d32fad527bdd04799a4ea74b831576e40d52844ba0bf751",
+      "bytes": 2058
+    },
+    {
+      "path": "frontend/src/utils/__tests__/realyuSeo.spec.ts",
+      "sha256": "3fe5a1be3c5e2d80388267c974f68eba42d3fec1e136fc4a371e119bd8c66997",
+      "bytes": 4580
+    },
+    {
+      "path": "frontend/src/utils/__tests__/realyuSetupCommand.spec.ts",
+      "sha256": "8d7161140cb4149b5af6be316346bc5d607e9173e2b95fe6eab207a21b75b3ba",
+      "bytes": 1329
+    },
+    {
+      "path": "frontend/src/utils/__tests__/realyuTeamQuota.spec.ts",
+      "sha256": "3c4a4634d0cf8624df3e28512580125145558fc734b727e9855770c273087f71",
+      "bytes": 726
+    },
+    {
+      "path": "frontend/src/utils/__tests__/realyuUsageDisplay.spec.ts",
+      "sha256": "8a34df831d280b65b20b174de372d5ef68fff02528c222241f3baacae0e69515",
+      "bytes": 2678
+    },
+    {
+      "path": "frontend/src/utils/__tests__/realyuUsageMetrics.spec.ts",
+      "sha256": "2e4c59c36b11c2d42558d368b968cfce0e8ef9d956d96027717b569fa153ed86",
+      "bytes": 1281
+    },
+    {
+      "path": "frontend/src/utils/branding.ts",
+      "sha256": "d15cb955f22e9e2c8c5ceebc5f07200c207176a27c2ecec1cd817042ce305d1c",
+      "bytes": 1648
+    },
+    {
+      "path": "frontend/src/utils/customerMoney.ts",
+      "sha256": "328b3291623ad7a39ec8772d7d45fc5c73090ddf0a1313c5f26975665040756d",
+      "bytes": 5505
+    },
+    {
+      "path": "frontend/src/utils/errorCategory.ts",
+      "sha256": "1fec8676650fc49c37e17c95d9064190e2c7bea89155685604525d2faa1df068",
+      "bytes": 2841
+    },
+    {
+      "path": "frontend/src/utils/latencyHealth.ts",
+      "sha256": "e6f5fb8945e4f879c4907bb8a4061297d492cd6b6106d0ca6433b3bc81f90070",
+      "bytes": 2959
+    },
+    {
+      "path": "frontend/src/utils/realyuDisplay.ts",
+      "sha256": "841e17d2c6251390f7a2841454d0f2aaf67eb28365800e730473022d1dcfadc5",
+      "bytes": 982
+    },
+    {
+      "path": "frontend/src/utils/realyuModelCatalog.ts",
+      "sha256": "cc8490b68553b53b5bb3f3174298db503833438efea6349267cbc25e96bf2304",
+      "bytes": 1523
+    },
+    {
+      "path": "frontend/src/utils/realyuPurchase.ts",
+      "sha256": "951e87daecdc0b5007df6b8b6e00aa08f3c8db0c26c2c8d947ed0c937bf52b60",
+      "bytes": 1891
+    },
+    {
+      "path": "frontend/src/utils/realyuSeo.ts",
+      "sha256": "fab7af464b4e744a57025590af64a7983ae1a8fc5e3a31bb68800b8726a29f9e",
+      "bytes": 3553
+    },
+    {
+      "path": "frontend/src/utils/realyuSetupCommand.ts",
+      "sha256": "ed67a2c90896e800a3d739a12f68fd678b1eb2589660d38fe4582b0bd141540f",
+      "bytes": 2203
+    },
+    {
+      "path": "frontend/src/utils/realyuTeamQuota.ts",
+      "sha256": "5bcfe0688329127815ade2762530b5c1aa913267a2712edc96262d2844a1cc6b",
+      "bytes": 821
+    },
+    {
+      "path": "frontend/src/utils/realyuUsageDisplay.ts",
+      "sha256": "05d2df27581b1a84d7ed69871ff42e193d97db739ea1feff331de23374813b31",
+      "bytes": 860
+    },
+    {
+      "path": "frontend/src/utils/realyuUsageMetrics.ts",
+      "sha256": "59bf11a194899b7bb91bfb7d25007512caa0b65caaaddb9c8df96001424b3f26",
+      "bytes": 1073
+    },
+    {
+      "path": "frontend/src/views/HomeView.vue",
+      "sha256": "992b1beb3cac910cd294c9c6d14b54073f2989f5b2af738c67b62c0a729ce400",
+      "bytes": 29293
+    },
+    {
+      "path": "frontend/src/views/KeyUsageView.vue",
+      "sha256": "bfd5f039f72f923c6248d974d3fa3af0d598fb29b984690c810487306b07aa3e",
+      "bytes": 46023
+    },
+    {
+      "path": "frontend/src/views/ModelPlazaView.vue",
+      "sha256": "005d88132ec632d607a48afda4b344800076e8c0de9780e2ba40ddac2d7c16cb",
+      "bytes": 1721
+    },
+    {
+      "path": "frontend/src/views/RealYuDocsView.vue",
+      "sha256": "56617854f54ff2b208a4daeba1f0c82944b83b1a4573ec72187ce43659d7ee44",
+      "bytes": 10455
+    },
+    {
+      "path": "frontend/src/views/RealYuHomeView.vue",
+      "sha256": "837f1ebd61fbf4116191e29f9ad01504fb384cb537a92a585cdcb41ff8308c97",
+      "bytes": 5609
+    },
+    {
+      "path": "frontend/src/views/__tests__/ModelPlazaView.layout.spec.ts",
+      "sha256": "c4d25be1b84a1b432ded82d4c333c5c369bc6f1ff5fa25740dcd8f67411f7046",
+      "bytes": 4025
+    },
+    {
+      "path": "frontend/src/views/admin/DashboardView.vue",
+      "sha256": "6c00182b55562c0ac0808103cec5564c55042c3266e74930b69c5add71de1c41",
+      "bytes": 28505
+    },
+    {
+      "path": "frontend/src/views/admin/RedeemView.vue",
+      "sha256": "9b89128f905d1e5b66427aea8ccd4b15aaa4a772d38ce1bcde97f782e5fa7a24",
+      "bytes": 43058
+    },
+    {
+      "path": "frontend/src/views/admin/SettingsView.vue",
+      "sha256": "9bae589405f2fe63c68d64689b8a598eeeff85e609bc36d6fd974bc64c91d13a",
+      "bytes": 558163
+    },
+    {
+      "path": "frontend/src/views/admin/SubscriptionsView.vue",
+      "sha256": "057b5b575fd2877b5b80fd140566d4078620bd334c610d879ac3788fc19412c2",
+      "bytes": 65084
+    },
+    {
+      "path": "frontend/src/views/admin/UsageView.vue",
+      "sha256": "c00d61fa9250d324b47c4e016d718414c6e071745a632e603cca5d73c9170c2e",
+      "bytes": 39933
+    },
+    {
+      "path": "frontend/src/views/admin/UsersView.vue",
+      "sha256": "6e4ef617647b38a986f61710726b6d381ed53e318d99d14ccd442e9ae2b47ae7",
+      "bytes": 81513
+    },
+    {
+      "path": "frontend/src/views/admin/__tests__/DashboardView.spec.ts",
+      "sha256": "e7732b57c97537136f3c9121e7d39ffaa9d71bbe1c8d6c1d87ede18469853f7f",
+      "bytes": 5287
+    },
+    {
+      "path": "frontend/src/views/admin/__tests__/RedeemView.batchUpdate.spec.ts",
+      "sha256": "42166757c9a9cbbb270cca04ea254e0bbd1233c501bed04d9b061e21c4f32fa6",
+      "bytes": 6522
+    },
+    {
+      "path": "frontend/src/views/admin/__tests__/SettingsView.spec.ts",
+      "sha256": "5fe7841525bc27c579b199ff50bf1307a606e3cef77f25e6b772a32e06b103f7",
+      "bytes": 83002
+    },
+    {
+      "path": "frontend/src/views/admin/__tests__/UsageView.spec.ts",
+      "sha256": "bed61af771171d9a95a74c5766a48b4e3c606c076fedece43a9591019a396c58",
+      "bytes": 28021
+    },
+    {
+      "path": "frontend/src/views/admin/__tests__/UsersView.spec.ts",
+      "sha256": "4e36923ae8a30146488ea0b1f98f671df5e77d3a3d45330648c5006faf8fd91f",
+      "bytes": 20609
+    },
+    {
+      "path": "frontend/src/views/admin/orders/AdminPaymentPlansView.vue",
+      "sha256": "a593ac69aaa23976e9ab6d0cfd932a81a063ac101753d8670aa96ef89cd507e8",
+      "bytes": 9444
+    },
+    {
+      "path": "frontend/src/views/admin/orders/RealYuPlanEditDialog.vue",
+      "sha256": "0cbe25fa8112ace2ea8baae8df4e90d405c536f8d7b740a4b103a839667f3ea9",
+      "bytes": 7609
+    },
+    {
+      "path": "frontend/src/views/admin/orders/__tests__/RealYuPlanEditDialog.spec.ts",
+      "sha256": "b2bdc714cb182cd8dcbf2f2f0c604794cff0f92d885d99519eb6dfc5fc4ea9d8",
+      "bytes": 5436
+    },
+    {
+      "path": "frontend/src/views/auth/LoginView.vue",
+      "sha256": "f5568328adc9e3c7668a9dcf39a3edde193dac057b1142b68362b26749698918",
+      "bytes": 24415
+    },
+    {
+      "path": "frontend/src/views/auth/RegisterView.vue",
+      "sha256": "0e6b02a2e3c2723452dba0139adbb8187a6efde639fef2d2971df3e516eb3cc4",
+      "bytes": 41429
+    },
+    {
+      "path": "frontend/src/views/auth/__tests__/LoginView.spec.ts",
+      "sha256": "42b5e01a9175ac0e89dbfe23d18af4b19711c6bf6afb10b946e2c95a65631675",
+      "bytes": 4621
+    },
+    {
+      "path": "frontend/src/views/auth/__tests__/RegisterView.spec.ts",
+      "sha256": "f98b0309bd1fa81720511d90894c90681de7a96ee536cc1ab086996b81cd4eb3",
+      "bytes": 12582
+    },
+    {
+      "path": "frontend/src/views/user/AffiliateView.vue",
+      "sha256": "836bf0e866af3aa9e90af9bc6e20fee633d19d8ab562b34bec93495026c90368",
+      "bytes": 10672
+    },
+    {
+      "path": "frontend/src/views/user/BatchImageGuideView.vue",
+      "sha256": "8f5e138f779e89cd6977887fbae4a9301728827c5e274dad4e3e10045879b2e2",
+      "bytes": 111540
+    },
+    {
+      "path": "frontend/src/views/user/DashboardView.vue",
+      "sha256": "a950d66b825d7b5670c3bb594b156f7f8ef7cf33e1672428cfe0ff0853ff9240",
+      "bytes": 3646
+    },
+    {
+      "path": "frontend/src/views/user/KeysView.vue",
+      "sha256": "4aa1cf9adb01536666278990ae64d03eb4b43390e6bd8786c7c0e84ab8a344a9",
+      "bytes": 88857
+    },
+    {
+      "path": "frontend/src/views/user/PaymentResultView.vue",
+      "sha256": "1c74483816da3acfbe0e479ab33260041a0f10851b71300d2c66cf4ebf830d01",
+      "bytes": 18174
+    },
+    {
+      "path": "frontend/src/views/user/PaymentView.vue",
+      "sha256": "0a02a54878ea83f9513afdd5f56e526d260b5665a5528642ad5861c918486587",
+      "bytes": 63578
+    },
+    {
+      "path": "frontend/src/views/user/ProfileView.vue",
+      "sha256": "948116f69ccc34c8cfd4467824b8df8acf1c87d9f97647771b7ecc0b0813d649",
+      "bytes": 4358
+    },
+    {
+      "path": "frontend/src/views/user/RealYuTeamsView.vue",
+      "sha256": "5d4a8de7b02f8cadf499591d35baa84363979043fcbdcb0505e79a809e23f83a",
+      "bytes": 43954
+    },
+    {
+      "path": "frontend/src/views/user/RealYuUsageView.vue",
+      "sha256": "e3ac5432be1311595a196a30a08b2c119733e4050002f9ed9b7134319fc98d6b",
+      "bytes": 30009
+    },
+    {
+      "path": "frontend/src/views/user/RedeemView.vue",
+      "sha256": "4bebddeb84d6cdf27a719b28740274348296dda959086cf36ee8add52e3e6403",
+      "bytes": 20292
+    },
+    {
+      "path": "frontend/src/views/user/SubscriptionsView.vue",
+      "sha256": "c81bda9e714a56fc6b2a4248fe100c40b6b779b39db6c347548e374f12919661",
+      "bytes": 17206
+    },
+    {
+      "path": "frontend/src/views/user/UsageView.vue",
+      "sha256": "bece2d37db2de2de3ed434b483da973fc4ec24751f2071157809cefc98ad5651",
+      "bytes": 34376
+    },
+    {
+      "path": "frontend/src/views/user/UserOrdersView.vue",
+      "sha256": "b3a07636b5bdcb28dba855cf2ea33a8ec471ad94d352aefa15337bbd6aa3ec50",
+      "bytes": 8300
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/KeysView.spec.ts",
+      "sha256": "a3dd630afa2aa7792af8b4a9640658adf48decefdbff5bc336987e24f086561b",
+      "bytes": 27850
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/PaymentResultView.spec.ts",
+      "sha256": "7f436b076c82236036979f621430995cc73097106cc588605b4fd1d7ddf5a4e4",
+      "bytes": 17117
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+      "sha256": "899edafbd39d6daeb74c01945c40f2e1f7510714c4858fcbd6b69a4f1f0f0bbb",
+      "bytes": 45848
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/RealYuTeamsView.spec.ts",
+      "sha256": "83532e642f9b48f475c54f4c818edd557a25e7eeb58b896508cb540d8e1dc6e8",
+      "bytes": 32015
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/RealYuUsageView.spec.ts",
+      "sha256": "e5452357a0ab9e621366bc2a9a0b15fa253d3b21dd3dc13fe2664733d814d486",
+      "bytes": 29528
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/RealYuWorkbench.spec.ts",
+      "sha256": "80681845c0d8e08342ba9c7ac097c8e510fe086f2f4b0a6f812524d9f69ed64e",
+      "bytes": 3566
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/RedeemView.spec.ts",
+      "sha256": "2cd11981210959f6fe525ab9472ca7f992d6c6fe5ab38203be50e4972fd56ea5",
+      "bytes": 11514
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/SubscriptionsView.loading.spec.ts",
+      "sha256": "6b37736eb98a3a6e7a941b6db6c7c33031d22c6a8fa396fad19d799bae75815a",
+      "bytes": 4969
+    },
+    {
+      "path": "frontend/src/views/user/__tests__/UsageView.spec.ts",
+      "sha256": "e0c8a3b5f9e4c258c67d6d37131a826ec7678611f5340338cdba2c71097cd60a",
+      "bytes": 22154
+    },
+    {
+      "path": "frontend/tailwind.config.js",
+      "sha256": "83097d4599821934051e6812661cc97d27e36f713513244ba860f7b28e3041d3",
+      "bytes": 5324
+    },
+    {
+      "path": "frontend/tsconfig.node.json",
+      "sha256": "25d0b6f26f49c313690402b8b60f213c59d15a333230a87a2d916ca081556f15",
+      "bytes": 310
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "sha256": "696be7d2195ba9daba70cf20107fe801c944973a5087ec597af819134ea861fc",
+      "bytes": 5122
+    },
+    {
+      "path": "frontend/vitest.config.ts",
+      "sha256": "5b3e722cd3eba947a33ed8887cac047d41ce102b202c7838eadc52403649abe8",
+      "bytes": 987
+    }
+  ],
+  "source_commit": "0b0fbc0b4397bf0344ef38c71972e7843175a154",
+  "source_tree": "b2b56d9caba5f4bae7d68df95a0559c79f38b8d2",
+  "production_baseline_source_commit": "998f501f5d598b9a9362600f1100e0cdc88b0dfa",
+  "generated_utc": "2026-10-15T06:59:56.157039+00:00",
+  "private_runtime_included": false,
+  "production_actions": false,
+  "verification_report": "validation.json",
+  "rebuild": "Prepare-SingleCore.ps1 -Destination NEW_DIRECTORY -SourceManifest funding-error-reasons-20261015/source.json -Build"
+}

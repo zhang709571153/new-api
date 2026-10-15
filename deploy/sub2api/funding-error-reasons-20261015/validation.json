@@ -1,0 +1,35 @@
+{
+  "source_commit": "0b0fbc0b4397bf0344ef38c71972e7843175a154",
+  "candidate_version": "realyu-singlecore-ux9-funding-reasons-20261015",
+  "binary_sha256": "8afe630d37d8de51099223ec711dd76d547255ac45ff525d95f1a878cf8c03a2",
+  "binary_bytes": 127291392,
+  "production_activated": false,
+  "pricing_changed": false,
+  "schema_changed": false,
+  "checks": {
+    "funding_response_view_filter_tests": "PASS",
+    "native_websocket_first_and_later_turns": "PASS",
+    "native_key_error_compatibility": "PASS",
+    "isolated_postgresql_funding_suite": "PASS: 14 top-level tests",
+    "frontend_presentation_and_locale_tests": "PASS: 6 tests",
+    "vue_typecheck": "PASS",
+    "vite_build": "PASS",
+    "embedded_go_build": "PASS"
+  },
+  "reconstruction": {
+    "status": "PASS",
+    "git_tree": "b2b56d9caba5f4bae7d68df95a0559c79f38b8d2",
+    "changed_files": 455,
+    "patch_sha256": "7b5968de7bf592e733017532a64eb0d21907a3a30832c29a49bc2f1f6b240d22"
+  },
+  "publication_review": {
+    "delta_files": 33,
+    "common_credential_pattern_hits": 0,
+    "previous_public_baseline_verified": true,
+    "raw_runtime_included": false
+  },
+  "scope_limits": [
+    "Local HTTP/SSE and real local WebSocket protocol tests; production and native desktop client not revalidated.",
+    "No production cutover, network repair, pricing changes, or historical cause backfill."
+  ]
+}
